@@ -82,15 +82,15 @@
                     E-Tahfidz Portal v4.0 (Sync & Print)
                 </span>
                 <h2 class="text-4xl font-black leading-tight tracking-tight">
-                    Sistem Otoritas Registrasi <br/>& KHS Digital Real-Time.
+                    Sistem Laporan Real-Time  <br/>dan perkembangan santri.
                 </h2>
                 <p class="text-slate-300/90 text-sm leading-relaxed max-w-lg">
-                    Kolaborasi pencatatan terpadu administrasi keuangan awal, penyerahan fasilitas fisik, bimbingan halaqah harian, serta visualisasi rekam jejak hafalan 30 Juz bagi wali santriwati secara transparan.
+                    Laporan pencatatan terpadu administrasi, laporan tahfidz, perkembangan santri, bimbingan halaqah harian, serta visualisasi rekam jejak hafalan 30 Juz bagi .
                 </p>
             </div>
 
             <div class="text-xs text-slate-400 z-10 flex items-center gap-1.5">
-                <i class="fa-solid fa-shield-halved text-emerald-400"></i> Sistem Otoritas Real-Time Terproteksi PIN Keamanan.
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i> Sistem Laporan Real-Time dan perkembangan santri.
             </div>
         </div>
 
@@ -275,7 +275,7 @@
                         <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-file-signature text-xs"></i></span>
                         <div>
                             <h3 class="font-extrabold text-sm text-slate-900">Formulir Pendaftaran & Rencana Keuangan</h3>
-                            <p class="text-[10px] text-slate-400">Pastikan seluruh data penunjang awal dan logistik santri dicentang valid sebelum diterbitkan.</p>
+                            <p class="text-[10px] text-slate-400">Pastikan seluruh data penunjang awal & logistik santri dicentang valid sebelum diterbitkan.</p>
                         </div>
                     </div>
 
@@ -547,7 +547,7 @@
                         <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-pen-to-square text-xs"></i></span>
                         <div>
                             <h3 id="ustazah-directory-title" class="font-extrabold text-sm text-slate-900">Form Input Data Santri (Ustadzah)</h3>
-                            <p class="text-[10px] text-slate-400">Pencatatan setoran harian, target mingguan, &amp; laporan perkembangan santri.</p>
+                            <p class="text-[10px] text-slate-400">Pencatatan setoran harian, target mingguan, &amp; Laporan perkembangan santri.</p>
                         </div>
                     </div>
 
@@ -1604,11 +1604,12 @@
                 box.classList.remove('hidden');
                 matches.forEach(s => {
                     const div = document.createElement('div');
-                    div.className = "text-xs p-2 hover:bg-emerald-50 rounded-lg cursor-pointer font-bold text-slate-700 flex justify-between items-center";
-                    div.innerHTML = `<span>${s.name}</span> <span class="text-[9px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded-md">${s.room}</span>`;
+                    div.className = "text-xs p-2 hover:bg-emerald-50 rounded-lg cursor-pointer font-bold text-slate-800 transition";
+                    div.innerText = s.name;
                     div.onclick = () => {
                         document.getElementById('gate-wali-student-name').value = s.name;
                         box.classList.add('hidden');
+                        selectWaliStudent(s.id);
                     };
                     list.appendChild(div);
                 });
@@ -1617,59 +1618,75 @@
             }
         };
 
-        window.handleGateLogin = function(e) {
-            if (e) e.preventDefault();
-            const role = document.getElementById('selected-gate-role').value;
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-emerald-800 text-white' : type === 'danger' ? 'bg-rose-700 text-white' : 'bg-slate-800 text-white';
+            toast.className = `${bgClass} p-3.5 rounded-2xl shadow-xl text-xs font-bold flex items-center justify-between gap-3 animate-slide-up duration-300`;
+            toast.innerHTML = `<span>${message}</span><button onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
 
-            if (role === 'wali') {
-                const nameIn = document.getElementById('gate-wali-student-name').value.trim();
-                if (!nameIn) { showToast("Masukkan nama santriwati!", "error"); return; }
-                const found = studentsList.find(s => s.name.toLowerCase() === nameIn.toLowerCase());
-                if (!found) { showToast("Nama santriwati tidak ditemukan!", "error"); return; }
-                currentRole = 'wali';
-                currentWaliStudent = found;
-                showToast(`Selamat datang Wali dari ${found.name}`, "success");
-                enterWorkspace();
-            } else if (role === 'ustazah') {
-                const room = document.getElementById('gate-ustazah-select').value;
-                const pin = document.getElementById('gate-pin').value;
-                if (systemPins[room] === pin) {
-                    currentRole = `ustazah_${room}`;
-                    showToast(`Otoritas Pembina ${getHalaqahName(room)} Valid!`, "success");
-                    enterWorkspace();
-                } else {
-                    showToast("Sandi PIN Otoritas Salah!", "error");
+        function selectWaliStudent(studentId) {
+            const match = studentsList.find(s => s.id === studentId);
+            if (match) {
+                currentWaliStudent = match;
+            }
+        }
+
+        window.handleGateLogin = function(event) {
+            event.preventDefault();
+            const selectedRole = document.getElementById('selected-gate-role').value;
+            const pinValue = document.getElementById('gate-pin').value;
+
+            if (selectedRole === 'wali') {
+                if (!currentWaliStudent) {
+                    const typedName = document.getElementById('gate-wali-student-name').value.trim();
+                    const exactMatch = studentsList.find(s => s.name.toLowerCase() === typedName.toLowerCase());
+                    if (exactMatch) {
+                        currentWaliStudent = exactMatch;
+                    } else {
+                        showToast("Nama santriwati tidak ditemukan di arsip hamalatul qur'an.", "danger");
+                        return;
+                    }
                 }
-            } else if (role === 'admin') {
-                const pin = document.getElementById('gate-pin').value;
-                if (systemPins['admin'] === pin) {
+                currentRole = 'wali';
+            } else if (selectedRole === 'admin') {
+                if (pinValue === systemPins.admin) {
                     currentRole = 'admin';
-                    showToast("Otoritas Administrasi Pusat Valid!", "success");
-                    enterWorkspace();
                 } else {
-                    showToast("Sandi PIN Admin Salah!", "error");
+                    showToast("PIN Otoritas Admin tidak valid!", "danger");
+                    return;
+                }
+            } else if (selectedRole === 'ustazah') {
+                const selectedUstazah = document.getElementById('gate-ustazah-select').value;
+                if (pinValue === systemPins[selectedUstazah]) {
+                    currentRole = `ustazah_${selectedUstazah}`;
+                } else {
+                    showToast(`PIN Otoritas Ustazah ${selectedUstazah} tidak valid!`, "danger");
+                    return;
                 }
             }
-        };
 
-        function enterWorkspace() {
             document.getElementById('gate-screen').classList.add('hidden');
             document.getElementById('main-app-header').classList.remove('hidden');
             document.getElementById('main-app-container').classList.remove('hidden');
             
-            let label = roleLabels[currentRole] || "Pengguna Portal";
-            document.getElementById('active-user-badge').innerText = label;
-            
+            showToast(`Otoritas Berhasil. Selamat Datang di ${roleLabels[currentRole] || 'Portal'}`);
             setupActiveWorkspace();
-        }
+        };
 
         window.handleLogout = function() {
             currentRole = null;
             currentWaliStudent = null;
+            document.getElementById('gate-pin').value = '';
+            document.getElementById('gate-wali-student-name').value = '';
+            
             document.getElementById('gate-screen').classList.remove('hidden');
             document.getElementById('main-app-header').classList.add('hidden');
             document.getElementById('main-app-container').classList.add('hidden');
-            document.getElementById('gate-pin').value = '';
         };
 
         function setupActiveWorkspace() {
@@ -1678,11 +1695,14 @@
             document.getElementById('view-wali').classList.add('hidden');
             document.getElementById('control-reset-panel').classList.remove('hidden');
 
+            const badge = document.getElementById('active-user-badge');
+            if (badge) badge.innerText = roleLabels[currentRole] || "Pengguna Portal";
+
             if (currentRole === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
                 switchAdminTab(adminActiveTab);
                 updateAdminStats();
-                fillPinConfigForm();
+                populatePinConfigForm();
             } else if (currentRole && currentRole.startsWith('ustazah_')) {
                 document.getElementById('view-ustazah').classList.remove('hidden');
                 renderUstazahWorkspace();
@@ -1693,7 +1713,28 @@
             }
         }
 
-        // --- ADMIN FUNCTIONALITIES ---
+        window.switchAdminTab = function(tabName) {
+            adminActiveTab = tabName;
+            const tabReg = document.getElementById('admin-tab-register');
+            const tabDir = document.getElementById('admin-tab-directory');
+            const contentReg = document.getElementById('admin-content-register');
+            const contentDir = document.getElementById('admin-content-directory');
+
+            tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+            tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+            contentReg.classList.add('hidden');
+            contentDir.classList.add('hidden');
+
+            if (tabName === 'register') {
+                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
+                contentReg.classList.remove('hidden');
+            } else {
+                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
+                contentDir.classList.remove('hidden');
+                renderAdminStudentsDirectory();
+            }
+        };
+
         function updateAdminStats() {
             document.getElementById('stat-total-students').innerText = studentsList.length;
             document.getElementById('stat-active-students').innerText = studentsList.filter(s => s.inHalaqah).length;
@@ -1701,196 +1742,185 @@
             document.getElementById('stat-paid-students').innerText = studentsList.filter(s => s.paymentStatus === 'Lunas').length;
         }
 
-        window.switchAdminTab = function(tab) {
-            adminActiveTab = tab;
-            const btnReg = document.getElementById('admin-tab-register');
-            const btnDir = document.getElementById('admin-tab-directory');
-            const contentReg = document.getElementById('admin-content-register');
-            const contentDir = document.getElementById('admin-content-directory');
-
-            btnReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
-            btnDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
-
-            if (tab === 'register') {
-                btnReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                contentReg.classList.remove('hidden');
-                contentDir.classList.add('hidden');
-            } else {
-                btnDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                contentReg.classList.add('hidden');
-                contentDir.classList.remove('hidden');
-                renderAdminStudentsDirectory();
-            }
-        };
-
-        window.handleAdminAddStudent = function(e) {
-            if (e) e.preventDefault();
+        window.handleAdminAddStudent = async function(event) {
+            event.preventDefault();
             const name = document.getElementById('admin-add-name').value.trim();
             const pobDob = document.getElementById('admin-add-pobdob').value.trim();
             const phone = document.getElementById('admin-add-phone').value.trim();
+            const memorized = document.getElementById('admin-add-memorized').value;
             const address = document.getElementById('admin-add-address').value.trim();
             const room = document.getElementById('admin-add-room').value;
             const program = document.getElementById('admin-add-program').value;
-            const celengan = document.getElementById('admin-add-celengan').value;
+            const celengan = document.getElementById('admin-add-celengan').value.trim();
             const arrivalDate = document.getElementById('admin-add-arrival-date').value;
-            const payStatus = document.getElementById('admin-add-paystatus').value;
-            const motivation = document.getElementById('admin-add-motivation').value;
-            const memorized = document.getElementById('admin-add-memorized').value;
+            const paystatus = document.getElementById('admin-add-paystatus').value;
+            const motivation = document.getElementById('admin-add-motivation').value.trim();
 
-            const feeReregValue = parseFloat(document.getElementById('admin-add-fee-rereg').value) || 0;
+            const facBuku = document.getElementById('admin-add-fac-buku').checked;
+            const facMeja = document.getElementById('admin-add-fac-meja').checked;
+            const facKerudung = document.getElementById('admin-add-fac-kerudung').checked;
+            const facLoker = document.getElementById('admin-add-fac-loker').checked;
 
+            const feeRegActive = document.getElementById('admin-add-fee-reg').checked;
+            const feeSpp1Active = document.getElementById('admin-add-fee-spp1').checked;
+            const feeReRegVal = parseInt(document.getElementById('admin-add-fee-rereg').value) || 0;
+
+            const newId = "s_" + Date.now();
             const newStudent = {
-                id: "s_" + Date.now(),
-                name: name,
-                pobDob: pobDob,
-                address: address,
-                parentPhone: phone,
-                memorizedBefore: memorized,
-                celenganTarget: celengan,
-                motivation: motivation,
-                arrivalDate: arrivalDate,
-                room: room,
-                program: program,
-                paymentStatus: payStatus,
-                facBuku: document.getElementById('admin-add-fac-buku').checked,
-                facMeja: document.getElementById('admin-add-fac-meja').checked,
-                facKerudung: document.getElementById('admin-add-fac-kerudung').checked,
-                facLoker: document.getElementById('admin-add-fac-loker').checked,
-                feeReg: document.getElementById('admin-add-fee-reg').checked ? 250000 : 0,
-                feeSpp1: document.getElementById('admin-add-fee-spp1').checked ? 900000 : 0,
-                feeReReg: feeReregValue,
-                setoranAwal: "Belum Menyetor",
-                latestSetoran: "Belum Menyetor",
-                targetMingguan: "5 Halaman",
-                statusCapaian: "Belum Tercapai",
-                weeklyProgress: "Inisialisasi",
-                totalJuz: 0.0,
-                positiveNotes: "Santri terdaftar di sistem.",
-                negativeNotes: "",
-                syahriyah: payStatus,
-                daftarUlang: feeReregValue > 0 ? "Cicil" : "Belum Lunas",
-                catatanLain: "",
-                inHalaqah: false
+                id: newId,
+                name, pobDob, address, parentPhone: phone,
+                memorizedBefore: memorized, celenganTarget: celengan, motivation,
+                arrivalDate, room, program, paymentStatus: paystatus,
+                facBuku, facMeja, facKerudung, facLoker,
+                feeReg: feeRegActive ? 250000 : 0,
+                feeSpp1: feeSpp1Active ? 900000 : 0,
+                feeReReg: feeReRegVal,
+                setoranAwal: "Belum Menyetor", latestSetoran: "Belum Menyetor",
+                targetMingguan: "5 Halaman", statusCapaian: "Belum Tercapai",
+                weeklyProgress: "Inisialisasi", totalJuz: 0.0,
+                positiveNotes: "Santri baru terdaftar sistem.", negativeNotes: "",
+                syahriyah: paystatus, daftarUlang: feeReRegVal > 0 ? 'Cicil' : 'Belum Lunas',
+                catatanLain: "Menunggu masuk halaqah resmi.", inHalaqah: false
             };
 
             studentsList.push(newStudent);
             saveLocalData();
-            syncInsertToCloud('santri_students', newStudent);
-            updateAdminStats();
-            showToast("Santri baru berhasil didaftarkan!", "success");
+            await syncInsertToCloud('santri_students', newStudent);
             
-            e.target.reset();
-            openReceiptModal(newStudent.id);
+            showToast("Santri baru berhasil didaftarkan ke sistem sekretariat!");
+            event.target.reset();
+            updateAdminStats();
+            openReceiptModal(newId);
         };
 
         window.renderAdminStudentsDirectory = function() {
             const listContainer = document.getElementById('admin-students-directory-list');
             const searchQ = document.getElementById('admin-search-student').value.toLowerCase();
-            const filterRoom = document.getElementById('admin-filter-ustazah').value;
-
+            const filterU = document.getElementById('admin-filter-ustazah').value;
+            
             listContainer.innerHTML = '';
-
+            
             const filtered = studentsList.filter(s => {
-                const matchQ = s.name.toLowerCase().includes(searchQ) || s.id.toLowerCase().includes(searchQ);
-                const matchRoom = filterRoom === 'all' || s.room === filterRoom;
-                return matchQ && matchRoom;
+                const matchesSearch = s.name.toLowerCase().includes(searchQ) || s.id.toLowerCase().includes(searchQ);
+                const matchesFilter = filterU === 'all' || s.room === filterU;
+                return matchesSearch && matchesFilter;
             });
 
             if (filtered.length === 0) {
-                listContainer.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Data tidak ditemukan</td></tr>`;
+                listContainer.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Tidak ada arsip santriwati yang cocok.</td></tr>`;
                 return;
             }
 
             filtered.forEach(s => {
                 const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50/80 transition text-xs";
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
                 
                 const badgeHalaqah = s.inHalaqah 
-                    ? `<span class="bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded-full text-[9px]"><i class="fa-solid fa-circle-check"></i> Aktif</span>`
-                    : `<span class="bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded-full text-[9px]"><i class="fa-solid fa-clock"></i> Pending</span>`;
-
-                const badgeSpp = s.paymentStatus === 'Lunas'
-                    ? `<span class="text-emerald-700 font-black"><i class="fa-solid fa-circle-check"></i> Lunas</span>`
-                    : `<span class="text-rose-600 font-black"><i class="fa-solid fa-circle-exclamation"></i> Belum</span>`;
+                    ? `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-md">AKTIF MENGAJI</span>` 
+                    : `<span class="bg-amber-100 text-amber-800 text-[9px] font-black px-2 py-0.5 rounded-md">PENDING APPROVAL</span>`;
+                
+                const badgeSPP = s.paymentStatus === 'Lunas'
+                    ? `<span class="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-md">LUNAS</span>`
+                    : `<span class="bg-rose-500 text-white text-[9px] font-black px-2 py-0.5 rounded-md">PENDING</span>`;
 
                 tr.innerHTML = `
                     <td class="p-3">
-                        <p class="font-black text-slate-900">${s.name}</p>
-                        <p class="text-[10px] text-slate-400 font-mono mt-0.5">${s.parentPhone}</p>
+                        <p class="font-extrabold text-slate-900">${s.name}</p>
+                        <p class="text-[10px] text-slate-400 font-mono">WA: ${s.parentPhone || '-'}</p>
                     </td>
                     <td class="p-3">
-                        <p class="font-bold text-slate-700">${s.program}</p>
-                        <p class="text-[10px] text-slate-400">Target: ${s.celenganTarget}</p>
+                        <p class="font-bold text-slate-700 text-[11px]">${s.program}</p>
+                        <p class="text-[9px] text-emerald-800 font-extrabold">Target: ${s.celenganTarget}</p>
                     </td>
-                    <td class="p-3 text-center font-bold text-slate-800">${s.room}</td>
+                    <td class="p-3 text-center font-bold text-slate-800">Ustazah ${s.room}</td>
                     <td class="p-3 text-center">${badgeHalaqah}</td>
-                    <td class="p-3 text-center font-bold">${badgeSpp}</td>
-                    <td class="p-3 flex items-center justify-center gap-1.5 h-full pt-4">
-                        <button onclick="openReceiptModal('${s.id}')" class="bg-slate-100 hover:bg-emerald-50 text-emerald-800 p-1.5 rounded-lg transition" title="Kuitansi"><i class="fa-solid fa-receipt"></i></button>
-                        <button onclick="openEditStudentModal('${s.id}')" class="bg-slate-100 hover:bg-blue-50 text-blue-700 p-1.5 rounded-lg transition" title="Edit"><i class="fa-solid fa-user-pen"></i></button>
-                        <button onclick="askDeleteStudent('${s.id}')" class="bg-slate-100 hover:bg-rose-50 text-rose-600 p-1.5 rounded-lg transition" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                    <td class="p-3 text-center">${badgeSPP}</td>
+                    <td class="p-3 text-center flex items-center justify-center gap-1.5 pt-4">
+                        <button onclick="openReceiptModal('${s.id}')" class="p-1.5 text-emerald-700 hover:bg-emerald-50 rounded-lg text-xs" title="Cetak Kuitansi"><i class="fa-solid fa-receipt"></i></button>
+                        <button onclick="openEditStudentModal('${s.id}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg text-xs" title="Edit Full Data"><i class="fa-solid fa-user-pen"></i></button>
+                        <button onclick="triggerDeleteStudent('${s.id}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg text-xs" title="Hapus Permanen"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 `;
                 listContainer.appendChild(tr);
             });
         };
 
-        function fillPinConfigForm() {
-            document.getElementById('pin-cfg-admin').value = systemPins['admin'];
-            document.getElementById('pin-cfg-ayu').value = systemPins['Ayu'];
-            document.getElementById('pin-cfg-ayuniz').value = systemPins['Ayuniz'];
-            document.getElementById('pin-cfg-rima').value = systemPins['Rima'];
-            document.getElementById('pin-cfg-nafis').value = systemPins['Nafis'];
+        function populatePinConfigForm() {
+            document.getElementById('pin-cfg-admin').value = systemPins.admin;
+            document.getElementById('pin-cfg-ayu').value = systemPins.Ayu;
+            document.getElementById('pin-cfg-ayuniz').value = systemPins.Ayuniz;
+            document.getElementById('pin-cfg-rima').value = systemPins.Rima;
+            document.getElementById('pin-cfg-nafis').value = systemPins.Nafis;
         }
 
-        window.handleUpdatePins = function(e) {
-            if (e) e.preventDefault();
-            systemPins['admin'] = document.getElementById('pin-cfg-admin').value;
-            systemPins['Ayu'] = document.getElementById('pin-cfg-ayu').value;
-            systemPins['Ayuniz'] = document.getElementById('pin-cfg-ayuniz').value;
-            systemPins['Rima'] = document.getElementById('pin-cfg-rima').value;
-            systemPins['Nafis'] = document.getElementById('pin-cfg-nafis').value;
+        window.handleUpdatePins = function(event) {
+            event.preventDefault();
+            systemPins.admin = document.getElementById('pin-cfg-admin').value;
+            systemPins.Ayu = document.getElementById('pin-cfg-ayu').value;
+            systemPins.Ayuniz = document.getElementById('pin-cfg-ayuniz').value;
+            systemPins.Rima = document.getElementById('pin-cfg-rima').value;
+            systemPins.Nafis = document.getElementById('pin-cfg-nafis').value;
 
             localStorage.setItem('karima_system_pins', JSON.stringify(systemPins));
-            showToast("Semua sandi PIN sistem berhasil diperbarui!", "success");
+            showToast("Seluruh PIN sistem keamanan berhasil diperbarui.");
         };
 
-        window.askDeleteStudent = function(id) {
-            const found = studentsList.find(s => s.id === id);
-            openConfirmModal(`Hapus Santriwati?`, `Apakah Anda benar-benar yakin ingin menghapus data ${found ? found.name : ''}? Data log dan KHS terkait akan hilang permanen.`, () => {
-                studentsList = studentsList.filter(s => s.id !== id);
-                tahfidzLogs = tahfidzLogs.filter(l => l.student_id !== id);
-                saveLocalData();
-                syncDeleteFromCloud('santri_students', id);
-                showToast("Data santri berhasil dihapus.", "success");
-                renderAdminStudentsDirectory();
-                updateAdminStats();
-            });
-        };
-
-        // --- USTAZAH FUNCTIONALITIES ---
-        function renderUstazahWorkspace() {
-            const activeRoom = currentRole.replace('ustazah_', '');
-            document.getElementById('ustazah-directory-title').innerText = `Halaqah Pembina: Ustazah ${activeRoom}`;
+        function triggerConfirm(title, message, callback) {
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-message').innerText = message;
+            const modal = document.getElementById('confirm-modal');
+            modal.classList.remove('hidden');
             
-            // Pending section for new admissions matching this room
+            confirmCallback = callback;
+
+            document.getElementById('confirm-btn-cancel').onclick = () => {
+                modal.classList.add('hidden');
+                confirmCallback = null;
+            };
+            document.getElementById('confirm-btn-ok').onclick = () => {
+                modal.classList.add('hidden');
+                if (confirmCallback) confirmCallback();
+                confirmCallback = null;
+            };
+        }
+
+        window.triggerDeleteStudent = function(studentId) {
+            triggerConfirm(
+                "Hapus Data Santri",
+                "Apakah Anda yakin ingin menghapus data santriwati ini secara permanen dari database lokal & cloud?",
+                async () => {
+                    studentsList = studentsList.filter(s => s.id !== studentId);
+                    tahfidzLogs = tahfidzLogs.filter(l => l.student_id !== studentId);
+                    saveLocalData();
+                    await syncDeleteFromCloud('santri_students', studentId);
+                    showToast("Data santriwati berhasil dihapus.");
+                    updateAdminStats();
+                    renderAdminStudentsDirectory();
+                }
+            );
+        };
+
+        window.renderUstazahWorkspace = function() {
+            const currentU = currentRole.replace('ustazah_', '');
+            document.getElementById('ustazah-directory-title').innerText = `Form Halaqah Ustazah ${currentU}`;
+            
             const pendingSection = document.getElementById('ustazah-pending-section');
             const pendingList = document.getElementById('ustazah-pending-list');
-            pendingList.innerHTML = '';
-            
-            const pendings = studentsList.filter(s => s.room === activeRoom && !s.inHalaqah);
-            if (pendings.length > 0) {
+            const pendingStudents = studentsList.filter(s => s.room === currentU && !s.inHalaqah);
+
+            if (pendingStudents.length > 0) {
                 pendingSection.classList.remove('hidden');
-                pendings.forEach(s => {
+                pendingList.innerHTML = '';
+                pendingStudents.forEach(s => {
                     const tr = document.createElement('tr');
-                    tr.className = "border-b border-amber-100 hover:bg-amber-50/50 text-xs";
+                    tr.className = "hover:bg-amber-50/50 text-slate-700 font-medium";
                     tr.innerHTML = `
-                        <td class="p-3 font-black text-slate-900">${s.name}</td>
-                        <td class="p-3 font-medium text-slate-600">${s.pobDob}</td>
-                        <td class="p-3 font-bold text-slate-700">${s.program} (${s.celenganTarget})</td>
+                        <td class="p-3 font-extrabold text-slate-900">${s.name}</td>
+                        <td class="p-3 text-[11px] text-slate-500">${s.pobDob}</td>
+                        <td class="p-3 text-[11px] font-bold text-emerald-900">${s.program} (${s.celenganTarget})</td>
                         <td class="p-3 text-center">
-                            <button onclick="approveToHalaqah('${s.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-[10px] px-3 py-1.5 rounded-xl transition shadow-xs">
-                                <i class="fa-solid fa-user-plus"></i> Terima Masuk
+                            <button onclick="approveToHalaqah('${s.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[10px] font-black px-3 py-1 rounded-xl transition shadow-xs">
+                                <i class="fa-solid fa-user-plus mr-1"></i> Izinkan Masuk Halaqah
                             </button>
                         </td>
                     `;
@@ -1900,317 +1930,285 @@
                 pendingSection.classList.add('hidden');
             }
 
-            // Fill Form Select Dropdown
-            const selectDropdown = document.getElementById('ustazah-student-select');
-            selectDropdown.innerHTML = '<option value="" disabled selected>Pilih Anggota Halaqah Aktif...</option>';
+            const selectEl = document.getElementById('ustazah-student-select');
+            selectEl.innerHTML = '';
+            const activeStudents = studentsList.filter(s => s.room === currentU && s.inHalaqah);
             
-            const actives = studentsList.filter(s => s.room === activeRoom && s.inHalaqah);
-            actives.forEach(s => {
+            activeStudents.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.id;
                 opt.innerText = s.name;
-                selectDropdown.appendChild(opt);
+                selectEl.appendChild(opt);
             });
 
-            // Active list cards rendering
-            const cardContainer = document.getElementById('ustazah-active-list');
-            cardContainer.innerHTML = '';
+            const activeListContainer = document.getElementById('ustazah-active-list');
+            activeListContainer.innerHTML = '';
 
-            if (actives.length === 0) {
-                cardContainer.innerHTML = `<p class="text-center text-slate-400 font-bold text-xs py-10">Belum ada santriwati aktif di halaqah ini.</p>`;
+            if (activeStudents.length === 0) {
+                activeListContainer.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold bg-slate-50 rounded-2xl border border-dashed">Belum ada anggota aktif di halaqah ini.</div>`;
                 return;
             }
 
-            actives.forEach(s => {
+            activeStudents.forEach(s => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-50 border border-slate-200 p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-xs transition";
+                card.className = "bg-slate-50 hover:bg-slate-100/70 border border-slate-200/80 p-4 rounded-2xl transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+                
+                const encodedMsg = encodeURIComponent(`Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\nBerikut Laporan Perkembangan Tahfidz terkini untuk putri Anda, *${s.name}*:\n- Total Hafalan: *${s.totalJuz || 0} Juz*\n- Setoran Terakhir: *${s.latestSetoran || '-'}*\n- Catatan Perkembangan: _${s.positiveNotes || '-'}_ \n\nSyukron, Jazakumullah Khairan.`);
+                const waUrl = `https://wa.me/${s.parentPhone}?text=${encodedMsg}`;
+
                 card.innerHTML = `
-                    <div>
-                        <h4 class="font-black text-slate-900 text-sm">${s.name}</h4>
-                        <div class="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-slate-500 font-semibold mt-1">
-                            <span><i class="fa-solid fa-book-bookmark text-emerald-700"></i> Hafalan: <strong>${s.totalJuz} Juz</strong></span>
-                            <span><i class="fa-solid fa-star text-amber-500"></i> Capaian: <strong class="text-slate-700">${s.statusCapaian}</strong></span>
-                            <span><i class="fa-solid fa-wallet text-slate-400"></i> SPP: <strong class="${s.syahriyah === 'Lunas' ? 'text-emerald-700' : 'text-rose-600'}">${s.syahriyah}</strong></span>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                            <h4 class="font-extrabold text-xs text-slate-900">${s.name}</h4>
                         </div>
+                        <p class="text-[11px] text-slate-500 font-medium">Setoran Akhir: <strong class="text-emerald-800">${s.latestSetoran || 'Belum'}</strong> | Total: <strong class="text-slate-800">${s.totalJuz || 0} Juz</strong></p>
+                        <p class="text-[10px] text-slate-400 italic max-w-md line-clamp-1">Obs: ${s.positiveNotes || '-'}</p>
                     </div>
-                    <div class="flex items-center gap-2 self-end sm:self-center">
-                        <a href="https://wa.me/${s.parentPhone}" target="_blank" class="bg-white hover:bg-emerald-50 border border-slate-200 text-emerald-700 px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1 transition">
-                            <i class="fa-brands fa-whatsapp"></i> Chat Wali
+                    <div class="flex items-center gap-1.5 w-full sm:w-auto justify-end">
+                        <a href="${waUrl}" target="_blank" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1">
+                            <i class="fa-brands fa-whatsapp text-emerald-600 text-xs"></i> Lapor Wali
                         </a>
-                        <button onclick="loadStudentToUstazahForm('${s.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-xl font-black text-xs flex items-center gap-1 transition">
-                            <i class="fa-solid fa-pen-to-square"></i> Input KHS
+                        <button onclick="viewKHSFromUstazah('${s.id}')" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1">
+                            <i class="fa-solid fa-graduation-cap text-emerald-700"></i> Buka KHS
                         </button>
                     </div>
                 `;
-                cardContainer.appendChild(card);
+                activeListContainer.appendChild(card);
             });
-        }
+        };
 
-        window.approveToHalaqah = function(id) {
-            const found = studentsList.find(s => s.id === id);
-            if (found) {
-                found.inHalaqah = true;
+        window.approveToHalaqah = async function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (student) {
+                student.inHalaqah = true;
+                student.positiveNotes = "Telah dikonfirmasi masuk halaqah aktif oleh pembina asrama.";
                 saveLocalData();
-                syncUpdateToCloud('santri_students', id, { inHalaqah: true });
-                showToast(`${found.name} resmi diterima di halaqah!`, "success");
+                await syncUpdateToCloud('santri_students', studentId, { inHalaqah: true, positiveNotes: student.positiveNotes });
+                showToast(`Alhamdulillah, ${student.name} resmi diterima masuk halaqah.`);
                 renderUstazahWorkspace();
             }
         };
 
-        window.loadStudentToUstazahForm = function(id) {
-            const s = studentsList.find(s => s.id === id);
-            if (!s) return;
-
-            document.getElementById('ustazah-student-select').value = s.id;
-            document.getElementById('ustazah-setoran-awal').value = s.setoranAwal === "Belum Menyetor" ? "" : s.setoranAwal;
-            document.getElementById('ustazah-setoran-akhir').value = s.latestSetoran === "Belum Menyetor" ? "" : s.latestSetoran;
-            document.getElementById('ustazah-target-mingguan').value = s.targetMingguan;
-            document.getElementById('ustazah-status-capaian').value = s.statusCapaian;
-            document.getElementById('ustazah-total-juz').value = s.totalJuz;
-            document.getElementById('ustazah-perkembangan-positif').value = s.positiveNotes;
-            document.getElementById('ustazah-catatan-negatif').value = s.negativeNotes;
-            document.getElementById('ustazah-syahriyah').value = s.syahriyah;
-            document.getElementById('ustazah-daftar-ulang').value = s.daftarUlang;
-            document.getElementById('ustazah-catatan-lain').value = s.catatanLain;
-            
-            showToast(`Data ${s.name} dimuat ke form!`, "info");
-        };
-
-        window.handleUstazahSetoranSubmit = function(e) {
-            if (e) e.preventDefault();
+        window.handleUstazahSetoranSubmit = async function(event) {
+            event.preventDefault();
             const id = document.getElementById('ustazah-student-select').value;
-            if (!id) { showToast("Pilih nama santri terlebih dahulu!", "error"); return; }
+            if (!id) {
+                showToast("Pilih nama santri terlebih dahulu.", "danger");
+                return;
+            }
 
-            const s = studentsList.find(s => s.id === id);
-            if (!s) return;
+            const student = studentsList.find(s => s.id === id);
+            if (!student) return;
 
-            const nowStr = new Date().toISOString().split('T')[0];
             const setAwal = document.getElementById('ustazah-setoran-awal').value.trim();
             const setAkhir = document.getElementById('ustazah-setoran-akhir').value.trim();
-            const targetM = document.getElementById('ustazah-target-mingguan').value.trim();
-            const statusC = document.getElementById('ustazah-status-capaian').value;
-            const totJuz = parseFloat(document.getElementById('ustazah-total-juz').value) || 0;
-            const posN = document.getElementById('ustazah-perkembangan-positif').value.trim();
-            const negN = document.getElementById('ustazah-catatan-negatif').value.trim();
-            const syah = document.getElementById('ustazah-syahriyah').value;
-            const dafU = document.getElementById('ustazah-daftar-ulang').value;
-            const catL = document.getElementById('ustazah-catatan-lain').value.trim();
+            const targetMinggu = document.getElementById('ustazah-target-mingguan').value.trim();
+            const statusCapai = document.getElementById('ustazah-status-capaian').value;
+            const totalJ = parseFloat(document.getElementById('ustazah-total-juz').value) || 0;
+            const posNotes = document.getElementById('ustazah-perkembangan-positif').value.trim();
+            const negNotes = document.getElementById('ustazah-catatan-negatif').value.trim();
+            const syahriyahVal = document.getElementById('ustazah-syahriyah').value;
+            const daftarUlangVal = document.getElementById('ustazah-daftar-ulang').value;
+            const catatanLainVal = document.getElementById('ustazah-catatan-lain').value.trim();
 
-            // Create historic entry
-            const newLog = {
-                id: "log_" + Date.now(),
-                student_id: s.id,
-                date: nowStr,
+            student.setoranAwal = setAwal;
+            student.latestSetoran = setAkhir;
+            student.targetMingguan = targetMinggu;
+            student.statusCapaian = statusCapai;
+            student.totalJuz = totalJ;
+            student.positiveNotes = posNotes || "Mengikuti ritme halaqah dengan stabil.";
+            student.negativeNotes = negNotes;
+            student.syahriyah = syahriyahVal;
+            student.daftarUlang = daftarUlangVal;
+            student.catatanLain = catatanLainVal;
+            student.paymentStatus = syahriyahVal; 
+
+            const newLogId = "log_" + Date.now();
+            const logPayload = {
+                id: newLogId,
+                student_id: student.id,
+                date: new Date().toISOString().split('T')[0],
                 setoran_awal: setAwal,
                 latest_setoran: setAkhir,
-                target_mingguan: targetM,
-                status_capaian: statusC,
-                total_juz: totJuz,
-                positive_notes: posN,
-                negative_notes: negN,
-                syahriyah: syah,
-                daftar_ulang: dafU,
-                catatan_lain: catL
+                target_mingguan: targetMinggu,
+                status_capaian: statusCapai,
+                total_juz: totalJ,
+                positive_notes: student.positiveNotes,
+                negative_notes: negNotes,
+                syahriyah: syahriyahVal,
+                daftar_ulang: daftarUlangVal,
+                catatan_lain: catatanLainVal
             };
 
-            tahfidzLogs.unshift(newLog);
-            syncInsertToCloud('tahfidz_logs', newLog);
-
-            // Update main record profile
-            s.setoranAwal = setAwal;
-            s.latestSetoran = setAkhir;
-            s.targetMingguan = targetM;
-            s.statusCapaian = statusC;
-            s.weeklyProgress = nowStr;
-            s.totalJuz = totJuz;
-            s.positiveNotes = posN;
-            s.negativeNotes = negN;
-            s.syahriyah = syah;
-            s.daftarUlang = dafU;
-            s.catatanLain = catL;
-            s.paymentStatus = syah;
-
+            tahfidzLogs.unshift(logPayload);
             saveLocalData();
-            syncUpdateToCloud('santri_students', s.id, {
-                setoranAwal: setAwal, latestSetoran: setAkhir, targetMingguan: targetM,
-                statusCapaian: statusC, weeklyProgress: nowStr, totalJuz: totJuz,
-                positiveNotes: posN, negativeNotes: negN, syahriyah: syah,
-                daftarUlang: dafU, catatanLain: catL, paymentStatus: syah
-            });
 
-            showToast(`KHS & Histori ${s.name} Berhasil Diperbarui!`, "success");
-            e.target.reset();
+            await syncUpdateToCloud('santri_students', student.id, student);
+            await syncInsertToCloud('tahfidz_logs', logPayload);
+
+            showToast(`Data mutabaah harian untuk ${student.name} berhasil disimpan & KHS diperbarui.`);
+            event.target.reset();
             renderUstazahWorkspace();
         };
 
-        // --- WALI INTERFACE FUNCTIONALITIES ---
-        function renderWaliWorkspace() {
-            const s = currentWaliStudent;
-            if (!s) return;
-
-            // Fill Info Headers
-            document.getElementById('wali-khs-initial').innerText = s.name.charAt(0).toUpperCase();
-            document.getElementById('wali-khs-name').innerText = s.name;
-            document.getElementById('wali-khs-pobdob').innerText = s.pobDob;
-            document.getElementById('wali-khs-parent').innerText = s.parentPhone;
-            document.getElementById('wali-khs-address').innerText = s.address;
-            document.getElementById('wali-khs-program').innerText = s.program;
-            document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room} - ${getHalaqahName(s.room)}`;
-            document.getElementById('wali-khs-celengan').innerText = s.celenganTarget;
-            document.getElementById('wali-khs-parent-signature').innerText = "Wali dari " + s.name.split(' ')[0];
-
-            // Badges
-            const presenceBadge = document.getElementById('wali-khs-presence-badge');
-            if (s.inHalaqah) {
-                presenceBadge.className = "bg-emerald-100 text-emerald-800 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center gap-1";
-                presenceBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Sudah Aktif Mengaji di Halaqah`;
-            } else {
-                presenceBadge.className = "bg-amber-100 text-amber-800 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center gap-1";
-                presenceBadge.innerHTML = `<i class="fa-solid fa-clock"></i> Menunggu Otorisasi Masuk Kamar`;
+        window.viewKHSFromUstazah = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (student) {
+                currentWaliStudent = student;
+                document.getElementById('view-ustazah').classList.add('hidden');
+                document.getElementById('view-wali').classList.remove('hidden');
+                document.getElementById('parent-back-btn-container').classList.remove('hidden');
+                document.getElementById('control-reset-panel').classList.add('hidden');
+                renderWaliWorkspace();
             }
+        };
 
-            // Current Progress Card Grid Info
-            document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal;
-            document.getElementById('wali-khs-setoran-akhir').innerText = s.latestSetoran;
-            document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan;
-            
-            const capSpan = document.getElementById('wali-khs-status-capaian');
-            capSpan.innerText = s.statusCapaian;
-            capSpan.className = s.statusCapaian === 'Tercapai' ? 'font-extrabold text-emerald-700 mt-1 block' : 'font-extrabold text-amber-600 mt-1 block';
-
-            document.getElementById('wali-khs-perkembangan-positif').innerText = s.positiveNotes || "-";
-            document.getElementById('wali-khs-catatan-negatif').innerText = s.negativeNotes || "Tidak ada catatan evaluasi kritis pekan ini.";
-            document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || "-";
-
-            // Finance badges
-            const syahBadge = document.getElementById('wali-khs-syahriyah-badge');
-            syahBadge.innerText = s.syahriyah;
-            syahBadge.className = s.syahriyah === 'Lunas' ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-emerald-100 text-emerald-800' : 'px-2.5 py-1 rounded-full font-black text-[10px] bg-rose-100 text-rose-700';
-
-            const dafBadge = document.getElementById('wali-khs-daftarulang-badge');
-            dafBadge.innerText = s.daftarUlang;
-            if (s.daftarUlang === 'Lunas') dafBadge.className = 'px-2.5 py-1 rounded-full font-black text-[10px] bg-emerald-100 text-emerald-800';
-            else if (s.daftarUlang === 'Cicil') dafBadge.className = 'px-2.5 py-1 rounded-full font-black text-[10px] bg-blue-100 text-blue-700';
-            else dafBadge.className = 'px-2.5 py-1 rounded-full font-black text-[10px] bg-amber-100 text-amber-700';
-
-            // Generate 30 Juz Visual Roadmaps
-            generateVisualTahfidzMap(s.totalJuz);
-
-            // Timeline logs rendering
-            const timeline = document.getElementById('wali-timeline-container');
-            timeline.innerHTML = '';
-            
-            const studentLogs = tahfidzLogs.filter(l => l.student_id === s.id);
-            if (studentLogs.length === 0) {
-                timeline.innerHTML = `<p class="text-xs text-slate-400 font-medium py-2">Belum ada catatan rekam jejak mingguan.</p>`;
-            } else {
-                studentLogs.forEach(l => {
-                    const block = document.createElement('div');
-                    block.className = "bg-slate-50 border border-slate-150 p-3 rounded-2xl text-[11px] space-y-1.5";
-                    block.innerHTML = `
-                        <div class="flex justify-between font-black text-slate-800 text-[10px] border-b border-slate-200 pb-1">
-                            <span class="text-emerald-800"><i class="fa-solid fa-calendar-check"></i> ${getFormattedMonthWeek(l.date)}</span>
-                            <span class="font-mono text-slate-400">${l.date}</span>
-                        </div>
-                        <p class="font-semibold text-slate-600">Setoran: <strong class="text-slate-900">${l.setoran_awal || '-'}</strong> s/d <strong class="text-emerald-800">${l.latest_setoran || '-'}</strong> (${l.total_juz} Juz Terkumpul)</p>
-                        ${l.positive_notes ? `<p class="text-slate-500"><i class="fa-solid fa-circle-check text-emerald-600"></i> ${l.positive_notes}</p>` : ''}
-                        ${l.catatan_lain ? `<p class="text-slate-400 italic">Ket: ${l.catatan_lain}</p>` : ''}
-                    `;
-                    timeline.appendChild(block);
-                });
-            }
-        }
-
-        function generateVisualTahfidzMap(totalJuz) {
-            const container = document.getElementById('peta-tahfidz-container');
-            container.innerHTML = '';
-            
-            // Render 30 circular elements
-            for (let i = 1; i <= 30; i++) {
-                const node = document.createElement('div');
-                node.className = "aspect-square rounded-xl flex flex-col items-center justify-center font-black border text-[11px] transition shadow-2xs";
-                
-                if (i <= Math.floor(totalJuz)) {
-                    // Fully memorized Juz
-                    node.className += " bg-emerald-700 text-white border-emerald-800";
-                    node.innerHTML = `<span>${i}</span><i class="fa-solid fa-circle-check text-[7px] text-emerald-200 mt-0.5"></i>`;
-                } else if (i === Math.ceil(totalJuz) && totalJuz % 1 !== 0) {
-                    // Partial Juz in progress
-                    node.className += " bg-emerald-100 text-emerald-900 border-emerald-400 animate-pulse";
-                    node.innerHTML = `<span>${i}</span><span class="text-[6px] font-extrabold text-emerald-600 leading-none">${Math.round((totalJuz % 1) * 10)}/10</span>`;
-                } else {
-                    // Locked / Not yet memorized
-                    node.className += " bg-white text-slate-300 border-slate-200 font-bold";
-                    node.innerHTML = `<span>${i}</span>`;
-                }
-                container.appendChild(node);
-            }
-        }
+        window.goBackToDashboard = function() {
+            document.getElementById('view-wali').classList.add('hidden');
+            setupActiveWorkspace();
+        };
 
         window.refreshWaliData = async function() {
-            showToast("Menyegarkan data dari server...", "info");
-            if (supabaseClient) {
+            showToast("Sinkronisasi data privat santri...");
+            if (isCloudMode) {
                 await fetchCloudData();
                 if (currentWaliStudent) {
                     currentWaliStudent = studentsList.find(s => s.id === currentWaliStudent.id) || currentWaliStudent;
                 }
-            } else {
-                loadLocalData();
             }
             renderWaliWorkspace();
-            showToast("Data raport KHS telah diperbarui real-time.", "success");
         };
 
-        window.goBackToDashboard = function() {
-            handleLogout();
-        };
-
-        // --- RECEIPTS MODAL MECHANICS ---
-        window.openReceiptModal = function(id) {
-            const s = studentsList.find(s => s.id === id);
+        window.renderWaliWorkspace = function() {
+            const s = currentWaliStudent;
             if (!s) return;
 
-            document.getElementById('receipt-reg-number').innerText = s.id.toUpperCase();
+            document.getElementById('wali-khs-initial').innerText = s.name.charAt(0).toUpperCase();
+            document.getElementById('wali-khs-name').innerText = s.name;
+            document.getElementById('wali-khs-pobdob').innerText = s.pobDob || '-';
+            document.getElementById('wali-khs-parent').innerText = s.parentPhone || '-';
+            document.getElementById('wali-khs-address').innerText = s.address || '-';
+            document.getElementById('wali-khs-program').innerText = s.program || 'Reguler';
+            document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room} - ${getHalaqahName(s.room)}`;
+            document.getElementById('wali-khs-celengan').innerText = s.celenganTarget || '5 Juz';
+
+            document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal || '-';
+            document.getElementById('wali-khs-setoran-akhir').innerText = s.latestSetoran || '-';
+            document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan || '-';
+            document.getElementById('wali-khs-status-capaian').innerText = s.statusCapaian || 'Belum';
+
+            const capEl = document.getElementById('wali-khs-status-capaian');
+            if (s.statusCapaian === 'Tercapai') {
+                capEl.className = "font-extrabold text-emerald-800 mt-1 block";
+            } else {
+                capEl.className = "font-extrabold text-amber-600 mt-1 block";
+            }
+
+            document.getElementById('wali-khs-perkembangan-positif').innerText = s.positiveNotes || '-';
+            document.getElementById('wali-khs-catatan-negatif').innerText = s.negativeNotes || 'Tidak ada evaluasi kritis pekan ini.';
+            document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || 'Kondisi asrama kondusif.';
+
+            const badgeSpp = document.getElementById('wali-khs-syahriyah-badge');
+            badgeSpp.innerText = s.syahriyah === 'Lunas' ? 'LUNAS VALIDA' : 'BELUM BAYAR';
+            badgeSpp.className = s.syahriyah === 'Lunas' 
+                ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-emerald-100 text-emerald-800' 
+                : 'px-2.5 py-1 rounded-full font-black text-[10px] bg-rose-100 text-rose-700';
+
+            const badgeDu = document.getElementById('wali-khs-daftarulang-badge');
+            badgeDu.innerText = s.daftarUlang === 'Lunas' ? 'LUNAS FISIK' : s.daftarUlang === 'Cicil' ? 'MENCICIL' : 'PENDING';
+            badgeDu.className = s.daftarUlang === 'Lunas'
+                ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-emerald-100 text-emerald-800'
+                : s.daftarUlang === 'Cicil' ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-amber-100 text-amber-800'
+                : 'px-2.5 py-1 rounded-full font-black text-[10px] bg-rose-100 text-rose-700';
+
+            const petaContainer = document.getElementById('peta-tahfidz-container');
+            petaContainer.innerHTML = '';
+            const currentTotalJuz = s.totalJuz || 0;
+
+            for (let i = 1; i <= 30; i++) {
+                const circle = document.createElement('div');
+                circle.className = "aspect-square rounded-full flex flex-col items-center justify-center text-[9px] font-black transition-all relative group";
+                
+                if (i <= Math.floor(currentTotalJuz)) {
+                    circle.classList.add('bg-emerald-700', 'text-white', 'scale-100', 'shadow-xs');
+                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-check text-[6px] absolute bottom-0.5 text-emerald-200"></i>`;
+                } else if (i === Math.ceil(currentTotalJuz) && currentTotalJuz % 1 !== 0) {
+                    circle.classList.add('bg-gradient-to-r', 'from-emerald-700', 'to-slate-200', 'text-emerald-950', 'animate-pulse');
+                    circle.innerHTML = `<span>${i}</span>`;
+                } else {
+                    circle.classList.add('bg-slate-100', 'text-slate-400', 'border', 'border-slate-200');
+                    circle.innerHTML = `<span>${i}</span>`;
+                }
+                petaContainer.appendChild(circle);
+            }
+
+            const timelineContainer = document.getElementById('wali-timeline-container');
+            timelineContainer.innerHTML = '';
+            const logs = tahfidzLogs.filter(l => l.student_id === s.id);
+
+            if (logs.length === 0) {
+                timelineContainer.innerHTML = `<p class="text-xs text-slate-400 font-bold italic py-2">Belum ada linimasa histori setoran. Menunggu entri perdana Ustazah.</p>`;
+            } else {
+                logs.forEach(l => {
+                    const item = document.createElement('div');
+                    item.className = "bg-slate-50 border border-slate-200/60 p-3 rounded-2xl flex justify-between items-start text-xs gap-3";
+                    item.innerHTML = `
+                        <div class="space-y-0.5">
+                            <span class="text-[9px] font-black bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded-sm uppercase tracking-wide">${getFormattedMonthWeek(l.date)}</span>
+                            <p class="font-extrabold text-slate-800 mt-1">Setoran: <span class="text-emerald-800">${l.setoran_awal} s/d ${l.latest_setoran}</span></p>
+                            <p class="text-[10px] text-slate-500 font-semibold italic">Progress: ${l.positive_notes || '-'}</p>
+                        </div>
+                        <span class="shrink-0 bg-emerald-800 text-white font-black px-2 py-0.5 rounded-lg text-[10px]">${l.total_juz || 0} Juz</span>
+                    `;
+                    timelineContainer.appendChild(item);
+                });
+            }
+
+            document.getElementById('wali-khs-parent-signature').innerText = `Wali ${s.name.split(' ')[0]}`;
+        };
+
+        window.openReceiptModal = function(studentId) {
+            const s = studentsList.find(st => st.id === studentId);
+            if (!s) return;
+
+            document.getElementById('receipt-reg-number').innerText = `REG-PHQ4-${s.id.toUpperCase().replace('S_', '')}`;
             document.getElementById('receipt-print-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
             
             document.getElementById('rec-name').innerText = s.name;
-            document.getElementById('rec-pobdob').innerText = s.pobDob;
-            document.getElementById('rec-phone').innerText = s.parentPhone;
-            document.getElementById('rec-celengan').innerText = s.celenganTarget;
-            document.getElementById('rec-program').innerText = s.program;
-            document.getElementById('rec-ustazah').innerText = `Ustazah ${s.room} (${getHalaqahName(s.room)})`;
-            document.getElementById('rec-parent-sign').innerText = "Wali dari " + s.name.split(' ')[0];
-            document.getElementById('rec-spp').innerText = s.paymentStatus === "Lunas" ? "LUNAS (Selesai)" : "PENDING (Belum Terbayar)";
+            document.getElementById('rec-pobdob').innerText = s.pobDob || '-';
+            document.getElementById('rec-phone').innerText = s.parentPhone || '-';
+            document.getElementById('rec-celengan').innerText = s.celenganTarget || '5 Juz';
+            document.getElementById('rec-program').innerText = s.program || 'Reguler';
+            document.getElementById('rec-ustazah').innerText = `Ustazah ${s.room}`;
 
-            // Prices formatting
-            document.getElementById('rec-fee-reg').innerText = "Rp " + s.feeReg.toLocaleString('id-ID');
-            document.getElementById('rec-fee-spp1').innerText = "Rp " + s.feeSpp1.toLocaleString('id-ID');
-            document.getElementById('rec-fee-rereg').innerText = "Rp " + s.feeReReg.toLocaleString('id-ID');
+            document.getElementById('rec-fee-reg').innerText = s.feeReg ? "Rp " + s.feeReg.toLocaleString('id-ID') : "Rp 0";
+            document.getElementById('rec-fee-spp1').innerText = s.feeSpp1 ? "Rp " + s.feeSpp1.toLocaleString('id-ID') : "Rp 0";
+            document.getElementById('rec-fee-rereg').innerText = s.feeReReg ? "Rp " + s.feeReReg.toLocaleString('id-ID') : "Rp 0";
             
-            const total = s.feeReg + s.feeSpp1 + s.feeReReg;
+            const total = (s.feeReg || 0) + (s.feeSpp1 || 0) + (s.feeReReg || 0);
             document.getElementById('rec-fee-total').innerText = "Rp " + total.toLocaleString('id-ID');
+            document.getElementById('rec-spp').innerText = s.syahriyah || 'Belum Lunas';
 
-            // Unique Secure verification codes
-            document.getElementById('secure-receipt-code').innerText = "AUTH-" + s.id.split('_')[1] + "-" + Math.floor(1000 + Math.random() * 9000);
-
-            // Logistics lists grid build
             const logBox = document.getElementById('rec-logistics');
             logBox.innerHTML = '';
             
-            const logisticsItems = [
-                { key: 'facBuku', label: 'Buku Pegangan' },
-                { key: 'facMeja', label: 'Meja Lipat' },
-                { key: 'facKerudung', label: 'Hijab Almamater' },
-                { key: 'facLoker', label: 'Loker Lemari' }
+            const facilities = [
+                { name: 'Buku Pegangan', active: s.facBuku },
+                { name: 'Meja Lipat', active: s.facMeja },
+                { name: 'Hijab Almamater', active: s.facKerudung },
+                { name: 'Loker Lemari', active: s.facLoker }
             ];
 
-            logisticsItems.forEach(item => {
+            facilities.forEach(f => {
                 const div = document.createElement('div');
-                const isCheck = s[item.key];
-                div.className = `p-2 rounded-xl border flex items-center gap-1.5 ${isCheck ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-400 line-through'}`;
-                div.innerHTML = `<i class="fa-solid ${isCheck ? 'fa-square-check text-emerald-700' : 'fa-square'}"></i> <span>${item.label}</span>`;
+                div.className = f.active ? "p-2 bg-emerald-50 text-emerald-800 rounded-xl flex items-center gap-1.5 border border-emerald-100" : "p-2 bg-slate-100 text-slate-400 rounded-xl flex items-center gap-1.5 border border-slate-200 opacity-60";
+                div.innerHTML = `<i class="fa-solid ${f.active ? 'fa-square-check' : 'fa-square'} text-xs"></i> <span>${f.name}</span>`;
                 logBox.appendChild(div);
             });
+
+            document.getElementById('secure-receipt-code').innerText = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('rec-parent-sign').innerText = `Wali ${s.name.split(' ')[0]}`;
 
             document.getElementById('receipt-modal').classList.remove('hidden');
         };
@@ -2219,40 +2217,40 @@
             document.getElementById('receipt-modal').classList.add('hidden');
         };
 
-        // --- EDIT MODAL MECHANICS ---
-        window.openEditStudentModal = function(id) {
-            const s = studentsList.find(s => s.id === id);
+        window.openEditStudentModal = function(studentId) {
+            const s = studentsList.find(st => st.id === studentId);
             if (!s) return;
 
             document.getElementById('edit-student-id').value = s.id;
             document.getElementById('edit-name').value = s.name;
-            document.getElementById('edit-pobdob').value = s.pobDob;
-            document.getElementById('edit-phone').value = s.parentPhone;
-            document.getElementById('edit-arrival-date').value = s.arrivalDate;
-            document.getElementById('edit-address').value = s.address;
-            document.getElementById('edit-memorized').value = s.memorizedBefore;
-            document.getElementById('edit-motivation').value = s.motivation;
-            document.getElementById('edit-room').value = s.room;
-            document.getElementById('edit-program').value = s.program;
-            document.getElementById('edit-celengan').value = s.celenganTarget;
-            document.getElementById('edit-total-juz').value = s.totalJuz;
+            document.getElementById('edit-pobdob').value = s.pobDob || '';
+            document.getElementById('edit-phone').value = s.parentPhone || '';
+            document.getElementById('edit-arrival-date').value = s.arrivalDate || '';
+            document.getElementById('edit-address').value = s.address || '';
+            
+            document.getElementById('edit-fac-buku').checked = !!s.facBuku;
+            document.getElementById('edit-fac-meja').checked = !!s.facMeja;
+            document.getElementById('edit-fac-kerudung').checked = !!s.facKerudung;
+            document.getElementById('edit-fac-loker').checked = !!s.facLoker;
 
-            document.getElementById('edit-setoran-awal').value = s.setoranAwal === "Belum Menyetor" ? "" : s.setoranAwal;
-            document.getElementById('edit-setoran-akhir').value = s.latestSetoran === "Belum Menyetor" ? "" : s.latestSetoran;
-            document.getElementById('edit-target-mingguan').value = s.targetMingguan;
-            document.getElementById('edit-status-capaian').value = s.statusCapaian;
-            document.getElementById('edit-positive').value = s.positiveNotes;
-            document.getElementById('edit-negative').value = s.negativeNotes;
+            document.getElementById('edit-memorized').value = s.memorizedBefore || 'Belum Pernah';
+            document.getElementById('edit-motivation').value = s.motivation || '';
+            document.getElementById('edit-room').value = s.room || 'Ayu';
+            document.getElementById('edit-program').value = s.program || 'Tahfidz Reguler';
+            document.getElementById('edit-celengan').value = s.celenganTarget || '5 Juz';
+            document.getElementById('edit-total-juz').value = s.totalJuz || 0.0;
 
-            document.getElementById('edit-paystatus').value = s.paymentStatus;
-            document.getElementById('edit-daftarulang').value = s.daftarUlang;
-            document.getElementById('edit-inhalaqah').value = s.inHalaqah.toString();
-            document.getElementById('edit-catatan-lain').value = s.catatanLain;
-
-            document.getElementById('edit-fac-buku').checked = s.facBuku;
-            document.getElementById('edit-fac-meja').checked = s.facMeja;
-            document.getElementById('edit-fac-kerudung').checked = s.facKerudung;
-            document.getElementById('edit-fac-loker').checked = s.facLoker;
+            document.getElementById('edit-setoran-awal').value = s.setoranAwal || '';
+            document.getElementById('edit-setoran-akhir').value = s.latestSetoran || '';
+            document.getElementById('edit-target-mingguan').value = s.targetMingguan || '';
+            document.getElementById('edit-status-capaian').value = s.statusCapaian || 'Belum Tercapai';
+            document.getElementById('edit-positive').value = s.positiveNotes || '';
+            document.getElementById('edit-negative').value = s.negativeNotes || '';
+            
+            document.getElementById('edit-paystatus').value = s.syahriyah || 'Belum Lunas';
+            document.getElementById('edit-daftarulang').value = s.daftarUlang || 'Belum Lunas';
+            document.getElementById('edit-inhalaqah').value = s.inHalaqah ? "true" : "false";
+            document.getElementById('edit-catatan-lain').value = s.catatanLain || '';
 
             document.getElementById('edit-student-modal').classList.remove('hidden');
         };
@@ -2261,227 +2259,108 @@
             document.getElementById('edit-student-modal').classList.add('hidden');
         };
 
-        window.handleSaveEditStudent = function(e) {
-            if (e) e.preventDefault();
+        window.handleSaveEditStudent = async function(event) {
+            event.preventDefault();
             const id = document.getElementById('edit-student-id').value;
-            const s = studentsList.find(s => s.id === id);
-            if (!s) return;
+            const student = studentsList.find(s => s.id === id);
+            if (!student) return;
 
-            s.name = document.getElementById('edit-name').value.trim();
-            s.pobDob = document.getElementById('edit-pobdob').value.trim();
-            s.parentPhone = document.getElementById('edit-phone').value.trim();
-            s.arrivalDate = document.getElementById('edit-arrival-date').value;
-            s.address = document.getElementById('edit-address').value.trim();
-            s.memorizedBefore = document.getElementById('edit-memorized').value;
-            s.motivation = document.getElementById('edit-motivation').value.trim();
-            s.room = document.getElementById('edit-room').value;
-            s.program = document.getElementById('edit-program').value;
-            s.celenganTarget = document.getElementById('edit-celengan').value.trim();
-            s.totalJuz = parseFloat(document.getElementById('edit-total-juz').value) || 0;
+            student.name = document.getElementById('edit-name').value.trim();
+            student.pobDob = document.getElementById('edit-pobdob').value.trim();
+            student.parentPhone = document.getElementById('edit-phone').value.trim();
+            student.arrivalDate = document.getElementById('edit-arrival-date').value;
+            student.address = document.getElementById('edit-address').value.trim();
+            
+            student.facBuku = document.getElementById('edit-fac-buku').checked;
+            student.facMeja = document.getElementById('edit-fac-meja').checked;
+            student.facKerudung = document.getElementById('edit-fac-kerudung').checked;
+            student.facLoker = document.getElementById('edit-fac-loker').checked;
 
-            s.setoranAwal = document.getElementById('edit-setoran-awal').value.trim() || "Belum Menyetor";
-            s.latestSetoran = document.getElementById('edit-setoran-akhir').value.trim() || "Belum Menyetor";
-            s.targetMingguan = document.getElementById('edit-target-mingguan').value.trim();
-            s.statusCapaian = document.getElementById('edit-status-capaian').value;
-            s.positiveNotes = document.getElementById('edit-positive').value.trim();
-            s.negativeNotes = document.getElementById('edit-negative').value.trim();
+            student.memorizedBefore = document.getElementById('edit-memorized').value;
+            student.motivation = document.getElementById('edit-motivation').value.trim();
+            student.room = document.getElementById('edit-room').value;
+            student.program = document.getElementById('edit-program').value;
+            student.celenganTarget = document.getElementById('edit-celengan').value.trim();
+            student.totalJuz = parseFloat(document.getElementById('edit-total-juz').value) || 0;
 
-            s.paymentStatus = document.getElementById('edit-paystatus').value;
-            s.syahriyah = s.paymentStatus;
-            s.daftarUlang = document.getElementById('edit-daftarulang').value;
-            s.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
-            s.catatanLain = document.getElementById('edit-catatan-lain').value.trim();
+            student.setoranAwal = document.getElementById('edit-setoran-awal').value.trim();
+            student.latestSetoran = document.getElementById('edit-setoran-akhir').value.trim();
+            student.targetMingguan = document.getElementById('edit-target-mingguan').value.trim();
+            student.statusCapaian = document.getElementById('edit-status-capaian').value;
+            student.positiveNotes = document.getElementById('edit-positive').value.trim();
+            student.negativeNotes = document.getElementById('edit-negative').value.trim();
 
-            s.facBuku = document.getElementById('edit-fac-buku').checked;
-            s.facMeja = document.getElementById('edit-fac-meja').checked;
-            s.facKerudung = document.getElementById('edit-fac-kerudung').checked;
-            s.facLoker = document.getElementById('edit-fac-loker').checked;
+            student.syahriyah = document.getElementById('edit-paystatus').value;
+            student.paymentStatus = student.syahriyah;
+            student.daftarUlang = document.getElementById('edit-daftarulang').value;
+            student.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
+            student.catatanLain = document.getElementById('edit-catatan-lain').value.trim();
 
             saveLocalData();
-            syncUpdateToCloud('santri_students', s.id, s);
-            showToast(`Data induk ${s.name} sukses diperbarui!`, "success");
+            await syncUpdateToCloud('santri_students', id, student);
+            
+            showToast("Arsip master data santriwati berhasil diperbarui.");
             closeEditStudentModal();
-            renderAdminStudentsDirectory();
             updateAdminStats();
-        };
-
-        // --- EXPORT PDF & PRINT ENGINE ---
-        window.printKHS = function() { window.print(); };
-        window.printReceipt = function() { window.print(); };
-
-        window.saveKHSPDF = function() {
-            const element = document.getElementById('wali-khs-card');
-            const opt = {
-                margin: 0.2,
-                filename: `KHS_${currentWaliStudent.name.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, logging: false },
-                jsPDF: { unit: 'in', format: 'portrait', orientation: 'portrait' }
-            };
-            showToast("Mengekspor berkas Raport PDF...", "info");
-            html2pdf().set(opt).from(element).save()
-                .then(() => showToast("PDF Berhasil diunduh!", "success"))
-                .catch(() => showToast("Gagal mengunduh PDF.", "error"));
-        };
-
-        window.saveReceiptPDF = function() {
-            const element = document.getElementById('print-receipt-area');
-            const opt = {
-                margin: 0.2,
-                filename: `Kuitansi_Registrasi_${document.getElementById('rec-name').innerText.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'portrait', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        };
-
-        // --- POPUP DIALOGS & NOTIFICATIONS ---
-        window.openSupabaseConfigModal = function() {
-            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || '';
-            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || '';
-            document.getElementById('supabase-config-modal').classList.remove('hidden');
-        };
-
-        window.closeSupabaseConfigModal = function() {
-            document.getElementById('supabase-config-modal').classList.add('hidden');
-        };
-
-        window.handleSaveSupabaseConfig = function(e) {
-            if (e) e.preventDefault();
-            const url = document.getElementById('cfg-supabase-url').value.trim();
-            const key = document.getElementById('cfg-supabase-key').value.trim();
-
-            if (url && key) {
-                localStorage.setItem('karima_supabase_url', url);
-                localStorage.setItem('karima_supabase_key', key);
-                showToast("Kredensial disimpan! Memuat ulang sistem...", "success");
-            } else {
-                localStorage.removeItem('karima_supabase_url');
-                localStorage.removeItem('karima_supabase_key');
-                showToast("Kredensial dihapus. Menggunakan mode lokal.", "info");
-            }
-            closeSupabaseConfigModal();
-            setTimeout(() => { location.reload(); }, 1000);
+            renderAdminStudentsDirectory();
         };
 
         window.openSeedModal = function() {
             document.getElementById('seed-modal').classList.remove('hidden');
         };
-
         window.closeSeedModal = function() {
             document.getElementById('seed-modal').classList.add('hidden');
         };
-
         window.confirmResetSeedData = function() {
-            localStorage.setItem('karima_students', JSON.stringify(standardSeedStudents));
-            localStorage.setItem('karima_logs', JSON.stringify(standardSeedLogs));
-            showToast("Database contoh berhasil dimuat ulang!", "success");
-            closeSeedModal();
+            localStorage.removeItem('karima_students');
+            localStorage.removeItem('karima_logs');
             loadLocalData();
+            showToast("Database lokal berhasil di-reset ke data bawaan contoh.");
+            closeSeedModal();
             setupActiveWorkspace();
         };
 
-        window.openConfirmModal = function(title, message, callback) {
-            document.getElementById('confirm-title').innerText = title;
-            document.getElementById('confirm-message').innerText = message;
-            document.getElementById('confirm-modal').classList.remove('hidden');
-            confirmCallback = callback;
+        window.printReceipt = function() { window.print(); };
+        window.printKHS = function() { window.print(); };
+
+        window.saveReceiptPDF = function() {
+            const element = document.getElementById('print-receipt-area');
+            const name = document.getElementById('rec-name').innerText;
+            const opt = {
+                margin: 0.2,
+                filename: `Kuitansi_${name.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
         };
 
-        document.getElementById('confirm-btn-ok').onclick = function() {
-            if (confirmCallback) confirmCallback();
-            document.getElementById('confirm-modal').classList.add('hidden');
-            confirmCallback = null;
+        window.saveKHSPDF = function() {
+            const element = document.getElementById('wali-khs-card');
+            const name = document.getElementById('wali-khs-name').innerText;
+            const opt = {
+                margin: 0.2,
+                filename: `KHS_${name.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
         };
 
-        document.getElementById('confirm-btn-cancel').onclick = function() {
-            document.getElementById('confirm-modal').classList.add('hidden');
-            confirmCallback = null;
+        window.exportDashboardToPDF = function() {
+            if (currentRole === 'wali') { saveKHSPDF(); } 
+            else { window.print(); }
         };
 
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            let bgClass = "bg-emerald-900 border-emerald-700 text-emerald-200";
-            let icon = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
-            
-            if (type === 'error') {
-                bgClass = "bg-rose-950 border-rose-800 text-rose-200";
-                icon = '<i class="fa-solid fa-circle-exclamation text-rose-400"></i>';
-            } else if (type === 'info') {
-                bgClass = "bg-slate-900 border-slate-700 text-slate-200";
-                icon = '<i class="fa-solid fa-circle-info text-blue-400"></i>';
-            }
+        // Suppressed placeholder controls for configuration modals
+        window.closeSupabaseConfigModal = function() { document.getElementById('supabase-config-modal').classList.add('hidden'); };
 
-            toast.className = `p-3.5 rounded-2xl border flex items-center gap-3 text-xs font-bold shadow-xl transition-all duration-300 transform translate-y-2 opacity-0 ${bgClass}`;
-            toast.innerHTML = `${icon} <span class="flex-1">${message}</span>`;
-            
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 50);
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => { toast.remove(); }, 300);
-            }, 4000);
-
-        }
-
-        // ENTRYPOINT ONLOAD INITIALIZATION
+        // Initialize Core System on load
         window.onload = function() {
             initSupabase();
         };
-        // ==========================================
-// FITUR TAMBAHAN AMAN: EXPORT DASHBOARD TO PDF
-// ==========================================
-async function exportDashboardToPDF() {
-    // ID disesuaikan langsung dengan container utama aplikasi Anda ('main-app-container')
-    const element = document.getElementById('main-app-container');
-    
-    if (!element) {
-        if (typeof showToast === 'function') {
-            showToast("Gagal Unduh", "Konten utama dashboard tidak ditemukan di layar.", "error");
-        }
-        return;
-    }
-
-    // Konfigurasi khusus agar tampilan dashboard rapi dalam format PDF
-    const opsi = {
-        margin:       [10, 10, 10, 10], // Margin keliling halaman (mm)
-        filename:     'Laporan_E-Tahfidz_Al_Karima.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { 
-            scale: 2, // Kualitas HD agar teks tabel tidak pecah/blur
-            useCORS: true, // Bypass gambar jika ada asset eksternal
-            logging: false,
-            letterRendering: true
-        },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } // Format landscape agar muat grid tabel
-    };
-
-    // Memunculkan Toast loading bawaan aplikasi Anda
-    if (typeof showToast === 'function') {
-        showToast("Memproses PDF", "Sedang membuat dokumen, mohon tunggu...", "info");
-    }
-
-    try {
-        // Proses render dan unduh langsung secara client-side
-        await html2pdf().set(opsi).from(element).save();
-        
-        if (typeof showToast === 'function') {
-            showToast("Unduh Berhasil", "Dokumen PDF berhasil disimpan ke perangkat Anda.", "success");
-        }
-    } catch (error) {
-        console.error("Kesalahan html2pdf:", error);
-        if (typeof showToast === 'function') {
-            showToast("Unduh Gagal", "Terjadi kesalahan sistem saat merender halaman.", "error");
-        }
-    }
-}
     </script>
 </body>
 </html>
