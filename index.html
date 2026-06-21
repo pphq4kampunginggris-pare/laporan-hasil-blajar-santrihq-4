@@ -11,9 +11,10 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- html2pdf.js CDN for Direct Premium PDF Download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/..." defer></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
     
     <style>
         body {
@@ -671,10 +672,10 @@
                 
                 <!-- KHS HEADER: Official Identity of Pesantren -->
                 <div class="border-b-4 border-double border-emerald-800 pb-4 text-center">
-                    <h3 class="font-extrabold text-[10px] tracking-widest text-slate-500 uppercase leading-none">YAYASAN AL KARIMA KEDIRI</h3>
-                    <h2 class="font-black text-sm text-slate-900 uppercase tracking-tight mt-1.5">PESANTREN HAMALATUL QUR'AN (PHQ) PUTRI 4</h2>
+                    <h3 class="font-extrabold text-[10px] tracking-widest text-slate-500 uppercase leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h3>
+                    <h2 class="font-black text-sm text-slate-900 uppercase tracking-tight mt-1.5">PP HAMALATUL QUR'AN PUTRI 4 AL-KARIMA</h2>
                     <p class="text-[9px] font-bold text-emerald-800 uppercase tracking-wider mt-1">Laporan Hasil Perkembangan Tahfidz &amp; Administrasi Santriwati</p>
-                    <p class="text-[8px] font-medium text-slate-400 mt-1 font-mono">Jl. Dahlia No. 12, Kampung Inggris, Pare, Kediri | WA: 0838-2970-4141</p>
+                    <p class="text-[8px] font-medium text-slate-400 mt-1 font-mono">Jl. Mawar No. 4, Kampung Inggris, Pare, Kediri | WA: 085706399238</p>
                 </div>
 
                 <!-- SUB-TITLE -->
@@ -695,7 +696,7 @@
                         <div class="flex flex-wrap items-center gap-2">
                             <h4 id="wali-khs-name" class="text-xl font-black text-slate-900">-</h4>
                             <span id="wali-khs-presence-badge" class="bg-emerald-100 text-emerald-800 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center gap-1">
-                                <i class="fa-solid fa-circle-check"></i> Sudah Datang Di Asrama
+                                <i class="fa-solid fa-circle-check"></i> Sudah Di Asrama
                             </span>
                         </div>
 
@@ -709,7 +710,7 @@
                             <div class="space-y-1">
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-graduation-cap text-emerald-700 w-4"></i> Program: <strong id="wali-khs-program" class="text-slate-800 font-bold">-</strong></p>
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-user-tie text-emerald-700 w-4"></i> Ustazah: <strong id="wali-khs-ustazah" class="text-slate-800 font-bold">-</strong></p>
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-bullseye text-emerald-700 w-4"></i> Target Celengan: <strong id="wali-khs-celengan" class="text-emerald-800 font-extrabold">-</strong></p>
+                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-bullseye text-emerald-700 w-4"></i> Celengan Awal: <strong id="wali-khs-celengan" class="text-emerald-800 font-extrabold">-</strong></p>
                             </div>
                         </div>
                     </div>
