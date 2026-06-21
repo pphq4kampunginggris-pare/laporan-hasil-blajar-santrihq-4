@@ -11,7 +11,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- html2pdf.js CDN for Direct Premium PDF Download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/..." defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
@@ -100,7 +100,7 @@
             <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
                 <div class="mb-6 text-center lg:text-left">
                     <h3 class="text-2xl font-black text-slate-900 tracking-tight">Gerbang Otoritas Akses</h3>
-                    <p class="text-xs text-slate-400 font-semibold mt-1">Pilih peran Anda di bawah ini untuk mengelola data</p>
+                    <p class="text-[11px] text-slate-400 font-semibold mt-1">Pilih peran Anda di bawah ini untuk mengelola data</p>
                 </div>
 
                 <!-- Gate Sub-Navigation Selector -->
@@ -1316,116 +1316,9 @@
         let adminActiveTab = 'register';
         let confirmCallback = null;
 
-        // Standard Seed Database (Fallback data)
-        const standardSeedStudents = [
-            {
-                id: "s_iqlima",
-                name: "Iqlima Ainur Trianissa Azzahra",
-                pobDob: "Tegal, 21 Mei 2008",
-                address: "Ds Dukuh Tengah, Kec. Margasari, Kab.Tegal Rt 02 Rw 02",
-                parentPhone: "083829704141",
-                memorizedBefore: "Belum Pernah",
-                celenganTarget: "5 Juz",
-                motivation: "Menghafal Al-Qur'an dan berbakti kepada orang tua tercinta di PPHQ Pare.",
-                arrivalDate: "2026-06-14",
-                room: "Ayu",
-                program: "Tahfidz Reguler",
-                paymentStatus: "Belum Lunas",
-                facBuku: true,
-                facMeja: true,
-                facKerudung: true,
-                facLoker: false,
-                feeReg: 250000,
-                feeSpp1: 900000,
-                feeReReg: 0,
-                setoranAwal: "Belum Menyetor",
-                latestSetoran: "Belum Menyetor",
-                targetMingguan: "5 Halaman",
-                statusCapaian: "Belum Tercapai",
-                weeklyProgress: "Inisialisasi",
-                totalJuz: 0.0,
-                positiveNotes: "Santri baru telah tiba di asrama dengan selamat. Adab awal kooperatif.",
-                negativeNotes: "",
-                syahriyah: "Belum Lunas",
-                daftarUlang: "Belum Lunas",
-                catatanLain: "Telah diserahkan kelengkapan berkas fisik pendaftaran.",
-                inHalaqah: false 
-            },
-            {
-                id: "s1",
-                name: "Aisyah Humaira Khansa",
-                pobDob: "Kediri, 12 April 2007",
-                address: "Jl. Dahlia No. 12, Pare, Kediri",
-                parentPhone: "081234567890",
-                memorizedBefore: "Sudah Pernah",
-                celenganTarget: "10 Juz",
-                motivation: "Ingin mahir ilmu tajwid & khatam 30 Juz secara mutqin di PPHQ Pare.",
-                arrivalDate: "2026-05-01",
-                room: "Ayu",
-                program: "Takhassus 30 Juz",
-                paymentStatus: "Lunas",
-                facBuku: true,
-                facMeja: true,
-                facKerudung: true,
-                facLoker: true,
-                feeReg: 250000,
-                feeSpp1: 900000,
-                feeReReg: 0,
-                setoranAwal: "Juz 30 Hal 1",
-                latestSetoran: "Juz 27 Hal 10",
-                targetMingguan: "5 Halaman",
-                statusCapaian: "Tercapai",
-                weeklyProgress: "3 Halaman",
-                totalJuz: 3.5,
-                positiveNotes: "Sangat fokus ketika muraja'ah kelompok, hafalan semakin fasih.",
-                negativeNotes: "Kadang datang terlambat 5 menit di halaqah subuh.",
-                syahriyah: "Lunas",
-                daftarUlang: "Lunas",
-                catatanLain: "Kondisi fisik sehat, konsisten mengaji harian.",
-                inHalaqah: true
-            },
-            {
-                id: "s2",
-                name: "Kamila Zahra Wardani",
-                pobDob: "Surabaya, 30 September 2008",
-                address: "Perum Graha Indah Blok C/10, Rungkut, Surabaya",
-                parentPhone: "085799887766",
-                memorizedBefore: "Belum Pernah",
-                celenganTarget: "15 Juz",
-                motivation: "Menjadi kebanggaan mahkota hafizah bagi keluarga tercinta.",
-                arrivalDate: "2026-06-02",
-                room: "Ayuniz",
-                program: "Tahfidz Reguler",
-                paymentStatus: "Belum Lunas",
-                facBuku: true,
-                facMeja: false,
-                facKerudung: true,
-                facLoker: false,
-                feeReg: 250000,
-                feeSpp1: 0,
-                feeReReg: 0,
-                setoranAwal: "Juz 30 Hal 1",
-                latestSetoran: "Juz 20 Hal 5",
-                targetMingguan: "5 Halaman",
-                statusCapaian: "Tercapai",
-                weeklyProgress: "1 Halaman",
-                totalJuz: 10.2,
-                positiveNotes: "Adab sangat mulia kepada asatidzah, mandiri mempersiapkan setoran.",
-                negativeNotes: "Sering mengantuk jika ruangan agak ramai.",
-                syahriyah: "Belum Lunas",
-                daftarUlang: "Cicil",
-                catatanLain: "Izin sakit flu ringan selama 1 hari.",
-                inHalaqah: true
-            }
-        ];
-
-        const standardSeedLogs = [
-            { id: "log_1", student_id: "s1", date: "2026-05-15", setoran_awal: "Juz 30 Hal 1", latest_setoran: "Juz 29 Hal 5", target_mingguan: "5 Halaman", status_capaian: "Tercapai", total_juz: 1.5, positive_notes: "Adab luar biasa.", negative_notes: "", syahriyah: "Lunas", daftar_ulang: "Lunas", catatan_lain: "" },
-            { id: "log_2", student_id: "s1", date: "2026-06-01", setoran_awal: "Juz 29 Hal 6", latest_setoran: "Juz 28 Hal 12", target_mingguan: "5 Halaman", status_capaian: "Tercapai", total_juz: 2.5, positive_notes: "Fokus meningkat pesat.", negative_notes: "Mengantuk di pagi hari.", syahriyah: "Lunas", daftar_ulang: "Lunas", catatan_lain: "" },
-            { id: "log_3", student_id: "s1", date: "2026-06-19", setoran_awal: "Juz 28 Hal 13", latest_setoran: "Juz 27 Hal 10", target_mingguan: "5 Halaman", status_capaian: "Tercapai", total_juz: 3.5, positive_notes: "Tajwid semakin fasih.", negative_notes: "", syahriyah: "Lunas", daftar_ulang: "Lunas", catatan_lain: "Mempertahankan irama murottal." },
-            { id: "log_4", student_id: "s2", date: "2026-06-05", setoran_awal: "Juz 30 Hal 1", latest_setoran: "Juz 21 Hal 2", target_mingguan: "5 Halaman", status_capaian: "Tercapai", total_juz: 9.2, positive_notes: "Mandiri menyetor.", negative_notes: "", syahriyah: "Belum Lunas", daftar_ulang: "Cicil", catatan_lain: "" },
-            { id: "log_5", student_id: "s2", date: "2026-06-19", setoran_awal: "Juz 21 Hal 3", latest_setoran: "Juz 20 Hal 5", target_mingguan: "5 Halaman", status_capaian: "Tercapai", total_juz: 10.2, positive_notes: "Adab sangat bagus.", negative_notes: "Kurang fokus.", syahriyah: "Belum Lunas", daftar_ulang: "Cicil", catatan_lain: "" }
-        ];
+        // DATA CONTOH SUDAH DIKOSONGKAN SEBAGAI FORMULIR BERSIH SIAP PAKAI
+        const standardSeedStudents = [];
+        const standardSeedLogs = [];
 
         let systemPins = JSON.parse(localStorage.getItem('karima_system_pins')) || {
             'admin': 'admin4',
@@ -1604,211 +1497,225 @@
             if (matches.length > 0) {
                 box.classList.remove('hidden');
                 matches.forEach(s => {
-                    const div = document.createElement('div');
-                    div.className = "text-xs p-2 hover:bg-emerald-50 rounded-lg cursor-pointer font-bold text-slate-800 transition";
-                    div.innerText = s.name;
-                    div.onclick = () => {
+                    const d = document.createElement('div');
+                    d.className = "p-2 hover:bg-emerald-50 rounded-xl cursor-pointer font-bold text-xs text-slate-700 transition flex justify-between items-center";
+                    d.innerHTML = `<span>${s.name}</span> <span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded-md text-slate-500">${s.room}</span>`;
+                    d.onclick = () => {
                         document.getElementById('gate-wali-student-name').value = s.name;
                         box.classList.add('hidden');
-                        selectWaliStudent(s.id);
                     };
-                    list.appendChild(div);
+                    list.appendChild(d);
                 });
             } else {
-                box.classList.add('hidden');
+                box.classList.remove('hidden');
+                list.innerHTML = `<p class="text-[10px] text-slate-400 font-bold p-2 text-center">Tidak ditemukan santriwati.</p>`;
             }
         };
 
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-            const toast = document.createElement('div');
-            const bgClass = type === 'success' ? 'bg-emerald-800 text-white' : type === 'danger' ? 'bg-rose-700 text-white' : 'bg-slate-800 text-white';
-            toast.className = `${bgClass} p-3.5 rounded-2xl shadow-xl text-xs font-bold flex items-center justify-between gap-3 animate-slide-up duration-300`;
-            toast.innerHTML = `<span>${message}</span><button onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 4000);
-        }
-
-        function selectWaliStudent(studentId) {
-            const match = studentsList.find(s => s.id === studentId);
-            if (match) {
-                currentWaliStudent = match;
-            }
-        }
-
-        window.handleGateLogin = function(event) {
-            event.preventDefault();
-            const selectedRole = document.getElementById('selected-gate-role').value;
-            const pinValue = document.getElementById('gate-pin').value;
-
-            if (selectedRole === 'wali') {
-                if (!currentWaliStudent) {
-                    const typedName = document.getElementById('gate-wali-student-name').value.trim();
-                    const exactMatch = studentsList.find(s => s.name.toLowerCase() === typedName.toLowerCase());
-                    if (exactMatch) {
-                        currentWaliStudent = exactMatch;
-                    } else {
-                        showToast("Nama santriwati tidak ditemukan di arsip hamalatul qur'an.", "danger");
-                        return;
-                    }
-                }
-                currentRole = 'wali';
-            } else if (selectedRole === 'admin') {
-                if (pinValue === systemPins.admin) {
-                    currentRole = 'admin';
+        window.handleGateLogin = function(e) {
+            e.preventDefault();
+            const role = document.getElementById('selected-gate-role').value;
+            
+            if (role === 'wali') {
+                const nameInput = document.getElementById('gate-wali-student-name').value.trim();
+                const matched = studentsList.find(s => s.name.toLowerCase() === nameInput.toLowerCase());
+                if (matched) {
+                    currentRole = 'wali';
+                    currentWaliStudent = matched;
+                    showToast(`Sesi KHS Privat ${matched.name} berhasil dimuat!`, 'success');
+                    enterWorkspace();
                 } else {
-                    showToast("PIN Otoritas Admin tidak valid!", "danger");
-                    return;
+                    showToast("Nama lengkap putri Anda tidak ditemukan dalam arsip pendaftaran.", "error");
                 }
-            } else if (selectedRole === 'ustazah') {
+            } else if (role === 'ustazah') {
                 const selectedUstazah = document.getElementById('gate-ustazah-select').value;
-                if (pinValue === systemPins[selectedUstazah]) {
+                const pinInput = document.getElementById('gate-pin').value;
+                if (systemPins[selectedUstazah] === pinInput) {
                     currentRole = `ustazah_${selectedUstazah}`;
+                    showToast(`Selamat datang di Halaqah Ustazah ${selectedUstazah}!`, 'success');
+                    enterWorkspace();
                 } else {
-                    showToast(`PIN Otoritas Ustazah ${selectedUstazah} tidak valid!`, "danger");
-                    return;
+                    showToast("Sandi PIN Otoritas Pembina Halaqah salah.", "error");
+                }
+            } else if (role === 'admin') {
+                const pinInput = document.getElementById('gate-pin').value;
+                if (systemPins['admin'] === pinInput) {
+                    currentRole = 'admin';
+                    showToast("Akses Otoritas Panel Administrasi Induk diizinkan.", "success");
+                    enterWorkspace();
+                } else {
+                    showToast("Sandi PIN Otoritas Admin Utama salah.", "error");
                 }
             }
+        };
 
+        function enterWorkspace() {
             document.getElementById('gate-screen').classList.add('hidden');
             document.getElementById('main-app-header').classList.remove('hidden');
             document.getElementById('main-app-container').classList.remove('hidden');
             
-            showToast(`Otoritas Berhasil. Selamat Datang di ${roleLabels[currentRole] || 'Portal'}`);
+            let labelText = roleLabels[currentRole] || "Pengguna";
+            document.getElementById('active-user-badge').innerText = labelText;
+
             setupActiveWorkspace();
-        };
+        }
 
         window.handleLogout = function() {
             currentRole = null;
             currentWaliStudent = null;
-            document.getElementById('gate-pin').value = '';
-            document.getElementById('gate-wali-student-name').value = '';
-            
             document.getElementById('gate-screen').classList.remove('hidden');
             document.getElementById('main-app-header').classList.add('hidden');
             document.getElementById('main-app-container').classList.add('hidden');
+            document.getElementById('gate-pin').value = '';
+            document.getElementById('gate-wali-student-name').value = '';
         };
 
         function setupActiveWorkspace() {
             document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('view-ustazah').classList.add('hidden');
             document.getElementById('view-wali').classList.add('hidden');
-            document.getElementById('control-reset-panel').classList.remove('hidden');
-
-            const badge = document.getElementById('active-user-badge');
-            if (badge) badge.innerText = roleLabels[currentRole] || "Pengguna Portal";
 
             if (currentRole === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
+                recalculateAdminStats();
                 switchAdminTab(adminActiveTab);
-                updateAdminStats();
-                populatePinConfigForm();
+                
+                document.getElementById('pin-cfg-admin').value = systemPins['admin'];
+                document.getElementById('pin-cfg-ayu').value = systemPins['Ayu'];
+                document.getElementById('pin-cfg-ayuniz').value = systemPins['Ayuniz'];
+                document.getElementById('pin-cfg-rima').value = systemPins['Rima'];
+                document.getElementById('pin-cfg-nafis').value = systemPins['Nafis'];
             } else if (currentRole && currentRole.startsWith('ustazah_')) {
                 document.getElementById('view-ustazah').classList.remove('hidden');
-                renderUstazahWorkspace();
-            } else if (currentRole === 'wali') {
+                renderUstazahInterface();
+            } else if (currentRole === 'wali' && currentWaliStudent) {
                 document.getElementById('view-wali').classList.remove('hidden');
-                document.getElementById('control-reset-panel').classList.add('hidden');
-                renderWaliWorkspace();
+                renderWaliKHS(currentWaliStudent.id);
             }
         }
 
         window.switchAdminTab = function(tabName) {
             adminActiveTab = tabName;
-            const tabReg = document.getElementById('admin-tab-register');
-            const tabDir = document.getElementById('admin-tab-directory');
-            const contentReg = document.getElementById('admin-content-register');
-            const contentDir = document.getElementById('admin-content-directory');
+            const btnReg = document.getElementById('admin-tab-register');
+            const btnDir = document.getElementById('admin-tab-directory');
+            const contReg = document.getElementById('admin-content-register');
+            const contDir = document.getElementById('admin-content-directory');
 
-            tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
-            tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
-            contentReg.classList.add('hidden');
-            contentDir.classList.add('hidden');
+            btnReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+            btnDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+            contReg.classList.add('hidden');
+            contDir.classList.add('hidden');
 
             if (tabName === 'register') {
-                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                contentReg.classList.remove('hidden');
+                btnReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
+                contReg.classList.remove('hidden');
             } else {
-                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                contentDir.classList.remove('hidden');
+                btnDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
+                contDir.classList.remove('hidden');
                 renderAdminStudentsDirectory();
             }
         };
 
-        function updateAdminStats() {
+        function recalculateAdminStats() {
             document.getElementById('stat-total-students').innerText = studentsList.length;
             document.getElementById('stat-active-students').innerText = studentsList.filter(s => s.inHalaqah).length;
             document.getElementById('stat-pending-students').innerText = studentsList.filter(s => !s.inHalaqah).length;
             document.getElementById('stat-paid-students').innerText = studentsList.filter(s => s.paymentStatus === 'Lunas').length;
         }
 
-        window.handleAdminAddStudent = async function(event) {
-            event.preventDefault();
-            const name = document.getElementById('admin-add-name').value.trim();
-            const pobDob = document.getElementById('admin-add-pobdob').value.trim();
-            const phone = document.getElementById('admin-add-phone').value.trim();
-            const memorized = document.getElementById('admin-add-memorized').value;
-            const address = document.getElementById('admin-add-address').value.trim();
-            const room = document.getElementById('admin-add-room').value;
-            const program = document.getElementById('admin-add-program').value;
-            const celengan = document.getElementById('admin-add-celengan').value.trim();
-            const arrivalDate = document.getElementById('admin-add-arrival-date').value;
-            const paystatus = document.getElementById('admin-add-paystatus').value;
-            const motivation = document.getElementById('admin-add-motivation').value.trim();
-
-            const facBuku = document.getElementById('admin-add-fac-buku').checked;
-            const facMeja = document.getElementById('admin-add-fac-meja').checked;
-            const facKerudung = document.getElementById('admin-add-fac-kerudung').checked;
-            const facLoker = document.getElementById('admin-add-fac-loker').checked;
-
-            const feeRegActive = document.getElementById('admin-add-fee-reg').checked;
-            const feeSpp1Active = document.getElementById('admin-add-fee-spp1').checked;
-            const feeReRegVal = parseInt(document.getElementById('admin-add-fee-rereg').value) || 0;
-
+        window.handleAdminAddStudent = function(e) {
+            e.preventDefault();
             const newId = "s_" + Date.now();
+            const name = document.getElementById('admin-add-name').value.trim();
+            const room = document.getElementById('admin-add-room').value;
+
             const newStudent = {
                 id: newId,
-                name, pobDob, address, parentPhone: phone,
-                memorizedBefore: memorized, celenganTarget: celengan, motivation,
-                arrivalDate, room, program, paymentStatus: paystatus,
-                facBuku, facMeja, facKerudung, facLoker,
-                feeReg: feeRegActive ? 250000 : 0,
-                feeSpp1: feeSpp1Active ? 900000 : 0,
-                feeReReg: feeReRegVal,
-                setoranAwal: "Belum Menyetor", latestSetoran: "Belum Menyetor",
-                targetMingguan: "5 Halaman", statusCapaian: "Belum Tercapai",
-                weeklyProgress: "Inisialisasi", totalJuz: 0.0,
-                positiveNotes: "Santri baru terdaftar sistem.", negativeNotes: "",
-                syahriyah: paystatus, daftarUlang: feeReRegVal > 0 ? 'Cicil' : 'Belum Lunas',
-                catatanLain: "Menunggu masuk halaqah resmi.", inHalaqah: false
+                name: name,
+                pobDob: document.getElementById('admin-add-pobdob').value.trim(),
+                address: document.getElementById('admin-add-address').value.trim(),
+                parentPhone: document.getElementById('admin-add-phone').value.trim(),
+                memorizedBefore: document.getElementById('admin-add-memorized').value,
+                celenganTarget: document.getElementById('admin-add-celengan').value.trim(),
+                motivation: document.getElementById('admin-add-motivation').value.trim() || "Mengabdi pada Al-Qur'an",
+                arrivalDate: document.getElementById('admin-add-arrival-date').value,
+                room: room,
+                program: document.getElementById('admin-add-program').value,
+                paymentStatus: document.getElementById('admin-add-paystatus').value,
+                facBuku: document.getElementById('admin-add-fac-buku').checked,
+                facMeja: document.getElementById('admin-add-fac-meja').checked,
+                facKerudung: document.getElementById('admin-add-fac-kerudung').checked,
+                facLoker: document.getElementById('admin-add-fac-loker').checked,
+                inHalaqah: false,
+                totalJuz: 0.0,
+                setoranAwal: 'Belum Setoran',
+                setoranAkhir: '-',
+                targetMingguan: '4 Halaman',
+                statusCapaian: 'Belum Tercapai',
+                perkembanganPositif: 'Proses adaptasi awal asrama',
+                catatanNegatif: 'Nihil',
+                daftarUlangStatus: (parseInt(document.getElementById('admin-add-fee-rereg').value) > 0) ? 'Lunas' : 'Belum Lunas',
+                catatanLain: 'Baru mendaftar di kesekretariat.'
             };
+
+            const feeReg = document.getElementById('admin-add-fee-reg').checked ? 250000 : 0;
+            const feeSpp = document.getElementById('admin-add-fee-spp1').checked ? 900000 : 0;
+            const feeRereg = parseInt(document.getElementById('admin-add-fee-rereg').value) || 0;
 
             studentsList.push(newStudent);
             saveLocalData();
-            await syncInsertToCloud('santri_students', newStudent);
+            syncInsertToCloud('santri_students', newStudent);
+
+            const initialLog = {
+                id: "log_" + Date.now(),
+                student_id: newId,
+                date: "Inisialisasi",
+                setoran_awal: "Pendaftaran",
+                setoran_akhir: "Santri Baru",
+                total_juz: 0.0,
+                pos: "Terdaftar Resmi",
+                neg: "Nihil"
+            };
+            tahfidzLogs.push(initialLog);
+            saveLocalData();
+            syncInsertToCloud('tahfidz_logs', initialLog);
+
+            showToast(`Santriwati ${name} Berhasil Didaftarkan!`, 'success');
+            recalculateAdminStats();
             
-            showToast("Santri baru berhasil didaftarkan ke sistem sekretariat!");
-            event.target.reset();
-            updateAdminStats();
-            openReceiptModal(newId);
+            openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
+            e.target.reset();
+        };
+
+        window.handleUpdatePins = function(e) {
+            e.preventDefault();
+            systemPins['admin'] = document.getElementById('pin-cfg-admin').value;
+            systemPins['Ayu'] = document.getElementById('pin-cfg-ayu').value;
+            systemPins['Ayuniz'] = document.getElementById('pin-cfg-ayuniz').value;
+            systemPins['Rima'] = document.getElementById('pin-cfg-rima').value;
+            systemPins['Nafis'] = document.getElementById('pin-cfg-nafis').value;
+
+            localStorage.setItem('karima_system_pins', JSON.stringify(systemPins));
+            showToast("Seluruh Kredensial PIN Otoritas Diperbarui!", "success");
         };
 
         window.renderAdminStudentsDirectory = function() {
             const listContainer = document.getElementById('admin-students-directory-list');
-            const searchQ = document.getElementById('admin-search-student').value.toLowerCase();
+            const searchQ = document.getElementById('admin-search-student').value.toLowerCase().trim();
             const filterU = document.getElementById('admin-filter-ustazah').value;
-            
+
             listContainer.innerHTML = '';
-            
-            const filtered = studentsList.filter(s => {
-                const matchesSearch = s.name.toLowerCase().includes(searchQ) || s.id.toLowerCase().includes(searchQ);
-                const matchesFilter = filterU === 'all' || s.room === filterU;
-                return matchesSearch && matchesFilter;
-            });
+
+            let filtered = studentsList;
+            if (filterU !== 'all') {
+                filtered = filtered.filter(s => s.room === filterU);
+            }
+            if (searchQ) {
+                filtered = filtered.filter(s => s.name.toLowerCase().includes(searchQ) || s.id.toLowerCase().includes(searchQ));
+            }
 
             if (filtered.length === 0) {
-                listContainer.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Tidak ada arsip santriwati yang cocok.</td></tr>`;
+                listContainer.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 font-bold">Tidak ada data santriwati yang sesuai filter.</td></tr>`;
                 return;
             }
 
@@ -1816,112 +1723,80 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
                 
-                const badgeHalaqah = s.inHalaqah 
-                    ? `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-md">AKTIF MENGAJI</span>` 
-                    : `<span class="bg-amber-100 text-amber-800 text-[9px] font-black px-2 py-0.5 rounded-md">PENDING APPROVAL</span>`;
-                
-                const badgeSPP = s.paymentStatus === 'Lunas'
-                    ? `<span class="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-md">LUNAS</span>`
-                    : `<span class="bg-rose-500 text-white text-[9px] font-black px-2 py-0.5 rounded-md">PENDING</span>`;
+                const halaqahBadge = s.inHalaqah 
+                    ? `<span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-[10px] font-black"><i class="fa-solid fa-circle-check"></i> Aktif Halaqah</span>`
+                    : `<span class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full text-[10px] font-black animate-pulse"><i class="fa-solid fa-clock"></i> Pending (Ustazah)</span>`;
+
+                const payBadge = s.paymentStatus === 'Lunas'
+                    ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-200 font-extrabold text-[10px]">Lunas SPP</span>`
+                    : `<span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded border border-rose-200 font-extrabold text-[10px]">Belum Lunas</span>`;
 
                 tr.innerHTML = `
                     <td class="p-3">
-                        <p class="font-extrabold text-slate-900">${s.name}</p>
-                        <p class="text-[10px] text-slate-400 font-mono">WA: ${s.parentPhone || '-'}</p>
+                        <p class="font-extrabold text-slate-900 text-xs">${s.name}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5 font-mono">${s.id} | WA: ${s.parentPhone}</p>
                     </td>
-                    <td class="p-3">
-                        <p class="font-bold text-slate-700 text-[11px]">${s.program}</p>
-                        <p class="text-[9px] text-emerald-800 font-extrabold">Target: ${s.celenganTarget}</p>
-                    </td>
-                    <td class="p-3 text-center font-bold text-slate-800">Ustazah ${s.room}</td>
-                    <td class="p-3 text-center">${badgeHalaqah}</td>
-                    <td class="p-3 text-center">${badgeSPP}</td>
-                    <td class="p-3 text-center flex items-center justify-center gap-1.5 pt-4">
-                        <button onclick="openReceiptModal('${s.id}')" class="p-1.5 text-emerald-700 hover:bg-emerald-50 rounded-lg text-xs" title="Cetak Kuitansi"><i class="fa-solid fa-receipt"></i></button>
-                        <button onclick="openEditStudentModal('${s.id}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg text-xs" title="Edit Full Data"><i class="fa-solid fa-user-pen"></i></button>
-                        <button onclick="triggerDeleteStudent('${s.id}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg text-xs" title="Hapus Permanen"><i class="fa-solid fa-trash-can"></i></button>
+                    <td class="p-3 font-bold text-slate-700 text-[11px]">${s.program} <br/><span class="text-[9px] text-slate-400">Target: ${s.celenganTarget}</span></td>
+                    <td class="p-3 text-center font-extrabold text-slate-800 text-[11px]">Ustz. ${s.room}</td>
+                    <td class="p-3 text-center">${halaqahBadge}</td>
+                    <td class="p-3 text-center">${payBadge}</td>
+                    <td class="p-3 text-center space-x-1 whitespace-nowrap">
+                        <button onclick="openEditStudentModal('${s.id}')" class="bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-user-pen"></i> Edit</button>
+                        <button onclick="triggerDirectReceiptPrint('${s.id}')" class="bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-receipt"></i> Kuitansi</button>
+                        <button onclick="deleteStudentData('${s.id}')" class="bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-trash-can"></i> Hapus</button>
                     </td>
                 `;
                 listContainer.appendChild(tr);
             });
         };
 
-        function populatePinConfigForm() {
-            document.getElementById('pin-cfg-admin').value = systemPins.admin;
-            document.getElementById('pin-cfg-ayu').value = systemPins.Ayu;
-            document.getElementById('pin-cfg-ayuniz').value = systemPins.Ayuniz;
-            document.getElementById('pin-cfg-rima').value = systemPins.Rima;
-            document.getElementById('pin-cfg-nafis').value = systemPins.Nafis;
-        }
+        window.deleteStudentData = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
 
-        window.handleUpdatePins = function(event) {
-            event.preventDefault();
-            systemPins.admin = document.getElementById('pin-cfg-admin').value;
-            systemPins.Ayu = document.getElementById('pin-cfg-ayu').value;
-            systemPins.Ayuniz = document.getElementById('pin-cfg-ayuniz').value;
-            systemPins.Rima = document.getElementById('pin-cfg-rima').value;
-            systemPins.Nafis = document.getElementById('pin-cfg-nafis').value;
-
-            localStorage.setItem('karima_system_pins', JSON.stringify(systemPins));
-            showToast("Seluruh PIN sistem keamanan berhasil diperbarui.");
-        };
-
-        function triggerConfirm(title, message, callback) {
-            document.getElementById('confirm-title').innerText = title;
-            document.getElementById('confirm-message').innerText = message;
-            const modal = document.getElementById('confirm-modal');
-            modal.classList.remove('hidden');
-            
-            confirmCallback = callback;
-
-            document.getElementById('confirm-btn-cancel').onclick = () => {
-                modal.classList.add('hidden');
-                confirmCallback = null;
-            };
-            document.getElementById('confirm-btn-ok').onclick = () => {
-                modal.classList.add('hidden');
-                if (confirmCallback) confirmCallback();
-                confirmCallback = null;
-            };
-        }
-
-        window.triggerDeleteStudent = function(studentId) {
-            triggerConfirm(
-                "Hapus Data Santri",
-                "Apakah Anda yakin ingin menghapus data santriwati ini secara permanen dari database lokal & cloud?",
+            openConfirmModal(
+                "Hapus Permanen Santriwati",
+                `Apakah Anda yakin ingin menghapus seluruh berkas & riwayat KHS untuk ${student.name}? Tindakan ini tidak bisa dibatalkan.`,
                 async () => {
                     studentsList = studentsList.filter(s => s.id !== studentId);
                     tahfidzLogs = tahfidzLogs.filter(l => l.student_id !== studentId);
                     saveLocalData();
                     await syncDeleteFromCloud('santri_students', studentId);
-                    showToast("Data santriwati berhasil dihapus.");
-                    updateAdminStats();
+                    
+                    showToast(`Data ${student.name} berhasil dimusnahkan.`, "success");
+                    recalculateAdminStats();
                     renderAdminStudentsDirectory();
                 }
             );
         };
 
-        window.renderUstazahWorkspace = function() {
-            const currentU = currentRole.replace('ustazah_', '');
-            document.getElementById('ustazah-directory-title').innerText = `Form Halaqah Ustazah ${currentU}`;
+        window.triggerDirectReceiptPrint = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+            openReceiptModal(student, 250000, 900000, 0); 
+        };
+
+        function renderUstazahInterface() {
+            const activeUstazah = currentRole.replace('ustazah_', '');
+            document.getElementById('ustazah-directory-title').innerText = `Form Input Halaqah - Ustazah ${activeUstazah}`;
             
             const pendingSection = document.getElementById('ustazah-pending-section');
             const pendingList = document.getElementById('ustazah-pending-list');
-            const pendingStudents = studentsList.filter(s => s.room === currentU && !s.inHalaqah);
+            const pendingStudents = studentsList.filter(s => s.room === activeUstazah && !s.inHalaqah);
 
             if (pendingStudents.length > 0) {
                 pendingSection.classList.remove('hidden');
                 pendingList.innerHTML = '';
                 pendingStudents.forEach(s => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-amber-50/50 text-slate-700 font-medium";
+                    tr.className = "border-b border-amber-100 text-slate-700 font-medium";
                     tr.innerHTML = `
-                        <td class="p-3 font-extrabold text-slate-900">${s.name}</td>
-                        <td class="p-3 text-[11px] text-slate-500">${s.pobDob}</td>
-                        <td class="p-3 text-[11px] font-bold text-emerald-900">${s.program} (${s.celenganTarget})</td>
+                        <td class="p-3"><strong>${s.name}</strong><br/><span class="text-[9px] text-slate-400">${s.id}</span></td>
+                        <td class="p-3 text-[11px]">${s.pobDob}<br/><span class="text-[9px] text-slate-400">${s.address}</span></td>
+                        <td class="p-3 font-bold text-[11px] text-emerald-900">${s.program} (${s.celenganTarget})</td>
                         <td class="p-3 text-center">
-                            <button onclick="approveToHalaqah('${s.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[10px] font-black px-3 py-1 rounded-xl transition shadow-xs">
-                                <i class="fa-solid fa-user-plus mr-1"></i> Izinkan Masuk Halaqah
+                            <button onclick="approveStudentIntoHalaqah('${s.id}')" class="bg-emerald-700 text-white hover:bg-emerald-800 font-black text-[10px] px-3 py-1.5 rounded-xl shadow-xs transition flex items-center gap-1 mx-auto">
+                                <i class="fa-solid fa-user-plus"></i> Terima Santri
                             </button>
                         </td>
                     `;
@@ -1931,138 +1806,84 @@
                 pendingSection.classList.add('hidden');
             }
 
-            const selectEl = document.getElementById('ustazah-student-select');
-            selectEl.innerHTML = '';
-            const activeStudents = studentsList.filter(s => s.room === currentU && s.inHalaqah);
+            const selectBox = document.getElementById('ustazah-student-select');
+            const activeStudents = studentsList.filter(s => s.room === activeUstazah && s.inHalaqah);
+            selectBox.innerHTML = '';
             
-            activeStudents.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.id;
-                opt.innerText = s.name;
-                selectEl.appendChild(opt);
-            });
+            if (activeStudents.length === 0) {
+                selectBox.innerHTML = `<option value="">Tidak ada santri aktif di halaqah ini</option>`;
+            } else {
+                activeStudents.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.innerText = `${s.name} (${s.totalJuz} Juz)`;
+                    selectBox.appendChild(opt);
+                });
+            }
 
-            const activeListContainer = document.getElementById('ustazah-active-list');
-            activeListContainer.innerHTML = '';
+            const cardsContainer = document.getElementById('ustazah-active-list');
+            cardsContainer.innerHTML = '';
 
             if (activeStudents.length === 0) {
-                activeListContainer.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold bg-slate-50 rounded-2xl border border-dashed">Belum ada anggota aktif di halaqah ini.</div>`;
+                cardsContainer.innerHTML = `
+                    <div class="text-center p-12 bg-slate-50 border border-dashed border-slate-200 rounded-3xl text-slate-400 font-bold">
+                        <i class="fa-solid fa-people-slash text-3xl block mb-2 text-slate-300"></i> Belum ada anggota halaqah yang diaktifkan.
+                    </div>`;
                 return;
             }
 
             activeStudents.forEach(s => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-50 hover:bg-slate-100/70 border border-slate-200/80 p-4 rounded-2xl transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+                card.className = "bg-slate-50 hover:bg-emerald-50/40 p-4 rounded-2xl border border-slate-200/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4";
                 
-                const encodedMsg = encodeURIComponent(`Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\nBerikut Laporan Perkembangan Tahfidz terkini untuk putri Anda, *${s.name}*:\n- Total Hafalan: *${s.totalJuz || 0} Juz*\n- Setoran Terakhir: *${s.latestSetoran || '-'}*\n- Catatan Perkembangan: _${s.positiveNotes || '-'}_ \n\nSyukron, Jazakumullah Khairan.`);
-                const waUrl = `https://wa.me/${s.parentPhone}?text=${encodedMsg}`;
-
+                const statusColor = s.statusCapaian === 'Tercapai' ? 'text-emerald-700 bg-emerald-100' : 'text-amber-700 bg-amber-100';
+                
                 card.innerHTML = `
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-                            <h4 class="font-extrabold text-xs text-slate-900">${s.name}</h4>
+                    <div class="space-y-1.5 flex-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-black text-slate-900">${s.name}</span>
+                            <span class="text-[9px] px-2 py-0.5 rounded-full font-black ${statusColor}">${s.statusCapaian}</span>
                         </div>
-                        <p class="text-[11px] text-slate-500 font-medium">Setoran Akhir: <strong class="text-emerald-800">${s.latestSetoran || 'Belum'}</strong> | Total: <strong class="text-slate-800">${s.totalJuz || 0} Juz</strong></p>
-                        <p class="text-[10px] text-slate-400 italic max-w-md line-clamp-1">Obs: ${s.positiveNotes || '-'}</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-bold text-slate-500">
+                            <p>Hafalan: <strong class="text-emerald-800 font-extrabold">${s.totalJuz} Juz</strong></p>
+                            <p class="truncate">Setoran: <strong class="text-slate-700">${s.setoranAkhir}</strong></p>
+                            <p>SPP: <strong class="${s.paymentStatus === 'Lunas' ? 'text-emerald-700':'text-rose-600'}">${s.paymentStatus}</strong></p>
+                            <p>Daftar Ulang: <strong class="text-slate-700">${s.daftarUlangStatus || 'Lunas'}</strong></p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-1.5 w-full sm:w-auto justify-end">
-                        <a href="${waUrl}" target="_blank" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1">
-                            <i class="fa-brands fa-whatsapp text-emerald-600 text-xs"></i> Lapor Wali
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <a href="https://wa.me/${s.parentPhone}" target="_blank" class="bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200 p-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-2xs">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden md:inline">Wali</span>
                         </a>
-                        <button onclick="viewKHSFromUstazah('${s.id}')" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1">
-                            <i class="fa-solid fa-graduation-cap text-emerald-700"></i> Buka KHS
+                        <button onclick="triggerUstazahViewKHS('${s.id}')" class="bg-emerald-700 hover:bg-emerald-850 text-white p-2.5 rounded-xl text-xs font-black transition flex items-center gap-1 shadow-xs">
+                            <i class="fa-solid fa-chart-line"></i> Tinjau KHS
                         </button>
                     </div>
                 `;
-                activeListContainer.appendChild(card);
+                cardsContainer.appendChild(card);
             });
-        };
+        }
 
-        window.approveToHalaqah = async function(studentId) {
+        window.approveStudentIntoHalaqah = async function(studentId) {
             const student = studentsList.find(s => s.id === studentId);
-            if (student) {
-                student.inHalaqah = true;
-                student.positiveNotes = "Telah dikonfirmasi masuk halaqah aktif oleh pembina asrama.";
-                saveLocalData();
-                await syncUpdateToCloud('santri_students', studentId, { inHalaqah: true, positiveNotes: student.positiveNotes });
-                showToast(`Alhamdulillah, ${student.name} resmi diterima masuk halaqah.`);
-                renderUstazahWorkspace();
-            }
-        };
-
-        window.handleUstazahSetoranSubmit = async function(event) {
-            event.preventDefault();
-            const id = document.getElementById('ustazah-student-select').value;
-            if (!id) {
-                showToast("Pilih nama santri terlebih dahulu.", "danger");
-                return;
-            }
-
-            const student = studentsList.find(s => s.id === id);
             if (!student) return;
 
-            const setAwal = document.getElementById('ustazah-setoran-awal').value.trim();
-            const setAkhir = document.getElementById('ustazah-setoran-akhir').value.trim();
-            const targetMinggu = document.getElementById('ustazah-target-mingguan').value.trim();
-            const statusCapai = document.getElementById('ustazah-status-capaian').value;
-            const totalJ = parseFloat(document.getElementById('ustazah-total-juz').value) || 0;
-            const posNotes = document.getElementById('ustazah-perkembangan-positif').value.trim();
-            const negNotes = document.getElementById('ustazah-catatan-negatif').value.trim();
-            const syahriyahVal = document.getElementById('ustazah-syahriyah').value;
-            const daftarUlangVal = document.getElementById('ustazah-daftar-ulang').value;
-            const catatanLainVal = document.getElementById('ustazah-catatan-lain').value.trim();
-
-            student.setoranAwal = setAwal;
-            student.latestSetoran = setAkhir;
-            student.targetMingguan = targetMinggu;
-            student.statusCapaian = statusCapai;
-            student.totalJuz = totalJ;
-            student.positiveNotes = posNotes || "Mengikuti ritme halaqah dengan stabil.";
-            student.negativeNotes = negNotes;
-            student.syahriyah = syahriyahVal;
-            student.daftarUlang = daftarUlangVal;
-            student.catatanLain = catatanLainVal;
-            student.paymentStatus = syahriyahVal; 
-
-            const newLogId = "log_" + Date.now();
-            const logPayload = {
-                id: newLogId,
-                student_id: student.id,
-                date: new Date().toISOString().split('T')[0],
-                setoran_awal: setAwal,
-                latest_setoran: setAkhir,
-                target_mingguan: targetMinggu,
-                status_capaian: statusCapai,
-                total_juz: totalJ,
-                positive_notes: student.positiveNotes,
-                negative_notes: negNotes,
-                syahriyah: syahriyahVal,
-                daftar_ulang: daftarUlangVal,
-                catatan_lain: catatanLainVal
-            };
-
-            tahfidzLogs.unshift(logPayload);
+            student.inHalaqah = true;
             saveLocalData();
+            await syncUpdateToCloud('santri_students', studentId, { inHalaqah: true });
 
-            await syncUpdateToCloud('santri_students', student.id, student);
-            await syncInsertToCloud('tahfidz_logs', logPayload);
-
-            showToast(`Data mutabaah harian untuk ${student.name} berhasil disimpan & KHS diperbarui.`);
-            event.target.reset();
-            renderUstazahWorkspace();
+            showToast(`Otorisasi Berhasil! ${student.name} masuk halaqah aktif Anda.`, 'success');
+            renderUstazahInterface();
         };
 
-        window.viewKHSFromUstazah = function(studentId) {
-            const student = studentsList.find(s => s.id === studentId);
-            if (student) {
-                currentWaliStudent = student;
-                document.getElementById('view-ustazah').classList.add('hidden');
-                document.getElementById('view-wali').classList.remove('hidden');
-                document.getElementById('parent-back-btn-container').classList.remove('hidden');
-                document.getElementById('control-reset-panel').classList.add('hidden');
-                renderWaliWorkspace();
-            }
+        window.triggerUstazahViewKHS = function(studentId) {
+            const targetStudent = studentsList.find(s => s.id === studentId);
+            if (!targetStudent) return;
+            
+            document.getElementById('view-ustazah').classList.add('hidden');
+            document.getElementById('view-wali').classList.remove('hidden');
+            document.getElementById('parent-back-btn-container').classList.remove('hidden'); 
+            renderWaliKHS(studentId);
         };
 
         window.goBackToDashboard = function() {
@@ -2070,148 +1891,220 @@
             setupActiveWorkspace();
         };
 
-        window.refreshWaliData = async function() {
-            showToast("Sinkronisasi data privat santri...");
-            if (isCloudMode) {
-                await fetchCloudData();
-                if (currentWaliStudent) {
-                    currentWaliStudent = studentsList.find(s => s.id === currentWaliStudent.id) || currentWaliStudent;
-                }
+        window.handleUstazahSetoranSubmit = async function(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('ustazah-student-select').value;
+            if (!studentId) {
+                showToast("Silahkan pilih santriwati terlebih dahulu.", "error");
+                return;
             }
-            renderWaliWorkspace();
+
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+
+            const setAwal = document.getElementById('ustazah-setoran-awal').value.trim();
+            const setAkhir = document.getElementById('ustazah-setoran-akhir').value.trim();
+            const targetMinggu = document.getElementById('ustazah-target-mingguan').value.trim();
+            const statusCapai = document.getElementById('ustazah-status-capaian').value;
+            const totalJuzInput = parseFloat(document.getElementById('ustazah-total-juz').value) || 0.0;
+            const pos = document.getElementById('ustazah-perkembangan-positif').value.trim() || "Menunjukkan kemajuan hafalan.";
+            const neg = document.getElementById('ustazah-catatan-negatif').value.trim() || "Nihil";
+            const syahriyah = document.getElementById('ustazah-syahriyah').value;
+            const daftarUlang = document.getElementById('ustazah-daftar-ulang').value;
+            const catatanLain = document.getElementById('ustazah-catatan-lain').value.trim() || "Sehat wal afiat.";
+
+            student.setoranAwal = setAwal;
+            student.setoranAkhir = setAkhir;
+            student.targetMingguan = targetMinggu;
+            student.statusCapaian = statusCapai;
+            student.totalJuz = totalJuzInput;
+            student.perkembanganPositif = pos;
+            student.catatanNegatif = neg;
+            student.paymentStatus = syahriyah;
+            student.daftarUlangStatus = daftarUlang;
+            student.catatanLain = catatanLain;
+
+            saveLocalData();
+            await syncUpdateToCloud('santri_students', studentId, {
+                setoranAwal: setAwal,
+                setoranAkhir: setAkhir,
+                targetMingguan: targetMinggu,
+                statusCapaian: statusCapai,
+                totalJuz: totalJuzInput,
+                perkembanganPositif: pos,
+                catatanNegatif: neg,
+                paymentStatus: syahriyah,
+                daftarUlangStatus: daftarUlang,
+                catatanLain: catatanLain
+            });
+
+            const newLog = {
+                id: "log_" + Date.now(),
+                student_id: studentId,
+                date: new Date().toISOString().split('T')[0],
+                setoran_awal: setAwal,
+                setoran_akhir: setAkhir,
+                total_juz: totalJuzInput,
+                pos: pos,
+                neg: neg
+            };
+            tahfidzLogs.unshift(newLog);
+            saveLocalData();
+            await syncInsertToCloud('tahfidz_logs', newLog);
+
+            showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan!`, 'success');
+            renderUstazahInterface();
+            e.target.reset();
         };
 
-        window.renderWaliWorkspace = function() {
-            const s = currentWaliStudent;
+        window.renderWaliKHS = function(studentId) {
+            const s = studentsList.find(st => st.id === studentId);
             if (!s) return;
 
             document.getElementById('wali-khs-initial').innerText = s.name.charAt(0).toUpperCase();
             document.getElementById('wali-khs-name').innerText = s.name;
-            document.getElementById('wali-khs-pobdob').innerText = s.pobDob || '-';
-            document.getElementById('wali-khs-parent').innerText = s.parentPhone || '-';
-            document.getElementById('wali-khs-address').innerText = s.address || '-';
-            document.getElementById('wali-khs-program').innerText = s.program || 'Reguler';
-            document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room} - ${getHalaqahName(s.room)}`;
-            document.getElementById('wali-khs-celengan').innerText = s.celenganTarget || '5 Juz';
+            document.getElementById('wali-khs-pobdob').innerText = s.pobDob;
+            document.getElementById('wali-khs-parent').innerText = s.parentPhone;
+            document.getElementById('wali-khs-address').innerText = s.address;
+            document.getElementById('wali-khs-program').innerText = s.program;
+            document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room}`;
+            document.getElementById('wali-khs-celengan').innerText = s.celenganTarget || "5 Juz";
+            document.getElementById('wali-khs-parent-signature').innerText = `Wali, ${s.name}`;
 
-            document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal || '-';
-            document.getElementById('wali-khs-setoran-akhir').innerText = s.latestSetoran || '-';
-            document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan || '-';
-            document.getElementById('wali-khs-status-capaian').innerText = s.statusCapaian || 'Belum';
+            document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal;
+            document.getElementById('wali-khs-setoran-akhir').innerText = s.setoranAkhir;
+            document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan;
+            
+            const capBox = document.getElementById('wali-khs-status-capaian');
+            capBox.innerText = s.statusCapaian;
+            capBox.className = s.statusCapaian === 'Tercapai' ? "font-extrabold text-emerald-700 mt-1 block" : "font-extrabold text-amber-600 mt-1 block";
 
-            const capEl = document.getElementById('wali-khs-status-capaian');
-            if (s.statusCapaian === 'Tercapai') {
-                capEl.className = "font-extrabold text-emerald-800 mt-1 block";
-            } else {
-                capEl.className = "font-extrabold text-amber-600 mt-1 block";
-            }
+            document.getElementById('wali-khs-perkembangan-positif').innerText = s.perkembanganPositif;
+            document.getElementById('wali-khs-catatan-negatif').innerText = s.catatanNegatif;
+            document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || "Nihil";
 
-            document.getElementById('wali-khs-perkembangan-positif').innerText = s.positiveNotes || '-';
-            document.getElementById('wali-khs-catatan-negatif').innerText = s.negativeNotes || 'Tidak ada evaluasi kritis pekan ini.';
-            document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || 'Kondisi asrama kondusif.';
+            const sppBadge = document.getElementById('wali-khs-syahriyah-badge');
+            sppBadge.innerText = s.paymentStatus === 'Lunas' ? 'LUNAS SELESAI' : 'MENUNGGU (PENDING)';
+            sppBadge.className = s.paymentStatus === 'Lunas' 
+                ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-emerald-100 text-emerald-800" 
+                : "px-2.5 py-1 rounded-full font-black text-[9px] bg-rose-100 text-rose-800";
 
-            const badgeSpp = document.getElementById('wali-khs-syahriyah-badge');
-            badgeSpp.innerText = s.syahriyah === 'Lunas' ? 'LUNAS VALIDA' : 'BELUM BAYAR';
-            badgeSpp.className = s.syahriyah === 'Lunas' 
-                ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-emerald-100 text-emerald-800' 
-                : 'px-2.5 py-1 rounded-full font-black text-[10px] bg-rose-100 text-rose-700';
+            const duBadge = document.getElementById('wali-khs-daftarulang-badge');
+            const duStatus = s.daftarUlangStatus || 'Belum Lunas';
+            duBadge.innerText = duStatus === 'Lunas' ? 'LUNAS FISIK' : (duStatus === 'Cicil' ? 'MENCICIL' : 'PENDING');
+            duBadge.className = duStatus === 'Lunas' 
+                ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-emerald-100 text-emerald-800" 
+                : (duStatus === 'Cicil' ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-amber-100 text-amber-800" : "px-2.5 py-1 rounded-full font-black text-[9px] bg-rose-100 text-rose-800");
 
-            const badgeDu = document.getElementById('wali-khs-daftarulang-badge');
-            badgeDu.innerText = s.daftarUlang === 'Lunas' ? 'LUNAS FISIK' : s.daftarUlang === 'Cicil' ? 'MENCICIL' : 'PENDING';
-            badgeDu.className = s.daftarUlang === 'Lunas'
-                ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-emerald-100 text-emerald-800'
-                : s.daftarUlang === 'Cicil' ? 'px-2.5 py-1 rounded-full font-black text-[10px] bg-amber-100 text-amber-800'
-                : 'px-2.5 py-1 rounded-full font-black text-[10px] bg-rose-100 text-rose-700';
+            const currentFullMonth = new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+            document.getElementById('wali-khs-spp-status-label').innerText = `Syahriyah ${currentFullMonth}`;
 
-            const petaContainer = document.getElementById('peta-tahfidz-container');
-            petaContainer.innerHTML = '';
-            const currentTotalJuz = s.totalJuz || 0;
+            const visualMapContainer = document.getElementById('peta-tahfidz-container');
+            visualMapContainer.innerHTML = '';
+            
+            const roundedActiveJuz = Math.floor(s.totalJuz || 0);
 
             for (let i = 1; i <= 30; i++) {
                 const circle = document.createElement('div');
-                circle.className = "aspect-square rounded-full flex flex-col items-center justify-center text-[9px] font-black transition-all relative group";
+                circle.className = "flex flex-col items-center justify-center p-1 rounded-xl text-[9px] font-black border transition-all duration-300";
                 
-                if (i <= Math.floor(currentTotalJuz)) {
-                    circle.classList.add('bg-emerald-700', 'text-white', 'scale-100', 'shadow-xs');
-                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-check text-[6px] absolute bottom-0.5 text-emerald-200"></i>`;
-                } else if (i === Math.ceil(currentTotalJuz) && currentTotalJuz % 1 !== 0) {
-                    circle.classList.add('bg-gradient-to-r', 'from-emerald-700', 'to-slate-200', 'text-emerald-950', 'animate-pulse');
-                    circle.innerHTML = `<span>${i}</span>`;
+                if (i <= roundedActiveJuz) {
+                    circle.className += " bg-gradient-to-br from-emerald-700 to-emerald-900 text-white border-emerald-600 shadow-xs ring-2 ring-emerald-100";
+                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-square-check text-[7px] text-emerald-300 mt-0.5"></i>`;
+                } else if (i === roundedActiveJuz + 1 && (s.totalJuz % 1) > 0) {
+                    circle.className += " bg-emerald-50 text-emerald-800 border-emerald-400 border-dashed animate-pulse";
+                    circle.innerHTML = `<span>${i}</span><span class="text-[6px] tracking-tighter text-emerald-600 font-medium">Proses</span>`;
                 } else {
-                    circle.classList.add('bg-slate-100', 'text-slate-400', 'border', 'border-slate-200');
-                    circle.innerHTML = `<span>${i}</span>`;
+                    circle.className += " bg-white text-slate-300 border-slate-150";
+                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-circle text-[5px] text-slate-200 mt-1"></i>`;
                 }
-                petaContainer.appendChild(circle);
+                visualMapContainer.appendChild(circle);
             }
 
             const timelineContainer = document.getElementById('wali-timeline-container');
             timelineContainer.innerHTML = '';
-            const logs = tahfidzLogs.filter(l => l.student_id === s.id);
-
-            if (logs.length === 0) {
-                timelineContainer.innerHTML = `<p class="text-xs text-slate-400 font-bold italic py-2">Belum ada linimasa histori setoran. Menunggu entri perdana Ustazah.</p>`;
+            
+            const studentLogs = tahfidzLogs.filter(l => l.student_id === studentId);
+            
+            if (studentLogs.length === 0) {
+                timelineContainer.innerHTML = `<p class="text-[11px] font-bold text-slate-400 text-center py-4">Belum memiliki riwayat setoran mingguan.</p>`;
             } else {
-                logs.forEach(l => {
-                    const item = document.createElement('div');
-                    item.className = "bg-slate-50 border border-slate-200/60 p-3 rounded-2xl flex justify-between items-start text-xs gap-3";
-                    item.innerHTML = `
-                        <div class="space-y-0.5">
-                            <span class="text-[9px] font-black bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded-sm uppercase tracking-wide">${getFormattedMonthWeek(l.date)}</span>
-                            <p class="font-extrabold text-slate-800 mt-1">Setoran: <span class="text-emerald-800">${l.setoran_awal} s/d ${l.latest_setoran}</span></p>
-                            <p class="text-[10px] text-slate-500 font-semibold italic">Progress: ${l.positive_notes || '-'}</p>
+                studentLogs.forEach(l => {
+                    const block = document.createElement('div');
+                    block.className = "bg-slate-50 border border-slate-200/60 p-3 rounded-2xl text-[11px] leading-relaxed relative overflow-hidden";
+                    
+                    const logFormattedDate = getFormattedMonthWeek(l.date);
+                    
+                    block.innerHTML = `
+                        <div class="flex justify-between items-center border-b border-slate-150 pb-1 mb-1.5">
+                            <span class="font-extrabold text-emerald-800 uppercase text-[9px]"><i class="fa-solid fa-calendar-check"></i> ${logFormattedDate}</span>
+                            <span class="bg-white px-2 py-0.5 rounded-md border text-slate-700 font-mono text-[9px] font-black">Akumulasi: ${l.total_juz} Juz</span>
                         </div>
-                        <span class="shrink-0 bg-emerald-800 text-white font-black px-2 py-0.5 rounded-lg text-[10px]">${l.total_juz || 0} Juz</span>
+                        <p class="font-semibold text-slate-700">Setoran: <strong class="text-slate-900">${l.setoran_awal} s/d ${l.setoran_akhir}</strong></p>
+                        <p class="text-slate-500 font-medium mt-0.5"><span class="text-emerald-700 font-bold">(+)</span> ${l.pos} | <span class="text-rose-600 font-bold">(-)</span> ${l.neg}</p>
                     `;
-                    timelineContainer.appendChild(item);
+                    timelineContainer.appendChild(block);
                 });
             }
-
-            document.getElementById('wali-khs-parent-signature').innerText = `Wali ${s.name.split(' ')[0]}`;
         };
 
-        window.openReceiptModal = function(studentId) {
-            const s = studentsList.find(st => st.id === studentId);
-            if (!s) return;
+        window.refreshWaliData = async function() {
+            if (isCloudMode && supabaseClient) {
+                showToast("Menyegarkan data dari server...", "info");
+                await fetchCloudData();
+                if (currentWaliStudent) {
+                    const updated = studentsList.find(s => s.id === currentWaliStudent.id);
+                    if (updated) currentWaliStudent = updated;
+                }
+                setupActiveWorkspace();
+                showToast("Data raport paling mutakhir berhasil dimuat.", "success");
+            } else {
+                showToast("Modus luring aktif. Data diambil dari penyimpanan internal browser.", "info");
+            }
+        };
 
-            document.getElementById('receipt-reg-number').innerText = `REG-PHQ4-${s.id.toUpperCase().replace('S_', '')}`;
-            document.getElementById('receipt-print-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+        window.openReceiptModal = function(studentObj, feeReg, feeSpp, feeRereg) {
+            document.getElementById('receipt-modal').classList.remove('hidden');
             
-            document.getElementById('rec-name').innerText = s.name;
-            document.getElementById('rec-pobdob').innerText = s.pobDob || '-';
-            document.getElementById('rec-phone').innerText = s.parentPhone || '-';
-            document.getElementById('rec-celengan').innerText = s.celenganTarget || '5 Juz';
-            document.getElementById('rec-program').innerText = s.program || 'Reguler';
-            document.getElementById('rec-ustazah').innerText = `Ustazah ${s.room}`;
+            document.getElementById('receipt-reg-number').innerText = "REG-" + studentObj.id.replace('s_', '').toUpperCase();
+            document.getElementById('receipt-print-date').innerText = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            document.getElementById('rec-name').innerText = studentObj.name;
+            document.getElementById('rec-pobdob').innerText = studentObj.pobDob;
+            document.getElementById('rec-phone').innerText = studentObj.parentPhone;
+            document.getElementById('rec-celengan').innerText = studentObj.celenganTarget || "5 Juz";
+            document.getElementById('rec-program').innerText = studentObj.program;
+            document.getElementById('rec-ustazah').innerText = getHalaqahName(studentObj.room);
+            document.getElementById('rec-parent-sign').innerText = `Wali, ${studentObj.name}`;
+            document.getElementById('rec-spp').innerText = studentObj.paymentStatus === 'Lunas' ? 'LUNAS (SELESAI)' : 'PENDING (BELUM LUNAS)';
 
-            document.getElementById('rec-fee-reg').innerText = s.feeReg ? "Rp " + s.feeReg.toLocaleString('id-ID') : "Rp 0";
-            document.getElementById('rec-fee-spp1').innerText = s.feeSpp1 ? "Rp " + s.feeSpp1.toLocaleString('id-ID') : "Rp 0";
-            document.getElementById('rec-fee-rereg').innerText = s.feeReReg ? "Rp " + s.feeReReg.toLocaleString('id-ID') : "Rp 0";
+            document.getElementById('rec-fee-reg').innerText = "Rp " + feeReg.toLocaleString('id-ID');
+            document.getElementById('rec-fee-spp1').innerText = "Rp " + feeSpp.toLocaleString('id-ID');
+            document.getElementById('rec-fee-rereg').innerText = "Rp " + feeRereg.toLocaleString('id-ID');
             
-            const total = (s.feeReg || 0) + (s.feeSpp1 || 0) + (s.feeReReg || 0);
+            const total = feeReg + feeSpp + feeRereg;
             document.getElementById('rec-fee-total').innerText = "Rp " + total.toLocaleString('id-ID');
-            document.getElementById('rec-spp').innerText = s.syahriyah || 'Belum Lunas';
+
+            document.getElementById('secure-receipt-code').innerText = "AUTH-" + Math.floor(100000 + Math.random() * 900000);
 
             const logBox = document.getElementById('rec-logistics');
             logBox.innerHTML = '';
             
-            const facilities = [
-                { name: 'Buku Pegangan', active: s.facBuku },
-                { name: 'Meja Lipat', active: s.facMeja },
-                { name: 'Hijab Almamater', active: s.facKerudung },
-                { name: 'Loker Lemari', active: s.facLoker }
+            const items = [
+                { val: studentObj.facBuku, label: "Buku Pegangan" },
+                { val: studentObj.facMeja, label: "Meja Ngaji Lipat" },
+                { val: studentObj.facKerudung, label: "Hijab Almamater" },
+                { val: studentObj.facLoker, label: "Kunci Loker Lemari" }
             ];
 
-            facilities.forEach(f => {
+            items.forEach(it => {
                 const div = document.createElement('div');
-                div.className = f.active ? "p-2 bg-emerald-50 text-emerald-800 rounded-xl flex items-center gap-1.5 border border-emerald-100" : "p-2 bg-slate-100 text-slate-400 rounded-xl flex items-center gap-1.5 border border-slate-200 opacity-60";
-                div.innerHTML = `<i class="fa-solid ${f.active ? 'fa-square-check' : 'fa-square'} text-xs"></i> <span>${f.name}</span>`;
+                div.className = "flex items-center gap-1.5 p-1.5 bg-white border border-slate-200 rounded-xl";
+                div.innerHTML = it.val 
+                    ? `<i class="fa-solid fa-square-check text-emerald-600 text-xs"></i> <span class="line-through text-slate-400 truncate">${it.label}</span>`
+                    : `<i class="fa-regular fa-square text-slate-300 text-xs"></i> <span class="text-slate-600 truncate">${it.label}</span>`;
                 logBox.appendChild(div);
             });
-
-            document.getElementById('secure-receipt-code').innerText = Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('rec-parent-sign').innerText = `Wali ${s.name.split(' ')[0]}`;
-
-            document.getElementById('receipt-modal').classList.remove('hidden');
         };
 
         window.closeReceiptModal = function() {
@@ -2222,103 +2115,81 @@
             const s = studentsList.find(st => st.id === studentId);
             if (!s) return;
 
+            document.getElementById('edit-student-modal').classList.remove('hidden');
+            
             document.getElementById('edit-student-id').value = s.id;
             document.getElementById('edit-name').value = s.name;
-            document.getElementById('edit-pobdob').value = s.pobDob || '';
-            document.getElementById('edit-phone').value = s.parentPhone || '';
-            document.getElementById('edit-arrival-date').value = s.arrivalDate || '';
-            document.getElementById('edit-address').value = s.address || '';
-            
+            document.getElementById('edit-pobdob').value = s.pobDob;
+            document.getElementById('edit-phone').value = s.parentPhone;
+            document.getElementById('edit-arrival-date').value = s.arrivalDate || "";
+            document.getElementById('edit-address').value = s.address;
+            document.getElementById('edit-motivation').value = s.motivation || "";
+            document.getElementById('edit-celengan').value = s.celenganTarget || "5 Juz";
+            document.getElementById('edit-total-juz').value = s.totalJuz || 0.0;
+            document.getElementById('edit-setoran-awal').value = s.setoranAwal || "";
+            document.getElementById('edit-setoran-akhir').value = s.setoranAkhir || "";
+            document.getElementById('edit-target-mingguan').value = s.targetMingguan || "";
+            document.getElementById('edit-positive').value = s.perkembanganPositif || "";
+            document.getElementById('edit-negative').value = s.catatanNegatif || "";
+            document.getElementById('edit-catatan-lain').value = s.catatanLain || "";
+
+            document.getElementById('edit-memorized').value = s.memorizedBefore || "Belum Pernah";
+            document.getElementById('edit-room').value = s.room || "Ayu";
+            document.getElementById('edit-program').value = s.program || "Tahfidz Reguler";
+            document.getElementById('edit-paystatus').value = s.paymentStatus || "Belum Lunas";
+            document.getElementById('edit-daftarulang').value = s.daftarUlangStatus || "Belum Lunas";
+            document.getElementById('edit-inhalaqah').value = s.inHalaqah ? "true" : "false";
+
             document.getElementById('edit-fac-buku').checked = !!s.facBuku;
             document.getElementById('edit-fac-meja').checked = !!s.facMeja;
             document.getElementById('edit-fac-kerudung').checked = !!s.facKerudung;
             document.getElementById('edit-fac-loker').checked = !!s.facLoker;
-
-            document.getElementById('edit-memorized').value = s.memorizedBefore || 'Belum Pernah';
-            document.getElementById('edit-motivation').value = s.motivation || '';
-            document.getElementById('edit-room').value = s.room || 'Ayu';
-            document.getElementById('edit-program').value = s.program || 'Tahfidz Reguler';
-            document.getElementById('edit-celengan').value = s.celenganTarget || '5 Juz';
-            document.getElementById('edit-total-juz').value = s.totalJuz || 0.0;
-
-            document.getElementById('edit-setoran-awal').value = s.setoranAwal || '';
-            document.getElementById('edit-setoran-akhir').value = s.latestSetoran || '';
-            document.getElementById('edit-target-mingguan').value = s.targetMingguan || '';
-            document.getElementById('edit-status-capaian').value = s.statusCapaian || 'Belum Tercapai';
-            document.getElementById('edit-positive').value = s.positiveNotes || '';
-            document.getElementById('edit-negative').value = s.negativeNotes || '';
-            
-            document.getElementById('edit-paystatus').value = s.syahriyah || 'Belum Lunas';
-            document.getElementById('edit-daftarulang').value = s.daftarUlang || 'Belum Lunas';
-            document.getElementById('edit-inhalaqah').value = s.inHalaqah ? "true" : "false";
-            document.getElementById('edit-catatan-lain').value = s.catatanLain || '';
-
-            document.getElementById('edit-student-modal').classList.remove('hidden');
         };
 
         window.closeEditStudentModal = function() {
             document.getElementById('edit-student-modal').classList.add('hidden');
         };
 
-        window.handleSaveEditStudent = async function(event) {
-            event.preventDefault();
+        window.handleSaveEditStudent = async function(e) {
+            e.preventDefault();
             const id = document.getElementById('edit-student-id').value;
-            const student = studentsList.find(s => s.id === id);
-            if (!student) return;
+            const s = studentsList.find(st => st.id === id);
+            if (!s) return;
 
-            student.name = document.getElementById('edit-name').value.trim();
-            student.pobDob = document.getElementById('edit-pobdob').value.trim();
-            student.parentPhone = document.getElementById('edit-phone').value.trim();
-            student.arrivalDate = document.getElementById('edit-arrival-date').value;
-            student.address = document.getElementById('edit-address').value.trim();
-            
-            student.facBuku = document.getElementById('edit-fac-buku').checked;
-            student.facMeja = document.getElementById('edit-fac-meja').checked;
-            student.facKerudung = document.getElementById('edit-fac-kerudung').checked;
-            student.facLoker = document.getElementById('edit-fac-loker').checked;
+            s.name = document.getElementById('edit-name').value.trim();
+            s.pobDob = document.getElementById('edit-pobdob').value.trim();
+            s.parentPhone = document.getElementById('edit-phone').value.trim();
+            s.arrivalDate = document.getElementById('edit-arrival-date').value;
+            s.address = document.getElementById('edit-address').value.trim();
+            s.motivation = document.getElementById('edit-motivation').value.trim();
+            s.celenganTarget = document.getElementById('edit-celengan').value.trim();
+            s.totalJuz = parseFloat(document.getElementById('edit-total-juz').value) || 0.0;
+            s.setoranAwal = document.getElementById('edit-setoran-awal').value.trim();
+            s.setoranAkhir = document.getElementById('edit-setoran-akhir').value.trim();
+            s.targetMingguan = document.getElementById('edit-target-mingguan').value.trim();
+            s.perkembanganPositif = document.getElementById('edit-positive').value.trim();
+            s.catatanNegatif = document.getElementById('edit-negative').value.trim();
+            s.catatanLain = document.getElementById('edit-catatan-lain').value.trim();
 
-            student.memorizedBefore = document.getElementById('edit-memorized').value;
-            student.motivation = document.getElementById('edit-motivation').value.trim();
-            student.room = document.getElementById('edit-room').value;
-            student.program = document.getElementById('edit-program').value;
-            student.celenganTarget = document.getElementById('edit-celengan').value.trim();
-            student.totalJuz = parseFloat(document.getElementById('edit-total-juz').value) || 0;
+            s.memorizedBefore = document.getElementById('edit-memorized').value;
+            s.room = document.getElementById('edit-room').value;
+            s.program = document.getElementById('edit-program').value;
+            s.paymentStatus = document.getElementById('edit-paystatus').value;
+            s.daftarUlangStatus = document.getElementById('edit-daftarulang').value;
+            s.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
 
-            student.setoranAwal = document.getElementById('edit-setoran-awal').value.trim();
-            student.latestSetoran = document.getElementById('edit-setoran-akhir').value.trim();
-            student.targetMingguan = document.getElementById('edit-target-mingguan').value.trim();
-            student.statusCapaian = document.getElementById('edit-status-capaian').value;
-            student.positiveNotes = document.getElementById('edit-positive').value.trim();
-            student.negativeNotes = document.getElementById('edit-negative').value.trim();
-
-            student.syahriyah = document.getElementById('edit-paystatus').value;
-            student.paymentStatus = student.syahriyah;
-            student.daftarUlang = document.getElementById('edit-daftarulang').value;
-            student.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
-            student.catatanLain = document.getElementById('edit-catatan-lain').value.trim();
+            s.facBuku = document.getElementById('edit-fac-buku').checked;
+            s.facMeja = document.getElementById('edit-fac-meja').checked;
+            s.facKerudung = document.getElementById('edit-fac-kerudung').checked;
+            s.facLoker = document.getElementById('edit-fac-loker').checked;
 
             saveLocalData();
-            await syncUpdateToCloud('santri_students', id, student);
-            
-            showToast("Arsip master data santriwati berhasil diperbarui.");
-            closeEditStudentModal();
-            updateAdminStats();
-            renderAdminStudentsDirectory();
-        };
+            await syncUpdateToCloud('santri_students', id, s);
 
-        window.openSeedModal = function() {
-            document.getElementById('seed-modal').classList.remove('hidden');
-        };
-        window.closeSeedModal = function() {
-            document.getElementById('seed-modal').classList.add('hidden');
-        };
-        window.confirmResetSeedData = function() {
-            localStorage.removeItem('karima_students');
-            localStorage.removeItem('karima_logs');
-            loadLocalData();
-            showToast("Database lokal berhasil di-reset ke data bawaan contoh.");
-            closeSeedModal();
-            setupActiveWorkspace();
+            showToast(`Berkas Induk Eksekutif ${s.name} Berhasil Disinkronkan!`, 'success');
+            closeEditStudentModal();
+            recalculateAdminStats();
+            renderAdminStudentsDirectory();
         };
 
         window.printReceipt = function() { window.print(); };
@@ -2326,10 +2197,10 @@
 
         window.saveReceiptPDF = function() {
             const element = document.getElementById('print-receipt-area');
-            const name = document.getElementById('rec-name').innerText;
+            const studentName = document.getElementById('rec-name').innerText;
             const opt = {
                 margin: 0.2,
-                filename: `Kuitansi_${name.replace(/\s+/g, '_')}.pdf`,
+                filename: `Kuitansi_${studentName.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -2339,10 +2210,10 @@
 
         window.saveKHSPDF = function() {
             const element = document.getElementById('wali-khs-card');
-            const name = document.getElementById('wali-khs-name').innerText;
+            const studentName = document.getElementById('wali-khs-name').innerText;
             const opt = {
-                margin: 0.2,
-                filename: `KHS_${name.replace(/\s+/g, '_')}.pdf`,
+                margin: 0.3,
+                filename: `Raport_KHS_${studentName.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -2351,17 +2222,92 @@
         };
 
         window.exportDashboardToPDF = function() {
-            if (currentRole === 'wali') { saveKHSPDF(); } 
-            else { window.print(); }
+            window.print();
         };
 
-        // Suppressed placeholder controls for configuration modals
+        window.openSupabaseConfigModal = function() {
+            document.getElementById('supabase-config-modal').classList.remove('hidden');
+            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || '';
+            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || '';
+        };
         window.closeSupabaseConfigModal = function() { document.getElementById('supabase-config-modal').classList.add('hidden'); };
-
-        // Initialize Core System on load
-        window.onload = function() {
-            initSupabase();
+        
+        window.handleSaveSupabaseConfig = function(e) {
+            e.preventDefault();
+            const u = document.getElementById('cfg-supabase-url').value.trim();
+            const k = document.getElementById('cfg-supabase-key').value.trim();
+            
+            localStorage.setItem('karima_supabase_url', u);
+            localStorage.setItem('karima_supabase_key', k);
+            
+            showToast("Konfigurasi API Supabase Disimpan! Memuat Ulang...", "success");
+            closeSupabaseConfigModal();
+            setTimeout(() => { location.reload(); }, 1000);
         };
+
+        window.openConfirmModal = function(title, msg, callback) {
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-message').innerText = msg;
+            confirmCallback = callback;
+        };
+
+        document.getElementById('confirm-btn-cancel').onclick = function() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            confirmCallback = null;
+        };
+
+        document.getElementById('confirm-btn-ok').onclick = function() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            if (confirmCallback) confirmCallback();
+            confirmCallback = null;
+        };
+
+        window.openSeedModal = function() { document.getElementById('seed-modal').classList.remove('hidden'); };
+        window.closeSeedModal = function() { document.getElementById('seed-modal').classList.add('hidden'); };
+        
+        window.confirmResetSeedData = function() {
+            localStorage.removeItem('karima_students');
+            localStorage.removeItem('karima_logs');
+            closeSeedModal();
+            showToast("Database Contoh Dimuat Ulang!", "success");
+            setTimeout(() => { location.reload(); }, 800);
+        };
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            let bg = 'bg-slate-900';
+            let icon = '<i class="fa-solid fa-circle-info text-blue-400"></i>';
+            
+            if (type === 'success') {
+                bg = 'bg-emerald-950 border border-emerald-500/30';
+                icon = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            } else if (type === 'error') {
+                bg = 'bg-rose-950 border border-rose-500/30';
+                icon = '<i class="fa-solid fa-circle-exclamation text-rose-400"></i>';
+            }
+
+            toast.className = `${bg} text-white text-xs font-bold p-4 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0`;
+            toast.innerHTML = `${icon} <span class="flex-1">${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-4');
+                setTimeout(() => { toast.remove(); }, 300);
+            }, 4000);
+        }
+
+        // Jalankan Inisialisasi Aplikasi sewaktu halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            initSupabase();
+        });
     </script>
 </body>
 </html>
