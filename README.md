@@ -1387,6 +1387,15 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
 
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
+        // =========================================================================
+        // KREDENSIAL SUPABASE OTOMATIS (Satu Kali Pengaturan Untuk Semua Perangkat)
+        // Silakan isi kedua variabel di bawah ini dengan kredensial Supabase Anda.
+        // Setelah diisi, semua HP wali santri & ustadzah akan otomatis terhubung!
+        // =========================================================================
+        const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; // Ganti dengan URL Supabase Anda
+        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; // Ganti dengan Anon Key Supabase Anda
+        // =========================================================================
+
         let supabaseClient = null;
         let studentsList = [];
         let tahfidzLogs = [];
@@ -1595,15 +1604,15 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
         }
 
         function initSupabase() {
-            const url = localStorage.getItem('karima_supabase_url') || "";
-            const key = localStorage.getItem('karima_supabase_key') || "";
+            const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL || "";
+            const key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY || "";
             
             const storageTitle = document.getElementById('storage-mode-title');
             const storageDesc = document.getElementById('storage-mode-desc');
 
             loadLocalData();
 
-            if (url && key && typeof supabase !== 'undefined') {
+            if (url && url !== "https://your-project.supabase.co" && key && key !== "your-anon-key-here" && typeof supabase !== 'undefined') {
                 try {
                     supabaseClient = supabase.createClient(url, key);
                     isCloudMode = true;
@@ -2569,8 +2578,8 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
 
         window.openSupabaseConfigModal = function() {
             document.getElementById('supabase-config-modal').classList.remove('hidden');
-            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || '';
-            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || '';
+            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || (DEFAULT_SUPABASE_URL !== "https://your-project.supabase.co" ? DEFAULT_SUPABASE_URL : '') || '';
+            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || (DEFAULT_SUPABASE_KEY !== "your-anon-key-here" ? DEFAULT_SUPABASE_KEY : '') || '';
         };
         window.closeSupabaseConfigModal = function() { document.getElementById('supabase-config-modal').classList.add('hidden'); };
         
