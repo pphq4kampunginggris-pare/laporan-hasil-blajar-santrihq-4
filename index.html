@@ -1308,7 +1308,7 @@
         // Ganti teks di dalam tanda petik tunggal dengan yang baru dari Supabase Anda
             const supabaseUrl = 'https://ucneuumyslkuweyyadlr.supabase.co'; 
             const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc'; 
-            const supabase = supabaseServer.createClient(supabaseUrl, supabaseKey);
+            
        
         let supabaseClient = null;
         let studentsList = [];
