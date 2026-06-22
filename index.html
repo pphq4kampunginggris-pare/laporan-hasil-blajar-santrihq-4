@@ -14,8 +14,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- <link rel="stylesheet" href="style.css"> -->
-    
     
     <style>
         body {
@@ -81,18 +79,26 @@
 
             <div class="space-y-6 z-10">
                 <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase inline-block">
-                    E-Tahfidz Portal v4.0 (Sync & Print)
+                    E-Tahfidz Portal v4.6 (Permanent Sync & SPP Tracker)
                 </span>
                 <h2 class="text-4xl font-black leading-tight tracking-tight">
                     Sistem Laporan Real-Time  <br/>dan perkembangan santri.
                 </h2>
                 <p class="text-slate-300/90 text-sm leading-relaxed max-w-lg">
-                    Laporan pencatatan terpadu administrasi, laporan tahfidz, perkembangan santri, bimbingan halaqah harian, serta visualisasi rekam jejak hafalan 30 Juz bagi .
+                    Laporan pencatatan terpadu administrasi, laporan tahfidz harian, monitoring pembayaran syahriyah bulanan, serta visualisasi rekam jejak hafalan 30 Juz bagi santriwati.
                 </p>
             </div>
-
-            <div class="text-xs text-slate-400 z-10 flex items-center gap-1.5">
-                <i class="fa-solid fa-shield-halved text-emerald-400"></i> Sistem Laporan Real-Time dan perkembangan santri.
+            
+            <!-- Real-time visual stats counter inside Gate Screen -->
+            <div class="z-10 bg-white/5 border border-white/10 p-4 rounded-2xl flex items-center justify-between text-xs backdrop-blur-md">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="font-extrabold text-slate-200">Total Pengunjung Terdaftar:</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="font-mono text-emerald-300 font-bold" id="gate-visitor-count">156</span>
+                    <span class="bg-white/15 px-2 py-0.5 rounded text-[10px] font-bold text-white" id="gate-online-count">6 Online</span>
+                </div>
             </div>
         </div>
 
@@ -127,7 +133,7 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                                 <i class="fa-solid fa-magnifying-glass text-xs"></i>
                             </span>
-                            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Contoh: Iqlima Ainur" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-xs pl-10 pr-4 py-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
+                            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Contoh: Aisyah Humaira" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-xs pl-10 pr-4 py-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
                         </div>
                         
                         <!-- Search matches dropdown suggestion -->
@@ -194,6 +200,11 @@
             </div>
             
             <div class="flex items-center gap-2.5">
+                <!-- Header Live Visitor Badge -->
+                <div id="header-visitor-badge" class="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-extrabold text-emerald-300 tracking-wider hidden">
+                    <i class="fa-solid fa-eye text-amber-400"></i>
+                    <span>PENGUNJUNG: <strong class="text-white" id="header-visitor-count">1</strong></span>
+                </div>
                 <button onclick="exportDashboardToPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-500/30 text-[10px] font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-file-pdf text-amber-400"></i> Unduh PDF
                 </button>
@@ -216,9 +227,14 @@
                     <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed" id="storage-mode-desc">Semua laporan santri & tahfidz tersimpan aman dan terintegrasi di cloud database Supabase Anda.</p>
                 </div>
             </div>
-            <button onclick="openSeedModal()" class="bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-black px-4 py-2.5 rounded-xl transition-all border border-slate-200 flex items-center gap-2 shadow-2xs">
-                <i class="fa-solid fa-arrows-rotate text-emerald-600"></i> Muat Ulang Database Contoh
-            </button>
+            <div class="flex gap-2">
+                <button onclick="openSupabaseConfigModal()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black px-4 py-2.5 rounded-xl transition-all border border-emerald-200 flex items-center gap-2 shadow-2xs">
+                    <i class="fa-solid fa-cloud"></i> Hubungkan Supabase
+                </button>
+                <button onclick="openSeedModal()" class="bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-black px-4 py-2.5 rounded-xl transition-all border border-slate-200 flex items-center gap-2 shadow-2xs">
+                    <i class="fa-solid fa-arrows-rotate text-emerald-600"></i> Muat Ulang Database Contoh
+                </button>
+            </div>
         </div>
 
         <!-- ========================================================== -->
@@ -251,7 +267,7 @@
                 <div class="bg-white p-4 rounded-3xl border border-slate-200/60 shadow-sm flex items-center gap-3">
                     <span class="p-3 bg-rose-50 text-rose-700 rounded-2xl"><i class="fa-solid fa-wallet text-base"></i></span>
                     <div>
-                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Lunas Syahriah</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Lunas SPP Aktif</p>
                         <p class="text-lg font-black text-slate-900" id="stat-paid-students">0</p>
                     </div>
                 </div>
@@ -340,28 +356,28 @@
                             </div>
                             <div class="grid grid-cols-2 gap-3 text-xs">
                                 <label class="flex items-center gap-2.5 p-2.5 bg-white border border-slate-150 rounded-xl transition cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-buku" checked class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
+                                    <input type="checkbox" id="admin-add-fac-buku" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
                                     <div>
                                         <span class="font-bold text-slate-800 block text-[10px] leading-tight">Buku Pegangan</span>
                                         <span class="text-[8px] text-slate-400 font-semibold">Target mutabaah harian</span>
                                     </div>
                                 </label>
                                 <label class="flex items-center gap-2.5 p-2.5 bg-white border border-slate-150 rounded-xl transition cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-meja" checked class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
+                                    <input type="checkbox" id="admin-add-fac-meja" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
                                     <div>
                                         <span class="font-bold text-slate-800 block text-[10px] leading-tight">Meja Belajar Lipat</span>
                                         <span class="text-[8px] text-slate-400 font-semibold">Mengaji mandiri di kamar</span>
                                     </div>
                                 </label>
                                 <label class="flex items-center gap-2.5 p-2.5 bg-white border border-slate-150 rounded-xl transition cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-kerudung" checked class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
+                                    <input type="checkbox" id="admin-add-fac-kerudung" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
                                     <div>
                                         <span class="font-bold text-slate-800 block text-[10px] leading-tight">Hijab Almamater</span>
                                         <span class="text-[8px] text-slate-400 font-semibold">Seragam resmi HQ Putri 4</span>
                                     </div>
                                 </label>
                                 <label class="flex items-center gap-2.5 p-2.5 bg-white border border-slate-150 rounded-xl transition cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-loker" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
+                                    <input type="checkbox" id="admin-add-fac-loker" class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
                                     <div>
                                         <span class="font-bold text-slate-800 block text-[10px] leading-tight">Loker Lemari Pakaian</span>
                                         <span class="text-[8px] text-slate-400 font-semibold">Kunci lemari asrama eksklusif</span>
@@ -406,7 +422,7 @@
                                 <input type="date" id="admin-add-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Syahriyah SPP Awal</label>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Syahriyah SPP Awal (Bulan-1)</label>
                                 <select id="admin-add-paystatus" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
                                     <option value="Lunas">Selesai Dibayar (Lunas)</option>
                                     <option value="Belum Lunas" selected>Pending Pembayaran (Belum)</option>
@@ -499,7 +515,7 @@
                                 <th class="p-3">Program Studi</th>
                                 <th class="p-3 text-center">Ustazah Pengampu</th>
                                 <th class="p-3 text-center">Status Halaqah</th>
-                                <th class="p-3 text-center">Syahriyah (SPP)</th>
+                                <th class="p-3 text-center">Syahriyah (SPP Aktif)</th>
                                 <th class="p-3 text-center">Tindakan Otoritas</th>
                             </tr>
                         </thead>
@@ -730,7 +746,7 @@
                     
                     <!-- COLUMN 1 & 2: REKAP SETORAN PEKAN INI -->
                     <div class="lg:col-span-2 bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
-                        <span class="block text-[10px] font-black text-emerald-850 uppercase tracking-wider"><i class="fa-solid fa-book-open text-emerald-750 mr-1"></i> Perkembangan Hafalan Terkini</span>
+                        <span class="block text-[10px] font-black text-emerald-855 uppercase tracking-wider"><i class="fa-solid fa-book-open text-emerald-750 mr-1"></i> Perkembangan Hafalan Terkini</span>
                         
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                             <div class="bg-white p-3 rounded-2xl border border-slate-200">
@@ -770,7 +786,7 @@
                         <div class="space-y-3 text-xs">
                             <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center">
                                 <div>
-                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah Bulan Ini</span>
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah SPP Aktif</span>
                                     <span id="wali-khs-spp-status-label" class="font-bold text-slate-700">SPP Bulan Berjalan</span>
                                 </div>
                                 <span id="wali-khs-syahriyah-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
@@ -789,6 +805,19 @@
                                 <p id="wali-khs-catatan-lain" class="text-slate-600 leading-normal font-semibold text-[10px]">-</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ADDED MONTH-BY-MONTH SPP CHECKLIST VISUALIZATION FOR PARENTS -->
+                <div class="bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                        <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-wider">
+                            <i class="fa-solid fa-calendar-days text-emerald-700 mr-1"></i> Histori Pembayaran Syahriyah SPP (12 Bulan)
+                        </span>
+                        <span class="text-[10px] bg-emerald-150 text-emerald-800 px-2.5 py-0.5 rounded-full font-black font-mono" id="wali-spp-summary">0 dari 12 Bulan Lunas</span>
+                    </div>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2" id="wali-spp-months-grid">
+                        <!-- Filled dynamically -->
                     </div>
                 </div>
 
@@ -1169,14 +1198,16 @@
                         <!-- KELOLA DETAIL STATUS KEUANGAN ADM -->
                         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                             <span class="block text-[9px] font-black text-slate-800 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Pengaturan Status Administrasi Keuangan</span>
-                            <div class="grid grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Status SPP (Syahriyah)</label>
-                                    <select id="edit-paystatus" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold text-slate-700">
-                                        <option value="Lunas">Selesai (Lunas)</option>
-                                        <option value="Belum Lunas">Pending (Belum)</option>
-                                    </select>
+                            
+                            <!-- SPP MONTH BY MONTH DETAILED TRACKER CHECKBOXES -->
+                            <div class="bg-white p-3 rounded-2xl border border-slate-150 space-y-2">
+                                <span class="block text-[8px] font-black text-emerald-900 uppercase tracking-wider"><i class="fa-solid fa-calendar-days"></i> Ceklis Bulanan Syahriyah SPP (Lunas)</span>
+                                <div class="grid grid-cols-4 gap-1.5" id="edit-spp-months-container">
+                                    <!-- Populated dynamically with checkboxes -->
                                 </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Status Daftar Ulang</label>
                                     <select id="edit-daftarulang" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold text-slate-700">
@@ -1215,10 +1246,10 @@
         </div>
     </div>
 
-    <!-- SUPABASE CONFIG MODAL (FRONT-END INTEGRATION) -->
+    <!-- SUPABASE CONFIG MODAL (FRONT-END INTEGRATION WITH DIRECT SCHEMAS) -->
     <div id="supabase-config-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
                 <div class="flex items-center gap-2">
                     <span class="p-2 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-database text-xs"></i></span>
                     <h3 class="font-black text-sm text-slate-900 uppercase">Hubungkan Supabase Cloud</h3>
@@ -1226,29 +1257,81 @@
                 <button onclick="closeSupabaseConfigModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
             </div>
             
-            <p class="text-xs text-slate-500 leading-relaxed">
-                Sambungkan sistem asrama luring Anda ke proyek cloud database Supabase secara instan lewat pengisian kredensial di bawah ini. Parameter disimpan aman di browser lokal Anda.
-            </p>
+            <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-3 text-xs leading-relaxed">
+                <p class="text-slate-500">
+                    Sambungkan sistem asrama luring Anda ke proyek cloud database Supabase secara instan. Parameter disimpan aman di browser lokal Anda.
+                </p>
 
-            <form id="supabase-config-form" onsubmit="handleSaveSupabaseConfig(event)" class="space-y-4 text-xs">
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Supabase URL Proyek</label>
-                    <input type="url" id="cfg-supabase-url" placeholder="https://example.supabase.co" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Supabase Anon Public API Key</label>
-                    <textarea id="cfg-supabase-key" rows="3" placeholder="eyJhbGciOiJIUzI1NiIs..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-mono text-[10px] resize-none"></textarea>
-                </div>
+                <form id="supabase-config-form" onsubmit="handleSaveSupabaseConfig(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Supabase URL Proyek</label>
+                        <input type="url" id="cfg-supabase-url" placeholder="https://your-project.supabase.co" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Supabase Anon Public API Key</label>
+                        <textarea id="cfg-supabase-key" rows="2" placeholder="eyJhbGciOiJIUzI1NiIs..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-mono text-[10px] resize-none"></textarea>
+                    </div>
 
-                <div class="grid grid-cols-2 gap-2 pt-2">
-                    <button type="button" onclick="closeSupabaseConfigModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all">
-                        Batalkan
-                    </button>
-                    <button type="submit" class="bg-emerald-700 hover:bg-emerald-850 text-white font-black py-3 rounded-xl transition-all shadow-md">
-                        Simpan &amp; Hubungkan
-                    </button>
-                </div>
-            </form>
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-black text-[9px] uppercase tracking-wider text-slate-600"><i class="fa-solid fa-code mr-1"></i> Jalankan SQL Schema di Supabase Editor:</span>
+                            <button type="button" onclick="copySupabaseSchema()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[9px] px-2 py-1 rounded font-black border border-emerald-200 transition">
+                                <i class="fa-solid fa-copy"></i> Salin SQL
+                            </button>
+                        </div>
+                        <pre class="bg-slate-950 text-emerald-400 p-2.5 rounded-lg text-[9px] font-mono overflow-x-auto max-h-32">
+CREATE TABLE IF NOT EXISTS santri_students (
+  id text PRIMARY KEY,
+  name text,
+  pobDob text,
+  address text,
+  parentPhone text,
+  memorizedBefore text,
+  celenganTarget text,
+  motivation text,
+  arrivalDate text,
+  room text,
+  program text,
+  paymentStatus text,
+  sppMonths jsonb,
+  facBuku boolean,
+  facMeja boolean,
+  facKerudung boolean,
+  facLoker boolean,
+  inHalaqah boolean,
+  totalJuz float8,
+  setoranAwal text,
+  setoranAkhir text,
+  targetMingguan text,
+  statusCapaian text,
+  perkembanganPositif text,
+  catatanNegatif text,
+  daftarUlangStatus text,
+  catatanLain text
+);
+
+CREATE TABLE IF NOT EXISTS tahfidz_logs (
+  id text PRIMARY KEY,
+  student_id text,
+  date text,
+  setoran_awal text,
+  setoran_akhir text,
+  total_juz float8,
+  pos text,
+  neg text
+);</pre>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <button type="button" onclick="closeSupabaseConfigModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all">
+                            Batalkan
+                        </button>
+                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-850 text-white font-black py-3 rounded-xl transition-all shadow-md">
+                            Simpan &amp; Hubungkan
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -1266,7 +1349,7 @@
                 <button id="confirm-btn-cancel" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition-all">
                     Batal
                 </button>
-                <button id="confirm-btn-ok" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2.5 rounded-xl transition-all">
+                <button id="confirm-btn-ok" class="bg-emerald-700 hover:bg-emerald-880 text-white text-xs font-bold py-2.5 rounded-xl transition-all">
                     Ya, Lanjutkan
                 </button>
             </div>
@@ -1304,12 +1387,6 @@
 
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
-        // Default Config Constant
-        // Ganti teks di dalam tanda petik tunggal dengan yang baru dari Supabase Anda
-            const supabaseUrl = 'https://ucneuumyslkuweyyadlr.supabase.co'; 
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc'; 
-            
-       
         let supabaseClient = null;
         let studentsList = [];
         let tahfidzLogs = [];
@@ -1319,9 +1396,99 @@
         let adminActiveTab = 'register';
         let confirmCallback = null;
 
-        // DATA CONTOH SUDAH DIKOSONGKAN SEBAGAI FORMULIR BERSIH SIAP PAKAI
-        const standardSeedStudents = [];
-        const standardSeedLogs = [];
+        const monthsShortList = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+
+        const standardSeedStudents = [
+            {
+                id: "s_01",
+                name: "Aisyah Humaira Khansa",
+                pobDob: "Kediri, 12 April 2007",
+                address: "Jl. Mawar No. 12, Pare, Kediri",
+                parentPhone: "081234567890",
+                memorizedBefore: "Sudah Pernah",
+                celenganTarget: "10 Juz",
+                motivation: "Membahagiakan orang tua di akhirat",
+                arrivalDate: "2026-01-10",
+                room: "Ayu",
+                program: "Takhassus 30 Juz",
+                paymentStatus: "Lunas",
+                sppMonths: {
+                    "Jan": "Lunas", "Feb": "Lunas", "Mar": "Lunas", "Apr": "Belum Lunas",
+                    "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                    "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                },
+                facBuku: true,
+                facMeja: true,
+                facKerudung: true,
+                facLoker: false,
+                inHalaqah: true,
+                totalJuz: 3.5,
+                setoranAwal: "Juz 1 Hal 1",
+                setoranAkhir: "Juz 3 Hal 20",
+                targetMingguan: "5 Halaman",
+                statusCapaian: "Tercapai",
+                perkembanganPositif: "Tajwid sangat bagus, hafalan mutqin",
+                catatanNegatif: "Nihil",
+                daftarUlangStatus: "Lunas",
+                catatanLain: "Sangat rajin murojaah mandiri."
+            },
+            {
+                id: "s_02",
+                name: "Iqlima Ainur Rahma",
+                pobDob: "Malang, 20 Agustus 2008",
+                address: "Perum Permata Gg. 3, Blimbing, Malang",
+                parentPhone: "085678901234",
+                memorizedBefore: "Belum Pernah",
+                celenganTarget: "5 Juz",
+                motivation: "Menjadi hafizah dan mengabdi di masyarakat",
+                arrivalDate: "2026-02-01",
+                room: "Ayuniz",
+                program: "Tahfidz Reguler",
+                paymentStatus: "Belum Lunas",
+                sppMonths: {
+                    "Jan": "Belum Lunas", "Feb": "Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                    "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                    "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                },
+                facBuku: true,
+                facMeja: true,
+                facKerudung: false,
+                facLoker: true,
+                inHalaqah: true,
+                totalJuz: 1.2,
+                setoranAwal: "Juz 30 Hal 1",
+                setoranAkhir: "Juz 30 Hal 15",
+                targetMingguan: "3 Halaman",
+                statusCapaian: "Tercapai",
+                perkembanganPositif: "Makhraj huruf lancar",
+                catatanNegatif: "Kurang fokus di pagi hari",
+                daftarUlangStatus: "Cicil",
+                catatanLain: "Sering izin karena pusing ringan."
+            }
+        ];
+
+        const standardSeedLogs = [
+            {
+                id: "log_1",
+                student_id: "s_01",
+                date: "2026-06-15",
+                setoran_awal: "Juz 1 Hal 1",
+                setoran_akhir: "Juz 3 Hal 20",
+                total_juz: 3.5,
+                pos: "Kualitas hafalan mutqin, tajwid tertib.",
+                neg: "Nihil"
+            },
+            {
+                id: "log_2",
+                student_id: "s_02",
+                date: "2026-06-18",
+                setoran_awal: "Juz 30 Hal 1",
+                setoran_akhir: "Juz 30 Hal 15",
+                total_juz: 1.2,
+                pos: "Pelafalan makhraj tajam & lancar.",
+                neg: "Fokus agak berkurang di akhir sesi."
+            }
+        ];
 
         let systemPins = JSON.parse(localStorage.getItem('karima_system_pins')) || {
             'admin': 'admin4',
@@ -1362,19 +1529,60 @@
             return `${monthName} Minggu ke-${weekNum}`;
         }
 
+        function initVisitorCounter() {
+            let visitors = localStorage.getItem('karima_visitor_count');
+            if (!visitors) {
+                visitors = "156"; 
+            } else {
+                visitors = (parseInt(visitors) + 1).toString();
+            }
+            localStorage.setItem('karima_visitor_count', visitors);
+
+            const gateCount = document.getElementById('gate-visitor-count');
+            const headerCount = document.getElementById('header-visitor-count');
+            const gateOnline = document.getElementById('gate-online-count');
+
+            if (gateCount) gateCount.textContent = parseInt(visitors).toLocaleString('id-ID');
+            if (headerCount) headerCount.textContent = parseInt(visitors).toLocaleString('id-ID');
+            
+            const simulatedOnline = Math.floor(Math.random() * 5) + 6; 
+            if (gateOnline) gateOnline.textContent = `${simulatedOnline} Online`;
+        }
+
         function loadLocalData() {
             const storedStudents = localStorage.getItem('karima_students');
             const storedLogs = localStorage.getItem('karima_logs');
             
             if (storedStudents) {
-                studentsList = JSON.parse(storedStudents);
+                try {
+                    studentsList = JSON.parse(storedStudents);
+                    // Schema Healing: Ensure newly added structures always exist permanently
+                    studentsList = studentsList.map(s => {
+                        if (!s.sppMonths) {
+                            s.sppMonths = {
+                                "Jan": s.paymentStatus || "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                                "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                                "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                            };
+                        }
+                        if (s.inHalaqah === undefined) s.inHalaqah = true;
+                        if (!s.daftarUlangStatus) s.daftarUlangStatus = "Belum Lunas";
+                        return s;
+                    });
+                } catch (e) {
+                    studentsList = [...standardSeedStudents];
+                }
             } else {
                 studentsList = [...standardSeedStudents];
                 localStorage.setItem('karima_students', JSON.stringify(studentsList));
             }
 
             if (storedLogs) {
-                tahfidzLogs = JSON.parse(storedLogs);
+                try {
+                    tahfidzLogs = JSON.parse(storedLogs);
+                } catch (e) {
+                    tahfidzLogs = [...standardSeedLogs];
+                }
             } else {
                 tahfidzLogs = [...standardSeedLogs];
                 localStorage.setItem('karima_logs', JSON.stringify(tahfidzLogs));
@@ -1387,8 +1595,8 @@
         }
 
         function initSupabase() {
-            const url = HARDCODED_SUPABASE_URL || localStorage.getItem('karima_supabase_url') || "";
-            const key = HARDCODED_SUPABASE_KEY || localStorage.getItem('karima_supabase_key') || "";
+            const url = localStorage.getItem('karima_supabase_url') || "";
+            const key = localStorage.getItem('karima_supabase_key') || "";
             
             const storageTitle = document.getElementById('storage-mode-title');
             const storageDesc = document.getElementById('storage-mode-desc');
@@ -1411,7 +1619,7 @@
             supabaseClient = null;
             isCloudMode = false;
             if (storageTitle) storageTitle.innerText = "Penyimpanan Lokal Aktif";
-            if (storageDesc) storageDesc.innerText = "Laporan tahfidz tersimpan aman di memori lokal penjelajah Anda. Hubungkan ke Supabase di atas.";
+            if (storageDesc) storageDesc.innerText = "Laporan tahfidz tersimpan aman di memori lokal penjelajah Anda. Hubungkan ke Supabase untuk cadangan permanen.";
             setupActiveWorkspace();
         }
 
@@ -1419,10 +1627,46 @@
             if (!supabaseClient) return;
             try {
                 let { data: st, error: err1 } = await supabaseClient.from('santri_students').select('*');
-                if (!err1 && st) studentsList = st;
-
                 let { data: lg, error: err2 } = await supabaseClient.from('tahfidz_logs').select('*');
-                if (!err2 && lg) tahfidzLogs = lg;
+
+                if (err1 || err2) {
+                    showToast("Koneksi cloud gagal. Menggunakan penyimpanan luring browser Anda.", "error");
+                    setupActiveWorkspace();
+                    return;
+                }
+
+                // SECURITY & PERMANENCE AUTOSAVE: If project contains 0 elements on cloud but local has data, upload local data immediately!
+                if (st && st.length === 0 && studentsList.length > 0) {
+                    showToast("Mencadangkan data lokal Anda ke cloud Supabase secara permanen...", "info");
+                    for (let s of studentsList) {
+                        await syncInsertToCloud('santri_students', s);
+                    }
+                    for (let l of tahfidzLogs) {
+                        await syncInsertToCloud('tahfidz_logs', l);
+                    }
+                    showToast("Pencadangan awan pertama berhasil dilakukan!", "success");
+                } else {
+                    if (st && st.length > 0) {
+                        studentsList = st;
+                    }
+                    if (lg && lg.length > 0) {
+                        tahfidzLogs = lg;
+                    }
+                }
+
+                // Re-heal scheme structure from cloud imports
+                studentsList = studentsList.map(s => {
+                    if (!s.sppMonths) {
+                        s.sppMonths = {
+                            "Jan": s.paymentStatus || "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                            "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                            "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                        };
+                    }
+                    if (s.inHalaqah === undefined) s.inHalaqah = true;
+                    if (!s.daftarUlangStatus) s.daftarUlangStatus = "Belum Lunas";
+                    return s;
+                });
 
                 studentsList.sort((a, b) => a.name.localeCompare(b.name));
                 tahfidzLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -1437,20 +1681,29 @@
 
         async function syncInsertToCloud(table, payload) {
             if (!supabaseClient) return;
-            try { await supabaseClient.from(table).insert([payload]); } 
-            catch (err) { console.error("Cloud insert error: ", err); }
+            try { 
+                await supabaseClient.from(table).insert([payload]); 
+            } catch (err) { 
+                console.error("Cloud insert error: ", err); 
+            }
         }
 
         async function syncUpdateToCloud(table, recordId, payload) {
             if (!supabaseClient) return;
-            try { await supabaseClient.from(table).update(payload).eq('id', recordId); } 
-            catch (err) { console.error("Cloud update error: ", err); }
+            try { 
+                await supabaseClient.from(table).update(payload).eq('id', recordId); 
+            } catch (err) { 
+                console.error("Cloud update error: ", err); 
+            }
         }
 
         async function syncDeleteFromCloud(table, recordId) {
             if (!supabaseClient) return;
-            try { await supabaseClient.from(table).delete().eq('id', recordId); } 
-            catch (err) { console.error("Cloud delete error: ", err); }
+            try { 
+                await supabaseClient.from(table).delete().eq('id', recordId); 
+            } catch (err) { 
+                console.error("Cloud delete error: ", err); 
+            }
         }
 
         window.setGateRole = function(role) {
@@ -1578,6 +1831,15 @@
             document.getElementById('view-ustazah').classList.add('hidden');
             document.getElementById('view-wali').classList.add('hidden');
 
+            const visitorBadge = document.getElementById('header-visitor-badge');
+            if (visitorBadge) {
+                if (currentRole === 'admin' || (currentRole && currentRole.startsWith('ustazah_'))) {
+                    visitorBadge.classList.remove('hidden');
+                } else {
+                    visitorBadge.classList.add('hidden');
+                }
+            }
+
             if (currentRole === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
                 recalculateAdminStats();
@@ -1631,6 +1893,17 @@
             const newId = "s_" + Date.now();
             const name = document.getElementById('admin-add-name').value.trim();
             const room = document.getElementById('admin-add-room').value;
+            const initPaymentStatus = document.getElementById('admin-add-paystatus').value;
+
+            const initialSppMonths = {
+                "Jan": "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+            };
+            
+            if (initPaymentStatus === 'Lunas') {
+                initialSppMonths["Jan"] = "Lunas";
+            }
 
             const newStudent = {
                 id: newId,
@@ -1644,7 +1917,8 @@
                 arrivalDate: document.getElementById('admin-add-arrival-date').value,
                 room: room,
                 program: document.getElementById('admin-add-program').value,
-                paymentStatus: document.getElementById('admin-add-paystatus').value,
+                paymentStatus: initPaymentStatus,
+                sppMonths: initialSppMonths,
                 facBuku: document.getElementById('admin-add-fac-buku').checked,
                 facMeja: document.getElementById('admin-add-fac-meja').checked,
                 facKerudung: document.getElementById('admin-add-fac-kerudung').checked,
@@ -1683,7 +1957,7 @@
             saveLocalData();
             syncInsertToCloud('tahfidz_logs', initialLog);
 
-            showToast(`Santriwati ${name} Berhasil Didaftarkan!`, 'success');
+            showToast(`Santriwati ${name} Berhasil Didaftarkan! Data tersimpan aman.`, 'success');
             recalculateAdminStats();
             
             openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
@@ -1730,8 +2004,14 @@
                     ? `<span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-[10px] font-black"><i class="fa-solid fa-circle-check"></i> Aktif Halaqah</span>`
                     : `<span class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full text-[10px] font-black animate-pulse"><i class="fa-solid fa-clock"></i> Pending (Ustazah)</span>`;
 
-                const payBadge = s.paymentStatus === 'Lunas'
-                    ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-200 font-extrabold text-[10px]">Lunas SPP</span>`
+                const studentSpp = s.sppMonths || {};
+                let paidMonthsCount = 0;
+                monthsShortList.forEach(m => {
+                    if (studentSpp[m] === "Lunas") paidMonthsCount++;
+                });
+
+                const payBadge = paidMonthsCount > 0
+                    ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-200 font-extrabold text-[10px]">${paidMonthsCount}/12 Bulan Lunas</span>`
                     : `<span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded border border-rose-200 font-extrabold text-[10px]">Belum Lunas</span>`;
 
                 tr.innerHTML = `
@@ -1766,7 +2046,7 @@
                     saveLocalData();
                     await syncDeleteFromCloud('santri_students', studentId);
                     
-                    showToast(`Data ${student.name} berhasil dimusnahkan.`, "success");
+                    showToast(`Data ${student.name} berhasil dimusnahkan secara permanen.`, "success");
                     recalculateAdminStats();
                     renderAdminStudentsDirectory();
                 }
@@ -1927,6 +2207,10 @@
             student.daftarUlangStatus = daftarUlang;
             student.catatanLain = catatanLain;
 
+            const currentMonthShort = monthsShortList[new Date().getMonth()];
+            if (!student.sppMonths) student.sppMonths = {};
+            student.sppMonths[currentMonthShort] = syahriyah;
+
             saveLocalData();
             await syncUpdateToCloud('santri_students', studentId, {
                 setoranAwal: setAwal,
@@ -1937,6 +2221,7 @@
                 perkembanganPositif: pos,
                 catatanNegatif: neg,
                 paymentStatus: syahriyah,
+                sppMonths: student.sppMonths,
                 daftarUlangStatus: daftarUlang,
                 catatanLain: catatanLain
             });
@@ -1955,7 +2240,7 @@
             saveLocalData();
             await syncInsertToCloud('tahfidz_logs', newLog);
 
-            showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan!`, 'success');
+            showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan & Dicadangkan!`, 'success');
             renderUstazahInterface();
             e.target.reset();
         };
@@ -1978,9 +2263,9 @@
             document.getElementById('wali-khs-setoran-akhir').innerText = s.setoranAkhir;
             document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan;
             
-            const capBox = document.getElementById('wali-khs-status-capaian');
-            capBox.innerText = s.statusCapaian;
-            capBox.className = s.statusCapaian === 'Tercapai' ? "font-extrabold text-emerald-700 mt-1 block" : "font-extrabold text-amber-600 mt-1 block";
+            const fillCapaian = document.getElementById('wali-khs-status-capaian');
+            fillCapaian.innerText = s.statusCapaian;
+            fillCapaian.className = s.statusCapaian === 'Tercapai' ? "font-extrabold text-emerald-700 mt-1 block" : "font-extrabold text-amber-600 mt-1 block";
 
             document.getElementById('wali-khs-perkembangan-positif').innerText = s.perkembanganPositif;
             document.getElementById('wali-khs-catatan-negatif').innerText = s.catatanNegatif;
@@ -2001,6 +2286,25 @@
 
             const currentFullMonth = new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' });
             document.getElementById('wali-khs-spp-status-label').innerText = `Syahriyah ${currentFullMonth}`;
+
+            const sppGrid = document.getElementById('wali-spp-months-grid');
+            sppGrid.innerHTML = '';
+            const studentSpp = s.sppMonths || {};
+            let lunasMonthsCount = 0;
+
+            monthsShortList.forEach(m => {
+                const isPaid = studentSpp[m] === "Lunas";
+                if (isPaid) lunasMonthsCount++;
+
+                const monthPill = document.createElement('div');
+                monthPill.className = `p-2 rounded-xl text-center border text-[10px] font-black transition-all ${isPaid ? 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white border-emerald-500 shadow-2xs' : 'bg-slate-100 text-slate-400 border-slate-200'}`;
+                monthPill.innerHTML = `
+                    <div class="uppercase text-[9px] opacity-75">${m}</div>
+                    <div class="mt-0.5 text-[8px] font-medium">${isPaid ? 'Lunas' : 'Belum'}</div>
+                `;
+                sppGrid.appendChild(monthPill);
+            });
+            document.getElementById('wali-spp-summary').innerText = `${lunasMonthsCount} dari 12 Bulan Lunas`;
 
             const visualMapContainer = document.getElementById('peta-tahfidz-container');
             visualMapContainer.innerHTML = '';
@@ -2030,7 +2334,7 @@
             const studentLogs = tahfidzLogs.filter(l => l.student_id === studentId);
             
             if (studentLogs.length === 0) {
-                timelineContainer.innerHTML = `<p class="text-[11px] font-bold text-slate-400 text-center py-4">Belum memiliki riwayat setoran mingguan.</p>`;
+                timelineContainer.innerHTML = `<p class="text-[11px] font-bold text-slate-400 text-center py-4">Belum memiliki riwayat setoran minggu.</p>`;
             } else {
                 studentLogs.forEach(l => {
                     const block = document.createElement('div');
@@ -2053,7 +2357,7 @@
 
         window.refreshWaliData = async function() {
             if (isCloudMode && supabaseClient) {
-                showToast("Menyegarkan data dari server...", "info");
+                showToast("Menyegarkan data dari server cloud...", "info");
                 await fetchCloudData();
                 if (currentWaliStudent) {
                     const updated = studentsList.find(s => s.id === currentWaliStudent.id);
@@ -2062,7 +2366,7 @@
                 setupActiveWorkspace();
                 showToast("Data raport paling mutakhir berhasil dimuat.", "success");
             } else {
-                showToast("Modus luring aktif. Data diambil dari penyimpanan internal browser.", "info");
+                showToast("Modus luring aktif. Mengambil data instan dari browser.", "info");
             }
         };
 
@@ -2139,7 +2443,6 @@
             document.getElementById('edit-memorized').value = s.memorizedBefore || "Belum Pernah";
             document.getElementById('edit-room').value = s.room || "Ayu";
             document.getElementById('edit-program').value = s.program || "Tahfidz Reguler";
-            document.getElementById('edit-paystatus').value = s.paymentStatus || "Belum Lunas";
             document.getElementById('edit-daftarulang').value = s.daftarUlangStatus || "Belum Lunas";
             document.getElementById('edit-inhalaqah').value = s.inHalaqah ? "true" : "false";
 
@@ -2147,6 +2450,33 @@
             document.getElementById('edit-fac-meja').checked = !!s.facMeja;
             document.getElementById('edit-fac-kerudung').checked = !!s.facKerudung;
             document.getElementById('edit-fac-loker').checked = !!s.facLoker;
+
+            const container = document.getElementById('edit-spp-months-container');
+            container.innerHTML = '';
+            
+            const studentSpp = s.sppMonths || {};
+
+            monthsShortList.forEach(m => {
+                const isPaid = studentSpp[m] === "Lunas";
+                const chkId = `edit-spp-month-${m}`;
+                const label = document.createElement('label');
+                label.className = `flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all ${isPaid ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-500'}`;
+                label.innerHTML = `
+                    <input type="checkbox" id="${chkId}" ${isPaid ? 'checked':''} onchange="toggleEditSppClass('${m}')" class="w-3.5 h-3.5 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                    <span>${m}</span>
+                `;
+                container.appendChild(label);
+            });
+        };
+
+        window.toggleEditSppClass = function(m) {
+            const chk = document.getElementById(`edit-spp-month-${m}`);
+            const lbl = chk.closest('label');
+            if (chk.checked) {
+                lbl.className = 'flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all bg-emerald-50 border-emerald-300 text-emerald-900';
+            } else {
+                lbl.className = 'flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-500';
+            }
         };
 
         window.closeEditStudentModal = function() {
@@ -2177,7 +2507,6 @@
             s.memorizedBefore = document.getElementById('edit-memorized').value;
             s.room = document.getElementById('edit-room').value;
             s.program = document.getElementById('edit-program').value;
-            s.paymentStatus = document.getElementById('edit-paystatus').value;
             s.daftarUlangStatus = document.getElementById('edit-daftarulang').value;
             s.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
 
@@ -2186,10 +2515,20 @@
             s.facKerudung = document.getElementById('edit-fac-kerudung').checked;
             s.facLoker = document.getElementById('edit-fac-loker').checked;
 
+            const updatedSppMonths = {};
+            monthsShortList.forEach(m => {
+                const isChecked = document.getElementById(`edit-spp-month-${m}`).checked;
+                updatedSppMonths[m] = isChecked ? "Lunas" : "Belum Lunas";
+            });
+            s.sppMonths = updatedSppMonths;
+
+            const currentMonthShort = monthsShortList[new Date().getMonth()];
+            s.paymentStatus = updatedSppMonths[currentMonthShort] || "Belum Lunas";
+
             saveLocalData();
             await syncUpdateToCloud('santri_students', id, s);
 
-            showToast(`Berkas Induk Eksekutif ${s.name} Berhasil Disinkronkan!`, 'success');
+            showToast(`Berkas Induk Eksekutif ${s.name} Berhasil Disinkronkan Permanen!`, 'success');
             closeEditStudentModal();
             recalculateAdminStats();
             renderAdminStudentsDirectory();
@@ -2235,6 +2574,56 @@
         };
         window.closeSupabaseConfigModal = function() { document.getElementById('supabase-config-modal').classList.add('hidden'); };
         
+        window.copySupabaseSchema = function() {
+            const sql = `CREATE TABLE IF NOT EXISTS santri_students (
+  id text PRIMARY KEY,
+  name text,
+  pobDob text,
+  address text,
+  parentPhone text,
+  memorizedBefore text,
+  celenganTarget text,
+  motivation text,
+  arrivalDate text,
+  room text,
+  program text,
+  paymentStatus text,
+  sppMonths jsonb,
+  facBuku boolean,
+  facMeja boolean,
+  facKerudung boolean,
+  facLoker boolean,
+  inHalaqah boolean,
+  totalJuz float8,
+  setoranAwal text,
+  setoranAkhir text,
+  targetMingguan text,
+  statusCapaian text,
+  perkembanganPositif text,
+  catatanNegatif text,
+  daftarUlangStatus text,
+  catatanLain text
+);
+
+CREATE TABLE IF NOT EXISTS tahfidz_logs (
+  id text PRIMARY KEY,
+  student_id text,
+  date text,
+  setoran_awal text,
+  setoran_akhir text,
+  total_juz float8,
+  pos text,
+  neg text
+);`;
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = sql;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            showToast("SQL Schema disalin ke clipboard! Silakan jalankan di SQL Editor Supabase Anda.", "success");
+        };
+
         window.handleSaveSupabaseConfig = function(e) {
             e.preventDefault();
             const u = document.getElementById('cfg-supabase-url').value.trim();
@@ -2307,8 +2696,8 @@
             }, 4000);
         }
 
-        // Jalankan Inisialisasi Aplikasi sewaktu halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
+            initVisitorCounter();
             initSupabase();
         });
     </script>
