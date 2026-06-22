@@ -14,7 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    
     
     <style>
         body {
@@ -1304,9 +1305,11 @@
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
         // Default Config Constant
-        const HARDCODED_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
-        const HARDCODED_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc";
-
+        // Ganti teks di dalam tanda petik tunggal dengan yang baru dari Supabase Anda
+            const supabaseUrl = 'https://ucneuumyslkuweyyadlr.supabase.co'; 
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc'; 
+            const supabase = supabaseServer.createClient(supabaseUrl, supabaseKey);
+       
         let supabaseClient = null;
         let studentsList = [];
         let tahfidzLogs = [];
