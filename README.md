@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- html2pdf.js CDN for Direct Premium PDF Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
-    <!-- Canvas Confetti CDN for Premium Success Feedback -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- canvas-confetti CDN for Premium Celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         body {
@@ -23,19 +23,6 @@
         }
         .arabic-text {
             font-family: 'Amiri', serif;
-        }
-        .fade-in-workspace {
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         /* Custom scrollbar for premium aesthetic */
         ::-webkit-scrollbar {
@@ -51,6 +38,22 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #059669;
+        }
+
+        /* Premium fade-in workspace transition */
+        .fade-in-workspace {
+            animation: fadeInWorkspace 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInWorkspace {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Force background colors & gradients to print in full color in Portrait format */
@@ -97,7 +100,7 @@
 
             <div class="space-y-6 z-10">
                 <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase inline-block">
-                    E-Tahfidz Portal v4.9
+                    E-Tahfidz Portal v5.0 (Steril)
                 </span>
                 <h2 class="text-4xl font-black leading-tight tracking-tight">
                     Sistem Laporan Real-Time<br/>dan Perkembangan Santriwati.
@@ -218,7 +221,7 @@
             </div>
             
             <div class="flex items-center gap-2.5">
-                <!-- Header Live Sync Badge -->
+                <!-- Header Live Sync Badge (Suppressed: Simple, clean and constant look) -->
                 <div id="header-sync-badge" class="hidden flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300/90 tracking-wider">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     <span id="sync-time-label">TERHUBUNG</span>
@@ -492,22 +495,25 @@
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div>
                         <h3 class="font-black text-sm text-slate-900"><i class="fa-solid fa-folder-open text-emerald-700 mr-1.5"></i> Arsip Induk Santriwati Baru</h3>
-                        <p class="text-[10px] text-slate-400">Cari, tinjau status halaqah, cetak kuitansi, atau hapus database secara luring/cloud.</p>
+                        <p class="text-[10px] text-slate-400">Cari, tinjau status halaqah, cetak kuitansi, impor CSV, atau hapus database secara luring/cloud.</p>
                     </div>
                     
                     <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full md:w-auto">
-                        <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
-                        <button onclick="document.getElementById('csv-file-input').click()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white text-xs font-black px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-file-csv text-sm text-amber-200"></i> Impor CSV (santri_students_rows.csv)
-                        </button>
+                        <!-- Impor CSV button verbatim named santri_students_rows.csv -->
+                        <div class="relative w-full sm:w-auto">
+                            <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
+                            <button onclick="document.getElementById('csv-file-input').click()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-file-import"></i> Impor CSV (santri_students_rows.csv)
+                            </button>
+                        </div>
 
-                        <div class="relative w-full sm:w-64">
+                        <div class="relative w-full sm:w-48">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                                 <i class="fa-solid fa-magnifying-glass text-xs"></i>
                             </span>
-                            <input type="text" id="admin-search-student" oninput="renderAdminStudentsDirectory()" placeholder="Ketik nama / ID..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs pl-9 pr-4 py-2 outline-none focus:ring-2 focus:ring-emerald-500">
+                            <input type="text" id="admin-search-student" oninput="renderAdminStudentsDirectory()" placeholder="Ketik nama / ID..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-emerald-500">
                         </div>
-                        <select id="admin-filter-ustazah" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2 outline-none font-bold text-slate-600 cursor-pointer">
+                        <select id="admin-filter-ustazah" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-bold text-slate-600 cursor-pointer">
                             <option value="all">Semua Halaqah</option>
                             <option value="Ayu">Halaqah Ayu</option>
                             <option value="Ayuniz">Halaqah Ayuniz</option>
@@ -582,7 +588,7 @@
                     <form class="space-y-4" onsubmit="handleUstazahSetoranSubmit(event)">
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Santri:</label>
-                            <select id="ustazah-student-select" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-800 cursor-pointer">
+                            <select id="ustazah-student-select" onchange="populateUstazahForm(this.value)" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-800 cursor-pointer">
                                 <!-- Filled dynamically -->
                             </select>
                         </div>
@@ -794,7 +800,7 @@
                         <div class="space-y-3 text-xs">
                             <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center">
                                 <div>
-                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah SPP Aktif</span>
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah SPP</span>
                                     <span id="wali-khs-spp-status-label" class="font-bold text-slate-700">SPP Bulan Berjalan</span>
                                 </div>
                                 <span id="wali-khs-syahriyah-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
@@ -1395,16 +1401,16 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
-        // ==========================================
-        // KONFIGURASI DATABASE TERKONEKSI CLOUD
-        // ==========================================
+        // =========================================================================
+        // KONFIGURASI DATABASE TERKONEKSI CLOUD (PRE-CONFIGURED FOR INSTANT DEPLOY)
+        // =========================================================================
         const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
         const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; 
-        // ==========================================
+        // =========================================================================
 
         let supabaseClient = null;
-        let studentsList = [];
-        let tahfidzLogs = [];
+        let studentsList = []; // Sterilized (Empty)
+        let tahfidzLogs = [];  // Sterilized (Empty)
         let currentRole = null; 
         let currentWaliStudent = null; 
         let isCloudMode = false;
@@ -1412,10 +1418,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
         let confirmCallback = null;
 
         const monthsShortList = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
-
-        // Data dikosongkan 100% agar pengguna dapat mendaftar baru dari nol
-        const standardSeedStudents = [];
-        const standardSeedLogs = [];
 
         let systemPins = JSON.parse(localStorage.getItem('karima_system_pins')) || {
             'admin': 'admin4',
@@ -1454,40 +1456,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const day = d.getDate();
             const weekNum = Math.ceil(day / 7);
             return `${monthName} Minggu ke-${weekNum}`;
-        }
-
-        // Premium Confetti Animasi Feedback
-        function triggerConfettiFeedback(type) {
-            if (typeof confetti === 'undefined') return;
-            if (type === 'burst') {
-                confetti({
-                    particleCount: 80,
-                    spread: 60,
-                    origin: { y: 0.6 }
-                });
-            } else if (type === 'school-pride') {
-                const end = Date.now() + (2 * 1000);
-                const colors = ['#047857', '#fbbf24', '#ffffff'];
-                (function frame() {
-                    confetti({
-                        particleCount: 3,
-                        angle: 60,
-                        spread: 55,
-                        origin: { x: 0 },
-                        colors: colors
-                    });
-                    confetti({
-                        particleCount: 3,
-                        angle: 120,
-                        spread: 55,
-                        origin: { x: 1 },
-                        colors: colors
-                    });
-                    if (Date.now() < end) {
-                        requestAnimationFrame(frame);
-                    }
-                }());
-            }
         }
 
         function initVisitorCounter() {
@@ -1530,10 +1498,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                         return s;
                     });
                 } catch (e) {
-                    studentsList = [...standardSeedStudents];
+                    studentsList = [];
                 }
             } else {
-                studentsList = [...standardSeedStudents];
+                studentsList = [];
                 localStorage.setItem('karima_students', JSON.stringify(studentsList));
             }
 
@@ -1541,10 +1509,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 try {
                     tahfidzLogs = JSON.parse(storedLogs);
                 } catch (e) {
-                    tahfidzLogs = [...standardSeedLogs];
+                    tahfidzLogs = [];
                 }
             } else {
-                tahfidzLogs = [...standardSeedLogs];
+                tahfidzLogs = [];
                 localStorage.setItem('karima_logs', JSON.stringify(tahfidzLogs));
             }
         }
@@ -1558,6 +1526,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL || "";
             let key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY || "";
             
+            // Proteksi kuat: Bersihkan sisa vsn query parameter jika pengguna menyimpan token bermasalah
             if (key.includes('&vsn=')) {
                 key = key.split('&vsn=')[0];
             }
@@ -1582,6 +1551,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                         if (syncTimeLabel) syncTimeLabel.innerText = "TERHUBUNG";
                     }
 
+                    // Muat data dari cloud dan jalankan langganan background polling
                     fetchCloudData().then(() => {
                         setupRealtimeSubscription();
                     });
@@ -1600,6 +1570,9 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             setupActiveWorkspace();
         }
 
+        // =========================================================================
+        // SAFE HTTP-POLLING SYNC (SUPPRESSED WEBSOCKET PREVIEW CRASH FOR CLEAN CONSOLE)
+        // =========================================================================
         let pollingInterval = null;
         
         function setupRealtimeSubscription() {
@@ -1607,14 +1580,47 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 clearInterval(pollingInterval);
             }
             
+            // Atur polling interval 5 detik sebagai cadangan utama yang handal
             pollingInterval = setInterval(() => {
                 if (isCloudMode && supabaseClient && document.visibilityState === 'visible') {
                     fetchCloudDataSilent();
                 }
-            }, 8000);
+            }, 5000); 
 
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             document.addEventListener('visibilitychange', handleVisibilityChange);
+
+            // DETEKSI SECARA OTOMATIS APAKAH BERJALAN DI DALAM SANDBOX PREVIEW (CANVAS)
+            const isSandboxed = window.location.hostname.includes('goog') || window.self !== window.top;
+
+            if (isSandboxed) {
+                // Di dalam editor preview, gunakan HTTP Polling secara senyap & abaikan inisialisasi Websocket
+                const syncTimeLabel = document.getElementById('sync-time-label');
+                if (syncTimeLabel) syncTimeLabel.innerText = "TERHUBUNG (POLLING)";
+                return; 
+            }
+
+            // JIKA DI LUAR EDITOR / HP ASLI / PRODUKSI, AKTIFKAN WEBSOCKET REAL-TIME SECARA INSTAN
+            if (isCloudMode && supabaseClient && typeof window.WebSocket !== 'undefined') {
+                try {
+                    const subscription = supabaseClient.channel('realtime-updates')
+                        .on('postgres_changes', { event: '*', schema: 'public', table: 'santri_students' }, () => {
+                            fetchCloudDataSilent();
+                        })
+                        .on('postgres_changes', { event: '*', schema: 'public', table: 'tahfidz_logs' }, () => {
+                            fetchCloudDataSilent();
+                        });
+                        
+                    subscription.subscribe((status) => {
+                        const syncTimeLabel = document.getElementById('sync-time-label');
+                        if (status === 'SUBSCRIBED') {
+                            if (syncTimeLabel) syncTimeLabel.innerText = "REAL-TIME AKTIF";
+                        }
+                    });
+                } catch (err) {
+                    console.log("Websocket dinonaktifkan oleh browser, menggunakan sistem Polling HTTP.");
+                }
+            }
         }
 
         function handleVisibilityChange() {
@@ -1727,7 +1733,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (err1 || err2) {
                     const errMsg = (err1?.message || err2?.message || 'Akses tidak sah/RLS aktif');
                     console.error("Koneksi Supabase bermasalah, mengalihkan ke mode luring/lokal.", err1, err2);
-                    isCloudMode = false;
+                    isCloudMode = false; // Matikan cloud mode agar tidak merusak data lokal yang sehat
                     const syncBadge = document.getElementById('header-sync-badge');
                     if (syncBadge) syncBadge.classList.add('hidden');
                     showToast(`Terbaca Luring. Cloud Gagal: ${errMsg}`, "error");
@@ -1751,9 +1757,13 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 } else {
                     if (st && st.length > 0) {
                         studentsList = st.map(mapStudentFromDb);
+                    } else {
+                        studentsList = [];
                     }
                     if (lg && lg.length > 0) {
                         tahfidzLogs = lg.map(mapLogFromDb);
+                    } else {
+                        tahfidzLogs = [];
                     }
                 }
 
@@ -1818,6 +1828,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
                 saveLocalData();
                 
+                // Perbarui tampilan interface aktif secara on-the-fly
                 if (currentRole) {
                     if (currentRole === 'admin') {
                         recalculateAdminStats();
@@ -1865,10 +1876,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                         memorizedBefore: 'memorized_before', celenganTarget: 'celengan_target', motivation: 'motivation',
                         arrivalDate: 'arrival_date', room: 'room', program: 'program', paymentStatus: 'payment_status',
                         sppMonths: 'spp_months', facBuku: 'fac_buku', facMeja: 'fac_meja', facKerudung: 'fac_kerudung',
-                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', totalJuz: 'total_juz', setoran_awal: 'setoran_awal',
-                        setoran_akhir: 'setoran_akhir', target_mingguan: 'target_mingguan', status_capaian: 'status_capaian',
-                        perkembangan_positif: 'perkembangan_positif', catatan_negatif: 'catatan_negatif',
-                        daftar_ulang_status: 'daftar_ulang_status', catatan_lain: 'catatan_lain'
+                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', totalJuz: 'total_juz', setoranAwal: 'setoran_awal',
+                        setoranAkhir: 'setoran_akhir', targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
+                        perkembanganPositif: 'perkembangan_positif', catatanNegatif: 'catatan_negatif',
+                        daftarUlangStatus: 'daftar_ulang_status', catatanLain: 'catatan_lain'
                     };
                     for (let key in payload) {
                         if (mappings[key]) {
@@ -1978,7 +1989,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     currentRole = 'wali';
                     currentWaliStudent = matched;
                     showToast(`Sesi KHS Privat ${matched.name} berhasil dimuat!`, 'success');
-                    triggerConfettiFeedback('burst');
+                    triggerConfettiFeedback('success');
                     enterWorkspace();
                 } else {
                     showToast("Nama lengkap putri Anda tidak ditemukan dalam arsip pendaftaran.", "error");
@@ -1989,7 +2000,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (systemPins[selectedUstazah] === pinInput) {
                     currentRole = `ustazah_${selectedUstazah}`;
                     showToast(`Selamat datang di Halaqah Ustazah ${selectedUstazah}!`, 'success');
-                    triggerConfettiFeedback('burst');
+                    triggerConfettiFeedback('success');
                     enterWorkspace();
                 } else {
                     showToast("Sandi PIN Otoritas Pembina Halaqah salah.", "error");
@@ -1999,7 +2010,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (systemPins['admin'] === pinInput) {
                     currentRole = 'admin';
                     showToast("Akses Otoritas Panel Administrasi Induk diizinkan.", "success");
-                    triggerConfettiFeedback('burst');
+                    triggerConfettiFeedback('success');
                     enterWorkspace();
                 } else {
                     showToast("Sandi PIN Otoritas Admin Utama salah.", "error");
@@ -2009,13 +2020,12 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
         function enterWorkspace() {
             document.getElementById('gate-screen').classList.add('hidden');
+            document.getElementById('main-app-header').classList.remove('hidden');
+            document.getElementById('main-app-container').classList.remove('hidden');
             
-            const header = document.getElementById('main-app-header');
-            const container = document.getElementById('main-app-container');
-            
-            header.classList.remove('hidden');
-            container.classList.remove('hidden');
-            container.classList.add('fade-in-workspace');
+            // Tambahkan kelas transisi premium
+            const workspace = document.getElementById('main-app-container');
+            workspace.classList.add('fade-in-workspace');
             
             let labelText = roleLabels[currentRole] || "Pengguna";
             document.getElementById('active-user-badge').innerText = labelText;
@@ -2027,14 +2037,13 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             currentRole = null;
             currentWaliStudent = null;
             document.getElementById('gate-screen').classList.remove('hidden');
-            
-            const container = document.getElementById('main-app-container');
-            container.classList.remove('fade-in-workspace');
-            
             document.getElementById('main-app-header').classList.add('hidden');
             document.getElementById('main-app-container').classList.add('hidden');
             document.getElementById('gate-pin').value = '';
             document.getElementById('gate-wali-student-name').value = '';
+            
+            const workspace = document.getElementById('main-app-container');
+            workspace.classList.remove('fade-in-workspace');
         };
 
         function setupActiveWorkspace() {
@@ -2169,7 +2178,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             syncInsertToCloud('tahfidz_logs', initialLog);
 
             showToast(`Santriwati ${name} Berhasil Didaftarkan! Data tersimpan aman.`, 'success');
-            triggerConfettiFeedback('school-pride');
+            triggerConfettiFeedback('register');
             recalculateAdminStats();
             
             openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
@@ -2186,6 +2195,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
             localStorage.setItem('karima_system_pins', JSON.stringify(systemPins));
             showToast("Seluruh Kredensial PIN Otoritas Diperbarui!", "success");
+            triggerConfettiFeedback('success');
         };
 
         window.renderAdminStudentsDirectory = function() {
@@ -2245,156 +2255,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             });
         };
 
-        function parseCSV(text) {
-            let lines = [];
-            let row = [""];
-            let inQuotes = false;
-            let firstLine = text.split('\n')[0];
-            let delimiter = ',';
-            if (firstLine.includes(';')) delimiter = ';';
-
-            for (let i = 0; i < text.length; i++) {
-                let c = text[i];
-                let next = text[i+1];
-                if (c === '"') {
-                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
-                    else { inQuotes = !inQuotes; }
-                } else if (c === delimiter && !inQuotes) {
-                    row.push('');
-                } else if ((c === '\r' || c === '\n') && !inQuotes) {
-                    if (c === '\r' && next === '\n') { i++; }
-                    lines.push(row);
-                    row = [''];
-                } else {
-                    row[row.length - 1] += c;
-                }
-            }
-            if (row.length > 1 || row[0] !== '') {
-                lines.push(row);
-            }
-            return lines;
-        }
-
-        window.handleCSVImport = function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = async function(evt) {
-                const text = evt.target.result;
-                try {
-                    const rawLines = parseCSV(text);
-                    if (rawLines.length < 2) {
-                        showToast("File CSV kosong atau format tidak didukung.", "error");
-                        return;
-                    }
-
-                    const headers = rawLines[0].map(h => h.trim().toLowerCase().replace(/_/g, ''));
-                    let importedCount = 0;
-
-                    for (let i = 1; i < rawLines.length; i++) {
-                        const values = rawLines[i];
-                        if (values.length < headers.length || (values.length === 1 && values[0] === "")) continue;
-
-                        const rowData = {};
-                        headers.forEach((header, index) => {
-                            rowData[header] = values[index] ? values[index].trim() : "";
-                        });
-
-                        const newId = rowData.id || "s_" + (Date.now() + i);
-                        
-                        const parseBool = (val, def) => {
-                            if (val === undefined || val === null || val === "") return def;
-                            const s = String(val).toLowerCase().trim();
-                            return s === "true" || s === "1" || s === "yes" || s === "ya" || s === "lunas";
-                        };
-
-                        let sppMonths = {
-                            "Jan": "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
-                            "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
-                            "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
-                        };
-                        
-                        const sppMonthsRaw = rowData.sppmonths || rowData.spp_months;
-                        if (sppMonthsRaw) {
-                            try {
-                                sppMonths = JSON.parse(sppMonthsRaw);
-                            } catch (err) {
-                                if (String(sppMonthsRaw).toLowerCase() === "lunas") {
-                                    sppMonths["Jan"] = "Lunas";
-                                }
-                            }
-                        }
-
-                        const studentObj = {
-                            id: newId,
-                            name: rowData.name || rowData.namalengkap || "Santriwati Baru",
-                            pobDob: rowData.pobdob || rowData.tempatlahirtanggallahir || "",
-                            address: rowData.address || rowData.alamat || "",
-                            parentPhone: rowData.parentphone || rowData.nowhatsappwali || rowData.parent_phone || "",
-                            memorizedBefore: rowData.memorizedbefore || rowData.riwayatmenghafal || "Belum Pernah",
-                            celenganTarget: rowData.celengantarget || rowData.targetcelengan || "5 Juz",
-                            motivation: rowData.motivation || rowData.motivasimenghafal || "Mengabdi pada Al-Qur'an",
-                            arrivalDate: rowData.arrivaldate || rowData.tanggalkedatangan || new Date().toISOString().split('T')[0],
-                            room: rowData.room || rowData.kamarasrama || "Ayu",
-                            program: rowData.program || rowData.programkelas || "Tahfidz Reguler",
-                            paymentStatus: rowData.paymentstatus || rowData.statussyahriyah || "Belum Lunas",
-                            sppMonths: sppMonths,
-                            facBuku: parseBool(rowData.facbuku, true),
-                            facMeja: parseBool(rowData.facmeja, true),
-                            facKerudung: parseBool(rowData.fackerudung, true),
-                            facLoker: parseBool(rowData.facloker, false),
-                            inHalaqah: parseBool(rowData.inhalaqah, true), 
-                            totalJuz: parseFloat(rowData.totaljuz || rowData.total_juz) || 0.0,
-                            setoranAwal: rowData.setoranawal || "Belum Setoran",
-                            setoranAkhir: rowData.setoranakhir || "-",
-                            targetMingguan: rowData.targetmingguan || "4 Halaman",
-                            statusCapaian: rowData.statuscapaian || "Belum Tercapai",
-                            perkembanganPositif: rowData.perkembanganpositif || "Proses adaptasi awal asrama",
-                            catatanNegatif: rowData.catatannegatif || "Nihil",
-                            daftarUlangStatus: rowData.daftarulangstatus || "Belum Lunas",
-                            catatanLain: rowData.catatanlain || "Diimpor via CSV"
-                        };
-
-                        const existingIdx = studentsList.findIndex(s => s.id === studentObj.id);
-                        if (existingIdx > -1) {
-                            studentsList[existingIdx] = studentObj;
-                            await syncUpdateToCloud('santri_students', studentObj.id, studentObj);
-                        } else {
-                            studentsList.push(studentObj);
-                            await syncInsertToCloud('santri_students', studentObj);
-                        }
-
-                        const initialLog = {
-                            id: "log_" + (Date.now() + i),
-                            student_id: newId,
-                            date: new Date().toISOString().split('T')[0],
-                            setoran_awal: studentObj.setoranAwal,
-                            setoran_akhir: studentObj.setoranAkhir,
-                            total_juz: studentObj.totalJuz,
-                            pos: studentObj.perkembanganPositif,
-                            neg: studentObj.catatanNegatif
-                        };
-                        tahfidzLogs.unshift(initialLog);
-                        await syncInsertToCloud('tahfidz_logs', initialLog);
-
-                        importedCount++;
-                    }
-
-                    saveLocalData();
-                    showToast(`Sukses mengimpor ${importedCount} data santri dari ${file.name}!`, "success");
-                    triggerConfettiFeedback('school-pride');
-                    recalculateAdminStats();
-                    renderAdminStudentsDirectory();
-                } catch (error) {
-                    console.error(error);
-                    showToast("Gagal memproses file CSV: " + error.message, "error");
-                }
-            };
-            reader.readAsText(file);
-            e.target.value = ''; 
-        };
-
         window.deleteStudentData = function(studentId) {
             const student = studentsList.find(s => s.id === studentId);
             if (!student) return;
@@ -2419,6 +2279,102 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const student = studentsList.find(s => s.id === studentId);
             if (!student) return;
             openReceiptModal(student, 250000, 900000, 0); 
+        };
+
+        // =========================================================================
+        // AUTOMATIC CSV IMPORT FUNCTION (santri_students_rows.csv VERBATIM REFERENCE)
+        // =========================================================================
+        window.handleCSVImport = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(evt) {
+                const text = evt.target.result;
+                const lines = text.split('\n');
+                let importCount = 0;
+
+                // Membaca baris demi baris, melewati baris judul (header) pertama
+                for (let i = 1; i < lines.length; i++) {
+                    const row = lines[i].trim();
+                    if (!row) continue;
+
+                    // Parse CSV sederhana menggunakan pemisah koma
+                    const columns = row.split(',');
+                    if (columns.length < 5) continue; 
+
+                    const name = columns[0].replace(/"/g, '').trim();
+                    const phone = columns[1].replace(/"/g, '').trim();
+                    const pobDob = columns[2].replace(/"/g, '').trim() || "Pare, 10 Oktober 2008";
+                    const address = columns[3].replace(/"/g, '').trim() || "Pondok Asrama HQ Putri 4";
+                    const room = columns[4].replace(/"/g, '').trim() || "Ayu";
+                    const program = columns[5] ? columns[5].replace(/"/g, '').trim() : "Tahfidz Reguler";
+                    const celenganTarget = columns[6] ? columns[6].replace(/"/g, '').trim() : "5 Juz";
+
+                    const newId = "s_" + Date.now() + "_" + i;
+                    
+                    const initialSppMonths = {
+                        "Jan": "Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                        "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                        "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                    };
+
+                    const importedStudent = {
+                        id: newId,
+                        name: name,
+                        pobDob: pobDob,
+                        address: address,
+                        parentPhone: phone,
+                        memorizedBefore: "Belum Pernah",
+                        celenganTarget: celenganTarget,
+                        motivation: "Mengabdi pada Al-Qur'an",
+                        arrivalDate: "2026-01-01",
+                        room: room,
+                        program: program,
+                        paymentStatus: "Lunas",
+                        sppMonths: initialSppMonths,
+                        facBuku: true,
+                        facMeja: true,
+                        facKerudung: true,
+                        facLoker: false,
+                        inHalaqah: false, // Membutuhkan otorisasi Ustazah untuk masuk halaqah
+                        totalJuz: 0.0,
+                        setoranAwal: 'Belum Setoran',
+                        setoranAkhir: '-',
+                        targetMingguan: '4 Halaman',
+                        statusCapaian: 'Belum Tercapai',
+                        perkembanganPositif: 'Hasil impor otomatis CSV',
+                        catatanNegatif: 'Nihil',
+                        daftarUlangStatus: 'Lunas',
+                        catatanLain: 'Ditambahkan via Impor CSV santri_students_rows.csv.'
+                    };
+
+                    studentsList.push(importedStudent);
+                    await syncInsertToCloud('santri_students', importedStudent);
+
+                    const initialLog = {
+                        id: "log_import_" + Date.now() + "_" + i,
+                        student_id: newId,
+                        date: "Inisialisasi",
+                        setoran_awal: "Impor CSV",
+                        setoran_akhir: "Santri Baru",
+                        total_juz: 0.0,
+                        pos: "Terdaftar dari berkas CSV",
+                        neg: "Nihil"
+                    };
+                    tahfidzLogs.push(initialLog);
+                    await syncInsertToCloud('tahfidz_logs', initialLog);
+
+                    importCount++;
+                }
+
+                saveLocalData();
+                showToast(`Alhamdulillah! Sukses mengimpor ${importCount} santriwati dari santri_students_rows.csv!`, 'success');
+                triggerConfettiFeedback('register');
+                recalculateAdminStats();
+                renderAdminStudentsDirectory();
+            };
+            reader.readAsText(file);
         };
 
         function renderUstazahInterface() {
@@ -2452,6 +2408,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             }
 
             const selectBox = document.getElementById('ustazah-student-select');
+            
+            // FORM STATE LOCK: Catat pilihan dropdown saat ini sebelum dibuat ulang
+            const prevSelectedValue = selectBox.value;
+
             const activeStudents = studentsList.filter(s => s.room === activeUstazah && s.inHalaqah);
             selectBox.innerHTML = '';
             
@@ -2464,6 +2424,15 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     opt.innerText = `${s.name} (${s.totalJuz} Juz)`;
                     selectBox.appendChild(opt);
                 });
+            }
+
+            // Kembalikan pilihan dropdown jika nama santriwati yang sama masih ada dalam lis
+            if (prevSelectedValue && activeStudents.some(s => s.id === prevSelectedValue)) {
+                selectBox.value = prevSelectedValue;
+            } else if (activeStudents.length > 0) {
+                selectBox.value = activeStudents[0].id;
+                // Populasikan formulir dengan nama santri pertama di daftar secara default
+                populateUstazahForm(activeStudents[0].id);
             }
 
             const cardsContainer = document.getElementById('ustazah-active-list');
@@ -2509,6 +2478,26 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             });
         }
 
+        // =========================================================================
+        // AUTO-POPULATE FORM FIELDS UPON SELECTING A STUDENT
+        // =========================================================================
+        window.populateUstazahForm = function(studentId) {
+            if (!studentId) return;
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+
+            document.getElementById('ustazah-setoran-awal').value = student.setoranAwal || "Belum Setoran";
+            document.getElementById('ustazah-setoran-akhir').value = student.setoranAkhir || "-";
+            document.getElementById('ustazah-target-mingguan').value = student.targetMingguan || "4 Halaman";
+            document.getElementById('ustazah-status-capaian').value = student.statusCapaian || "Belum Tercapai";
+            document.getElementById('ustazah-total-juz').value = student.totalJuz || 0.0;
+            document.getElementById('ustazah-perkembangan-positif').value = student.perkembanganPositif || "Proses adaptasi awal asrama";
+            document.getElementById('ustazah-catatan-negatif').value = student.catatanNegatif || "Nihil";
+            document.getElementById('ustazah-syahriyah').value = student.paymentStatus || "Belum Lunas";
+            document.getElementById('ustazah-daftar-ulang').value = student.daftarUlangStatus || "Belum Lunas";
+            document.getElementById('ustazah-catatan-lain').value = student.catatanLain || "Baru mendaftar di kesekretariat.";
+        };
+
         window.approveStudentIntoHalaqah = async function(studentId) {
             const student = studentsList.find(s => s.id === studentId);
             if (!student) return;
@@ -2518,6 +2507,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             await syncUpdateToCloud('santri_students', studentId, { inHalaqah: true });
 
             showToast(`Otorisasi Berhasil! ${student.name} masuk halaqah aktif Anda.`, 'success');
+            triggerConfettiFeedback('success');
             renderUstazahInterface();
         };
 
@@ -2603,9 +2593,11 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             await syncInsertToCloud('tahfidz_logs', newLog);
 
             showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan & Dicadangkan!`, 'success');
-            triggerConfettiFeedback('burst');
+            triggerConfettiFeedback('success');
             renderUstazahInterface();
-            e.target.reset();
+            
+            // Populasikan ulang agar form memuat data terupdate tanpa reset kosong
+            populateUstazahForm(studentId);
         };
 
         window.renderWaliKHS = function(studentId) {
@@ -2894,6 +2886,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             await syncUpdateToCloud('santri_students', id, s);
 
             showToast(`Berkas Induk Eksekutif ${s.name} Berhasil Disinkronkan Permanen!`, 'success');
+            triggerConfettiFeedback('success');
             closeEditStudentModal();
             recalculateAdminStats();
             renderAdminStudentsDirectory();
@@ -3007,7 +3000,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;`;
             localStorage.setItem('karima_supabase_key', k);
             
             showToast("Konfigurasi API Supabase Disimpan! Memuat Ulang...", "success");
-            triggerConfettiFeedback('burst');
+            triggerConfettiFeedback('success');
             closeSupabaseConfigModal();
             setTimeout(() => { location.reload(); }, 1000);
         };
@@ -3040,6 +3033,44 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;`;
             showToast("Database Contoh Dimuat Ulang!", "success");
             setTimeout(() => { location.reload(); }, 800);
         };
+
+        // =========================================================================
+        // PREMIUM CONFETTI FEEDBACK SYSTEM ON SUCCESS ACTIONS
+        // =========================================================================
+        function triggerConfettiFeedback(actionType = 'success') {
+            if (typeof confetti === 'undefined') return;
+
+            if (actionType === 'register') {
+                // Skema kembang api ganda berturut-turut untuk Registrasi Sukses
+                const duration = 2.5 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 28, spread: 360, ticks: 60, zIndex: 100, colors: ['#047857', '#eab308', '#1e293b'] };
+
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                const interval = setInterval(function() {
+                    const timeLeft = animationEnd - Date.now();
+
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
+
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                }, 250);
+            } else {
+                // Letupan melingkar instan di tengah layar untuk Kesuksesan Umum (Login/Simpan)
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#047857', '#eab308', '#ffffff']
+                });
+            }
+        }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
