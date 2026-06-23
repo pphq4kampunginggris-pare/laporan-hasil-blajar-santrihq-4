@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- html2pdf.js CDN for Direct Premium PDF Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+    <!-- Canvas Confetti CDN for Premium Success Feedback -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -21,6 +23,19 @@
         }
         .arabic-text {
             font-family: 'Amiri', serif;
+        }
+        .fade-in-workspace {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         /* Custom scrollbar for premium aesthetic */
         ::-webkit-scrollbar {
@@ -203,13 +218,13 @@
             </div>
             
             <div class="flex items-center gap-2.5">
-                <!-- Header Live Sync Badge (Cleaned: No flashing/blinking) -->
+                <!-- Header Live Sync Badge -->
                 <div id="header-sync-badge" class="hidden flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300/90 tracking-wider">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     <span id="sync-time-label">TERHUBUNG</span>
                 </div>
 
-                <!-- Header Live Visitor Badge (Cleaned: Simple, professional look) -->
+                <!-- Header Live Visitor Badge -->
                 <div id="header-visitor-badge" class="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300 tracking-wider hidden">
                     <i class="fa-solid fa-user text-amber-400"></i>
                     <span>PENGUNJUNG: <strong class="text-white" id="header-visitor-count">1</strong></span>
@@ -481,6 +496,11 @@
                     </div>
                     
                     <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full md:w-auto">
+                        <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
+                        <button onclick="document.getElementById('csv-file-input').click()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white text-xs font-black px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-file-csv text-sm text-amber-200"></i> Impor CSV (santri_students_rows.csv)
+                        </button>
+
                         <div class="relative w-full sm:w-64">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                                 <i class="fa-solid fa-magnifying-glass text-xs"></i>
@@ -1393,97 +1413,9 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
         const monthsShortList = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
-        const standardSeedStudents = [
-            {
-                id: "s_01",
-                name: "Aisyah Humaira Khansa",
-                pobDob: "Kediri, 12 April 2007",
-                address: "Jl. Mawar No. 12, Pare, Kediri",
-                parentPhone: "081234567890",
-                memorizedBefore: "Sudah Pernah",
-                celenganTarget: "10 Juz",
-                motivation: "Membahagiakan orang tua di akhirat",
-                arrivalDate: "2026-01-10",
-                room: "Ayu",
-                program: "Takhassus 30 Juz",
-                paymentStatus: "Lunas",
-                sppMonths: {
-                    "Jan": "Lunas", "Feb": "Lunas", "Mar": "Lunas", "Apr": "Belum Lunas",
-                    "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
-                    "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
-                },
-                facBuku: true,
-                facMeja: true,
-                facKerudung: true,
-                facLoker: false,
-                inHalaqah: true,
-                totalJuz: 3.5,
-                setoranAwal: "Juz 1 Hal 1",
-                setoranAkhir: "Juz 3 Hal 20",
-                targetMingguan: "5 Halaman",
-                statusCapaian: "Tercapai",
-                perkembanganPositif: "Tajwid sangat bagus, hafalan mutqin",
-                catatanNegatif: "Nihil",
-                daftarUlangStatus: "Lunas",
-                catatanLain: "Sangat rajin murojaah mandiri."
-            },
-            {
-                id: "s_02",
-                name: "Iqlima Ainur Rahma",
-                pobDob: "Malang, 20 Agustus 2008",
-                address: "Perum Permata Gg. 3, Blimbing, Malang",
-                parentPhone: "085678901234",
-                memorizedBefore: "Belum Pernah",
-                celenganTarget: "5 Juz",
-                motivation: "Menjadi hafizah and mengabdi di masyarakat",
-                arrivalDate: "2026-02-01",
-                room: "Ayuniz",
-                program: "Tahfidz Reguler",
-                paymentStatus: "Belum Lunas",
-                sppMonths: {
-                    "Jan": "Belum Lunas", "Feb": "Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
-                    "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
-                    "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
-                },
-                facBuku: true,
-                facMeja: true,
-                facKerudung: false,
-                facLoker: true,
-                inHalaqah: true,
-                totalJuz: 1.2,
-                setoranAwal: "Juz 30 Hal 1",
-                setoranAkhir: "Juz 30 Hal 15",
-                targetMingguan: "3 Halaman",
-                statusCapaian: "Tercapai",
-                perkembanganPositif: "Makhraj huruf lancar",
-                catatanNegatif: "Kurang fokus di pagi hari",
-                daftarUlangStatus: "Cicil",
-                catatanLain: "Sering izin karena pusing ringan."
-            }
-        ];
-
-        const standardSeedLogs = [
-            {
-                id: "log_1",
-                student_id: "s_01",
-                date: "2026-06-15",
-                setoran_awal: "Juz 1 Hal 1",
-                setoran_akhir: "Juz 3 Hal 20",
-                total_juz: 3.5,
-                pos: "Kualitas hafalan mutqin, tajwid tertib.",
-                neg: "Nihil"
-            },
-            {
-                id: "log_2",
-                student_id: "s_02",
-                date: "2026-06-18",
-                setoran_awal: "Juz 30 Hal 1",
-                setoran_akhir: "Juz 30 Hal 15",
-                total_juz: 1.2,
-                pos: "Pelafalan makhraj tajam & lancar.",
-                neg: "Fokus agak berkurang di akhir sesi."
-            }
-        ];
+        // Data dikosongkan 100% agar pengguna dapat mendaftar baru dari nol
+        const standardSeedStudents = [];
+        const standardSeedLogs = [];
 
         let systemPins = JSON.parse(localStorage.getItem('karima_system_pins')) || {
             'admin': 'admin4',
@@ -1522,6 +1454,40 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const day = d.getDate();
             const weekNum = Math.ceil(day / 7);
             return `${monthName} Minggu ke-${weekNum}`;
+        }
+
+        // Premium Confetti Animasi Feedback
+        function triggerConfettiFeedback(type) {
+            if (typeof confetti === 'undefined') return;
+            if (type === 'burst') {
+                confetti({
+                    particleCount: 80,
+                    spread: 60,
+                    origin: { y: 0.6 }
+                });
+            } else if (type === 'school-pride') {
+                const end = Date.now() + (2 * 1000);
+                const colors = ['#047857', '#fbbf24', '#ffffff'];
+                (function frame() {
+                    confetti({
+                        particleCount: 3,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: colors
+                    });
+                    confetti({
+                        particleCount: 3,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: colors
+                    });
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            }
         }
 
         function initVisitorCounter() {
@@ -1592,7 +1558,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL || "";
             let key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY || "";
             
-            // Proteksi kuat: Bersihkan sisa vsn query parameter jika pengguna pernah menyimpan token bermasalah
             if (key.includes('&vsn=')) {
                 key = key.split('&vsn=')[0];
             }
@@ -1617,7 +1582,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                         if (syncTimeLabel) syncTimeLabel.innerText = "TERHUBUNG";
                     }
 
-                    // Muat data dari cloud dan jalankan langganan background polling
                     fetchCloudData().then(() => {
                         setupRealtimeSubscription();
                     });
@@ -1636,9 +1600,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             setupActiveWorkspace();
         }
 
-        // =========================================================================
-        // SAFE HTTP-POLLING SYNC (MENGGANTI WEBSOCKET REALTIME)
-        // =========================================================================
         let pollingInterval = null;
         
         function setupRealtimeSubscription() {
@@ -1650,7 +1611,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (isCloudMode && supabaseClient && document.visibilityState === 'visible') {
                     fetchCloudDataSilent();
                 }
-            }, 8000); // Polling berkala 8 detik sekali
+            }, 8000);
 
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -1766,7 +1727,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (err1 || err2) {
                     const errMsg = (err1?.message || err2?.message || 'Akses tidak sah/RLS aktif');
                     console.error("Koneksi Supabase bermasalah, mengalihkan ke mode luring/lokal.", err1, err2);
-                    isCloudMode = false; // Matikan cloud mode agar tidak merusak data lokal yang sehat
+                    isCloudMode = false;
                     const syncBadge = document.getElementById('header-sync-badge');
                     if (syncBadge) syncBadge.classList.add('hidden');
                     showToast(`Terbaca Luring. Cloud Gagal: ${errMsg}`, "error");
@@ -1831,10 +1792,9 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
                 if (err1 || err2) {
                     console.warn("Silent sync terhambat. Menjaga integritas data lokal aktif.", err1, err2);
-                    return; // Batalkan proses senyap agar tidak menimpa data lokal yang baru saja diinput
+                    return; 
                 }
 
-                // Hanya perbarui list jika server mengembalikan data santri yang valid
                 if (st && st.length > 0) {
                     studentsList = st.map(mapStudentFromDb).map(s => {
                         if (!s.sppMonths) {
@@ -1858,7 +1818,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
                 saveLocalData();
                 
-                // Perbarui tampilan interface aktif secara on-the-fly
                 if (currentRole) {
                     if (currentRole === 'admin') {
                         recalculateAdminStats();
@@ -1906,10 +1865,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                         memorizedBefore: 'memorized_before', celenganTarget: 'celengan_target', motivation: 'motivation',
                         arrivalDate: 'arrival_date', room: 'room', program: 'program', paymentStatus: 'payment_status',
                         sppMonths: 'spp_months', facBuku: 'fac_buku', facMeja: 'fac_meja', facKerudung: 'fac_kerudung',
-                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', totalJuz: 'total_juz', setoranAwal: 'setoran_awal',
-                        setoranAkhir: 'setoran_akhir', targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
-                        perkembanganPositif: 'perkembangan_positif', catatanNegatif: 'catatan_negatif',
-                        daftarUlangStatus: 'daftar_ulang_status', catatanLain: 'catatan_lain'
+                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', totalJuz: 'total_juz', setoran_awal: 'setoran_awal',
+                        setoran_akhir: 'setoran_akhir', target_mingguan: 'target_mingguan', status_capaian: 'status_capaian',
+                        perkembangan_positif: 'perkembangan_positif', catatan_negatif: 'catatan_negatif',
+                        daftar_ulang_status: 'daftar_ulang_status', catatan_lain: 'catatan_lain'
                     };
                     for (let key in payload) {
                         if (mappings[key]) {
@@ -2019,6 +1978,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     currentRole = 'wali';
                     currentWaliStudent = matched;
                     showToast(`Sesi KHS Privat ${matched.name} berhasil dimuat!`, 'success');
+                    triggerConfettiFeedback('burst');
                     enterWorkspace();
                 } else {
                     showToast("Nama lengkap putri Anda tidak ditemukan dalam arsip pendaftaran.", "error");
@@ -2029,6 +1989,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (systemPins[selectedUstazah] === pinInput) {
                     currentRole = `ustazah_${selectedUstazah}`;
                     showToast(`Selamat datang di Halaqah Ustazah ${selectedUstazah}!`, 'success');
+                    triggerConfettiFeedback('burst');
                     enterWorkspace();
                 } else {
                     showToast("Sandi PIN Otoritas Pembina Halaqah salah.", "error");
@@ -2038,6 +1999,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 if (systemPins['admin'] === pinInput) {
                     currentRole = 'admin';
                     showToast("Akses Otoritas Panel Administrasi Induk diizinkan.", "success");
+                    triggerConfettiFeedback('burst');
                     enterWorkspace();
                 } else {
                     showToast("Sandi PIN Otoritas Admin Utama salah.", "error");
@@ -2047,8 +2009,13 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
         function enterWorkspace() {
             document.getElementById('gate-screen').classList.add('hidden');
-            document.getElementById('main-app-header').classList.remove('hidden');
-            document.getElementById('main-app-container').classList.remove('hidden');
+            
+            const header = document.getElementById('main-app-header');
+            const container = document.getElementById('main-app-container');
+            
+            header.classList.remove('hidden');
+            container.classList.remove('hidden');
+            container.classList.add('fade-in-workspace');
             
             let labelText = roleLabels[currentRole] || "Pengguna";
             document.getElementById('active-user-badge').innerText = labelText;
@@ -2060,6 +2027,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             currentRole = null;
             currentWaliStudent = null;
             document.getElementById('gate-screen').classList.remove('hidden');
+            
+            const container = document.getElementById('main-app-container');
+            container.classList.remove('fade-in-workspace');
+            
             document.getElementById('main-app-header').classList.add('hidden');
             document.getElementById('main-app-container').classList.add('hidden');
             document.getElementById('gate-pin').value = '';
@@ -2198,6 +2169,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             syncInsertToCloud('tahfidz_logs', initialLog);
 
             showToast(`Santriwati ${name} Berhasil Didaftarkan! Data tersimpan aman.`, 'success');
+            triggerConfettiFeedback('school-pride');
             recalculateAdminStats();
             
             openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
@@ -2271,6 +2243,156 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 `;
                 listContainer.appendChild(tr);
             });
+        };
+
+        function parseCSV(text) {
+            let lines = [];
+            let row = [""];
+            let inQuotes = false;
+            let firstLine = text.split('\n')[0];
+            let delimiter = ',';
+            if (firstLine.includes(';')) delimiter = ';';
+
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i];
+                let next = text[i+1];
+                if (c === '"') {
+                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
+                    else { inQuotes = !inQuotes; }
+                } else if (c === delimiter && !inQuotes) {
+                    row.push('');
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                    if (c === '\r' && next === '\n') { i++; }
+                    lines.push(row);
+                    row = [''];
+                } else {
+                    row[row.length - 1] += c;
+                }
+            }
+            if (row.length > 1 || row[0] !== '') {
+                lines.push(row);
+            }
+            return lines;
+        }
+
+        window.handleCSVImport = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(evt) {
+                const text = evt.target.result;
+                try {
+                    const rawLines = parseCSV(text);
+                    if (rawLines.length < 2) {
+                        showToast("File CSV kosong atau format tidak didukung.", "error");
+                        return;
+                    }
+
+                    const headers = rawLines[0].map(h => h.trim().toLowerCase().replace(/_/g, ''));
+                    let importedCount = 0;
+
+                    for (let i = 1; i < rawLines.length; i++) {
+                        const values = rawLines[i];
+                        if (values.length < headers.length || (values.length === 1 && values[0] === "")) continue;
+
+                        const rowData = {};
+                        headers.forEach((header, index) => {
+                            rowData[header] = values[index] ? values[index].trim() : "";
+                        });
+
+                        const newId = rowData.id || "s_" + (Date.now() + i);
+                        
+                        const parseBool = (val, def) => {
+                            if (val === undefined || val === null || val === "") return def;
+                            const s = String(val).toLowerCase().trim();
+                            return s === "true" || s === "1" || s === "yes" || s === "ya" || s === "lunas";
+                        };
+
+                        let sppMonths = {
+                            "Jan": "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                            "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                            "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                        };
+                        
+                        const sppMonthsRaw = rowData.sppmonths || rowData.spp_months;
+                        if (sppMonthsRaw) {
+                            try {
+                                sppMonths = JSON.parse(sppMonthsRaw);
+                            } catch (err) {
+                                if (String(sppMonthsRaw).toLowerCase() === "lunas") {
+                                    sppMonths["Jan"] = "Lunas";
+                                }
+                            }
+                        }
+
+                        const studentObj = {
+                            id: newId,
+                            name: rowData.name || rowData.namalengkap || "Santriwati Baru",
+                            pobDob: rowData.pobdob || rowData.tempatlahirtanggallahir || "",
+                            address: rowData.address || rowData.alamat || "",
+                            parentPhone: rowData.parentphone || rowData.nowhatsappwali || rowData.parent_phone || "",
+                            memorizedBefore: rowData.memorizedbefore || rowData.riwayatmenghafal || "Belum Pernah",
+                            celenganTarget: rowData.celengantarget || rowData.targetcelengan || "5 Juz",
+                            motivation: rowData.motivation || rowData.motivasimenghafal || "Mengabdi pada Al-Qur'an",
+                            arrivalDate: rowData.arrivaldate || rowData.tanggalkedatangan || new Date().toISOString().split('T')[0],
+                            room: rowData.room || rowData.kamarasrama || "Ayu",
+                            program: rowData.program || rowData.programkelas || "Tahfidz Reguler",
+                            paymentStatus: rowData.paymentstatus || rowData.statussyahriyah || "Belum Lunas",
+                            sppMonths: sppMonths,
+                            facBuku: parseBool(rowData.facbuku, true),
+                            facMeja: parseBool(rowData.facmeja, true),
+                            facKerudung: parseBool(rowData.fackerudung, true),
+                            facLoker: parseBool(rowData.facloker, false),
+                            inHalaqah: parseBool(rowData.inhalaqah, true), 
+                            totalJuz: parseFloat(rowData.totaljuz || rowData.total_juz) || 0.0,
+                            setoranAwal: rowData.setoranawal || "Belum Setoran",
+                            setoranAkhir: rowData.setoranakhir || "-",
+                            targetMingguan: rowData.targetmingguan || "4 Halaman",
+                            statusCapaian: rowData.statuscapaian || "Belum Tercapai",
+                            perkembanganPositif: rowData.perkembanganpositif || "Proses adaptasi awal asrama",
+                            catatanNegatif: rowData.catatannegatif || "Nihil",
+                            daftarUlangStatus: rowData.daftarulangstatus || "Belum Lunas",
+                            catatanLain: rowData.catatanlain || "Diimpor via CSV"
+                        };
+
+                        const existingIdx = studentsList.findIndex(s => s.id === studentObj.id);
+                        if (existingIdx > -1) {
+                            studentsList[existingIdx] = studentObj;
+                            await syncUpdateToCloud('santri_students', studentObj.id, studentObj);
+                        } else {
+                            studentsList.push(studentObj);
+                            await syncInsertToCloud('santri_students', studentObj);
+                        }
+
+                        const initialLog = {
+                            id: "log_" + (Date.now() + i),
+                            student_id: newId,
+                            date: new Date().toISOString().split('T')[0],
+                            setoran_awal: studentObj.setoranAwal,
+                            setoran_akhir: studentObj.setoranAkhir,
+                            total_juz: studentObj.totalJuz,
+                            pos: studentObj.perkembanganPositif,
+                            neg: studentObj.catatanNegatif
+                        };
+                        tahfidzLogs.unshift(initialLog);
+                        await syncInsertToCloud('tahfidz_logs', initialLog);
+
+                        importedCount++;
+                    }
+
+                    saveLocalData();
+                    showToast(`Sukses mengimpor ${importedCount} data santri dari ${file.name}!`, "success");
+                    triggerConfettiFeedback('school-pride');
+                    recalculateAdminStats();
+                    renderAdminStudentsDirectory();
+                } catch (error) {
+                    console.error(error);
+                    showToast("Gagal memproses file CSV: " + error.message, "error");
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = ''; 
         };
 
         window.deleteStudentData = function(studentId) {
@@ -2481,6 +2603,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             await syncInsertToCloud('tahfidz_logs', newLog);
 
             showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan & Dicadangkan!`, 'success');
+            triggerConfettiFeedback('burst');
             renderUstazahInterface();
             e.target.reset();
         };
@@ -2884,6 +3007,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;`;
             localStorage.setItem('karima_supabase_key', k);
             
             showToast("Konfigurasi API Supabase Disimpan! Memuat Ulang...", "success");
+            triggerConfettiFeedback('burst');
             closeSupabaseConfigModal();
             setTimeout(() => { location.reload(); }, 1000);
         };
