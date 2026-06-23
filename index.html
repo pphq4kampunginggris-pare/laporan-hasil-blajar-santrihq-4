@@ -6,8 +6,8 @@
     <title>E-Tahfidz Al Karima - HQ Putri 4</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- html2pdf.js CDN for Direct Premium PDF Download -->
@@ -18,6 +18,9 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+        .arabic-text {
+            font-family: 'Amiri', serif;
         }
         /* Custom scrollbar for premium aesthetic */
         ::-webkit-scrollbar {
@@ -72,20 +75,20 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-lg font-black tracking-tight bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN </h1>
-                    <p class="text-[10px] text-emerald-300/80 font-bold uppercase tracking-widest mt-1">PP Hamalatul Qur'an Putri 4 </p>
+                    <h1 class="text-base font-black tracking-tight bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h1>
+                    <p class="text-[9px] text-emerald-300/80 font-bold uppercase tracking-widest mt-1">PP Hamalatul Qur'an Putri 4</p>
                 </div>
             </div>
 
             <div class="space-y-6 z-10">
                 <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase inline-block">
-                    E-Tahfidz Portal v4.6 (Permanent Sync & SPP Tracker)
+                    E-Tahfidz Portal v4.9
                 </span>
                 <h2 class="text-4xl font-black leading-tight tracking-tight">
-                    Sistem Laporan Real-Time  <br/>dan perkembangan santri.
+                    Sistem Laporan Real-Time<br/>dan Perkembangan Santriwati.
                 </h2>
                 <p class="text-slate-300/90 text-sm leading-relaxed max-w-lg">
-                    Laporan pencatatan terpadu administrasi, laporan tahfidz harian, monitoring pembayaran syahriyah bulanan, serta visualisasi rekam jejak hafalan 30 Juz bagi santriwati.
+                    Laporan pencatatan terpadu administrasi, laporan tahfidz harian, monitoring pembayaran syahriyah bulanan, serta visualisasi rekam jejak hafalan 30 Juz bagi santriwati secara instan lintas-perangkat.
                 </p>
             </div>
             
@@ -170,7 +173,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-850 text-white font-extrabold text-xs py-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
+                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-855 text-white font-extrabold text-xs py-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
                         <i class="fa-solid fa-right-to-bracket"></i> Masuk Ruangan
                     </button>
                 </form>
@@ -200,9 +203,15 @@
             </div>
             
             <div class="flex items-center gap-2.5">
-                <!-- Header Live Visitor Badge -->
-                <div id="header-visitor-badge" class="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-extrabold text-emerald-300 tracking-wider hidden">
-                    <i class="fa-solid fa-eye text-amber-400"></i>
+                <!-- Header Live Sync Badge (Cleaned: No flashing/blinking) -->
+                <div id="header-sync-badge" class="hidden flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300/90 tracking-wider">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span id="sync-time-label">TERHUBUNG</span>
+                </div>
+
+                <!-- Header Live Visitor Badge (Cleaned: Simple, professional look) -->
+                <div id="header-visitor-badge" class="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300 tracking-wider hidden">
+                    <i class="fa-solid fa-user text-amber-400"></i>
                     <span>PENGUNJUNG: <strong class="text-white" id="header-visitor-count">1</strong></span>
                 </div>
                 <button onclick="exportDashboardToPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-500/30 text-[10px] font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
@@ -217,25 +226,6 @@
         
         <!-- IN-APP TOAST/NOTIF CONTAINER -->
         <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full no-print"></div>
-
-        <!-- CONTROL STATUS & SAMPLE RESET PANEL -->
-        <div class="bg-white border border-slate-200 text-slate-800 p-4 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm no-print" id="control-reset-panel">
-            <div class="flex items-center gap-3">
-                <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-2xl"><i class="fa-solid fa-database text-base"></i></span>
-                <div>
-                    <p class="font-extrabold text-xs" id="storage-mode-title">Sinkronisasi Cloud Aktif</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed" id="storage-mode-desc">Semua laporan santri & tahfidz tersimpan aman dan terintegrasi di cloud database Supabase Anda.</p>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="openSupabaseConfigModal()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black px-4 py-2.5 rounded-xl transition-all border border-emerald-200 flex items-center gap-2 shadow-2xs">
-                    <i class="fa-solid fa-cloud"></i> Hubungkan Supabase
-                </button>
-                <button onclick="openSeedModal()" class="bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-black px-4 py-2.5 rounded-xl transition-all border border-slate-200 flex items-center gap-2 shadow-2xs">
-                    <i class="fa-solid fa-arrows-rotate text-emerald-600"></i> Muat Ulang Database Contoh
-                </button>
-            </div>
-        </div>
 
         <!-- ========================================================== -->
         <!-- VIEW 1: INTERFACE ADMINISTRATOR (PPSB) -->
@@ -396,7 +386,7 @@
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Kamar Asrama & Halaqah Asuhan</label>
                                 <select id="admin-add-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900 cursor-pointer">
                                     <option value="Ayu">Ustazah Ayu - Ruang Ayu (Halaqah Al-Mulk)</option>
-                                    <option value="Ayuniz">Ustazah Ayuniz - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
+                                    <option value="Ayuniz">Ustazah Ayu - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
                                     <option value="Rima">Ustazah Rima - Ruang Rima (Halaqah Ya-Sin)</option>
                                     <option value="Nafis">Ustazah Nafis - Ruang Nafis (Halaqah Al-Waqi'ah)</option>
                                 </select>
@@ -435,7 +425,7 @@
                             <input type="text" id="admin-add-motivation" placeholder="Contoh: Mengabdi pada Al-Qur'an dan membahagiakan orang tua" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-600">
                         </div>
 
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-850 text-white font-extrabold text-xs p-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
+                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-855 text-white font-extrabold text-xs p-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
                             <i class="fa-solid fa-floppy-disk"></i> Simpan Pendaftaran &amp; Terbitkan Kuitansi
                         </button>
                     </form>
@@ -515,7 +505,7 @@
                                 <th class="p-3">Program Studi</th>
                                 <th class="p-3 text-center">Ustazah Pengampu</th>
                                 <th class="p-3 text-center">Status Halaqah</th>
-                                <th class="p-3 text-center">Syahriyah (SPP Aktif)</th>
+                                <th class="p-3 text-center">Syahriyah (SPP)</th>
                                 <th class="p-3 text-center">Tindakan Otoritas</th>
                             </tr>
                         </thead>
@@ -644,7 +634,7 @@
                             <textarea id="ustazah-catatan-lain" rows="2" placeholder="Keterangan tambahan (sakit, izin, dll)" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-850 text-white font-extrabold text-xs p-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
+                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-855 text-white font-extrabold text-xs p-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
                             <i class="fa-solid fa-floppy-disk"></i> Simpan Data &amp; Update KHS
                         </button>
                     </form>
@@ -664,9 +654,7 @@
             </div>
         </div>
 
-        <!-- ========================================================== -->
-        <!-- VIEW 3: INTERFACE WALI SANTRI (KHS DIGITAL) -->
-        <!-- ========================================================== -->
+        <!-- ==================== VIEW 3: INTERFACE WALI SANTRI (KHS DIGITAL) ==================== -->
         <div id="view-wali" class="hidden space-y-6">
             <!-- Navigation back button specifically for Admin/Ustazah testing -->
             <div id="parent-back-btn-container" class="flex flex-col sm:flex-row justify-between items-center bg-slate-100 p-4 rounded-3xl border border-slate-200/50 gap-3 no-print">
@@ -736,7 +724,7 @@
                 <!-- PETA JALUR PERJALANAN HAFAKAN 30 JUZ -->
                 <div class="space-y-3">
                     <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-1"></i> Peta Jalur Perjalanan Visual Menuju 30 Juz Al-Qur'an</span>
-                    <div id="peta-tahfidz-container" class="grid grid-cols-10 gap-1.5 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
+                    <div id="peta-tahfidz-container" class="grid grid-cols-6 sm:grid-cols-10 gap-1.5 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
                         <!-- Filled dynamically: 30 visual progress circles -->
                     </div>
                 </div>
@@ -847,7 +835,7 @@
                 <button onclick="printKHS()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
                     <i class="fa-solid fa-print text-emerald-700"></i> Cetak Raport KHS
                 </button>
-                <button onclick="saveKHSPDF()" class="bg-emerald-700 hover:bg-emerald-850 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
+                <button onclick="saveKHSPDF()" class="bg-emerald-700 hover:bg-emerald-855 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
                     <i class="fa-solid fa-file-pdf"></i> Simpan Raport PDF (1 Lembar)
                 </button>
             </div>
@@ -855,7 +843,7 @@
 
     </main>
 
-    <!-- BUKTI PENDAFTARAN (RECEIPT) MODAL (LOCKABLE INNER SCROLL - HIGHLY OPTIMIZED PORTRAIT VIEW) -->
+    <!-- BUKTI PENDAFTARAN (RECEIPT) MODAL -->
     <div id="receipt-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-3xl w-full p-5 shadow-2xl flex flex-col max-h-[95vh] border border-slate-100">
             
@@ -869,7 +857,6 @@
 
             <!-- Scrollable Container Area -->
             <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-4 scrollbar-thin">
-                <!-- Printable Content Area: Structured 100% strictly as an A4 Portrait Document Sheet -->
                 <div id="print-receipt-area" class="p-8 bg-white text-slate-900 leading-relaxed relative border-4 border-double border-emerald-900/60 shadow-xs" 
                      style="width: 100%; max-width: 680px; min-height: 870px; margin: 0 auto; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.02) 0%, transparent 80%);">
                     
@@ -933,12 +920,6 @@
                         <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block"><i class="fa-solid fa-receipt mr-1"></i> Rincian Transaksi Keuangan Masuk</span>
                         <div class="border border-slate-200 rounded-2xl overflow-hidden text-xs">
                             <table class="w-full text-left">
-                                <thead class="bg-slate-50 border-b border-slate-200 text-[9px] uppercase font-black text-slate-400 tracking-wider">
-                                    <tr>
-                                        <th class="p-2.5">Keterangan Administrasi</th>
-                                        <th class="p-2.5 text-right">Nominal Biaya</th>
-                                    </tr>
-                                </thead>
                                 <tbody class="divide-y divide-slate-100 text-slate-600 font-semibold">
                                     <tr>
                                         <td class="p-2.5">Infaq Pendaftaran Santri Baru (PPSB)</td>
@@ -979,7 +960,6 @@
                             <p class="font-mono">Secure Auth Code: <strong class="text-slate-800" id="secure-receipt-code">654321</strong></p>
                         </div>
                         <div class="border-2 border-slate-900/10 p-1.5 rounded-xl bg-white shadow-xs">
-                            <!-- Simulated Premium QR Code Box -->
                             <div class="w-14 h-14 bg-slate-100 flex flex-col items-center justify-center border border-slate-200 rounded-lg text-slate-500">
                                 <i class="fa-solid fa-qrcode text-3xl"></i>
                                 <span class="text-[7px] tracking-tighter leading-none mt-0.5 uppercase font-mono">PHQ4 VERIFY</span>
@@ -1012,17 +992,16 @@
                 <button type="button" onclick="printReceipt()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1">
                     <i class="fa-solid fa-print"></i> Cetak Dokumen
                 </button>
-                <button type="button" onclick="saveReceiptPDF()" class="bg-emerald-700 hover:bg-emerald-850 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5">
+                <button type="button" onclick="saveReceiptPDF()" class="bg-emerald-700 hover:bg-emerald-855 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-file-pdf"></i> Unduh PDF Resmi
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- EDIT STUDENT MODAL (COMPREHENSIVE ADMIN EDIT PANEL) -->
+    <!-- EDIT STUDENT MODAL -->
     <div id="edit-student-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-4xl w-full p-6 shadow-2xl flex flex-col max-h-[95vh] border border-slate-100">
-            <!-- Header Modal -->
             <div class="flex items-center justify-between pb-3.5 border-b border-slate-150 shrink-0">
                 <div class="flex items-center gap-2.5">
                     <span class="p-2.5 bg-blue-50 text-blue-700 rounded-2xl"><i class="fa-solid fa-user-pen text-base"></i></span>
@@ -1130,7 +1109,7 @@
                                 <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Kamar Asrama &amp; Halaqah</label>
                                 <select id="edit-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-emerald-950">
                                     <option value="Ayu">Ustazah Ayu - Ruang Ayu (Halaqah Al-Mulk)</option>
-                                    <option value="Ayuniz">Ustazah Ayuniz - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
+                                    <option value="Ayuniz">Ustazah Ayu - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
                                     <option value="Rima">Ustazah Rima - Ruang Rima (Halaqah Ya-Sin)</option>
                                     <option value="Nafis">Ustazah Nafis - Ruang Nafis (Halaqah Al-Waqi'ah)</option>
                                 </select>
@@ -1190,7 +1169,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Catatan Evaluasi (-)</label>
-                                    <textarea id="edit-negative" rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none resize-none font-medium"></textarea>
+                                    <textarea id="edit-negative" rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2 resize-none font-medium outline-none"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1246,7 +1225,7 @@
         </div>
     </div>
 
-    <!-- SUPABASE CONFIG MODAL (FRONT-END INTEGRATION WITH DIRECT SCHEMAS) -->
+    <!-- SUPABASE CONFIG MODAL -->
     <div id="supabase-config-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
@@ -1258,8 +1237,8 @@
             </div>
             
             <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-3 text-xs leading-relaxed">
-                <p class="text-slate-500">
-                    Sambungkan sistem asrama luring Anda ke proyek cloud database Supabase secara instan. Parameter disimpan aman di browser lokal Anda.
+                <p class="text-slate-500 font-semibold">
+                    Sambungkan sistem asrama Anda ke proyek cloud database Supabase secara instan untuk sinkronisasi multi-perangkat real-time.
                 </p>
 
                 <form id="supabase-config-form" onsubmit="handleSaveSupabaseConfig(event)" class="space-y-4">
@@ -1280,53 +1259,62 @@
                             </button>
                         </div>
                         <pre class="bg-slate-950 text-emerald-400 p-2.5 rounded-lg text-[9px] font-mono overflow-x-auto max-h-32">
-CREATE TABLE IF NOT EXISTS santri_students (
-  id text PRIMARY KEY,
-  name text,
-  pobDob text,
-  address text,
-  parentPhone text,
-  memorizedBefore text,
-  celenganTarget text,
-  motivation text,
-  arrivalDate text,
-  room text,
-  program text,
-  paymentStatus text,
-  sppMonths jsonb,
-  facBuku boolean,
-  facMeja boolean,
-  facKerudung boolean,
-  facLoker boolean,
-  inHalaqah boolean,
-  totalJuz float8,
-  setoranAwal text,
-  setoranAkhir text,
-  targetMingguan text,
-  statusCapaian text,
-  perkembanganPositif text,
-  catatanNegatif text,
-  daftarUlangStatus text,
-  catatanLain text
+-- BERSIHKAN TABEL LAMA JIKA SUDAH ADA
+DROP TABLE IF EXISTS "tahfidz_logs";
+DROP TABLE IF EXISTS "santri_students";
+
+-- BUAT TABEL DENGAN FORMAT STANDAR SNAKE_CASE
+CREATE TABLE "santri_students" (
+  "id" text PRIMARY KEY,
+  "name" text,
+  "pob_dob" text,
+  "address" text,
+  "parent_phone" text,
+  "memorized_before" text,
+  "celengan_target" text,
+  "motivation" text,
+  "arrival_date" text,
+  "room" text,
+  "program" text,
+  "payment_status" text,
+  "spp_months" jsonb,
+  "fac_buku" boolean,
+  "fac_meja" boolean,
+  "fac_kerudung" boolean,
+  "fac_loker" boolean,
+  "in_halaqah" boolean,
+  "total_juz" float8,
+  "setoran_awal" text,
+  "setoran_akhir" text,
+  "target_mingguan" text,
+  "status_capaian" text,
+  "perkembangan_positif" text,
+  "catatan_negatif" text,
+  "daftar_ulang_status" text,
+  "catatan_lain" text
 );
 
-CREATE TABLE IF NOT EXISTS tahfidz_logs (
-  id text PRIMARY KEY,
-  student_id text,
-  date text,
-  setoran_awal text,
-  setoran_akhir text,
-  total_juz float8,
-  pos text,
-  neg text
-);</pre>
+CREATE TABLE "tahfidz_logs" (
+  "id" text PRIMARY KEY,
+  "student_id" text,
+  "date" text,
+  "setoran_awal" text,
+  "setoran_akhir" text,
+  "total_juz" float8,
+  "pos" text,
+  "neg" text
+);
+
+-- MATIKAN SEC SECURITY RLS SUPABASE
+ALTER TABLE "santri_students" DISABLE ROW LEVEL SECURITY;
+ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 pt-2">
                         <button type="button" onclick="closeSupabaseConfigModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all">
                             Batalkan
                         </button>
-                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-850 text-white font-black py-3 rounded-xl transition-all shadow-md">
+                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-855 text-white font-black py-3 rounded-xl transition-all shadow-md">
                             Simpan &amp; Hubungkan
                         </button>
                     </div>
@@ -1381,20 +1369,18 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
     <footer class="bg-emerald-950 border-t border-emerald-900 text-slate-500 text-xs py-6 text-center mt-auto no-print">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p>&copy; 2026 E-Tahfidz Al Karima HQ Putri 4. All rights reserved.</p>
-            <p class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Sistem Otoritas Real-Time Terproteksi PIN</p>
+            <p class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Portal Real-Time Sinkronisasi Cloud Otomatis</p>
         </div>
     </footer>
 
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
-        // =========================================================================
-        // KREDENSIAL SUPABASE OTOMATIS (Satu Kali Pengaturan Untuk Semua Perangkat)
-        // Silakan isi kedua variabel di bawah ini dengan kredensial Supabase Anda.
-        // Setelah diisi, semua HP wali santri & ustadzah akan otomatis terhubung!
-        // =========================================================================
-        const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; // Ganti dengan URL Supabase Anda
-        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; // Ganti dengan Anon Key Supabase Anda
-        // =========================================================================
+        // ==========================================
+        // KONFIGURASI DATABASE TERKONEKSI CLOUD
+        // ==========================================
+        const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
+        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; 
+        // ==========================================
 
         let supabaseClient = null;
         let studentsList = [];
@@ -1449,7 +1435,7 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
                 parentPhone: "085678901234",
                 memorizedBefore: "Belum Pernah",
                 celenganTarget: "5 Juz",
-                motivation: "Menjadi hafizah dan mengabdi di masyarakat",
+                motivation: "Menjadi hafizah and mengabdi di masyarakat",
                 arrivalDate: "2026-02-01",
                 room: "Ayuniz",
                 program: "Tahfidz Reguler",
@@ -1565,7 +1551,6 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
             if (storedStudents) {
                 try {
                     studentsList = JSON.parse(storedStudents);
-                    // Schema Healing: Ensure newly added structures always exist permanently
                     studentsList = studentsList.map(s => {
                         if (!s.sppMonths) {
                             s.sppMonths = {
@@ -1605,23 +1590,41 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
 
         function initSupabase() {
             const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL || "";
-            const key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY || "";
+            let key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY || "";
             
+            // Proteksi kuat: Bersihkan sisa vsn query parameter jika pengguna pernah menyimpan token bermasalah
+            if (key.includes('&vsn=')) {
+                key = key.split('&vsn=')[0];
+            }
+
             const storageTitle = document.getElementById('storage-mode-title');
             const storageDesc = document.getElementById('storage-mode-desc');
+            const syncBadge = document.getElementById('header-sync-badge');
+            const syncTimeLabel = document.getElementById('sync-time-label');
 
             loadLocalData();
 
             if (url && url !== "https://your-project.supabase.co" && key && key !== "your-anon-key-here" && typeof supabase !== 'undefined') {
                 try {
-                    supabaseClient = supabase.createClient(url, key);
+                    supabaseClient = supabase.createClient(url, key, {
+                        auth: { persistSession: false }
+                    });
                     isCloudMode = true;
                     if (storageTitle) storageTitle.innerText = "Sinkronisasi Cloud Aktif";
-                    if (storageDesc) storageDesc.innerText = "Semua laporan santri & tahfidz tersimpan aman dan terintegrasi di cloud database Supabase Anda.";
-                    fetchCloudData();
+                    if (storageDesc) storageDesc.innerText = "Koneksi multi-perangkat stabil. Perubahan data langsung terupdate secara real-time.";
+                    if (syncBadge) {
+                        syncBadge.classList.remove('hidden');
+                        if (syncTimeLabel) syncTimeLabel.innerText = "TERHUBUNG";
+                    }
+
+                    // Muat data dari cloud dan jalankan langganan background polling
+                    fetchCloudData().then(() => {
+                        setupRealtimeSubscription();
+                    });
                     return;
                 } catch (e) {
                     console.error("Gagal inisialisasi Supabase: ", e);
+                    isCloudMode = false;
                 }
             }
             
@@ -1629,7 +1632,129 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
             isCloudMode = false;
             if (storageTitle) storageTitle.innerText = "Penyimpanan Lokal Aktif";
             if (storageDesc) storageDesc.innerText = "Laporan tahfidz tersimpan aman di memori lokal penjelajah Anda. Hubungkan ke Supabase untuk cadangan permanen.";
+            if (syncBadge) syncBadge.classList.add('hidden');
             setupActiveWorkspace();
+        }
+
+        // =========================================================================
+        // SAFE HTTP-POLLING SYNC (MENGGANTI WEBSOCKET REALTIME)
+        // =========================================================================
+        let pollingInterval = null;
+        
+        function setupRealtimeSubscription() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+            }
+            
+            pollingInterval = setInterval(() => {
+                if (isCloudMode && supabaseClient && document.visibilityState === 'visible') {
+                    fetchCloudDataSilent();
+                }
+            }, 8000); // Polling berkala 8 detik sekali
+
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+        }
+
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'visible') {
+                if (isCloudMode && supabaseClient) {
+                    fetchCloudDataSilent();
+                }
+            }
+        }
+
+        // =========================================================================
+        // TRANSLATION LAYER: CAMELCASE <-> SNAKE_CASE MAPPING
+        // =========================================================================
+        function mapStudentToDb(s) {
+            return {
+                id: s.id,
+                name: s.name,
+                pob_dob: s.pobDob,
+                address: s.address,
+                parent_phone: s.parentPhone,
+                memorized_before: s.memorizedBefore,
+                celengan_target: s.celenganTarget,
+                motivation: s.motivation,
+                arrival_date: s.arrivalDate,
+                room: s.room,
+                program: s.program,
+                payment_status: s.paymentStatus,
+                spp_months: s.sppMonths,
+                fac_buku: !!s.facBuku,
+                fac_meja: !!s.facMeja,
+                fac_kerudung: !!s.facKerudung,
+                fac_loker: !!s.facLoker,
+                in_halaqah: !!s.inHalaqah,
+                total_juz: parseFloat(s.totalJuz) || 0,
+                setoran_awal: s.setoranAwal,
+                setoran_akhir: s.setoranAkhir,
+                target_mingguan: s.targetMingguan,
+                status_capaian: s.statusCapaian,
+                perkembangan_positif: s.perkembanganPositif,
+                catatan_negatif: s.catatanNegatif,
+                daftar_ulang_status: s.daftarUlangStatus,
+                catatan_lain: s.catatanLain
+            };
+        }
+
+        function mapStudentFromDb(db) {
+            return {
+                id: db.id,
+                name: db.name,
+                pobDob: db.pob_dob,
+                address: db.address,
+                parentPhone: db.parent_phone,
+                memorizedBefore: db.memorized_before,
+                celenganTarget: db.celengan_target,
+                motivation: db.motivation,
+                arrivalDate: db.arrival_date,
+                room: db.room,
+                program: db.program,
+                paymentStatus: db.payment_status,
+                sppMonths: db.spp_months,
+                facBuku: !!db.fac_buku,
+                facMeja: !!db.fac_meja,
+                facKerudung: !!db.fac_kerudung,
+                facLoker: !!db.fac_loker,
+                inHalaqah: !!db.in_halaqah,
+                totalJuz: parseFloat(db.total_juz) || 0,
+                setoranAwal: db.setoran_awal,
+                setoranAkhir: db.setoran_akhir,
+                targetMingguan: db.target_mingguan,
+                statusCapaian: db.status_capaian,
+                perkembanganPositif: db.perkembangan_positif,
+                catatanNegatif: db.catatan_negatif,
+                daftarUlangStatus: db.daftar_ulang_status,
+                catatanLain: db.catatan_lain
+            };
+        }
+
+        function mapLogToDb(l) {
+            return {
+                id: l.id,
+                student_id: l.student_id,
+                date: l.date,
+                setoran_awal: l.setoran_awal || l.setoranAwal,
+                setoran_akhir: l.setoran_akhir || l.setoranAkhir,
+                total_juz: parseFloat(l.total_juz || l.totalJuz) || 0,
+                pos: l.pos,
+                neg: l.neg
+            };
+        }
+
+        function mapLogFromDb(db) {
+            return {
+                id: db.id,
+                student_id: db.student_id,
+                date: db.date,
+                setoran_awal: db.setoran_awal,
+                setoran_akhir: db.setoran_akhir,
+                total_juz: parseFloat(db.total_juz) || 0,
+                pos: db.pos,
+                neg: db.neg
+            };
         }
 
         async function fetchCloudData() {
@@ -1639,31 +1764,38 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
                 let { data: lg, error: err2 } = await supabaseClient.from('tahfidz_logs').select('*');
 
                 if (err1 || err2) {
-                    showToast("Koneksi cloud gagal. Menggunakan penyimpanan luring browser Anda.", "error");
+                    const errMsg = (err1?.message || err2?.message || 'Akses tidak sah/RLS aktif');
+                    console.error("Koneksi Supabase bermasalah, mengalihkan ke mode luring/lokal.", err1, err2);
+                    isCloudMode = false; // Matikan cloud mode agar tidak merusak data lokal yang sehat
+                    const syncBadge = document.getElementById('header-sync-badge');
+                    if (syncBadge) syncBadge.classList.add('hidden');
+                    showToast(`Terbaca Luring. Cloud Gagal: ${errMsg}`, "error");
                     setupActiveWorkspace();
                     return;
                 }
 
-                // SECURITY & PERMANENCE AUTOSAVE: If project contains 0 elements on cloud but local has data, upload local data immediately!
                 if (st && st.length === 0 && studentsList.length > 0) {
                     showToast("Mencadangkan data lokal Anda ke cloud Supabase secara permanen...", "info");
                     for (let s of studentsList) {
-                        await syncInsertToCloud('santri_students', s);
+                        const dbPayload = mapStudentToDb(s);
+                        const { error } = await supabaseClient.from('santri_students').insert([dbPayload]);
+                        if (error) console.error("Gagal backup student:", error.message);
                     }
                     for (let l of tahfidzLogs) {
-                        await syncInsertToCloud('tahfidz_logs', l);
+                        const dbPayload = mapLogToDb(l);
+                        const { error } = await supabaseClient.from('tahfidz_logs').insert([dbPayload]);
+                        if (error) console.error("Gagal backup log:", error.message);
                     }
                     showToast("Pencadangan awan pertama berhasil dilakukan!", "success");
                 } else {
                     if (st && st.length > 0) {
-                        studentsList = st;
+                        studentsList = st.map(mapStudentFromDb);
                     }
                     if (lg && lg.length > 0) {
-                        tahfidzLogs = lg;
+                        tahfidzLogs = lg.map(mapLogFromDb);
                     }
                 }
 
-                // Re-heal scheme structure from cloud imports
                 studentsList = studentsList.map(s => {
                     if (!s.sppMonths) {
                         s.sppMonths = {
@@ -1683,35 +1815,134 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
                 saveLocalData();
                 setupActiveWorkspace();
             } catch (err) {
-                console.error("Sinkronisasi cloud gagal: ", err);
+                console.error("Sinkronisasi cloud gagal fatal: ", err);
+                isCloudMode = false;
+                const syncBadge = document.getElementById('header-sync-badge');
+                if (syncBadge) syncBadge.classList.add('hidden');
                 setupActiveWorkspace();
             }
         }
 
+        async function fetchCloudDataSilent() {
+            if (!supabaseClient || !isCloudMode) return;
+            try {
+                let { data: st, error: err1 } = await supabaseClient.from('santri_students').select('*');
+                let { data: lg, error: err2 } = await supabaseClient.from('tahfidz_logs').select('*');
+
+                if (err1 || err2) {
+                    console.warn("Silent sync terhambat. Menjaga integritas data lokal aktif.", err1, err2);
+                    return; // Batalkan proses senyap agar tidak menimpa data lokal yang baru saja diinput
+                }
+
+                // Hanya perbarui list jika server mengembalikan data santri yang valid
+                if (st && st.length > 0) {
+                    studentsList = st.map(mapStudentFromDb).map(s => {
+                        if (!s.sppMonths) {
+                            s.sppMonths = {
+                                "Jan": s.paymentStatus || "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                                "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                                "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+                            };
+                        }
+                        if (s.inHalaqah === undefined) s.inHalaqah = true;
+                        if (!s.daftarUlangStatus) s.daftarUlangStatus = "Belum Lunas";
+                        return s;
+                    });
+                    studentsList.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                
+                if (lg && lg.length > 0) {
+                    tahfidzLogs = lg.map(mapLogFromDb);
+                    tahfidzLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+                }
+
+                saveLocalData();
+                
+                // Perbarui tampilan interface aktif secara on-the-fly
+                if (currentRole) {
+                    if (currentRole === 'admin') {
+                        recalculateAdminStats();
+                        renderAdminStudentsDirectory();
+                    } else if (currentRole.startsWith('ustazah_')) {
+                        renderUstazahInterface();
+                    } else if (currentRole === 'wali' && currentWaliStudent) {
+                        const updated = studentsList.find(s => s.id === currentWaliStudent.id);
+                        if (updated) {
+                            currentWaliStudent = updated;
+                            renderWaliKHS(currentWaliStudent.id);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Gagal menyinkronkan data di latar belakang: ", e);
+            }
+        }
+
         async function syncInsertToCloud(table, payload) {
-            if (!supabaseClient) return;
+            if (!supabaseClient || !isCloudMode) return;
             try { 
-                await supabaseClient.from(table).insert([payload]); 
+                let dbPayload = payload;
+                if (table === 'santri_students') dbPayload = mapStudentToDb(payload);
+                if (table === 'tahfidz_logs') dbPayload = mapLogToDb(payload);
+
+                const { error } = await supabaseClient.from(table).insert([dbPayload]); 
+                if (error) {
+                    console.error("Gagal mengunggah data baru ke Cloud: ", error);
+                    showToast(`Gagal kirim Cloud: ${error.message} (Cek RLS di SQL Editor)`, "error");
+                }
             } catch (err) { 
-                console.error("Cloud insert error: ", err); 
+                console.error("Exception saat insert cloud: ", err); 
             }
         }
 
         async function syncUpdateToCloud(table, recordId, payload) {
-            if (!supabaseClient) return;
+            if (!supabaseClient || !isCloudMode) return;
             try { 
-                await supabaseClient.from(table).update(payload).eq('id', recordId); 
+                let dbPayload = payload;
+                if (table === 'santri_students') {
+                    dbPayload = {};
+                    const mappings = {
+                        id: 'id', name: 'name', pobDob: 'pob_dob', address: 'address', parentPhone: 'parent_phone',
+                        memorizedBefore: 'memorized_before', celenganTarget: 'celengan_target', motivation: 'motivation',
+                        arrivalDate: 'arrival_date', room: 'room', program: 'program', paymentStatus: 'payment_status',
+                        sppMonths: 'spp_months', facBuku: 'fac_buku', facMeja: 'fac_meja', facKerudung: 'fac_kerudung',
+                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', totalJuz: 'total_juz', setoranAwal: 'setoran_awal',
+                        setoranAkhir: 'setoran_akhir', targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
+                        perkembanganPositif: 'perkembangan_positif', catatanNegatif: 'catatan_negatif',
+                        daftarUlangStatus: 'daftar_ulang_status', catatanLain: 'catatan_lain'
+                    };
+                    for (let key in payload) {
+                        if (mappings[key]) {
+                            dbPayload[mappings[key]] = payload[key];
+                        } else {
+                            dbPayload[key] = payload[key];
+                        }
+                    }
+                }
+                if (table === 'tahfidz_logs') {
+                    dbPayload = mapLogToDb(payload);
+                }
+
+                const { error } = await supabaseClient.from(table).update(dbPayload).eq('id', recordId); 
+                if (error) {
+                    console.error("Gagal memperbarui data di Cloud: ", error);
+                    showToast(`Gagal update Cloud: ${error.message} (Cek RLS di SQL Editor)`, "error");
+                }
             } catch (err) { 
-                console.error("Cloud update error: ", err); 
+                console.error("Exception saat update cloud: ", err); 
             }
         }
 
         async function syncDeleteFromCloud(table, recordId) {
-            if (!supabaseClient) return;
+            if (!supabaseClient || !isCloudMode) return;
             try { 
-                await supabaseClient.from(table).delete().eq('id', recordId); 
+                const { error } = await supabaseClient.from(table).delete().eq('id', recordId); 
+                if (error) {
+                    console.error("Gagal menghapus data di Cloud: ", error);
+                    showToast(`Gagal hapus Cloud: ${error.message}`, "error");
+                }
             } catch (err) { 
-                console.error("Cloud delete error: ", err); 
+                console.error("Exception saat hapus cloud: ", err); 
             }
         }
 
@@ -2147,7 +2378,7 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
                         <a href="https://wa.me/${s.parentPhone}" target="_blank" class="bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200 p-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-2xs">
                             <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden md:inline">Wali</span>
                         </a>
-                        <button onclick="triggerUstazahViewKHS('${s.id}')" class="bg-emerald-700 hover:bg-emerald-850 text-white p-2.5 rounded-xl text-xs font-black transition flex items-center gap-1 shadow-xs">
+                        <button onclick="triggerUstazahViewKHS('${s.id}')" class="bg-emerald-700 hover:bg-emerald-855 text-white p-2.5 rounded-xl text-xs font-black transition flex items-center gap-1 shadow-xs">
                             <i class="fa-solid fa-chart-line"></i> Tinjau KHS
                         </button>
                     </div>
@@ -2370,9 +2601,11 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
                 await fetchCloudData();
                 if (currentWaliStudent) {
                     const updated = studentsList.find(s => s.id === currentWaliStudent.id);
-                    if (updated) currentWaliStudent = updated;
+                    if (updated) {
+                        currentWaliStudent = updated;
+                        renderWaliKHS(currentWaliStudent.id);
+                    }
                 }
-                setupActiveWorkspace();
                 showToast("Data raport paling mutakhir berhasil dimuat.", "success");
             } else {
                 showToast("Modus luring aktif. Mengambil data instan dari browser.", "info");
@@ -2584,53 +2817,62 @@ CREATE TABLE IF NOT EXISTS tahfidz_logs (
         window.closeSupabaseConfigModal = function() { document.getElementById('supabase-config-modal').classList.add('hidden'); };
         
         window.copySupabaseSchema = function() {
-            const sql = `CREATE TABLE IF NOT EXISTS santri_students (
-  id text PRIMARY KEY,
-  name text,
-  pobDob text,
-  address text,
-  parentPhone text,
-  memorizedBefore text,
-  celenganTarget text,
-  motivation text,
-  arrivalDate text,
-  room text,
-  program text,
-  paymentStatus text,
-  sppMonths jsonb,
-  facBuku boolean,
-  facMeja boolean,
-  facKerudung boolean,
-  facLoker boolean,
-  inHalaqah boolean,
-  totalJuz float8,
-  setoranAwal text,
-  setoranAkhir text,
-  targetMingguan text,
-  statusCapaian text,
-  perkembanganPositif text,
-  catatanNegatif text,
-  daftarUlangStatus text,
-  catatanLain text
+            const sql = `-- BERSIHKAN TABEL LAMA JIKA SUDAH ADA
+DROP TABLE IF EXISTS "tahfidz_logs";
+DROP TABLE IF EXISTS "santri_students";
+
+-- BUAT TABEL DENGAN FORMAT STANDAR SNAKE_CASE
+CREATE TABLE "santri_students" (
+  "id" text PRIMARY KEY,
+  "name" text,
+  "pob_dob" text,
+  "address" text,
+  "parent_phone" text,
+  "memorized_before" text,
+  "celengan_target" text,
+  "motivation" text,
+  "arrival_date" text,
+  "room" text,
+  "program" text,
+  "payment_status" text,
+  "spp_months" jsonb,
+  "fac_buku" boolean,
+  "fac_meja" boolean,
+  "fac_kerudung" boolean,
+  "fac_loker" boolean,
+  "in_halaqah" boolean,
+  "total_juz" float8,
+  "setoran_awal" text,
+  "setoran_akhir" text,
+  "target_mingguan" text,
+  "status_capaian" text,
+  "perkembangan_positif" text,
+  "catatan_negatif" text,
+  "daftar_ulang_status" text,
+  "catatan_lain" text
 );
 
-CREATE TABLE IF NOT EXISTS tahfidz_logs (
-  id text PRIMARY KEY,
-  student_id text,
-  date text,
-  setoran_awal text,
-  setoran_akhir text,
-  total_juz float8,
-  pos text,
-  neg text
-);`;
+CREATE TABLE "tahfidz_logs" (
+  "id" text PRIMARY KEY,
+  "student_id" text,
+  "date" text,
+  "setoran_awal" text,
+  "setoran_akhir" text,
+  "total_juz" float8,
+  "pos" text,
+  "neg" text
+);
+
+-- MATIKAN SEC SECURITY RLS SUPABASE
+ALTER TABLE "santri_students" DISABLE ROW LEVEL SECURITY;
+ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;`;
             const dummy = document.createElement("textarea");
             document.body.appendChild(dummy);
             dummy.value = sql;
             dummy.select();
             document.execCommand("copy");
             document.body.removeChild(dummy);
-            showToast("SQL Schema disalin ke clipboard! Silakan jalankan di SQL Editor Supabase Anda.", "success");
+            showToast("SQL Schema disalin! Silakan hapus & buat ulang tabel di SQL Editor Supabase Anda.", "success");
         };
 
         window.handleSaveSupabaseConfig = function(e) {
