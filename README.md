@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Tahfidz Al Karima - HQ Putri 4</title>
+    
+    <link rel="icon" type="image/x-icon" href="logohq.ico">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
@@ -103,10 +106,10 @@
                     E-Tahfidz Portal v5.0 (Steril)
                 </span>
                 <h2 class="text-4xl font-black leading-tight tracking-tight">
-                    Sistem Laporan Real-Time<br/>dan Perkembangan Santriwati.
+                    Sistem Laporan Real-Time<br/>dan Perkembangan Santri.
                 </h2>
                 <p class="text-slate-300/90 text-sm leading-relaxed max-w-lg">
-                    Laporan pencatatan terpadu administrasi, laporan tahfidz harian, monitoring pembayaran syahriyah bulanan, serta visualisasi rekam jejak hafalan 30 Juz bagi santriwati secara instan lintas-perangkat.
+                    Laporan pencatatan terpadu administrasi, laporan tahfidz harian, monitoring habit, serta visualisasi rekam jejak hafalan 30 Juz bagi santriwati secara instan lintas-perangkat.
                 </p>
             </div>
             
@@ -127,7 +130,7 @@
         <div class="flex-1 flex items-center justify-center p-6 md:p-12">
             <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
                 <div class="mb-6 text-center lg:text-left">
-                    <h3 class="text-2xl font-black text-slate-900 tracking-tight">Gerbang Otoritas Akses</h3>
+                    <h3 class="text-2xl font-black text-slate-900 tracking-tight">E-TAHFIDZ PPHQ PUTRI 4 AL-KARIMA</h3>
                     <p class="text-[11px] text-slate-400 font-semibold mt-1">Pilih peran Anda di bawah ini untuk mengelola data</p>
                 </div>
 
