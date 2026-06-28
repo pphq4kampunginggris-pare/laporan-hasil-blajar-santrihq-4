@@ -718,11 +718,19 @@
                 </div>
 
                 <!-- WALI KHS DATA: Avatar & Large Biodata Card -->
+                <div class="flex justify-center mb-4 no-print">
+    <div class="w-24 h-32 bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center shadow-inner relative">
+        <img id="wali-khs-foto" src="" alt="Foto Santri" class="w-full h-full object-cover hidden" />
+        <div id="wali-khs-placeholder" class="text-slate-400 text-center p-2 text-[10px] font-bold uppercase tracking-wider">
+            <i class="fa-solid fa-user text-xl text-emerald-600/30 block mb-1"></i> pas Foto
+        </div>
+    </div>
+</div>
                 <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-50/50 p-5 rounded-3xl border border-slate-150">
                     <!-- Circular Monogram Avatar -->
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 bg-emerald-800 text-white rounded-full flex flex-col items-center justify-center font-black text-3xl shadow-md shrink-0 border-4 border-white ring-4 ring-emerald-50">
-                        <span id="wali-khs-initial" class="leading-none text-white font-black">I</span>
-                        <span class="text-[9px] font-extrabold tracking-widest uppercase text-emerald-200 mt-1">SANTRIWATI</span>
+                    <div class="">
+                        <span id="wali-khs-initial" class="leading-none text-white font-black"></span>
+                        <span class="text-[9px] font-extrabold tracking-widest uppercase text-emerald-200 mt-1"></span>
                     </div>
 
                     <!-- Responsive Biodata Fields Grid -->
