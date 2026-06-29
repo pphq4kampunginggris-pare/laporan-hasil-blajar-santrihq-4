@@ -243,6 +243,11 @@
             </div>
         </div>
     </header>
+    <div class="bg-slate-900 text-amber-400 text-xs py-2 px-4 shadow-inner border-b border-green-500/20">
+    <marquee behavior="scroll" direction="left" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
+        <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami.
+    </marquee>
+</div>
 
     <!-- APP MAIN CONTENT WORKSPACE -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 pb-20 space-y-6 hidden" id="main-app-container">
@@ -2081,12 +2086,19 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     showToast("Sandi PIN Otoritas Admin Utama salah.", "error");
                 }
             }
+            window.addEventListener('DOMContentLoaded', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // gunakan 'auto' jika ingin instan tanpa animasi scroll
+    });
+});
         };
 
         function enterWorkspace() {
             document.getElementById('gate-screen').classList.add('hidden');
             document.getElementById('main-app-header').classList.remove('hidden');
             document.getElementById('main-app-container').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
             // Tambahkan kelas transisi premium
             const workspace = document.getElementById('main-app-container');
@@ -2109,6 +2121,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             
             const workspace = document.getElementById('main-app-container');
             workspace.classList.remove('fade-in-workspace');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         function setupActiveWorkspace() {
@@ -2164,6 +2177,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 contDir.classList.remove('hidden');
                 renderAdminStudentsDirectory();
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         function recalculateAdminStats() {
