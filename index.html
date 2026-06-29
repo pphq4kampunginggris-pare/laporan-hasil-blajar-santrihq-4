@@ -159,6 +159,8 @@
                             </span>
                             <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Contoh: Aisyah Humaira" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-xs pl-10 pr-4 py-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
                         </div>
+
+
                         
                         <!-- Search matches dropdown suggestion -->
                         <div id="gate-wali-matches-box" class="hidden mt-2 bg-slate-50 border border-slate-150 rounded-2xl p-2 max-h-40 overflow-y-auto space-y-1.5">
@@ -619,7 +621,28 @@
                                     <option value="Belum Tercapai">Belum Tercapai</option>
                                 </select>
                             </div>
-                        </div>
+        <div class="space-y-4">
+    <div>
+        <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nilai Fasohah:</label>
+        <select id="ustazah-fasohah" class="w-full bg-white border border-slate-200 rounded-xl text-xs p-2 outline-none font-bold text-slate-700 cursor-pointer">
+            <option value="Istimewa (A+)">Istimewa (A+)</option>
+            <option value="Sangat Baik (A)">Sangat Baik (A)</option>
+            <option value="Baik (B)">Baik (B)</option>
+            <option value="Cukup (C)">Cukup (C)</option>
+            <option value="Belum Dinilai" selected>Belum Dinilai</option>
+        </select>
+    </div>
+    <div>
+        <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nilai Kelancaran:</label>
+        <select id="ustazah-kelancaran" class="w-full bg-white border border-slate-200 rounded-xl text-xs p-2 outline-none font-bold text-slate-700 cursor-pointer">
+            <option value="Lancar Sekali (A+)">Lancar Sekali (A+)</option>
+            <option value="Lancar (A)">Lancar (A)</option>
+            <option value="Sedang (B)">Sedang (B)</option>
+            <option value="Kurang (C)">Kurang (C)</option>
+            <option value="Belum Dinilai" selected>Belum Dinilai</option>
+        </select>
+    </div>
+</div>             </div>
 
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Total Juz Hafalan Saat Ini (Format Angka, Contoh: 3.5):</label>
@@ -790,6 +813,14 @@
                                 <span class="text-[9px] text-slate-400 font-bold block uppercase">Status Capaian</span>
                                 <span id="wali-khs-status-capaian" class="font-extrabold mt-1 block">-</span>
                             </div>
+                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
+    <span class="text-[9px] text-slate-400 font-bold block uppercase">Nilai Fasohah</span>
+    <span id="wali-khs-fasohah" class="font-extrabold text-emerald-700 mt-1 block text-sm">-</span>
+</div>
+<div class="bg-white p-3 rounded-2xl border border-slate-200">
+    <span class="text-[9px] text-slate-400 font-bold block uppercase">Nilai Kelancaran</span>
+    <span id="wali-khs-kelancaran" class="font-extrabold text-emerald-700 mt-1 block text-sm">-</span>
+</div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
@@ -1674,6 +1705,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 catatan_negatif: s.catatanNegatif,
                 daftar_ulang_status: s.daftarUlangStatus,
                 catatan_lain: s.catatanLain
+
             };
         }
 
@@ -1702,6 +1734,8 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 setoranAkhir: db.setoran_akhir,
                 targetMingguan: db.target_mingguan,
                 statusCapaian: db.status_capaian,
+                fasohah: db.fasohah ,
+                kelancaran: db.kelancaran,
                 perkembanganPositif: db.perkembangan_positif,
                 catatanNegatif: db.catatan_negatif,
                 daftarUlangStatus: db.daftar_ulang_status,
@@ -1877,42 +1911,62 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
         }
 
         async function syncUpdateToCloud(table, recordId, payload) {
-            if (!supabaseClient || !isCloudMode) return;
-            try { 
-                let dbPayload = payload;
-                if (table === 'santri_students') {
-                    dbPayload = {};
-                    const mappings = {
-                        id: 'id', name: 'name', pobDob: 'pob_dob', address: 'address', parentPhone: 'parent_phone',
-                        memorizedBefore: 'memorized_before', celenganTarget: 'celengan_target', motivation: 'motivation',
-                        arrivalDate: 'arrival_date', room: 'room', program: 'program', paymentStatus: 'payment_status',
-                        sppMonths: 'spp_months', facBuku: 'fac_buku', facMeja: 'fac_meja', facKerudung: 'fac_kerudung',
-                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', totalJuz: 'total_juz', setoranAwal: 'setoran_awal',
-                        setoranAkhir: 'setoran_akhir', targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
-                        perkembanganPositif: 'perkembangan_positif', catatanNegatif: 'catatan_negatif',
-                        daftarUlangStatus: 'daftar_ulang_status', catatanLain: 'catatan_lain'
-                    };
-                    for (let key in payload) {
-                        if (mappings[key]) {
-                            dbPayload[mappings[key]] = payload[key];
-                        } else {
-                            dbPayload[key] = payload[key];
-                        }
-                    }
+    if (!supabaseClient || !isCloudMode) return;
+    try {
+        let dbPayload = payload;
+        if (table === 'santri_students') {
+            dbPayload = {};
+            const mappings = {
+                id: 'id',
+                name: 'name',
+                pobDob: 'pob_dob',
+                address: 'address',
+                parentPhone: 'parent_phone',
+                memorizedBefore: 'memorized_before',
+                celenganTarget: 'celengan_target',
+                motivation: 'motivation',
+                arrivalDate: 'arrival_date',
+                room: 'room',
+                program: 'program',
+                paymentStatus: 'payment_status',
+                sppMonths: 'spp_months',
+                facBuku: 'fac_buku',
+                facMeja: 'fac_meja',
+                facKerudung: 'fac_kerudung',
+                facLoker: 'fac_loker',
+                inHalaqah: 'in_halaqah',
+                totalJuz: 'total_juz',
+                setoranAwal: 'setoran_awal',
+                setoranAkhir: 'setoran_akhir',
+                targetMingguan: 'target_mingguan',
+                statusCapaian: 'status_capaian',
+                fasohah: 'fasohah',
+                kelancaran: 'kelancaran',
+                perkembanganPositif: 'perkembangan_positif',
+                catatanNegatif: 'catatan_negatif',
+                daftarUlangStatus: 'daftar_ulang_status',
+                catatanLain: 'catatan_lain'
+            };
+            for (let key in payload) {
+                if (mappings[key]) {
+                    dbPayload[mappings[key]] = payload[key];
+                } else {
+                    dbPayload[key] = payload[key];
                 }
-                if (table === 'tahfidz_logs') {
-                    dbPayload = mapLogToDb(payload);
-                }
-
-                const { error } = await supabaseClient.from(table).update(dbPayload).eq('id', recordId); 
-                if (error) {
-                    console.error("Gagal memperbarui data di Cloud: ", error);
-                    showToast(`Gagal update Cloud: ${error.message} (Cek RLS di SQL Editor)`, "error");
-                }
-            } catch (err) { 
-                console.error("Exception saat update cloud: ", err); 
             }
         }
+        if (table === 'tahfidz_logs') {
+            dbPayload = mapLogToDb(payload);
+        }
+        const { error } = await supabaseClient.from(table).update(dbPayload).eq('id', recordId);
+        if (error) {
+            console.error("Gagal memperbarui data di Cloud: ", error);
+            showToast(`Gagal update Cloud: ${error.message} (Cek RLS di SQL Editor)`, "error");
+        }
+    } catch (err) {
+        console.error("Exception saat update cloud: ", err);
+    }
+}
 
         async function syncDeleteFromCloud(table, recordId) {
             if (!supabaseClient || !isCloudMode) return;
@@ -2493,21 +2547,27 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
         // AUTO-POPULATE FORM FIELDS UPON SELECTING A STUDENT
         // =========================================================================
         window.populateUstazahForm = function(studentId) {
-            if (!studentId) return;
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
+    const student = studentsList.find(s => s.id === studentId);
+    if (!student) return;
 
-            document.getElementById('ustazah-setoran-awal').value = student.setoranAwal || "Belum Setoran";
-            document.getElementById('ustazah-setoran-akhir').value = student.setoranAkhir || "-";
-            document.getElementById('ustazah-target-mingguan').value = student.targetMingguan || "4 Halaman";
-            document.getElementById('ustazah-status-capaian').value = student.statusCapaian || "Belum Tercapai";
-            document.getElementById('ustazah-total-juz').value = student.totalJuz || 0.0;
-            document.getElementById('ustazah-perkembangan-positif').value = student.perkembanganPositif || "Proses adaptasi awal asrama";
-            document.getElementById('ustazah-catatan-negatif').value = student.catatanNegatif || "Nihil";
-            document.getElementById('ustazah-syahriyah').value = student.paymentStatus || "Belum Lunas";
-            document.getElementById('ustazah-daftar-ulang').value = student.daftarUlangStatus || "Belum Lunas";
-            document.getElementById('ustazah-catatan-lain').value = student.catatanLain || "Baru mendaftar di kesekretariat.";
-        };
+    document.getElementById('ustazah-student-id').value = student.id;
+    document.getElementById('ustazah-setoran-awal').value = student.setoranAwal || "";
+    document.getElementById('ustazah-setoran-akhir').value = student.setoranAkhir || "";
+    document.getElementById('ustazah-target-mingguan').value = student.targetMingguan || "4 Halaman";
+    document.getElementById('ustazah-status-capaian').value = student.statusCapaian || "Belum Tercapai";
+    document.getElementById('ustazah-total-juz').value = student.totalJuz || 0.0;
+    
+    // PEMUATAN VALUE BARU KE FORM
+    document.getElementById('ustazah-fasohah').value = student.fasohah || "Belum Dinilai";
+    document.getElementById('ustazah-kelancaran').value = student.kelancaran || "Belum Dinilai";
+
+    document.getElementById('ustazah-perkembangan-positif').value = student.perkembanganPositif || "Proses adaptasi awal asrama";
+    document.getElementById('ustazah-catatan-negatif').value = student.catatanNegatif || "Nihil";
+    document.getElementById('ustazah-syahriyah').value = student.paymentStatus || "Belum Lunas";
+    document.getElementById('ustazah-daftar-ulang').value = student.daftarUlangStatus || "Belum Lunas";
+    document.getElementById('ustazah-catatan-lain').value = student.catatanLain || "Baru mendaftar di kesekretariat.";
+};
+    
 
         window.approveStudentIntoHalaqah = async function(studentId) {
             const student = studentsList.find(s => s.id === studentId);
@@ -2553,6 +2613,8 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const targetMinggu = document.getElementById('ustazah-target-mingguan').value.trim();
             const statusCapai = document.getElementById('ustazah-status-capaian').value;
             const totalJuzInput = parseFloat(document.getElementById('ustazah-total-juz').value) || 0.0;
+            const nilaiFasohah = document.getElementById('ustazah-fasohah').value;
+            const nilaiKelancaran = document.getElementById('ustazah-kelancaran').value;
             const pos = document.getElementById('ustazah-perkembangan-positif').value.trim() || "Menunjukkan kemajuan hafalan.";
             const neg = document.getElementById('ustazah-catatan-negatif').value.trim() || "Nihil";
             const syahriyah = document.getElementById('ustazah-syahriyah').value;
@@ -2564,6 +2626,8 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             student.targetMingguan = targetMinggu;
             student.statusCapaian = statusCapai;
             student.totalJuz = totalJuzInput;
+            student.fasohah = nilaiFasohah;
+            student.kelancaran = nilaiKelancaran;
             student.perkembanganPositif = pos;
             student.catatanNegatif = neg;
             student.paymentStatus = syahriyah;
@@ -2576,11 +2640,13 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
             saveLocalData();
             await syncUpdateToCloud('santri_students', studentId, {
-                setoranAwal: setAwal,
+               setoranAwal: setAwal,
                 setoranAkhir: setAkhir,
                 targetMingguan: targetMinggu,
                 statusCapaian: statusCapai,
                 totalJuz: totalJuzInput,
+                fasohah: nilaiFasohah, 
+                kelancaran: nilaiKelancaran,
                 perkembanganPositif: pos,
                 catatanNegatif: neg,
                 paymentStatus: syahriyah,
@@ -2596,6 +2662,8 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 setoran_awal: setAwal,
                 setoran_akhir: setAkhir,
                 total_juz: totalJuzInput,
+                fasohah: nilaiFasohah,      
+                kelancaran: nilaiKelancaran,
                 pos: pos,
                 neg: neg
             };
@@ -2624,7 +2692,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room}`;
             document.getElementById('wali-khs-celengan').innerText = s.celenganTarget || "5 Juz";
             document.getElementById('wali-khs-parent-signature').innerText = `Wali, ${s.name}`;
-
             document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal;
             document.getElementById('wali-khs-setoran-akhir').innerText = s.setoranAkhir;
             document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan;
@@ -2632,7 +2699,9 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const fillCapaian = document.getElementById('wali-khs-status-capaian');
             fillCapaian.innerText = s.statusCapaian;
             fillCapaian.className = s.statusCapaian === 'Tercapai' ? "font-extrabold text-emerald-700 mt-1 block" : "font-extrabold text-amber-600 mt-1 block";
-
+                // Tambahkan ini di dalam fungsi render / pemuatan data wali santri
+            document.getElementById('wali-khs-fasohah').innerText = s.fasohah || 'Belum Dinilai';
+                document.getElementById('wali-khs-kelancaran').innerText = s.kelancaran || 'Belum Dinilai';
             document.getElementById('wali-khs-perkembangan-positif').innerText = s.perkembanganPositif;
             document.getElementById('wali-khs-catatan-negatif').innerText = s.catatanNegatif;
             document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || "Nihil";
