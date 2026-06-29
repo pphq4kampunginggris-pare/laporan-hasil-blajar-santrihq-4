@@ -242,10 +242,10 @@
                 </button>
             </div>
         </div>
-    </header>
-    <div class="bg-slate-900 text-amber-400 text-xs py-2 px-4 shadow-inner border-b border-green-500/20">
+   </header>
+<div class="sticky top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-xs py-2 px-4 shadow-inner border-b border-green-500/20">
     <marquee behavior="scroll" direction="left" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
-        <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami.
+        <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
     </marquee>
 </div>
 
@@ -746,15 +746,13 @@
                 </div>
 
                 <!-- WALI KHS DATA: Avatar & Large Biodata Card -->
-                <div class="flex justify-center mb-4 no-print">
-    <div class="w-24 h-32 bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center shadow-inner relative">
-        <img id="wali-khs-foto" src="" alt="Foto Santri" class="w-full h-full object-cover hidden" />
-        <div id="wali-khs-placeholder" class="text-slate-400 text-center p-2 text-[10px] font-bold uppercase tracking-wider">
-            <i class="fa-solid fa-user text-xl text-emerald-600/30 block mb-1"></i> pas Foto
-        </div>
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-150">
+    <div class="w-24 h-32 bg-slate-200 rounded-xl overflow-hidden border-2 border-emerald-600/20 shadow-inner flex items-center justify-center flex-shrink-0">
+        <img id="khs-student-photo" src="https://via.placeholder.com/150x200?text=Foto+Santri" alt="Foto Santri" class="w-full h-full object-cover hidden">
+        <i id="khs-photo-placeholder" class="fa-solid fa-user-gradient text-3xl text-slate-400"></i>
     </div>
-</div>
-                <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-50/50 p-5 rounded-3xl border border-slate-150">
+
+    <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-50/50 p-5 rounded-3xl border border-slate-150">
                     <!-- Circular Monogram Avatar -->
                     <div class="">
                         <span id="wali-khs-initial" class="leading-none text-white font-black"></span>
@@ -771,7 +769,7 @@
                         </div>
 
                         <!-- Biodata Grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        
                             <div class="space-y-1">
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-cake-candles text-emerald-700 w-4"></i> TTL: <strong id="wali-khs-pobdob" class="text-slate-800 font-bold">-</strong></p>
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-phone text-emerald-700 w-4"></i> HP Wali: <strong id="wali-khs-parent" class="text-slate-800 font-bold">-</strong></p>
@@ -782,8 +780,11 @@
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-user-tie text-emerald-700 w-4"></i> Ustazah: <strong id="wali-khs-ustazah" class="text-slate-800 font-bold">-</strong></p>
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-bullseye text-emerald-700 w-4"></i> Celengan Awal: <strong id="wali-khs-celengan" class="text-emerald-800 font-extrabold">-</strong></p>
                             </div>
-                        </div>
+                        
                     </div>
+                </div>
+        
+                
                 </div>
 
                 <!-- PETA JALUR PERJALANAN HAFAKAN 30 JUZ -->
