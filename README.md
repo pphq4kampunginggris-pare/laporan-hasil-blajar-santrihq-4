@@ -95,6 +95,7 @@
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
                 </div>
+
                 <div>
                     <h1 class="text-base font-black tracking-tight bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h1>
                     <p class="text-[9px] text-emerald-300/80 font-bold uppercase tracking-widest mt-1">PP Hamalatul Qur'an Putri 4</p>
@@ -128,8 +129,14 @@
 
         <!-- Right Side: Interactive Login Portal Selection -->
         <div class="flex-1 flex items-center justify-center p-6 md:p-12">
+
             <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
                 <div class="mb-6 text-center lg:text-left">
+                    <div class="w-full max-w-md mb-4 bg-slate-900 text-amber-400 text-xs py-2 px-3 rounded-2xl shadow-md border-b border-green-500/20">
+            <marquee behavior="scroll" direction="left" scrollamount="1" onmouseover="this.stop();" onmouseout="this.start();">
+                <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
+            </marquee>
+        </div>
                     <h3 class="text-2xl font-black text-slate-900 tracking-tight">E-TAHFIDZ PPHQ PUTRI 4 AL-KARIMA</h3>
                     <p class="text-[11px] text-slate-400 font-semibold mt-1">Pilih peran Anda di bawah ini untuk mengelola data</p>
                 </div>
@@ -149,6 +156,7 @@
 
                 <form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-4">
                     <input type="hidden" id="selected-gate-role" value="wali">
+
 
                     <!-- WALI SANTRI FIELD: Name Search Input -->
                     <div id="gate-input-wrapper-wali" class="">
@@ -243,8 +251,8 @@
             </div>
         </div>
    </header>
-<div class="sticky top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-xs py-2 px-4 shadow-inner border-b border-green-500/20">
-    <marquee behavior="scroll" direction="left" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
+<div class="sticky top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-xs py-2 px-2 shadow-inner border-b border-green-500/20">
+    <marquee behavior="scroll" direction="left" scrollamount="1" onmouseover="this.stop();" onmouseout="this.start();">
         <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
     </marquee>
 </div>
@@ -771,7 +779,7 @@
                         <!-- Biodata Grid -->
         
                             <div class="space-y-1">
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-cake-candles text-emerald-700 w-4"></i> TTL: <strong id="wali-khs-pobdob" class="text-slate-800 font-bold">-</strong></p>
+                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-cake-candles text-emerald-700 w-2"></i> TTL: <strong id="wali-khs-pobdob" class="text-slate-800 font-bold">-</strong></p>
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-phone text-emerald-700 w-4"></i> HP Wali: <strong id="wali-khs-parent" class="text-slate-800 font-bold">-</strong></p>
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-location-dot text-emerald-700 w-4"></i> Alamat: <strong id="wali-khs-address" class="text-slate-800 font-semibold">-</strong></p>
                             </div>
