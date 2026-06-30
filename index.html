@@ -134,7 +134,7 @@
                 <div class="mb-6 text-center lg:text-left">
                     <div class="w-full max-w-md mb-4 bg-slate-900 text-amber-400 text-xs py-2 px-3 rounded-2xl shadow-md border-b border-green-500/20">
             <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
-                <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
+                <span class="font-bold"> Selamat datang di portal E-Tahfidz PPHQ PUTRI 4. silahkan klik tombol wali santri dan ketik kan nama putri bpk/ibu di aplikasi ini .Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
             </marquee>
         </div>
                     <h3 class="text-2xl font-black text-slate-900 tracking-tight">E-TAHFIDZ PPHQ PUTRI 4 AL-KARIMA</h3>
@@ -370,6 +370,10 @@
                                 <div class="bg-white border border-emerald-200 rounded-xl p-2.5">
                                     <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang Manual (Rp)</label>
                                     <input type="number" id="admin-add-fee-rereg" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-[11px] p-1.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-950">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Foto Santriwati (URL/Link Gambar)</label>
+                                    <input type="text" id="admin-add-photo" placeholder="Contoh: https://link-foto.com/aisyah.jpg" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold">
                                 </div>
                             </div>
                         </div>
@@ -754,11 +758,7 @@
                 </div>
 
                 <!-- WALI KHS DATA: Avatar & Large Biodata Card -->
-                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-150">
-    <div class="w-24 h-32 bg-slate-200 rounded-xl overflow-hidden border-2 border-emerald-600/20 shadow-inner flex items-center justify-center flex-shrink-0">
-        <img id="khs-student-photo" src="https://via.placeholder.com/150x200?text=Foto+Santri" alt="Foto Santri" class="w-full h-full object-cover hidden">
-        <i id="khs-photo-placeholder" class="fa-solid fa-user-gradient text-3xl text-slate-400"></i>
-    </div>
+                
 
     <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-50/50 p-5 rounded-3xl border border-slate-150">
                     <!-- Circular Monogram Avatar -->
@@ -768,14 +768,15 @@
                     </div>
 
                     <!-- Responsive Biodata Fields Grid -->
-                    <div class="flex-1 space-y-2">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <h4 id="wali-khs-name" class="text-xl font-black text-slate-900">-</h4>
-                            <span id="wali-khs-presence-badge" class="bg-emerald-100 text-emerald-800 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center gap-1">
-                                <i class="fa-solid fa-circle-check"></i> Sudah Di Asrama
-                            </span>
-                        </div>
+                    <div class="flex-1 space-y-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100">
+    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+        <h4 id="wali-khs-name" class="text-xl font-bold tracking-tight text-slate-800">-</h4>
+        <span id="wali-khs-presence-badge" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200/60 shadow-sm">
+            <i class="fa-solid fa-circle-check text-[10px]"></i> Sudah Di Asrama
+        </span>
+    </div>
 
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
                         <!-- Biodata Grid -->
         
                             <div class="space-y-1">
@@ -1110,6 +1111,41 @@
                                 <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nama Lengkap Santriwati</label>
                                 <input type="text" id="edit-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-900 focus:ring-2 focus:ring-blue-500">
                             </div>
+
+                            <div class="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-200/60">
+    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+        Foto Resmi Santri <span class="text-rose-500">*</span>
+    </label>
+    
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+        <div class="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-dashed border-slate-300 bg-white flex items-center justify-center shrink-0 shadow-inner group">
+            <img id="admin-avatar-preview" 
+                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150&q=80" 
+                 alt="Preview Foto" 
+                 class="w-full h-full object-cover" />
+            
+            <div id="admin-upload-overlay" class="absolute inset-0 bg-slate-900/40 flex items-center justify-center text-white opacity-0 transition-opacity pointer-events-none">
+                <i class="fa-solid fa-spinner animate-spin text-base"></i>
+            </div>
+        </div>
+
+        <div class="flex-1 text-center sm:text-left space-y-1.5">
+            <div class="flex flex-wrap justify-center sm:justify-start gap-2">
+                <input type="file" id="admin-foto-input" name="foto_santri" accept="image/*" class="hidden" onchange="previewFotoAdmin(event)">
+                
+                <button type="button" onclick="document.getElementById('admin-foto-input').click()" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-[11px] font-semibold px-3.5 py-2 rounded-xl transition-all shadow-sm">
+                    <i class="fa-solid fa-image text-xs"></i> Pilih Foto
+                </button>
+                
+                <button type="button" onclick="resetFotoAdmin()" class="inline-flex items-center gap-1.5 bg-white hover:bg-rose-50 text-slate-500 hover:text-rose-600 active:bg-rose-100 text-[11px] font-semibold px-3.5 py-2 rounded-xl transition-all border border-slate-200">
+                    <i class="fa-solid fa-trash-can text-xs"></i> Hapus
+                </button>
+            </div>
+            <p class="text-[10px] text-slate-400">Rekomendasi rasio pasfoto 3:4 atau 1:1 (Format: JPG, PNG. Maks 2MB)</p>
+        </div>
+    </div>
+</div>
+
                             <div>
                                 <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Tempat, Tanggal Lahir</label>
                                 <input type="text" id="edit-pobdob" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-semibold text-slate-700 focus:ring-2 focus:ring-blue-500">
@@ -2944,6 +2980,8 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
         };
 
         window.handleSaveEditStudent = async function(e) {
+            const photoUrl = document.getElementById('admin-add-photo').value.trim() || 'logohq.ico'; // Default jika kosong
+            // Masukkan properti foto tersebut ke dalam objek data santri sebelum di-save
             e.preventDefault();
             const id = document.getElementById('edit-student-id').value;
             const s = studentsList.find(st => st.id === id);
