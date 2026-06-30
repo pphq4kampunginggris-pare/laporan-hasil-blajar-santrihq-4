@@ -133,7 +133,7 @@
             <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
                 <div class="mb-6 text-center lg:text-left">
                     <div class="w-full max-w-md mb-4 bg-slate-900 text-amber-400 text-xs py-2 px-3 rounded-2xl shadow-md border-b border-green-500/20">
-            <marquee behavior="scroll" direction="left" scrollamount="1" onmouseover="this.stop();" onmouseout="this.start();">
+            <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
                 <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
             </marquee>
         </div>
@@ -252,7 +252,7 @@
         </div>
    </header>
 <div class="sticky top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-xs py-2 px-2 shadow-inner border-b border-green-500/20">
-    <marquee behavior="scroll" direction="left" scrollamount="1" onmouseover="this.stop();" onmouseout="this.start();">
+    <marquee behavior="scroll" direction="left" scrollamount="3" onmouseover="this.stop();" onmouseout="this.start();">
         <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda.Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
     </marquee>
 </div>
