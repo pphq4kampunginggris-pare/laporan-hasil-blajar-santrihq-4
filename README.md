@@ -2665,7 +2665,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
     const statusDaftarUlang = (s.daftarUlangStatus || 'Belum Lunas') === 'Lunas' ? '*✅ Lunas*' : '*⚠️ Belum Lunas*';
     const statusCapaianWA = s.statusCapaian === 'Tercapai' ? '✅ *Tercapai* 📝' : '❌ *Belum Tercapai* 📝';
 
-    // Menyusun Template Teks sesuai instruksi
+    // Menyusun Template Teks sesuai instruksi (Sekarang dilengkapi nilai Fasohah & Kelancaran)
     const teksWA = `*LAPORAN PERKEMBANGAN MINGGUAN SANTRI PPHQ PUTRI 4 AL KARIMA*
 
 Assalamu’alaikum warahmatullahi wabarakatuh 🌿✨
@@ -2678,8 +2678,12 @@ Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran 
 - Awal Setoran: ${s.setoranAwal || '-'}
 - Akhir Setoran: ${s.setoranAkhir || '-'}
 - Target Mingguan: ${s.targetMingguan || '-'}
-- Status Capaian: ${statusCapaianWA}
 - *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
+- Status Capaian: ${statusCapaianWA}
+
+- Nilasi Fasohah: *${s.fasohah || 'Belum Dinilai'}*
+- Nilai Kelancaran: *${s.kelancaran || 'Belum Dinilai'}*
+
 
 2️⃣ 🌸 *PERKEMBANGAN PSIKOLOGI ANANDA*
 ✅ *Perkembangan Positif:*
@@ -2696,7 +2700,7 @@ _Jazaakumullahu khairan atas dukungannya._ 🤝
 4️⃣ 📝 *CATATAN LAIN-LAIN*
 ${s.catatanLain || 'Sehat wal afiat.'}
 
-Demikian yang bisa kami laporkan dari perkembangan ananda, kami selalu terbuka untuk berdiskusi demi kebaikan ananda, atas kerjasamanya kami ucapkan terimakasih. 🙏✨
+Demikian yang bisa kami report dari perkembangan ananda, kami selalu terbuka untuk berdiskusi demi kebaikan ananda, atas kerjasamanya kami ucapkan terimakasih. 🙏✨
 
 📅 *${hariIni}*
 
@@ -2704,23 +2708,18 @@ Demikian yang bisa kami laporkan dari perkembangan ananda, kami selalu terbuka u
 Pembimbing Ananda
 *Ustazah ${namaUstazah}*
 
-    Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
+Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
 
-    jika ingin lebih premium tentang perkembangan dari Ananda bisa lihat di link berikut
-caranya, 
+jika ingin lebih premium tentang perkembangan dari Ananda bisa lihat di link berikut caranya,
 1. klik link aplikasi https://pphq4kampunginggris-pare.github.io/laporan-hasil-blajar-santrihq-4/
-2. klik tombol bagian "wali santri" 
+2. klik tombol bagian "wali santri"
 3. ketik nama anaknya (tidak harus lengkap/bisa 1 kata pertama)
-4. data perkembangan tahfidz  siap di lihat oleh orang tua
-5. selesai
-
-`;
-
-
+4. data perkembangan tahfidz siap di lihat oleh orang tua
+5. selesai`;
 
     // Proses Salin Teks ke Clipboard Sistem menggunakan Clipboard API
     navigator.clipboard.writeText(teksWA).then(() => {
-        showToast(`Laporan ${s.name} berhasil disalin! Siap dipaste ke WA.`, 'success');
+        showToast(`Laporan ${s.name} berhasil disalin bersama Nilai Kualitas! Siap di-paste ke WA.`, 'success');
         if (typeof triggerConfettiFeedback === 'function') {
             triggerConfettiFeedback('success');
         }
@@ -2728,8 +2727,6 @@ caranya,
         console.error('Gagal menyalin teks: ', err);
         showToast("Gagal menyalin teks otomatis. Silakan coba lagi.", "error");
     });
-
-
 };
 
         window.triggerUstazahViewKHS = function(studentId) {
