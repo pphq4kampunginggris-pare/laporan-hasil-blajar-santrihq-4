@@ -2678,12 +2678,10 @@ Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran 
 - Awal Setoran: ${s.setoranAwal || '-'}
 - Akhir Setoran: ${s.setoranAkhir || '-'}
 - Target Mingguan: ${s.targetMingguan || '-'}
-- *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
 - Status Capaian: ${statusCapaianWA}
-
 - Nilasi Fasohah: *${s.fasohah || 'Belum Dinilai'}*
 - Nilai Kelancaran: *${s.kelancaran || 'Belum Dinilai'}*
-
+- *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
 
 2️⃣ 🌸 *PERKEMBANGAN PSIKOLOGI ANANDA*
 ✅ *Perkembangan Positif:*
