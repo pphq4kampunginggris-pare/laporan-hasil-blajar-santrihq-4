@@ -2571,35 +2571,35 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             }
 
             activeStudents.forEach(s => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-50 hover:bg-emerald-50/40 p-4 rounded-2xl border border-slate-200/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4";
-                
-                const statusColor = s.statusCapaian === 'Tercapai' ? 'text-emerald-700 bg-emerald-100' : 'text-amber-700 bg-amber-100';
-                
-                card.innerHTML = `
-                    <div class="space-y-1.5 flex-1">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-xs font-black text-slate-900">${s.name}</span>
-                            <span class="text-[9px] px-2 py-0.5 rounded-full font-black ${statusColor}">${s.statusCapaian}</span>
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-bold text-slate-500">
-                            <p>Hafalan: <strong class="text-emerald-800 font-extrabold">${s.totalJuz} Juz</strong></p>
-                            <p class="truncate">Setoran: <strong class="text-slate-700">${s.setoranAkhir}</strong></p>
-                            <p>SPP: <strong class="${s.paymentStatus === 'Lunas' ? 'text-emerald-700':'text-rose-600'}">${s.paymentStatus}</strong></p>
-                            <p>Daftar Ulang: <strong class="text-slate-700">${s.daftarUlangStatus || 'Lunas'}</strong></p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
-                        <a href="https://wa.me/${s.parentPhone}" target="_blank" class="bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200 p-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-2xs">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden md:inline">Wali</span>
-                        </a>
-                        <button onclick="triggerUstazahViewKHS('${s.id}')" class="bg-emerald-700 hover:bg-emerald-855 text-white p-2.5 rounded-xl text-xs font-black transition flex items-center gap-1 shadow-xs">
-                            <i class="fa-solid fa-chart-line"></i> Tinjau KHS
-                        </button>
-                    </div>
-                `;
-                cardsContainer.appendChild(card);
-            });
+    const card = document.createElement('div');
+    card.className = "bg-slate-50 hover:bg-emerald-50/40 p-4 rounded-2xl border border-slate-200/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+    const statusColor = s.statusCapaian === 'Tercapai' ? 'text-emerald-700 bg-emerald-100' : 'text-amber-700 bg-amber-100';
+    
+    card.innerHTML = `
+        <div class="space-y-1.5 flex-1">
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-black text-slate-900">${s.name}</span>
+                <span class="text-[9px] px-2 py-0.5 rounded-full font-black ${statusColor}">${s.statusCapaian || 'Belum Tercapai'}</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-slate-500 font-medium">
+                <div><i class="fa-solid fa-book-open text-emerald-600 mr-1"></i>Awal: <strong>${s.setoranAwal || '-'}</strong></div>
+                <div><i class="fa-solid fa-book text-emerald-600 mr-1"></i>Akhir: <strong>${s.setoranAkhir || '-'}</strong></div>
+                <div><i class="fa-solid fa-bullseye text-amber-600 mr-1"></i>Target: <strong>${s.targetMingguan || '-'}</strong></div>
+                <div><i class="fa-solid fa-chart-line text-blue-600 mr-1"></i>Total: <strong>${s.totalJuz || 0} Juz</strong></div>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-2 self-end sm:self-center">
+            <button onclick="salinLaporanWA('${s.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
+                <i class="fa-brands fa-whatsapp text-xs"></i> Salin WA
+            </button>
+            <button onclick="triggerUstazahViewKHS('${s.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
+                <i class="fa-solid fa-eye"></i> KHS
+            </button>
+        </div>
+    `;
+    cardsContainer.appendChild(card);
+});
         }
 
         // =========================================================================
@@ -2640,6 +2640,97 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             triggerConfettiFeedback('success');
             renderUstazahInterface();
         };
+
+        window.salinLaporanWA = function(studentId) {
+    const s = studentsList.find(student => student.id === studentId);
+    if (!s) {
+        showToast("Data santri tidak ditemukan.", "error");
+        return;
+    }
+
+    // Mendapatkan tanggal hari ini berformat Indonesia
+    const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const hariIni = new Date().toLocaleDateString('id-ID', opsiTanggal);
+
+    // Menentukan nama Ustazah pembimbing berdasarkan data login/kamar
+    let namaUstazah = "Ayu"; // Default jika tidak terdeteksi
+    if (typeof currentRole === 'string' && currentRole.startsWith('ustazah_')) {
+        namaUstazah = currentRole.replace('ustazah_', '');
+    } else if (s.room) {
+        namaUstazah = s.room; // fallback ke room asrama pembimbing
+    }
+
+    // Pemetaan status administrasi agar rapi di WA
+    const statusSyahriyah = s.paymentStatus === 'Lunas' ? '*✅ Lunas*' : '*⚠️ Belum Lunas*';
+    const statusDaftarUlang = (s.daftarUlangStatus || 'Belum Lunas') === 'Lunas' ? '*✅ Lunas*' : '*⚠️ Belum Lunas*';
+    const statusCapaianWA = s.statusCapaian === 'Tercapai' ? '✅ *Tercapai* 📝' : '❌ *Belum Tercapai* 📝';
+
+    // Menyusun Template Teks sesuai instruksi
+    const teksWA = `*LAPORAN PERKEMBANGAN MINGGUAN SANTRI PPHQ PUTRI 4 AL KARIMA*
+
+Assalamu’alaikum warahmatullahi wabarakatuh 🌿✨
+
+Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}* tercinta, semoga kita semua senantiasa dalam lindungan Allah SWT. 🌸
+
+Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran Putri 4*:
+
+1️⃣ 📖 *PERKEMBANGAN TAHFIZH*
+- Awal Setoran: ${s.setoranAwal || '-'}
+- Akhir Setoran: ${s.setoranAkhir || '-'}
+- Target Mingguan: ${s.targetMingguan || '-'}
+- Status Capaian: ${statusCapaianWA}
+- *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
+
+2️⃣ 🌸 *PERKEMBANGAN PSIKOLOGI ANANDA*
+✅ *Perkembangan Positif:*
+${s.perkembanganPositif || 'Ceria, murah senyum, dan setorannya selalu lancar'}
+
+⚠️ *Perkembangan Negatif:*
+${s.catatanNegatif || 'Nihil'}
+
+3️⃣ 💰 *STATUS ADMINISTRASI*
+- Syahriyah (Bulan Berjalan): ${statusSyahriyah}
+- Daftar Ulang: ${statusDaftarUlang}
+_Jazaakumullahu khairan atas dukungannya._ 🤝
+
+4️⃣ 📝 *CATATAN LAIN-LAIN*
+${s.catatanLain || 'Sehat wal afiat.'}
+
+Demikian yang bisa kami laporkan dari perkembangan ananda, kami selalu terbuka untuk berdiskusi demi kebaikan ananda, atas kerjasamanya kami ucapkan terimakasih. 🙏✨
+
+📅 *${hariIni}*
+
+💌 *Salam Hangat,*
+Pembimbing Ananda
+*Ustazah ${namaUstazah}*
+
+    Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
+
+    jika ingin lebih premium tentang perkembangan dari Ananda bisa lihat di link berikut
+caranya, 
+1. klik link aplikasi https://pphq4kampunginggris-pare.github.io/laporan-hasil-blajar-santrihq-4/
+2. klik tombol bagian "wali santri" 
+3. ketik nama anaknya (tidak harus lengkap/bisa 1 kata pertama)
+4. data perkembangan tahfidz  siap di lihat oleh orang tua
+5. selesai
+
+`;
+
+
+
+    // Proses Salin Teks ke Clipboard Sistem menggunakan Clipboard API
+    navigator.clipboard.writeText(teksWA).then(() => {
+        showToast(`Laporan ${s.name} berhasil disalin! Siap dipaste ke WA.`, 'success');
+        if (typeof triggerConfettiFeedback === 'function') {
+            triggerConfettiFeedback('success');
+        }
+    }).catch(err => {
+        console.error('Gagal menyalin teks: ', err);
+        showToast("Gagal menyalin teks otomatis. Silakan coba lagi.", "error");
+    });
+
+
+};
 
         window.triggerUstazahViewKHS = function(studentId) {
             const targetStudent = studentsList.find(s => s.id === studentId);
