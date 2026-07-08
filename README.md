@@ -152,70 +152,81 @@
 </div>
 
 <!-- Pemilih Peran / Navigasi -->
-<div class="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-3 gap-1">
-    <button id="role-btn-wali" type="button" onclick="setGateRole('wali')" class="py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm">
+<div class="bg-slate-100/80 backdrop-blur-sm p-1.5 rounded-2xl grid grid-cols-3 gap-1 border-2 border-emerald-800 shadow-sm">
+    <button id="role-btn-wali" type="button" onclick="setGateRole('wali')" class="py-2.5 rounded-xl text-xs font-black tracking-wide transition-all duration-300 bg-white text-emerald-800 shadow-sm border border-emerald-100">
         Wali Santri
     </button>
-    <button id="role-btn-ustazah" type="button" onclick="setGateRole('ustazah')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all">
+    <button id="role-btn-ustazah" type="button" onclick="setGateRole('ustazah')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 tracking-wide transition-all duration-300 hover:text-emerald-800 hover:bg-emerald-50/30">
         Ustazah
     </button>
-    <button id="role-btn-admin" type="button" onclick="setGateRole('admin')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all">
+    <button id="role-btn-admin" type="button" onclick="setGateRole('admin')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 tracking-wide transition-all duration-300 hover:text-emerald-800 hover:bg-emerald-50/30">
         Admin
     </button>
 </div>
 
-            <!-- Form Auth Interaktif -->
-            <form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-4">
-                <input type="hidden" id="selected-gate-role" value="wali">
+<!-- Form Auth Interaktif -->
+<!-- mt-1.5 memangkas jarak kosong tengah secara maksimal sehingga form naik ke atas -->
+<form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-2.5 mt-1.5">
+    <input type="hidden" id="selected-gate-role" value="wali">
 
-                <!-- INPUT WALI SANTRI: Pencarian Nama Santri -->
-                <div id="gate-input-wrapper-wali">
-                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Lengkap Putri Anda</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                        </span>
-                        <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Ketik 1 kata depan, misal: Aisyah" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl text-xs pl-10 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
-                    </div>
-                    
-                    <!-- Dropdown rekomendasi hasil pencarian nama -->
-                    <div id="gate-wali-matches-box" class="hidden mt-2 bg-slate-50 border border-slate-150 rounded-xl p-2 max-h-40 overflow-y-auto space-y-1">
-                        <p class="text-[9px] font-black uppercase text-slate-400 px-1 tracking-widest mb-1">Hasil Pencarian:</p>
-                        <div id="gate-wali-matches-list" class="space-y-1"></div>
-                    </div>
-                </div>
+    <!-- INPUT WALI SANTRI: Pencarian Nama Santri -->
+    <div id="gate-input-wrapper-wali" class="transition-all duration-300 space-y-0.5">
+        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 select-none">
+            Nama Lengkap Putri Anda
+        </label>
+        <div class="relative group">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-emerald-700 transition-colors">
+                <i class="fa-solid fa-magnifying-glass text-xs font-black"></i>
+            </span>
+            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Ketik nama depan, misal: Aisyah" class="w-full bg-white border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs pl-11 pr-4 py-3.5 focus:ring-4 focus:ring-emerald-800/10 outline-none font-bold transition-all duration-300 placeholder:text-slate-400">
+        </div>
+        
+        <!-- Dropdown rekomendasi hasil pencarian nama -->
+        <div id="gate-wali-matches-box" class="hidden mt-1.5 bg-white border-2 border-emerald-800 rounded-xl p-2 max-h-40 overflow-y-auto shadow-xl space-y-0.5">
+            <p class="text-[9px] font-black uppercase text-emerald-700 px-2 tracking-widest py-1">Hasil Pencarian:</p>
+            <div id="gate-wali-matches-list" class="space-y-0.5"></div>
+        </div>
+    </div>
 
-                <!-- INPUT PILIHAN USTAZAH -->
-                <div id="gate-input-wrapper-ustazah" class="hidden">
-                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Pilih Pembina Halaqah</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                            <i class="fa-solid fa-circle-user text-xs"></i>
-                        </span>
-                        <select id="gate-ustazah-select" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl text-xs pl-10 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all cursor-pointer">
-                            <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
-                            <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
-                            <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
-                            <option value="Nafis">Ustazah Nafis (Halaqah Al-Waqi'ah)</option>
-                        </select>
-                    </div>
-                </div>
+    <!-- INPUT PILIHAN USTAZAH -->
+    <div id="gate-input-wrapper-ustazah" class="hidden transition-all duration-300 space-y-0.5">
+        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 select-none">
+            Pilih Pembina Halaqah
+        </label>
+        <div class="relative group">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-emerald-700 transition-colors">
+                <i class="fa-solid fa-circle-user text-xs"></i>
+            </span>
+            <select id="gate-ustazah-select" class="w-full bg-white border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs pl-11 pr-10 py-3.5 focus:ring-4 focus:ring-emerald-800/10 outline-none font-bold transition-all duration-300 cursor-pointer appearance-none">
+                <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
+                <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
+                <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
+                <option value="Nafis">Ustazah Nafis (Halaqah Al-Waqi'ah)</option>
+            </select>
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 pointer-events-none">
+                <i class="fa-solid fa-chevron-down text-[10px] font-black"></i>
+            </span>
+        </div>
+    </div>
 
-                <!-- INPUT PIN OTORITAS -->
-                <div id="gate-input-wrapper-pin" class="hidden">
-                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Sandi Otoritas (PIN)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                            <i class="fa-solid fa-lock text-xs"></i>
-                        </span>
-                        <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl text-xs pl-10 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-extrabold tracking-widest transition-all">
-                    </div>
-                </div>
+    <!-- INPUT PIN OTORITAS -->
+    <div id="gate-input-wrapper-pin" class="hidden transition-all duration-300 space-y-0.5">
+        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 select-none">
+            Sandi Otoritas (PIN)
+        </label>
+        <div class="relative group">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-emerald-700 transition-colors">
+                <i class="fa-solid fa-lock text-xs"></i>
+            </span>
+            <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-white border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs pl-11 pr-4 py-3.5 focus:ring-4 focus:ring-emerald-800/10 outline-none font-black tracking-widest transition-all duration-300 placeholder:text-slate-300">
+        </div>
+    </div>
 
-                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-3 rounded-xl shadow-lg shadow-emerald-700/10 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-right-to-bracket"></i> Masuk Ruangan
-                </button>
-            </form>
+    <!-- Tombol Submit -->
+    <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 active:scale-[0.98] text-white font-extrabold text-xs py-3.5 rounded-xl shadow-lg shadow-emerald-800/10 hover:shadow-emerald-800/20 transition-all duration-300 flex items-center justify-center gap-2 tracking-wide mt-1.5">
+        <i class="fa-solid fa-right-to-bracket text-sm opacity-90"></i> Masuk Ruangan
+    </button>
+</form>
 
             <!-- Status Pengunjung Real-Time -->
             <div class="bg-slate-50 border border-slate-100 p-3 rounded-xl flex items-center justify-between text-[10px] text-slate-500 font-semibold">
@@ -945,26 +956,27 @@
                 </div>
 
                 <!-- REKAM JEJAK HISTORI PERKEMBANGAN -->
-                <div class="space-y-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-2">
-                        <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider">
-                            <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Real-time)
-                        </span>
-                        <div class="flex items-center gap-2 text-xs font-bold no-print ml-auto sm:ml-0">
-                            <button type="button" onclick="changeHistoryPage(-1)" id="btn-prev-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            <span id="history-page-info" class="text-slate-600 font-mono">Halaman 1 dari 1</span>
-                            <button type="button" onclick="changeHistoryPage(1)" id="btn-next-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="wali-timeline-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Terisi otomatis secara dinamis & rapi tanpa scrollbar -->
-                    </div>
-                </div>
+<div class="space-y-4">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b-2 border-emerald-800 pb-2">
+        <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider">
+            <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Real-time)
+        </span>
+        <div class="flex items-center gap-2 text-xs font-bold no-print ml-auto sm:ml-0">
+            <button type="button" onclick="changeHistoryPage(-1)" id="btn-prev-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <span id="history-page-info" class="text-slate-600 font-mono">Halaman 1 dari 1</span>
+            <button type="button" onclick="changeHistoryPage(1)" id="btn-next-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Menggunakan w-full dan grid-cols-1 agar konten berjejer ke bawah dalam 1 baris utuh -->
+    <div id="wali-timeline-container" class="grid grid-cols-1 gap-4 w-full">
+        <!-- Terisi otomatis secara dinamis & rapi tanpa scrollbar -->
+    </div>
+</div>
 
                 <!-- SIGNATURE SECTION FOR FORMAL REPORT -->
                 <div class="grid grid-cols-2 gap-4 pt-8 border-t border-slate-100 text-center text-xs mt-6">
