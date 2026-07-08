@@ -84,7 +84,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased text-[14px] md:text-[15px]">
 
     <!-- GATE LOGIN (INITIAL SCREEN) -->
     <div id="gate-screen" class="fixed inset-0 z-50 min-h-screen flex flex-col lg:flex-row bg-slate-50">
@@ -131,58 +131,58 @@
 
         <!-- Sisi Kanan: Portal Interaktif Pemilihan Peran -->
         <div class="flex-1 flex items-center justify-center p-6 md:p-12">
-            <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
+            <div class="max-w-xl w-full bg-white rounded-3xl p-10 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
                 <div class="mb-6 text-center lg:text-left">
-                    <div class="w-full max-w-md mb-4 bg-slate-900 text-amber-400 text-xs py-2 px-3 rounded-2xl shadow-md border-b border-green-500/20">
+                    <div class="w-full max-w-lg mb-4 bg-slate-900 text-amber-400 text-xs py-2.5 px-4 rounded-2xl shadow-md border-b border-green-500/20">
                         <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
                             <span class="font-bold"> Selamat datang di portal E-Tahfidz PPHQ PUTRI 4. silahkan klik tombol wali santri dan ketik kan nama putri bpk/ibu di aplikasi ini .Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
                         </marquee>
                     </div>
-                    <h3 class="text-2xl font-black text-slate-900 tracking-tight">E-TAHFIDZ PPHQ PUTRI 4 AL-KARIMA</h3>
-                    <p class="text-[11px] text-slate-400 font-semibold mt-1">Pilih peran Anda di bawah ini untuk mengelola data</p>
+                    <h3 class="text-3xl font-black text-slate-900 tracking-tight">E-TAHFIDZ PPHQ PUTRI 4 AL-KARIMA</h3>
+                    <p class="text-xs text-slate-400 font-semibold mt-1.5">Pilih peran Anda di bawah ini untuk mengelola data</p>
                 </div>
 
                 <!-- Pemilih Sub-Navigasi Gerbang Masuk -->
-                <div class="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-3 gap-1 mb-6">
-                    <button id="role-btn-wali" onclick="setGateRole('wali')" class="py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-xs">
+                <div class="bg-slate-100 p-2 rounded-2xl grid grid-cols-3 gap-1.5 mb-6">
+                    <button id="role-btn-wali" onclick="setGateRole('wali')" class="py-3 rounded-xl text-sm font-black transition-all bg-white text-emerald-900 shadow-xs">
                         Wali Santri
                     </button>
-                    <button id="role-btn-ustazah" onclick="setGateRole('ustazah')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all">
+                    <button id="role-btn-ustazah" onclick="setGateRole('ustazah')" class="py-3 rounded-xl text-sm font-bold text-slate-500 transition-all">
                         Ustazah
                     </button>
-                    <button id="role-btn-admin" onclick="setGateRole('admin')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all">
+                    <button id="role-btn-admin" onclick="setGateRole('admin')" class="py-3 rounded-xl text-sm font-bold text-slate-500 transition-all">
                         Admin
                     </button>
                 </div>
 
-                <form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-4">
+                <form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-5">
                     <input type="hidden" id="selected-gate-role" value="wali">
 
                     <!-- INPUT WALI SANTRI: Pencarian Nama Santri -->
                     <div id="gate-input-wrapper-wali" class="">
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Lengkap Putri Anda</label>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Lengkap Putri Anda</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                <i class="fa-solid fa-magnifying-glass text-sm"></i>
                             </span>
-                            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Contoh: Aisyah Humaira" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-xs pl-10 pr-4 py-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
+                            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Contoh: Aisyah Humaira" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-sm pl-11 pr-4 py-4 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
                         </div>
                         
                         <!-- Dropdown rekomendasi hasil pencarian nama -->
-                        <div id="gate-wali-matches-box" class="hidden mt-2 bg-slate-50 border border-slate-150 rounded-2xl p-2 max-h-40 overflow-y-auto space-y-1.5">
-                            <p class="text-[9px] font-black uppercase text-slate-400 px-2 tracking-widest mb-1">Hasil Pencarian:</p>
+                        <div id="gate-wali-matches-box" class="hidden mt-2 bg-slate-50 border border-slate-150 rounded-2xl p-2.5 max-h-48 overflow-y-auto space-y-1.5">
+                            <p class="text-[10px] font-black uppercase text-slate-400 px-2 tracking-widest mb-1.5">Hasil Pencarian:</p>
                             <div id="gate-wali-matches-list" class="space-y-1"></div>
                         </div>
                     </div>
 
                     <!-- INPUT PILIHAN USTAZAH -->
                     <div id="gate-input-wrapper-ustazah" class="hidden">
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Pilih Pembina Halaqah</label>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Pilih Pembina Halaqah</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                                <i class="fa-solid fa-circle-user"></i>
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                <i class="fa-solid fa-circle-user text-sm"></i>
                             </span>
-                            <select id="gate-ustazah-select" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-xs pl-10 pr-4 py-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all cursor-pointer">
+                            <select id="gate-ustazah-select" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-sm pl-11 pr-4 py-4 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all cursor-pointer">
                                 <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
                                 <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
                                 <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
@@ -193,16 +193,16 @@
 
                     <!-- INPUT PIN OTORITAS -->
                     <div id="gate-input-wrapper-pin" class="hidden">
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Sandi Otoritas (PIN)</label>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Sandi Otoritas (PIN)</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                                <i class="fa-solid fa-lock-open text-xs"></i>
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                <i class="fa-solid fa-lock-open text-sm"></i>
                             </span>
-                            <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-xs pl-10 pr-4 py-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-extrabold tracking-widest transition-all">
+                            <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-sm pl-11 pr-4 py-4 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-extrabold tracking-widest transition-all">
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-855 text-white font-extrabold text-xs py-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
+                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-855 text-white font-extrabold text-sm py-4 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
                         <i class="fa-solid fa-right-to-bracket"></i> Masuk Ruangan
                     </button>
                 </form>
@@ -543,9 +543,6 @@
                             <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
                             <button onclick="document.getElementById('csv-file-input').click()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-file-import"></i> Impor CSV Manual
-                            </button>
-                            <button id="btn-load-workspace-csv" onclick="importVerbatimCSV()" class="w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
-                                <i class="fa-solid fa-file-csv"></i> Muat santri_students_rows (1).csv
                             </button>
                             <button onclick="clearAllSantriData()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm" title="Reset Semua Data Jadi Nol">
                                 <i class="fa-solid fa-trash-can"></i> Kosongkan Semua Data
@@ -1630,7 +1627,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
     <!-- ========================================================================= -->
     <!-- CORE JAVASCRIPT & SUPABASE CONNECTION LOGIC -->
-    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT & SUPABASE CONNECTION LOGIC -->
     <script>
         // =========================================================================
         // SINKRONISASI CLOUD UTAMA - MENGGUNAKAN SUPABASE MILIK PENGGUNA
@@ -1716,6 +1713,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             document.getElementById('view-wali').classList.add('hidden');
             
             showToast("Anda telah keluar dari sesi portal keamanan secara sukses.", "info");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         // =========================================================================
@@ -2164,6 +2162,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     renderWaliKHS(matched.id);
                     showToast(`Selamat datang Wali dari Ananda ${matched.name}!`, 'success');
                     triggerConfettiFeedback('success');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     showToast("Nama santriwati tidak cocok. Harap ketik & pilih nama dari pencarian.", "error");
                 }
@@ -2182,6 +2181,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     renderUstazahInterface();
                     showToast(`Sesi Halaqah Ustazah ${ustName} Aktif!`, 'success');
                     triggerConfettiFeedback('success');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     showToast("PIN Otoritas Pembimbing Salah!", "error");
                 }
@@ -2208,10 +2208,62 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
                     showToast("Otoritas Administrator PPSB Diterima!", 'success');
                     triggerConfettiFeedback('success');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     showToast("PIN Otoritas Admin Salah!", "error");
                 }
             }
+        };
+
+        window.setupActiveWorkspace = function() {
+            if (!currentRole) {
+                document.getElementById('gate-screen').classList.remove('hidden');
+                document.getElementById('main-app-header').classList.add('hidden');
+                document.getElementById('main-app-container').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            if (currentRole === 'admin') {
+                document.getElementById('view-admin').classList.remove('hidden');
+                document.getElementById('view-ustazah').classList.add('hidden');
+                document.getElementById('view-wali').classList.add('hidden');
+                recalculateAdminStats();
+                renderAdminStudentsDirectory();
+            } else if (currentRole.startsWith('ustazah_')) {
+                document.getElementById('view-ustazah').classList.remove('hidden');
+                document.getElementById('view-admin').classList.add('hidden');
+                document.getElementById('view-wali').classList.add('hidden');
+                renderUstazahInterface();
+            } else if (currentRole === 'wali') {
+                document.getElementById('view-wali').classList.remove('hidden');
+                document.getElementById('view-admin').classList.add('hidden');
+                document.getElementById('view-ustazah').classList.add('hidden');
+                if (currentWaliStudent) renderWaliKHS(currentWaliStudent.id);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.switchAdminTab = function(tab) {
+            adminActiveTab = tab;
+            const tabReg = document.getElementById('admin-tab-register');
+            const tabDir = document.getElementById('admin-tab-directory');
+            const contentReg = document.getElementById('admin-content-register');
+            const contentDir = document.getElementById('admin-content-directory');
+
+            if (tab === 'register') {
+                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
+                tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+                contentReg.classList.remove('hidden');
+                contentDir.classList.add('hidden');
+            } else {
+                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
+                tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+                contentDir.classList.remove('hidden');
+                contentReg.classList.add('hidden');
+                renderAdminStudentsDirectory();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.setupActiveWorkspace = function() {
@@ -3016,6 +3068,13 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             document.getElementById('view-wali').classList.remove('hidden');
             document.getElementById('parent-back-btn-container').classList.remove('hidden'); 
             renderWaliKHS(studentId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.goBackToDashboard = function() {
+            document.getElementById('view-wali').classList.add('hidden');
+            setupActiveWorkspace();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.goBackToDashboard = function() {
