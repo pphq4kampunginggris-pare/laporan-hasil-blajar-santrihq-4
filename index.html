@@ -29,8 +29,8 @@
         }
         /* Custom scrollbar untuk estetika premium */
         ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -45,7 +45,7 @@
 
         /* Transisi fade-in premium untuk ruang kerja */
         .fade-in-workspace {
-            animation: fadeInWorkspace 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeInWorkspace 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fadeInWorkspace {
@@ -56,6 +56,42 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Responsivitas Sertifikat Cetak Landscape */
+        .cert-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        
+        .cert-zoom-wrapper {
+            transform-origin: center center;
+            transition: transform 0.2s ease;
+        }
+
+        @media (max-width: 900px) {
+            .cert-zoom-wrapper {
+                transform: scale(0.8);
+            }
+        }
+        @media (max-width: 720px) {
+            .cert-zoom-wrapper {
+                transform: scale(0.65);
+            }
+        }
+        @media (max-width: 580px) {
+            .cert-zoom-wrapper {
+                transform: scale(0.5);
+            }
+        }
+        @media (max-width: 450px) {
+            .cert-zoom-wrapper {
+                transform: scale(0.4);
             }
         }
 
@@ -87,134 +123,113 @@
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased text-[14px] md:text-[15px]">
 
     <!-- GATE LOGIN (INITIAL SCREEN) -->
-    <div id="gate-screen" class="fixed inset-0 z-50 min-h-screen flex flex-col lg:flex-row bg-slate-50">
-        <!-- Sisi Kiri: Branding Yayasan dan Tema Islami -->
-        <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-tr from-emerald-950 via-emerald-900 to-slate-900 text-white p-16 flex-col justify-between relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.15),transparent)] pointer-events-none"></div>
+    <div id="gate-screen" class="fixed inset-0 z-50 min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-slate-950 p-4 overflow-y-auto">
+        <!-- Efek Ornamen Radial Cahaya -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.1),transparent)] pointer-events-none"></div>
+        
+        <!-- Kartu Navigasi Utama -->
+        <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/60 shadow-2xl flex flex-col gap-5 relative z-10 my-auto">
             
-            <div class="flex items-center gap-3 z-10">
-                <div class="bg-white/10 p-2.5 rounded-2xl border border-white/10 backdrop-blur-md">
-                    <svg class="w-7 h-7 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
+            <!-- Branding Header Minimalis -->
+<div class="text-center space-y-2">
+    <!-- Bagian Logo (Menggantikan SVG bawaan) -->
+    <div class="mx-auto w-20 h-20 rounded-full flex items-center justify-center p-1 bg-white border border-emerald-100 shadow-md">
+        <img src="logo.png.jfif" alt="Logo Pesantren Hamalatul Quran" class="w-full h-full object-contain rounded-full">
+    </div>
+    
+    <div>
+        <h2 class="text-[10px] font-black tracking-widest text-emerald-800 uppercase leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h2>
+        <h1 class="text-sm font-black text-slate-900 uppercase tracking-tight mt-1">E-TAHFIDZ PPHQ PUTRI 4 AL-KArima</h1>
+        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Laporan Real-Time & Perkembangan Santriwati</p>
+    </div>
+</div>
 
-                <div>
-                    <h1 class="text-base font-black tracking-tight bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h1>
-                    <p class="text-[9px] text-emerald-300/80 font-bold uppercase tracking-widest mt-1">PP Hamalatul Qur'an Putri 4</p>
-                </div>
-            </div>
+<!-- Running Announcement Marquee -->
+<div class="bg-slate-900 text-amber-400 text-[12px] py-2 px-3 rounded-xl shadow-inner border-b border-green-500/10">
+    <marquee behavior="scroll" direction="left" scrollamount="3" onmouseover="this.stop();" onmouseout="this.start();">
+        <span class="font-bold">Selamat datang di portal E-Tahfidz PPHQ PUTRI 4. Silakan klik tombol Wali Santri dan ketikkan nama putri bapak/ibu di aplikasi ini. No HP: 085706399238</span>
+    </marquee>
+</div>
 
-            <div class="space-y-6 z-10">
-                <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase inline-block">
-                    E-Tahfidz Portal v5.0
-                </span>
-                <h2 class="text-4xl font-black leading-tight tracking-tight">
-                    Sistem Laporan Real-Time<br/>dan Perkembangan Santri.
-                </h2>
-                <p class="text-slate-300/90 text-sm leading-relaxed max-w-lg">
-                    Laporan pencatatan terpadu administrasi, laporan tahfidz harian, monitoring habit, serta visualisasi rekam jejak hafalan 30 Juz bagi santriwati secara instan lintas-perangkat.
-                </p>
-            </div>
-            
-            <div class="z-10 bg-white/5 border border-white/10 p-4 rounded-2xl flex items-center justify-between text-xs backdrop-blur-md">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="font-extrabold text-slate-200">Total Pengunjung Terdaftar:</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <span class="font-mono text-emerald-300 font-bold" id="gate-visitor-count">156</span>
-                    <span class="bg-white/15 px-2 py-0.5 rounded text-[10px] font-bold text-white" id="gate-online-count">6 Online</span>
-                </div>
-            </div>
-        </div>
+<!-- Pemilih Peran / Navigasi -->
+<div class="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-3 gap-1">
+    <button id="role-btn-wali" type="button" onclick="setGateRole('wali')" class="py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm">
+        Wali Santri
+    </button>
+    <button id="role-btn-ustazah" type="button" onclick="setGateRole('ustazah')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all">
+        Ustazah
+    </button>
+    <button id="role-btn-admin" type="button" onclick="setGateRole('admin')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all">
+        Admin
+    </button>
+</div>
 
-        <!-- Sisi Kanan: Portal Interaktif Pemilihan Peran -->
-        <div class="flex-1 flex items-center justify-center p-6 md:p-12">
-            <div class="max-w-xl w-full bg-white rounded-3xl p-10 border border-slate-200/60 shadow-2xl shadow-emerald-100/30">
-                <div class="mb-6 text-center lg:text-left">
-                    <div class="w-full max-w-lg mb-4 bg-slate-900 text-amber-400 text-xs py-2.5 px-4 rounded-2xl shadow-md border-b border-green-500/20">
-                        <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
-                            <span class="font-bold"> Selamat datang di portal E-Tahfidz PPHQ PUTRI 4. silahkan klik tombol wali santri dan ketik kan nama putri bpk/ibu di aplikasi ini .Trimakasih banyak telah mempercayai kami. no hp 085706399238</span>
-                        </marquee>
+            <!-- Form Auth Interaktif -->
+            <form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-4">
+                <input type="hidden" id="selected-gate-role" value="wali">
+
+                <!-- INPUT WALI SANTRI: Pencarian Nama Santri -->
+                <div id="gate-input-wrapper-wali">
+                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Lengkap Putri Anda</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </span>
+                        <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Ketik 1 kata depan, misal: Aisyah" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl text-xs pl-10 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
                     </div>
-                    <h3 class="text-3xl font-black text-slate-900 tracking-tight">E-TAHFIDZ PPHQ PUTRI 4 AL-KARIMA</h3>
-                    <p class="text-xs text-slate-400 font-semibold mt-1.5">Pilih peran Anda di bawah ini untuk mengelola data</p>
+                    
+                    <!-- Dropdown rekomendasi hasil pencarian nama -->
+                    <div id="gate-wali-matches-box" class="hidden mt-2 bg-slate-50 border border-slate-150 rounded-xl p-2 max-h-40 overflow-y-auto space-y-1">
+                        <p class="text-[9px] font-black uppercase text-slate-400 px-1 tracking-widest mb-1">Hasil Pencarian:</p>
+                        <div id="gate-wali-matches-list" class="space-y-1"></div>
+                    </div>
                 </div>
 
-                <!-- Pemilih Sub-Navigasi Gerbang Masuk -->
-                <div class="bg-slate-100 p-2 rounded-2xl grid grid-cols-3 gap-1.5 mb-6">
-                    <button id="role-btn-wali" onclick="setGateRole('wali')" class="py-3 rounded-xl text-sm font-black transition-all bg-white text-emerald-900 shadow-xs">
-                        Wali Santri
-                    </button>
-                    <button id="role-btn-ustazah" onclick="setGateRole('ustazah')" class="py-3 rounded-xl text-sm font-bold text-slate-500 transition-all">
-                        Ustazah
-                    </button>
-                    <button id="role-btn-admin" onclick="setGateRole('admin')" class="py-3 rounded-xl text-sm font-bold text-slate-500 transition-all">
-                        Admin
-                    </button>
+                <!-- INPUT PILIHAN USTAZAH -->
+                <div id="gate-input-wrapper-ustazah" class="hidden">
+                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Pilih Pembina Halaqah</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-circle-user text-xs"></i>
+                        </span>
+                        <select id="gate-ustazah-select" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl text-xs pl-10 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all cursor-pointer">
+                            <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
+                            <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
+                            <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
+                            <option value="Nafis">Ustazah Nafis (Halaqah Al-Waqi'ah)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-5">
-                    <input type="hidden" id="selected-gate-role" value="wali">
-
-                    <!-- INPUT WALI SANTRI: Pencarian Nama Santri -->
-                    <div id="gate-input-wrapper-wali" class="">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Lengkap Putri Anda</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                            </span>
-                            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Contoh: Aisyah Humaira" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-sm pl-11 pr-4 py-4 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all">
-                        </div>
-                        
-                        <!-- Dropdown rekomendasi hasil pencarian nama -->
-                        <div id="gate-wali-matches-box" class="hidden mt-2 bg-slate-50 border border-slate-150 rounded-2xl p-2.5 max-h-48 overflow-y-auto space-y-1.5">
-                            <p class="text-[10px] font-black uppercase text-slate-400 px-2 tracking-widest mb-1.5">Hasil Pencarian:</p>
-                            <div id="gate-wali-matches-list" class="space-y-1"></div>
-                        </div>
+                <!-- INPUT PIN OTORITAS -->
+                <div id="gate-input-wrapper-pin" class="hidden">
+                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Sandi Otoritas (PIN)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-lock text-xs"></i>
+                        </span>
+                        <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl text-xs pl-10 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-extrabold tracking-widest transition-all">
                     </div>
+                </div>
 
-                    <!-- INPUT PILIHAN USTAZAH -->
-                    <div id="gate-input-wrapper-ustazah" class="hidden">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Pilih Pembina Halaqah</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                                <i class="fa-solid fa-circle-user text-sm"></i>
-                            </span>
-                            <select id="gate-ustazah-select" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-sm pl-11 pr-4 py-4 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold transition-all cursor-pointer">
-                                <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
-                                <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
-                                <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
-                                <option value="Nafis">Ustazah Nafis (Halaqah Al-Waqi'ah)</option>
-                            </select>
-                        </div>
-                    </div>
+                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-3 rounded-xl shadow-lg shadow-emerald-700/10 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Masuk Ruangan
+                </button>
+            </form>
 
-                    <!-- INPUT PIN OTORITAS -->
-                    <div id="gate-input-wrapper-pin" class="hidden">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Sandi Otoritas (PIN)</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                                <i class="fa-solid fa-lock-open text-sm"></i>
-                            </span>
-                            <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl text-sm pl-11 pr-4 py-4 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-extrabold tracking-widest transition-all">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-855 text-white font-extrabold text-sm py-4 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-right-to-bracket"></i> Masuk Ruangan
-                    </button>
-                </form>
+            <!-- Status Pengunjung Real-Time -->
+            <div class="bg-slate-50 border border-slate-100 p-3 rounded-xl flex items-center justify-between text-[10px] text-slate-500 font-semibold">
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Total Pengunjung: <strong class="text-slate-700" id="gate-visitor-count">156</strong></span>
+                <span class="bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-md font-bold" id="gate-online-count">6 Online</span>
             </div>
         </div>
     </div>
 
     <!-- MAIN WORKSPACE HEADER -->
     <header class="bg-gradient-to-r from-emerald-950 to-slate-900 text-white shadow-lg sticky top-0 z-40 hidden no-print" id="main-app-header">
-        <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3">
+        <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
             <div class="flex items-center gap-3">
-                <button onclick="handleLogout()" class="bg-white/10 hover:bg-white/20 text-emerald-300 border border-white/10 text-[10px] font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
+                <button onclick="handleLogout()" class="bg-white/10 hover:bg-white/20 text-emerald-300 border border-white/10 text-[10px] font-black px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-arrow-left"></i> Keluar Portal
                 </button>
                 
@@ -225,13 +240,13 @@
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-base font-black tracking-tight leading-none bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent">E-Tahfidz Al Karima</h1>
+                        <h1 class="text-sm font-black tracking-tight leading-none bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent">E-Tahfidz Al Karima</h1>
                         <p class="text-[9px] text-emerald-300/90 font-extrabold uppercase tracking-widest mt-1" id="active-user-badge">Panel Pengguna</p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-2 ml-auto sm:ml-0">
                 <!-- Elemen status disembunyikan seluruhnya agar tampilan bersih -->
                 <div id="header-sync-badge" class="hidden flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300/90 tracking-wider">
                     <span class="w-2 h-2 rounded-full bg-emerald-400" id="sync-dot"></span>
@@ -253,9 +268,9 @@
         </div>
     </header>
 
-    <div class="sticky top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-xs py-2 px-2 shadow-inner border-b border-green-500/20">
+    <div class="sticky top-[58px] sm:top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-[11px] lg:text-xs py-2 px-3 shadow-inner border-b border-green-500/20">
         <marquee behavior="scroll" direction="left" scrollamount="3" onmouseover="this.stop();" onmouseout="this.start();">
-            <span class="font-bold"> E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda. Terimakasih banyak telah mempercayai kami. No HP: 085706399238</span>
+            <span class="font-semibold">E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda. Terima kasih banyak telah mempercayai kami. No HP: 085706399238</span>
         </marquee>
     </div>
 
@@ -269,58 +284,59 @@
         <!-- VIEW 1: INTERFACE ADMINISTRATOR (PPSB) -->
         <!-- ========================================================== -->
         <div id="view-admin" class="hidden space-y-6">
+            
             <!-- REAL-TIME STATISTICS ROW -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 no-print" id="admin-stats-row">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 no-print" id="admin-stats-row">
                 <!-- Card 1: Total Santriwati -->
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200/60 shadow-xs flex items-center gap-2.5 min-w-0">
-                    <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-users text-sm"></i></span>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                    <span class="p-3 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-users text-sm"></i></span>
                     <div class="min-w-0">
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Total Santri</p>
-                        <p class="text-sm sm:text-base font-black text-slate-900 leading-tight" id="stat-total-students">0</p>
+                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-total-students">0</p>
                     </div>
                 </div>
                 <!-- Card 2: Santriwati Aktif -->
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200/60 shadow-xs flex items-center gap-2.5 min-w-0">
-                    <span class="p-2.5 bg-blue-50 text-blue-700 rounded-xl shrink-0"><i class="fa-solid fa-user-check text-sm"></i></span>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                    <span class="p-3 bg-blue-50 text-blue-700 rounded-xl shrink-0"><i class="fa-solid fa-user-check text-sm"></i></span>
                     <div class="min-w-0">
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Santri Aktif</p>
-                        <p class="text-sm sm:text-base font-black text-slate-900 leading-tight" id="stat-active-students-count">0</p>
+                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-active-students-count">0</p>
                     </div>
                 </div>
                 <!-- Card 3: Santri Tidak Aktif -->
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200/60 shadow-xs flex items-center gap-2.5 min-w-0">
-                    <span class="p-2.5 bg-rose-50 text-rose-700 rounded-xl shrink-0"><i class="fa-solid fa-user-xmark text-sm"></i></span>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                    <span class="p-3 bg-rose-50 text-rose-700 rounded-xl shrink-0"><i class="fa-solid fa-user-xmark text-sm"></i></span>
                     <div class="min-w-0">
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Santri Non-Aktif</p>
-                        <p class="text-sm sm:text-base font-black text-slate-900 leading-tight" id="stat-inactive-students">0</p>
+                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-inactive-students">0</p>
                     </div>
                 </div>
                 <!-- Card 4: Halaqah Aktif -->
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200/60 shadow-xs flex items-center gap-2.5 min-w-0">
-                    <span class="p-2.5 bg-amber-50 text-amber-700 rounded-xl shrink-0"><i class="fa-solid fa-chalkboard-user text-sm"></i></span>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                    <span class="p-3 bg-amber-50 text-amber-700 rounded-xl shrink-0"><i class="fa-solid fa-chalkboard-user text-sm"></i></span>
                     <div class="min-w-0">
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Ustadzah Aktif</p>
-                        <p class="text-sm sm:text-base font-black text-slate-900 leading-tight" id="stat-active-teachers">0</p>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Ustazah Aktif</p>
+                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-active-teachers">0</p>
                     </div>
                 </div>
                 <!-- Card 5: Lunas SPP Aktif -->
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200/60 shadow-xs flex items-center gap-2.5 col-span-2 sm:col-span-1 min-w-0">
-                    <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-wallet text-sm"></i></span>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3 col-span-2 sm:col-span-1">
+                    <span class="p-3 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-wallet text-sm"></i></span>
                     <div class="min-w-0">
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Lunas SPP Aktif</p>
-                        <p class="text-sm sm:text-base font-black text-slate-900 leading-tight" id="stat-paid-students">0</p>
+                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-paid-students">0</p>
                     </div>
                 </div>
             </div>
 
             <!-- Tab Navigasi Internal Admin -->
             <div class="border-b border-slate-200 no-print">
-                <nav class="-mb-px flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8" aria-label="Tabs">
-                    <button id="admin-tab-register" onclick="switchAdminTab('register')" class="border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2">
-                        <i class="fa-solid fa-user-plus text-xs"></i> Registrasi Santri Baru
+                <nav class="-mb-px flex flex-row space-x-6" aria-label="Tabs">
+                    <button id="admin-tab-register" onclick="switchAdminTab('register')" class="border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Registrasi Baru
                     </button>
-                    <button id="admin-tab-directory" onclick="switchAdminTab('directory')" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-address-book text-xs"></i> Direktori Santriwati & Sertifikat
+                    <button id="admin-tab-directory" onclick="switchAdminTab('directory')" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-address-book"></i> Direktori & Sertifikat
                     </button>
                 </nav>
             </div>
@@ -328,7 +344,7 @@
             <!-- TAB 1 CONTENT: FORM REGISTRASI DENGAN KEUANGAN & LOGISTIK -->
             <div id="admin-content-register" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Sisi Kiri: Form Detail Informasi Pendaftaran -->
-                <div class="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+                <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
                     <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
                         <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-file-signature text-xs"></i></span>
                         <div>
@@ -341,16 +357,16 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="md:col-span-2">
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Lengkap Santriwati</label>
-                                <input type="text" id="admin-add-name" required placeholder="Contoh: Aisyah Humaira Khansa" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                                <input type="text" id="admin-add-name" required placeholder="Contoh: Aisyah Humaira Khansa" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Foto Santriwati (Optimasi JPG)</label>
                                 <input type="file" id="admin-add-photo-file" accept="image/*" onchange="previewAndCompressPhoto(this, 'admin-add-photo-preview')" class="hidden">
-                                <div onclick="document.getElementById('admin-add-photo-file').click()" class="cursor-pointer bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center gap-2 text-[11px] font-bold text-slate-600 hover:border-emerald-500 hover:bg-emerald-50/20 transition-all">
+                                <div onclick="document.getElementById('admin-add-photo-file').click()" class="cursor-pointer bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-2.5 flex items-center justify-center gap-2 text-[11px] font-bold text-slate-600 hover:border-emerald-500 hover:bg-emerald-50/20 transition-all">
                                     <div id="admin-add-photo-preview" class="w-8 h-8 rounded-lg bg-slate-200 overflow-hidden flex items-center justify-center shrink-0 border border-slate-300">
                                         <i class="fa-solid fa-camera text-xs text-slate-400"></i>
                                     </div>
-                                    <span class="truncate text-[10px]">Pilih JPG / Foto</span>
+                                    <span class="truncate text-[10px]">Pilih Foto JPG</span>
                                 </div>
                                 <span id="admin-photo-jpg-indicator" class="text-[8px] font-semibold text-emerald-600 mt-1 block hidden"><i class="fa-solid fa-circle-check"></i> Terkompresi ke JPG</span>
                             </div>
@@ -359,18 +375,18 @@
                         <div class="grid grid-cols-1 gap-4">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tempat, Tanggal Lahir</label>
-                                <input type="text" id="admin-add-pobdob" required placeholder="Contoh: Kediri, 12 April 2007" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                <input type="text" id="admin-add-pobdob" required placeholder="Contoh: Kediri, 12 April 2007" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">No. WhatsApp Wali (Aktif)</label>
-                                <input type="tel" id="admin-add-phone" required placeholder="Contoh: 0812345678" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold tracking-wider text-slate-800">
+                                <input type="tel" id="admin-add-phone" required placeholder="Contoh: 0812345678" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold tracking-wider text-slate-800">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Riwayat Menghafal</label>
-                                <select id="admin-add-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                <select id="admin-add-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
                                     <option value="Belum Pernah">Belum Pernah Menghafal</option>
                                     <option value="Sudah Pernah">Sudah Memiliki Hafalan</option>
                                 </select>
@@ -395,9 +411,9 @@
                                         <span class="text-[9px] font-bold text-emerald-800">Rp 900.000</span>
                                     </div>
                                 </label>
-                                <div class="bg-white border border-emerald-200 rounded-xl p-2.5">
-                                    <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang Manual (Rp)</label>
-                                    <input type="number" id="admin-add-fee-rereg" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-[11px] p-1.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-950">
+                                <div class="bg-white border border-emerald-200 rounded-xl p-2">
+                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang Manual (Rp)</label>
+                                    <input type="number" id="admin-add-fee-rereg" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-[11px] p-2 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-950">
                                 </div>
                             </div>
                         </div>
@@ -438,13 +454,13 @@
 
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Alamat Domisili Lengkap Wali</label>
-                            <textarea id="admin-add-address" required rows="2" placeholder="Tuliskan nama jalan, RT/RW, kelurahan, kecamatan, kabupaten." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-medium"></textarea>
+                            <textarea id="admin-add-address" required rows="2" placeholder="Tuliskan nama jalan, RT/RW, kelurahan, kecamatan, kabupaten." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-medium"></textarea>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Kamar Asrama & Halaqah</label>
-                                <select id="admin-add-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900 cursor-pointer">
+                                <select id="admin-add-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900 cursor-pointer">
                                     <option value="Ayu">Ustazah Ayu - Ruang Ayu (Halaqah Al-Mulk)</option>
                                     <option value="Ayuniz">Ustazah Ayu - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
                                     <option value="Rima">Ustazah Rima - Ruang Rima (Halaqah Ya-Sin)</option>
@@ -453,25 +469,25 @@
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Program Kelas</label>
-                                <select id="admin-add-program" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                <select id="admin-add-program" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
                                     <option value="Tahfidz Reguler">Reguler</option>
                                     <option value="Takhassus 30 Juz">Takhassus</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Celengan</label>
-                                <input type="text" id="admin-add-celengan" value="5 Juz" placeholder="cth: 5 Juz" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                                <input type="text" id="admin-add-celengan" value="5 Juz" placeholder="cth: 5 Juz" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tanggal Kedatangan</label>
-                                <input type="date" id="admin-add-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                                <input type="date" id="admin-add-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Syahriyah SPP Awal</label>
-                                <select id="admin-add-paystatus" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                <select id="admin-add-paystatus" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
                                     <option value="Lunas">Selesai Dibayar (Lunas)</option>
                                     <option value="Belum Lunas" selected>Pending Pembayaran (Belum)</option>
                                 </select>
@@ -480,10 +496,10 @@
 
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Motivasi Menghafal</label>
-                            <input type="text" id="admin-add-motivation" placeholder="Contoh: Mengabdi pada Al-Qur'an dan membahagiakan orang tua" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-600">
+                            <input type="text" id="admin-add-motivation" placeholder="Contoh: Mengabdi pada Al-Qur'an dan membahagiakan orang tua" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-600">
                         </div>
 
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
+                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-4 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
                             <i class="fa-solid fa-floppy-disk"></i> Simpan Pendaftaran &amp; Terbitkan Kuitansi
                         </button>
                     </form>
@@ -531,29 +547,29 @@
             </div>
 
             <!-- TAB 2 CONTENT: ARSIP INDUK DIREKTORI SANTRIWATI -->
-            <div id="admin-content-directory" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 hidden">
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div id="admin-content-directory" class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 hidden">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                     <div>
-                        <h3 class="font-black text-sm text-slate-900"><i class="fa-solid fa-folder-open text-emerald-700 mr-1.5"></i> Arsip Induk Santriwati</h3>
+                        <h3 class="font-black text-sm text-slate-900 flex items-center gap-1.5"><i class="fa-solid fa-folder-open text-emerald-700"></i> Arsip Induk Santriwati</h3>
                         <p class="text-[10px] text-slate-400">Cari, tinjau status halaqah, cetak kuitansi, terbitkan sertifikat penghargaan, atau ubah data santri.</p>
                     </div>
                     
-                    <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full lg:w-auto">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full lg:w-auto">
                         <div class="relative w-full sm:w-auto flex flex-wrap gap-2">
                             <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
-                            <button onclick="document.getElementById('csv-file-input').click()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                            <button onclick="document.getElementById('csv-file-input').click()" class="flex-1 sm:flex-initial bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-file-import"></i> Impor CSV Manual
                             </button>
-                            <button onclick="clearAllSantriData()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm" title="Reset Semua Data Jadi Nol">
-                                <i class="fa-solid fa-trash-can"></i> Kosongkan Semua Data
+                            <button onclick="clearAllSantriData()" class="flex-1 sm:flex-initial bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm" title="Reset Semua Data Jadi Nol">
+                                <i class="fa-solid fa-trash-can"></i> Kosongkan
                             </button>
                         </div>
 
-                        <div class="relative w-full sm:w-48">
+                        <div class="relative w-full sm:w-44">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                                <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
                             </span>
-                            <input type="text" id="admin-search-student" oninput="renderAdminStudentsDirectory()" placeholder="Ketik nama / ID..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-emerald-500 font-bold">
+                            <input type="text" id="admin-search-student" oninput="renderAdminStudentsDirectory()" placeholder="Cari nama/ID..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-emerald-500 font-bold">
                         </div>
 
                         <!-- FILTER USTAZAH -->
@@ -567,9 +583,9 @@
 
                         <!-- FILTER KEAKTIFAN -->
                         <select id="admin-filter-status" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs px-3 py-2.5 outline-none font-black cursor-pointer">
-                            <option value="all">Semua Status (Aktif & Inaktif)</option>
+                            <option value="all">Semua Status</option>
                             <option value="active">Hanya Aktif</option>
-                            <option value="inactive">Hanya Tidak Aktif (Arsip)</option>
+                            <option value="inactive">Hanya Tidak Aktif</option>
                         </select>
                     </div>
                 </div>
@@ -599,6 +615,7 @@
         <!-- VIEW 2: INTERFACE USTAZAH (HALAQAH) -->
         <!-- ========================================================== -->
         <div id="view-ustazah" class="hidden space-y-6">
+            
             <!-- Calon Anggota Baru (PENDING APPROVAL) -->
             <div id="ustazah-pending-section" class="hidden bg-amber-50/50 border border-amber-200 p-5 rounded-3xl space-y-4">
                 <div class="flex items-center gap-2">
@@ -628,7 +645,7 @@
             <!-- Workspace Halaqah Utama -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Sisi Kiri: Form Input Setoran Harian (Ustazah) -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5 h-fit">
+                <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5 h-fit">
                     <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
                         <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-pen-to-square text-xs"></i></span>
                         <div>
@@ -649,22 +666,22 @@
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Setoran Awal:</label>
-                                <input type="text" id="ustazah-setoran-awal" placeholder="Contoh: Juz 1 Hal 1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                <input type="text" id="ustazah-setoran-awal" placeholder="Contoh: Juz 1 Hal 1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Setoran Akhir:</label>
-                                <input type="text" id="ustazah-setoran-akhir" placeholder="Contoh: Juz 1 Hal 5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                <input type="text" id="ustazah-setoran-akhir" placeholder="Contoh: Juz 1 Hal 5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Mingguan:</label>
-                                <input type="text" id="ustazah-target-mingguan" placeholder="Contoh: 5 Halaman" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                <input type="text" id="ustazah-target-mingguan" placeholder="Contoh: 5 Halaman" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Capaian:</label>
-                                <select id="ustazah-status-capaian" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                <select id="ustazah-status-capaian" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
                                     <option value="Tercapai">Tercapai</option>
                                     <option value="Belum Tercapai">Belum Tercapai</option>
                                 </select>
@@ -696,7 +713,7 @@
 
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Total Juz Hafalan Saat Ini (Format Angka, Contoh: 3.5):</label>
-                            <input type="number" step="0.1" id="ustazah-total-juz" placeholder="Contoh: 3.5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900">
+                            <input type="number" step="0.1" id="ustazah-total-juz" placeholder="Contoh: 3.5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900">
                         </div>
 
                         <div>
@@ -736,14 +753,14 @@
                             <textarea id="ustazah-catatan-lain" rows="2" placeholder="Keterangan tambahan (sakit, izin, dll)" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-3.5 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
+                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-4 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
                             <i class="fa-solid fa-floppy-disk"></i> Simpan Data &amp; Update KHS
                         </button>
                     </form>
                 </div>
 
                 <!-- Sisi Kanan: Daftar Rekapitulasi Santriwati Aktif Mengaji -->
-                <div class="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[650px]">
+                <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col min-h-[500px] lg:max-h-[850px]">
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
                         <h3 class="font-extrabold text-xs text-slate-900 uppercase flex items-center gap-1.5">
                             <i class="fa-solid fa-people-group text-emerald-700"></i> Daftar Rekapitulasi Santriwati Aktif Mengaji
@@ -760,6 +777,7 @@
         <!-- VIEW 3: INTERFACE WALI SANTRI (KHS DIGITAL) -->
         <!-- ========================================================== -->
         <div id="view-wali" class="hidden space-y-6">
+            
             <!-- Navigasi khusus tombol kembali bagi Admin/Ustazah -->
             <div id="parent-back-btn-container" class="flex flex-col sm:flex-row justify-between items-center bg-slate-100 p-4 rounded-3xl border border-slate-200/50 gap-3 no-print">
                 <div class="flex items-center gap-2">
@@ -767,10 +785,10 @@
                     <span class="text-xs font-bold text-slate-600">Sesi KHS Privat Terkunci Keamanan</span>
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <button onclick="refreshWaliData()" class="flex-1 sm:flex-initial bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black px-4 py-2 rounded-xl transition border border-emerald-200 flex items-center justify-center gap-1.5 shadow-2xs">
+                    <button onclick="refreshWaliData()" class="flex-1 sm:flex-initial bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black px-4 py-2 rounded-xl transition border border-emerald-200 flex items-center justify-center gap-1.5 shadow-sm">
                         <i class="fa-solid fa-rotate text-xs"></i> Segarkan Data
                     </button>
-                    <button onclick="goBackToDashboard()" class="flex-1 sm:flex-initial bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200 flex items-center justify-center gap-1.5 shadow-2xs">
+                    <button onclick="goBackToDashboard()" class="flex-1 sm:flex-initial bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200 flex items-center justify-center gap-1.5 shadow-sm">
                         <i class="fa-solid fa-arrow-left text-emerald-700"></i> Kembali Ke Panel Utama
                     </button>
                 </div>
@@ -802,7 +820,7 @@
                     <div class="flex-1 space-y-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100 w-full relative">
                         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
                             <div class="flex items-center gap-2">
-                                <h4 id="wali-khs-name" class="text-xl font-bold tracking-tight text-slate-800">-</h4>
+                                <h4 id="wali-khs-name" class="text-lg sm:text-xl font-bold tracking-tight text-slate-800">-</h4>
                                 <span id="wali-khs-active-badge" class="px-2 py-0.5 rounded text-[9px] font-black uppercase">Aktif</span>
                             </div>
                             <div class="flex flex-col items-end gap-1">
@@ -815,7 +833,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-xs sm:text-sm">
                             <div class="space-y-1">
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-cake-candles text-emerald-700 w-4"></i> TTL: <strong id="wali-khs-pobdob" class="text-slate-800 font-bold">-</strong></p>
                                 <p class="text-slate-500 font-medium"><i class="fa-solid fa-phone text-emerald-700 w-4"></i> HP Wali: <strong id="wali-khs-parent" class="text-slate-800 font-bold">-</strong></p>
@@ -833,7 +851,7 @@
                 <!-- PETA JALUR PERJALANAN HAFAKAN 30 JUZ -->
                 <div class="space-y-3">
                     <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-1"></i> Peta Jalur Perjalanan Visual Menuju 30 Juz Al-Qur'an</span>
-                    <div id="peta-tahfidz-container" class="grid grid-cols-6 sm:grid-cols-10 gap-1.5 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
+                    <div id="peta-tahfidz-container" class="grid grid-cols-5 sm:grid-cols-10 gap-2 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
                         <!-- Visual Peta Hafalan diisi secara otomatis -->
                     </div>
                 </div>
@@ -845,7 +863,7 @@
                     <div class="lg:col-span-2 bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
                         <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-book-open text-emerald-750 mr-1"></i> Perkembangan Hafalan Terkini</span>
                         
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                             <div class="bg-white p-3 rounded-2xl border border-slate-200">
                                 <span class="text-[9px] text-slate-400 font-bold block uppercase">Setoran Awal</span>
                                 <span id="wali-khs-setoran-awal" class="font-extrabold text-slate-800 mt-1 block">-</span>
@@ -872,14 +890,14 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
-                            <div class="bg-emerald-50/50 p-3 rounded-2xl border border-emerald-100">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+                            <div class="bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100">
                                 <span class="text-[9px] text-emerald-800 font-black block uppercase"><i class="fa-solid fa-circle-check"></i> Perkembangan Positif (+)</span>
-                                <p id="wali-khs-perkembangan-positif" class="text-slate-700 font-medium mt-1 leading-relaxed">-</p>
+                                <p id="wali-khs-perkembangan-positif" class="text-slate-700 font-semibold mt-1 leading-relaxed">-</p>
                             </div>
-                            <div class="bg-rose-50/30 p-3 rounded-2xl border border-rose-100">
+                            <div class="bg-rose-50/30 p-3.5 rounded-2xl border border-rose-100">
                                 <span class="text-[9px] text-rose-800 font-black block uppercase"><i class="fa-solid fa-circle-exclamation"></i> Catatan Evaluasi (-)</span>
-                                <p id="wali-khs-catatan-negatif" class="text-slate-700 font-medium mt-1 leading-relaxed">-</p>
+                                <p id="wali-khs-catatan-negatif" class="text-slate-700 font-semibold mt-1 leading-relaxed">-</p>
                             </div>
                         </div>
                     </div>
@@ -889,7 +907,7 @@
                         <span class="block text-[10px] font-black text-slate-900 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar text-emerald-700 mr-1"></i> Keuangan &amp; Administrasi</span>
                         
                         <div class="space-y-3 text-xs">
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center">
+                            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex justify-between items-center">
                                 <div>
                                     <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah SPP</span>
                                     <span id="wali-khs-spp-status-label" class="font-bold text-slate-700">SPP Bulan Berjalan</span>
@@ -897,7 +915,7 @@
                                 <span id="wali-khs-syahriyah-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
                             </div>
 
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center">
+                            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex justify-between items-center">
                                 <div>
                                     <span class="text-[9px] text-slate-400 font-bold block uppercase">Daftar Ulang</span>
                                     <span class="font-bold text-slate-700">Fasilitas &amp; Sarana</span>
@@ -905,7 +923,7 @@
                                 <span id="wali-khs-daftarulang-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
                             </div>
 
-                            <div class="bg-emerald-50/40 p-3 rounded-2xl border border-emerald-100 space-y-1">
+                            <div class="bg-emerald-50/40 p-3.5 rounded-2xl border border-emerald-100 space-y-1">
                                 <span class="text-[9px] text-emerald-800 font-black block uppercase"><i class="fa-solid fa-circle-info"></i> Catatan Lain-lain:</span>
                                 <p id="wali-khs-catatan-lain" class="text-slate-600 leading-normal font-semibold text-[10px]">-</p>
                             </div>
@@ -915,11 +933,11 @@
 
                 <!-- HISTORI CEKLIS PEMBAYARAN 12 BULAN -->
                 <div class="bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-2 flex-wrap gap-2">
                         <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-wider">
                             <i class="fa-solid fa-calendar-days text-emerald-700 mr-1"></i> Histori Pembayaran Syahriyah SPP (12 Bulan)
                         </span>
-                        <span class="text-[10px] bg-emerald-150 text-emerald-800 px-2.5 py-0.5 rounded-full font-black font-mono" id="wali-spp-summary">0 dari 12 Bulan Lunas</span>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-black font-mono" id="wali-spp-summary">0 dari 12 Bulan Lunas</span>
                     </div>
                     <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2" id="wali-spp-months-grid">
                         <!-- Diisi secara dinamis -->
@@ -932,7 +950,7 @@
                         <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider">
                             <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Real-time)
                         </span>
-                        <div class="flex items-center gap-2 text-xs font-bold no-print">
+                        <div class="flex items-center gap-2 text-xs font-bold no-print ml-auto sm:ml-0">
                             <button type="button" onclick="changeHistoryPage(-1)" id="btn-prev-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </button>
@@ -943,7 +961,7 @@
                         </div>
                     </div>
                     
-                    <div id="wali-timeline-container" class="grid grid-cols-1 gap-4">
+                    <div id="wali-timeline-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Terisi otomatis secara dinamis & rapi tanpa scrollbar -->
                     </div>
                 </div>
@@ -963,14 +981,14 @@
 
             <!-- ACTION BUTTONS BELOW KHS CARD -->
             <div class="max-w-4xl mx-auto grid grid-cols-3 gap-3 pt-3 border-t border-slate-100 no-print">
-                <button onclick="printKHS()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-print text-emerald-700"></i> Cetak Raport KHS
+                <button onclick="printKHS()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
+                    <i class="fa-solid fa-print text-emerald-700"></i> Cetak KHS
                 </button>
-                <button onclick="saveKHSPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-file-pdf"></i> Simpan Raport PDF
+                <button onclick="saveKHSPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
+                    <i class="fa-solid fa-file-pdf"></i> Simpan PDF
                 </button>
-                <button onclick="triggerDirectCertificateFromWali()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-certificate text-white"></i> Lihat Sertifikat
+                <button onclick="triggerDirectCertificateFromWali()" class="bg-amber-600 hover:bg-amber-700 text-white text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
+                    <i class="fa-solid fa-certificate text-white"></i> Sertifikat
                 </button>
             </div>
         </div>
@@ -1010,85 +1028,87 @@
                 </div>
             </div>
 
-            <!-- Area Render Bingkai Sertifikat Landscape -->
-            <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-4 scrollbar-thin flex justify-center items-center">
-                <div id="print-certificate-area" class="p-8 bg-white text-slate-800 leading-relaxed relative shadow-inner overflow-hidden flex flex-col justify-between" 
-                     style="width: 842px; height: 595px; min-width: 842px; min-height: 595px; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 80%); border: 20px solid #064e3b;">
-                    
-                    <!-- DOUBLE FRAME BORDER -->
-                    <div class="border-4 border-double border-amber-500 w-full h-full p-6 flex flex-col justify-between items-center text-center relative">
+            <!-- Area Render Bingkai Sertifikat Landscape (Dukungan Scaling) -->
+            <div class="overflow-y-auto flex-1 my-4 scrollbar-thin cert-scroll-container">
+                <div class="cert-zoom-wrapper">
+                    <div id="print-certificate-area" class="p-8 bg-white text-slate-800 leading-relaxed relative shadow-inner overflow-hidden flex flex-col justify-between" 
+                         style="width: 842px; height: 595px; min-width: 842px; min-height: 595px; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 80%); border: 20px solid #064e3b;">
                         
-                        <!-- Watermark Masjid -->
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.02] overflow-hidden">
-                            <i class="fa-solid fa-mosque text-[280px] text-emerald-900"></i>
-                        </div>
-
-                        <!-- Header Sertifikat -->
-                        <div class="space-y-1.5 z-10">
-                            <h1 class="arabic-text text-3xl font-bold text-emerald-800 tracking-wide">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
-                            <h3 class="text-[9px] font-black tracking-widest text-slate-400 uppercase leading-none mt-2">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h3>
-                            <h2 class="font-extrabold text-sm text-emerald-950 uppercase tracking-tight">PESANTREN HAMALATUL QUR'AN PUTRI 4 AL-KARIMA</h2>
-                            <p class="text-[8px] text-slate-400 font-semibold font-mono leading-none">Pare, Kediri • Telp/WA: 085706399238 • Email: hqputri4@alkarima.id</p>
-                        </div>
-
-                        <div class="my-1.5 z-10">
-                            <h4 class="font-black text-2xl tracking-[0.2em] text-amber-600 uppercase leading-none font-sans">SERTIFIKAT PENGHARGAAN</h4>
-                            <p class="text-[9px] text-slate-400 font-mono tracking-widest uppercase mt-1">Nomor Seri Kelulusan: <span id="cert-display-reg-num" class="font-bold text-slate-600">REG-ALK-0000</span></p>
-                        </div>
-
-                        <div class="space-y-3 max-w-xl z-10">
-                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Diberikan Kepada Santriwati Terbaik:</p>
-                            <h5 id="cert-display-name" class="text-2xl font-black text-slate-900 border-b-2 border-double border-amber-500/80 pb-1 px-8 inline-block tracking-wide">AISYAH HUMAIRA KHANSA</h5>
+                        <!-- DOUBLE FRAME BORDER -->
+                        <div class="border-4 border-double border-amber-500 w-full h-full p-6 flex flex-col justify-between items-center text-center relative">
                             
-                            <p class="text-xs text-slate-600 leading-relaxed font-semibold">
-                                Atas keberhasilan, kedisiplinan, dan ketekunan yang luar biasa dalam menghafal, menjaga, serta menuntaskan setoran hafalan Kitab Suci Al-Qur'anul Karim tingkat asrama, sehingga dinyatakan lulus ujian:
-                            </p>
-                            
-                            <h6 id="cert-display-juz" class="text-sm font-black text-emerald-900 bg-emerald-50 px-5 py-1.5 rounded-full border border-emerald-200 shadow-sm inline-block uppercase tracking-wider">
-                                JUZ 30 (JUZ 'AMMA)
-                            </h6>
-                            
-                            <p class="text-[11px] text-slate-500 font-bold">
-                                Dengan predikat kelulusan: <span id="cert-display-predicate" class="text-amber-600 font-extrabold uppercase">MUMTAZ (ISTIMEWA)</span>
-                            </p>
-                        </div>
+                            <!-- Watermark Masjid -->
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.02] overflow-hidden">
+                                <i class="fa-solid fa-mosque text-[280px] text-emerald-900"></i>
+                            </div>
 
-                        <!-- Tanda Tangan & Cap Emas -->
-                        <div class="grid grid-cols-3 gap-4 w-full pt-4 border-t border-slate-100 text-center text-[10px] z-10 relative">
-                            <div class="space-y-8 flex flex-col justify-between">
-                                <span class="text-slate-400 font-bold block leading-none">Pembina Halaqah,</span>
-                                <div>
-                                    <span id="cert-display-ustazah" class="font-black text-slate-800 border-b border-slate-300 pb-1 px-4 inline-block font-sans">Ustazah Ayu</span>
-                                    <p class="text-[8px] text-slate-400 mt-0.5 font-bold uppercase">Ustadzah Pengampu</p>
+                            <!-- Header Sertifikat -->
+                            <div class="space-y-1.5 z-10">
+                                <h1 class="arabic-text text-3xl font-bold text-emerald-800 tracking-wide font-serif">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
+                                <h3 class="text-[9px] font-black tracking-widest text-slate-400 uppercase leading-none mt-2">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h3>
+                                <h2 class="font-extrabold text-sm text-emerald-950 uppercase tracking-tight">PESANTREN HAMALATUL QUR'AN PUTRI 4 AL-KARIMA</h2>
+                                <p class="text-[8px] text-slate-400 font-semibold font-mono leading-none">Pare, Kediri • Telp/WA: 085706399238 • Email: hqputri4@alkarima.id</p>
+                            </div>
+
+                            <div class="my-1.5 z-10">
+                                <h4 class="font-black text-2xl tracking-[0.2em] text-amber-600 uppercase leading-none font-sans">SERTIFIKAT PENGHARGAAN</h4>
+                                <p class="text-[9px] text-slate-400 font-mono tracking-widest uppercase mt-1">Nomor Seri Kelulusan: <span id="cert-display-reg-num" class="font-bold text-slate-600">REG-ALK-0000</span></p>
+                            </div>
+
+                            <div class="space-y-3 max-w-xl z-10">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Diberikan Kepada Santriwati Terbaik:</p>
+                                <h5 id="cert-display-name" class="text-2xl font-black text-slate-900 border-b-2 border-double border-amber-500/80 pb-1 px-8 inline-block tracking-wide">AISYAH HUMAIRA KHANSA</h5>
+                                
+                                <p class="text-xs text-slate-600 leading-relaxed font-semibold">
+                                    Atas keberhasilan, kedisiplinan, dan ketekunan yang luar biasa dalam menghafal, menjaga, serta menuntaskan setoran hafalan Kitab Suci Al-Qur'anul Karim tingkat asrama, sehingga dinyatakan lulus ujian:
+                                </p>
+                                
+                                <h6 id="cert-display-juz" class="text-sm font-black text-emerald-900 bg-emerald-50 px-5 py-1.5 rounded-full border border-emerald-200 shadow-sm inline-block uppercase tracking-wider font-sans">
+                                    JUZ 30 (JUZ 'AMMA)
+                                </h6>
+                                
+                                <p class="text-[11px] text-slate-500 font-bold">
+                                    Dengan predikat kelulusan: <span id="cert-display-predicate" class="text-amber-600 font-extrabold uppercase font-sans">MUMTAZ (ISTIMEWA)</span>
+                                </p>
+                            </div>
+
+                            <!-- Tanda Tangan & Cap Emas -->
+                            <div class="grid grid-cols-3 gap-4 w-full pt-4 border-t border-slate-100 text-center text-[10px] z-10 relative">
+                                <div class="space-y-8 flex flex-col justify-between">
+                                    <span class="text-slate-400 font-bold block leading-none">Pembina Halaqah,</span>
+                                    <div>
+                                        <span id="cert-display-ustazah" class="font-black text-slate-800 border-b border-slate-300 pb-1 px-4 inline-block font-sans">Ustazah Ayu</span>
+                                        <p class="text-[8px] text-slate-400 mt-0.5 font-bold uppercase">Ustadzah Pengampu</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-center relative -top-3">
+                                    <div class="w-16 h-16 rounded-full bg-amber-500 border-4 border-double border-white shadow-md flex flex-col items-center justify-center text-white relative rotate-[5deg]">
+                                        <i class="fa-solid fa-award text-2xl animate-pulse"></i>
+                                        <span class="text-[7px] tracking-tighter leading-none font-bold font-mono mt-0.5">YBMD LAURELS</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-8 flex flex-col justify-between">
+                                    <span class="text-slate-400 font-bold block leading-none">PPSB HQ Putri 4,</span>
+                                    <div>
+                                        <span class="font-black text-slate-800 border-b border-slate-300 pb-1 px-4 inline-block font-sans">Ustazah Administrasi</span>
+                                        <p class="text-[8px] text-slate-400 mt-0.5 font-bold uppercase">Kesekretariat Utama</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-center relative -top-3">
-                                <div class="w-16 h-16 rounded-full bg-amber-500 border-4 border-double border-white shadow-md flex flex-col items-center justify-center text-white relative rotate-[5deg]">
-                                    <i class="fa-solid fa-award text-2xl animate-pulse"></i>
-                                    <span class="text-[7px] tracking-tighter leading-none font-bold font-mono mt-0.5">YBMD LAURELS</span>
-                                </div>
-                            </div>
-
-                            <div class="space-y-8 flex flex-col justify-between">
-                                <span class="text-slate-400 font-bold block leading-none">PPSB HQ Putri 4,</span>
-                                <div>
-                                    <span class="font-black text-slate-800 border-b border-slate-300 pb-1 px-4 inline-block font-sans">Ustazah Administrasi</span>
-                                    <p class="text-[8px] text-slate-400 mt-0.5 font-bold uppercase">Kesekretariat Utama</p>
-                                </div>
-                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-3 gap-3 pt-3 border-t border-slate-150 shrink-0">
                 <button type="button" onclick="printCertificate()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-print"></i> Cetak Sertifikat
+                    <i class="fa-solid fa-print"></i> Cetak
                 </button>
                 <button type="button" onclick="saveCertificatePDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-file-pdf"></i> Unduh PDF Resmi
+                    <i class="fa-solid fa-file-pdf"></i> Unduh PDF
                 </button>
                 <button type="button" onclick="closeCertificateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
                     <i class="fa-solid fa-times"></i> Tutup
@@ -1211,7 +1231,7 @@
                         <div class="border-2 border-slate-900/10 p-1.5 rounded-xl bg-white shadow-xs">
                             <div class="w-14 h-14 bg-slate-100 flex flex-col items-center justify-center border border-slate-200 rounded-lg text-slate-500">
                                 <i class="fa-solid fa-qrcode text-3xl"></i>
-                                <span class="text-[7px] tracking-tighter leading-none mt-0.5 uppercase font-mono">PHQ4 VERIFY</span>
+                                <span class="text-[7px] tracking-tighter leading-none mt-0.5 uppercase font-mono font-sans">PHQ4 VERIFY</span>
                             </div>
                         </div>
                     </div>
@@ -1223,7 +1243,7 @@
                         </div>
                         <div class="space-y-10">
                             <span class="text-slate-400 font-bold block leading-none">Otoritas Sekretariat PPSB,</span>
-                            <span class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-6 inline-block leading-none font-semibold">Ustazah Administrasi</span>
+                            <span class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-6 inline-block leading-none font-semibold font-sans">Ustazah Administrasi</span>
                         </div>
                     </div>
 
@@ -1463,8 +1483,8 @@
                                 <div>
                                     <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-1">Status Keaktifan Santri</label>
                                     <select id="edit-isactive" class="w-full bg-emerald-50 border border-emerald-200 rounded-xl p-2 outline-none font-black text-emerald-950">
-                                        <option value="true">Aktif Mengaji (Aktif)</option>
-                                        <option value="false">Tidak Aktif (Alumni/Cuti)</option>
+                                        <option value="true">Aktif Mengaji</option>
+                                        <option value="false">Tidak Aktif</option>
                                     </select>
                                 </div>
                             </div>
@@ -1479,10 +1499,10 @@
 
                 <div class="grid grid-cols-2 gap-3 pt-3.5 border-t border-slate-150 shrink-0">
                     <button type="button" onclick="closeEditStudentModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl transition-all">
-                        Batalkan Perubahan
+                        Batalkan
                     </button>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-black py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Simpan Seluruh Perubahan
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Simpan
                     </button>
                 </div>
             </form>
@@ -1627,14 +1647,10 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
     <!-- ========================================================================= -->
     <!-- CORE JAVASCRIPT & SUPABASE CONNECTION LOGIC -->
-    <!-- JAVASCRIPT & SUPABASE CONNECTION LOGIC -->
+    <!-- ========================================================================= -->
     <script>
-        // =========================================================================
-        // SINKRONISASI CLOUD UTAMA - MENGGUNAKAN SUPABASE MILIK PENGGUNA
-        // =========================================================================
         const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
         const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; 
-        // =========================================================================
 
         let supabaseClient = null;
         let studentsList = [];
@@ -1698,16 +1714,13 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             currentRole = null;
             currentWaliStudent = null;
             
-            // Mengosongkan form input pada gerbang login
             document.getElementById('gate-wali-student-name').value = '';
             document.getElementById('gate-pin').value = '';
             
-            // Menyembunyikan seluruh workspace utama dan menampilkan kembali gerbang login
             document.getElementById('gate-screen').classList.remove('hidden');
             document.getElementById('main-app-header').classList.add('hidden');
             document.getElementById('main-app-container').classList.add('hidden');
             
-            // Sembunyikan semua sub-view agar bersih saat masuk kembali
             document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('view-ustazah').classList.add('hidden');
             document.getElementById('view-wali').classList.add('hidden');
@@ -1757,6 +1770,12 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
         }
 
         function mapStudentFromDb(db) {
+            let parsedSpp = {};
+            try {
+                parsedSpp = (typeof db.spp_months === 'string') ? JSON.parse(db.spp_months) : (db.spp_months || {});
+            } catch (e) {
+                console.error("Gagal parse spp_months:", e);
+            }
             return {
                 id: db.id,
                 name: db.name,
@@ -1770,7 +1789,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 room: db.room,
                 program: db.program,
                 paymentStatus: db.payment_status,
-                sppMonths: db.spp_months || {},
+                sppMonths: parsedSpp,
                 facBuku: !!db.fac_buku,
                 facMeja: !!db.fac_meja,
                 facKerudung: !!db.fac_kerudung,
@@ -2036,21 +2055,21 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const wrapPin = document.getElementById('gate-input-wrapper-pin');
 
             [btnWali, btnUstazah, btnAdmin].forEach(btn => {
-                btn.className = "py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all hover:bg-white/40";
+                btn.className = "py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all hover:bg-slate-200/50";
             });
 
             if (role === 'wali') {
-                btnWali.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-xs";
+                btnWali.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm";
                 wrapWali.classList.remove('hidden');
                 wrapUstazah.classList.add('hidden');
                 wrapPin.classList.add('hidden');
             } else if (role === 'ustazah') {
-                btnUstazah.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-xs";
+                btnUstazah.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm";
                 wrapWali.classList.add('hidden');
                 wrapUstazah.classList.remove('hidden');
                 wrapPin.classList.remove('hidden');
             } else {
-                btnAdmin.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-xs";
+                btnAdmin.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm";
                 wrapWali.classList.add('hidden');
                 wrapUstazah.classList.add('hidden');
                 wrapPin.classList.remove('hidden');
@@ -2149,7 +2168,19 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             
             if (role === 'wali') {
                 const searchVal = document.getElementById('gate-wali-student-name').value.trim();
-                const matched = studentsList.find(s => s.name.toLowerCase() === searchVal.toLowerCase());
+                let matched = studentsList.find(s => s.name.toLowerCase() === searchVal.toLowerCase());
+                
+                // Flexible Fallback matching: Pencarian parsial cerdas jika tidak ada kecocokan mutlak
+                if (!matched && searchVal) {
+                    const partialMatches = studentsList.filter(s => s.name.toLowerCase().includes(searchVal.toLowerCase()));
+                    if (partialMatches.length === 1) {
+                        matched = partialMatches[0];
+                    } else if (partialMatches.length > 1) {
+                        showToast("Ditemukan beberapa santriwati. Mohon pilih dari daftar pencarian.", "error");
+                        return;
+                    }
+                }
+
                 if (matched) {
                     currentRole = 'wali';
                     currentWaliStudent = matched;
@@ -2252,62 +2283,13 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             const contentDir = document.getElementById('admin-content-directory');
 
             if (tab === 'register') {
-                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2";
+                tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2";
                 contentReg.classList.remove('hidden');
                 contentDir.classList.add('hidden');
             } else {
-                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
-                contentDir.classList.remove('hidden');
-                contentReg.classList.add('hidden');
-                renderAdminStudentsDirectory();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.setupActiveWorkspace = function() {
-            if (!currentRole) {
-                document.getElementById('gate-screen').classList.remove('hidden');
-                document.getElementById('main-app-header').classList.add('hidden');
-                document.getElementById('main-app-container').classList.add('hidden');
-                return;
-            }
-            
-            if (currentRole === 'admin') {
-                document.getElementById('view-admin').classList.remove('hidden');
-                document.getElementById('view-ustazah').classList.add('hidden');
-                document.getElementById('view-wali').classList.add('hidden');
-                recalculateAdminStats();
-                renderAdminStudentsDirectory();
-            } else if (currentRole.startsWith('ustazah_')) {
-                document.getElementById('view-ustazah').classList.remove('hidden');
-                document.getElementById('view-admin').classList.add('hidden');
-                document.getElementById('view-wali').classList.add('hidden');
-                renderUstazahInterface();
-            } else if (currentRole === 'wali') {
-                document.getElementById('view-wali').classList.remove('hidden');
-                document.getElementById('view-admin').classList.add('hidden');
-                document.getElementById('view-ustazah').classList.add('hidden');
-                if (currentWaliStudent) renderWaliKHS(currentWaliStudent.id);
-            }
-        };
-
-        window.switchAdminTab = function(tab) {
-            adminActiveTab = tab;
-            const tabReg = document.getElementById('admin-tab-register');
-            const tabDir = document.getElementById('admin-tab-directory');
-            const contentReg = document.getElementById('admin-content-register');
-            const contentDir = document.getElementById('admin-content-directory');
-
-            if (tab === 'register') {
-                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
-                contentReg.classList.remove('hidden');
-                contentDir.classList.add('hidden');
-            } else {
-                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-4 px-1 text-sm font-black flex items-center gap-2";
-                tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-4 px-1 text-sm font-bold flex items-center gap-2";
+                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2";
+                tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2";
                 contentDir.classList.remove('hidden');
                 contentReg.classList.add('hidden');
                 renderAdminStudentsDirectory();
@@ -2637,110 +2619,6 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             );
         };
 
-        window.importVerbatimCSV = async function() {
-            try {
-                const response = await fetch('santri_students_rows (1).csv');
-                if (!response.ok) {
-                    showToast("Gagal memuat file 'santri_students_rows (1).csv'. Pastikan file berada di folder root aplikasi.", "error");
-                    return;
-                }
-                const text = await response.text();
-                const rows = parseCSVTextRobust(text);
-                if (rows.length <= 1) {
-                    showToast("Isi file 'santri_students_rows (1).csv' kosong.", "error");
-                    return;
-                }
-
-                const firstRow = rows[0];
-                const hasHeader = firstRow.some(cell => {
-                    const c = cell.toLowerCase().trim();
-                    return c.includes("nama") || c.includes("name") || c.includes("santri");
-                });
-
-                const headers = hasHeader ? firstRow : null;
-                const startIndex = hasHeader ? 1 : 0;
-                const mappings = mapCSVColumns(headers, rows[startIndex]);
-
-                let importCount = 0;
-                for (let i = startIndex; i < rows.length; i++) {
-                    const columns = rows[i];
-                    if (columns.length <= mappings.nameIdx || !columns[mappings.nameIdx].trim()) continue;
-
-                    let name = columns[mappings.nameIdx].trim();
-                    if (/^\d+[-\s.]+/.test(name)) {
-                        name = name.replace(/^\d+[-\s.]+/, "").trim();
-                    }
-
-                    const phone = columns[mappings.phoneIdx] ? columns[mappings.phoneIdx].trim() : "085706399238";
-                    const pobDob = columns[mappings.pobDob] ? columns[mappings.pobDob].trim() : "Pare, 12 April 2007";
-                    const address = columns[mappings.address] ? columns[mappings.address].trim() : "PP Hamalatul Qur'an Putri 4, Pare, Kediri";
-                    
-                    let rawRoom = columns[mappings.room] ? columns[mappings.room].trim() : "Ayu";
-                    let room = "Ayu";
-                    if (rawRoom.toLowerCase().includes("ayuniz")) room = "Ayuniz";
-                    else if (rawRoom.toLowerCase().includes("rima")) room = "Rima";
-                    else if (rawRoom.toLowerCase().includes("nafis")) room = "Nafis";
-
-                    const program = columns[mappings.program] ? columns[mappings.program].trim() : "Tahfidz Reguler";
-                    const celenganTarget = columns[mappings.target] ? columns[mappings.target].trim() : "5 Juz";
-
-                    const newId = "s_csv_" + Date.now() + "_" + i;
-                    const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-                    
-                    const initialSppMonths = {
-                        "Jan": "Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
-                        "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
-                        "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
-                    };
-
-                    const newStudent = {
-                        id: newId, name: name, pobDob: pobDob, address: address, parentPhone: phone,
-                        memorizedBefore: "Belum Pernah", celenganTarget: celenganTarget,
-                        motivation: "Mengabdi pada Al-Qur'an", arrivalDate: new Date().toISOString().split('T')[0],
-                        room: room, program: program, paymentStatus: "Lunas", sppMonths: initialSppMonths,
-                        facBuku: true, facMeja: true, facKerudung: true, facLoker: false,
-                        inHalaqah: false, isActive: true, totalJuz: 0.0, setoranAwal: 'Belum Setoran', setoranAkhir: '-',
-                        targetMingguan: '4 Halaman', statusCapaian: 'Belum Tercapai',
-                        fasohah: 'Belum Dinilai', kelancaran: 'Belum Dinilai',
-                        perkembanganPositif: 'Ditambahkan via impor asrama pintar', catatanNegatif: 'Nihil',
-                        daftarUlangStatus: 'Lunas', catatanLain: 'Data otomatis dari santri_students_rows (1).csv',
-                        photo: "", updatedAt: dateStr
-                    };
-
-                    const initialLog = {
-                        id: "log_csv_" + Date.now() + "_" + i,
-                        student_id: newId,
-                        date: new Date().toISOString().split('T')[0],
-                        setoran_awal: "Pendaftaran Awal",
-                        setoran_akhir: "Impor Berkas",
-                        total_juz: 0.0,
-                        fasohah: 'Belum Dinilai',
-                        kelancaran: 'Belum Dinilai',
-                        pos: "Terdaftar dari santri_students_rows (1).csv",
-                        neg: "Nihil",
-                        catatan: "Sistem Impor Otomatis",
-                        target: "Inisialisasi",
-                        status: "Berjalan"
-                    };
-
-                    studentsList.push(newStudent);
-                    tahfidzLogs.unshift(initialLog);
-
-                    await dbInsert('santri_students', newStudent);
-                    await dbInsert('tahfidz_logs', initialLog);
-                    importCount++;
-                }
-
-                saveLocalData();
-                showToast(`Alhamdulillah! Sukses menyinkronkan ${importCount} santri dari santri_students_rows (1).csv ke Cloud!`, 'success');
-                triggerConfettiFeedback('register');
-                recalculateAdminStats();
-                renderAdminStudentsDirectory();
-            } catch (err) {
-                console.error("Gagal mengimpor dari workspace:", err);
-            }
-        };
-
         window.handleCSVImport = function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -2838,6 +2716,7 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                 showToast(`Alhamdulillah! Sukses mengimpor ${importCount} santri dari CSV!`, 'success');
                 triggerConfettiFeedback('register');
                 recalculateAdminStats();
+                renderAdminStudentsDirectory();
             };
             reader.readAsText(file);
         };
@@ -3048,7 +2927,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
 3. Ketikkan nama Ananda (cukup 1 kata depan)
 4. Laporan KHS lengkap, Peta 30 Juz, dan Rekam Jejak Pekanan siap dipantau secara langsung!`;
 
-            // Salin manual untuk kompatibilitas iframe sandboxing
             const tempTextarea = document.createElement('textarea');
             tempTextarea.value = teksWA;
             document.body.appendChild(tempTextarea);
@@ -3075,11 +2953,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             document.getElementById('view-wali').classList.add('hidden');
             setupActiveWorkspace();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.goBackToDashboard = function() {
-            document.getElementById('view-wali').classList.add('hidden');
-            setupActiveWorkspace();
         };
 
         window.handleUstazahSetoranSubmit = async function(e) {
@@ -3303,11 +3176,11 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
                 const logFormattedDate = getFormattedMonthWeek(l.date);
                 
                 const positifText = l.pos && l.pos.trim() !== "-" && l.pos.trim() !== ""
-                    ? `<p class="text-emerald-800 font-medium text-xs leading-relaxed"><i class="fa-solid fa-circle-check text-[10px] text-emerald-600 mr-1.5"></i>${l.pos}</p>` 
+                    ? `<p class="text-emerald-800 font-semibold text-xs leading-relaxed"><i class="fa-solid fa-circle-check text-[10px] text-emerald-600 mr-1.5"></i>${l.pos}</p>` 
                     : '<p class="text-slate-400 italic text-xs"><i class="fa-solid fa-circle-minus text-[10px] text-slate-300 mr-1.5"></i>Belum ada catatan perkembangan positif pekan ini.</p>';
 
                 const negatifText = l.neg && l.neg.trim() !== "-" && l.neg.trim() !== ""
-                    ? `<p class="text-rose-800 font-medium text-xs leading-relaxed border-t border-slate-100 pt-2 mt-2"><i class="fa-solid fa-circle-exclamation text-[10px] text-rose-500 mr-1.5"></i>${l.neg}</p>` 
+                    ? `<p class="text-rose-800 font-semibold text-xs leading-relaxed border-t border-slate-100 pt-2 mt-2"><i class="fa-solid fa-circle-exclamation text-[10px] text-rose-500 mr-1.5"></i>${l.neg}</p>` 
                     : '<p class="text-slate-400 italic text-xs border-t border-slate-100 pt-2 mt-2"><i class="fa-solid fa-circle-minus text-[10px] text-slate-300 mr-1.5"></i>Tidak ada catatan evaluasi negatif pekan ini.</p>';
 
                 const catatanLainText = l.catatan && l.catatan.trim() !== "-" && l.catatan.trim() !== ""
@@ -3327,7 +3200,7 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
                         <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider font-mono">
                             <i class="fa-solid fa-calendar-day text-emerald-700 mr-1"></i> ${logFormattedDate}
                         </span>
-                        <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[10px] px-2 py-0.5 rounded-md">
+                        <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[10px] px-2 py-0.5 rounded-md font-sans">
                             Akumulasi: ${l.total_juz || 0} Juz
                         </span>
                     </div>
@@ -3419,7 +3292,7 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             const element = document.getElementById('print-certificate-area');
             const studentName = certificateTargetStudent ? certificateTargetStudent.name : 'Santri';
             const opt = {
-                margin: 0.1,
+                margin: 0,
                 filename: `Sertifikat_Tahfidz_${studentName.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
@@ -3620,10 +3493,14 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
         window.printKHS = function() { window.print(); };
 
         window.saveReceiptPDF = function() {
+            if (typeof html2pdf === 'undefined') {
+                showToast("Pustaka PDF sedang memuat. Silakan tunggu beberapa detik atau periksa koneksi internet Anda.", "error");
+                return;
+            }
             const element = document.getElementById('print-receipt-area');
             const studentName = document.getElementById('rec-name').innerText;
             const opt = {
-                margin: 0.2,
+                margin: 0,
                 filename: `Kuitansi_${studentName.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
@@ -3633,10 +3510,14 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
         };
 
         window.saveKHSPDF = function() {
+            if (typeof html2pdf === 'undefined') {
+                showToast("Pustaka PDF sedang memuat. Silakan tunggu beberapa detik atau periksa koneksi internet Anda.", "error");
+                return;
+            }
             const element = document.getElementById('wali-khs-card');
             const studentName = document.getElementById('wali-khs-name').innerText;
             const opt = {
-                margin: 0.3,
+                margin: 0,
                 filename: `Raport_KHS_${studentName.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
@@ -3652,10 +3533,21 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
         // =========================================================================
         // SUPABASE CONFIGURATION HANDLERS
         // =========================================================================
-        window.openSupabaseConfigModal = function() {
-            document.getElementById('supabase-config-modal').classList.remove('hidden');
-            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL;
-            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY;
+        window.saveCertificatePDF = function() {
+            if (typeof html2pdf === 'undefined') {
+                showToast("Pustaka PDF sedang memuat. Silakan tunggu beberapa detik atau periksa koneksi internet Anda.", "error");
+                return;
+            }
+            const element = document.getElementById('print-certificate-area');
+            const studentName = certificateTargetStudent ? certificateTargetStudent.name : 'Santri';
+            const opt = {
+                margin: 0,
+                filename: `Sertifikat_Tahfidz_${studentName.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+            };
+            html2pdf().set(opt).from(element).save();
         };
 
         window.closeSupabaseConfigModal = function() {
