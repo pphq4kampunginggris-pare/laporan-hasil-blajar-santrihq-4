@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Tahfidz Al Karima & Papan Informasi - HQ Putri 4</title>
+    <title>E-Tahfidz Al Karima - HQ Putri 4</title>
     
+    <link rel="icon" type="image/x-icon" href="logohq.ico">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
@@ -79,8 +81,8 @@
     <!-- MASTER NAVIGATION BAR (Responsive: Top on desktop, Bottom fixed on mobile) -->
     <nav class="bg-emerald-950 text-white shadow-lg sticky top-0 z-50 no-print border-b border-emerald-900">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-            <!-- Logo area (Ketuk 5x di sini untuk membuka pengaturan database rahasia) -->
-            <div class="flex items-center gap-3 cursor-pointer select-none" onclick="handleLogoClick()">
+            <!-- Logo area (Bersih tanpa detektor ketukan tombol rahasia) -->
+            <div class="flex items-center gap-3 select-none">
                 <div class="w-10 h-10 rounded-full bg-white p-0.5 flex items-center justify-center shadow-md">
                     <img src="https://placehold.co/100x100/ffffff/047857?text=HQ" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/100?text=HQ'">
                 </div>
@@ -106,9 +108,11 @@
                 </button>
             </div>
 
-            <!-- Bagian Kanan yang disederhanakan tanpa tombol DB Cloud fisik -->
-            <div class="block text-emerald-300 text-[11px] font-bold select-none opacity-80">
-                <i class="fa-solid fa-cloud"></i> Terkoneksi
+            <!-- Bagian Kanan menampilkan status sinkronisasi Multi-Device Cloud secara profesional -->
+            <div class="block select-none">
+                <span class="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full border border-emerald-500/20 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Cloud Aktif
+                </span>
             </div>
         </div>
     </nav>
@@ -857,11 +861,6 @@
                                 <button type="submit" class="w-full mt-2 bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-[11px] py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
                                     <i class="fa-solid fa-lock"></i> Perbarui Semua PIN
                                 </button>
-                                
-                                <!-- Akses Admin Tambahan ke DB Cloud -->
-                                <button type="button" onclick="openSupabaseConfigModal()" class="w-full mt-3 bg-emerald-900 hover:bg-emerald-800 text-amber-400 font-extrabold text-[11px] py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
-                                    <i class="fa-solid fa-database"></i> Pengaturan DB Cloud
-                                </button>
                             </form>
                         </div>
                     </div>
@@ -1421,38 +1420,6 @@
         </div>
     </div>
 
-    <!-- SUPABASE CONFIG MODAL -->
-    <div id="supabase-config-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
-                <div class="flex items-center gap-2">
-                    <span class="p-2 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-database text-xs"></i></span>
-                    <h3 class="font-black text-sm text-slate-900 uppercase">Hubungkan Cloud Database</h3>
-                </div>
-                <button onclick="closeSupabaseConfigModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
-            </div>
-            
-            <div class="overflow-y-auto flex-1 space-y-4 my-3 text-xs">
-                <p class="text-slate-500 font-semibold">Hubungkan sistem asrama dan papan info ke proyek cloud database Supabase untuk sinkronisasi multi-perangkat real-time.</p>
-                <form id="supabase-config-form" onsubmit="handleSaveSupabaseConfig(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Database URL Proyek</label>
-                        <input type="url" id="cfg-supabase-url" placeholder="https://your-project.supabase.co" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Database Anon Public API Key</label>
-                        <textarea id="cfg-supabase-key" rows="2" placeholder="eyJhbGciOiJIUzI1NiIs..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-mono text-[10px] resize-none"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 pt-2">
-                        <button type="button" onclick="closeSupabaseConfigModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl">Batalkan</button>
-                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-xl shadow-md">Simpan & Hubungkan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- BEAUTIFUL CONFIRMATION MODAL -->
     <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center border border-slate-100">
@@ -1478,8 +1445,9 @@
 
     <!-- JAVASCRIPT PROGRAM LOGIC -->
     <script>
+        // Kredensial Supabase ditanam secara permanen demi integrasi multi-device instan tanpa menu konfigurasi manual
         const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
-        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc&vsn=2.0.0"; 
+        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; 
 
         let supabaseClient = null;
         let studentsList = [];
@@ -1531,24 +1499,6 @@
             maklumat_kuning: "Batas akhir setoran laporan mingguan untuk ustadzah adalah setiap hari Sabtu pukul 17.00 WIB."
         };
 
-        // Fungsi Logo Click (Rahasia untuk membuka DB Config)
-        let logoClickCount = 0;
-        let logoClickTimeout = null;
-        window.handleLogoClick = function() {
-            logoClickCount++;
-            clearTimeout(logoClickTimeout);
-            
-            if (logoClickCount >= 5) {
-                openSupabaseConfigModal();
-                logoClickCount = 0;
-                showToast("🔐 Mode Pengembang: Membuka Konfigurasi DB Cloud!", "success");
-            }
-            
-            logoClickTimeout = setTimeout(() => {
-                logoClickCount = 0;
-            }, 3000); // Reset hitungan jika dalam 3 detik tidak diketuk lagi
-        };
-
         function savePapanData() {
             localStorage.setItem('karima_papan_news', JSON.stringify(papanNews));
             localStorage.setItem('karima_papan_achievements', JSON.stringify(papanAchievements));
@@ -1574,19 +1524,17 @@
         }
 
         async function initCloudSync() {
-            const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL;
-            const key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY;
-
             loadLocalData();
 
-            if (url && key && typeof supabase !== 'undefined') {
+            if (DEFAULT_SUPABASE_URL && DEFAULT_SUPABASE_KEY && typeof supabase !== 'undefined') {
                 try {
-                    supabaseClient = supabase.createClient(url, key, { auth: { persistSession: false } });
+                    // Selalu gunakan kredensial permanen yang telah ditanam (tanpa LocalStorage bypass rahasia)
+                    supabaseClient = supabase.createClient(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_KEY, { auth: { persistSession: false } });
                     isCloudMode = true;
                     await fetchCloudData();
                     await fetchPapanCloudData();
                     
-                    // Menggunakan polling HTTP REST API yang aman di Canvas sebagai pengganti Realtime WebSocket
+                    // Menggunakan polling HTTP REST API sebagai sinkronisasi utama yang aman di Canvas
                     setupBackgroundPolling();
                 } catch (err) {
                     console.error("Gagal koneksi ke database awan:", err);
@@ -3159,26 +3107,6 @@ Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}*, berikut l
             document.getElementById('receipt-modal').classList.add('hidden');
         };
 
-        window.openSupabaseConfigModal = function() {
-            document.getElementById('supabase-config-modal').classList.remove('hidden');
-            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || '';
-            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || '';
-        };
-
-        window.closeSupabaseConfigModal = function() {
-            document.getElementById('supabase-config-modal').classList.add('hidden');
-        };
-
-        window.handleSaveSupabaseConfig = function(e) {
-            e.preventDefault();
-            const url = document.getElementById('cfg-supabase-url').value.trim();
-            const key = document.getElementById('cfg-supabase-key').value.trim();
-            localStorage.setItem('karima_supabase_url', url);
-            localStorage.setItem('karima_supabase_key', key);
-            showToast("Database terhubung! Menyinkronkan ulang...", "success");
-            setTimeout(() => { location.reload(); }, 1000);
-        };
-
         window.openConfirmModal = function(title, msg, callback) {
             document.getElementById('confirm-modal').classList.remove('hidden');
             document.getElementById('confirm-title').innerText = title;
@@ -3247,6 +3175,7 @@ Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}*, berikut l
             };
         }
 
+        // Parse student
         function mapStudentFromDb(db) {
             let parsedSpp = {};
             try {
