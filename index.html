@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Tahfidz Al Karima - HQ Putri 4</title>
+    <title>E-Tahfidz Al Karima & Papan Informasi - HQ Putri 4</title>
     
-    <link rel="icon" type="image/x-icon" href="logohq.ico">
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
@@ -27,7 +25,7 @@
         .arabic-text {
             font-family: 'Amiri', serif;
         }
-        /* Custom scrollbar untuk estetika premium */
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -43,15 +41,14 @@
             background: #047857;
         }
 
-        /* Transisi fade-in premium untuk ruang kerja */
-        .fade-in-workspace {
-            animation: fadeInWorkspace 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        /* Fade-in transitions */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
         }
-
-        @keyframes fadeInWorkspace {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(12px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
@@ -59,53 +56,14 @@
             }
         }
 
-        /* Responsivitas Sertifikat Cetak Landscape */
-        .cert-scroll-container {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            display: flex;
-            justify-content: center;
-            padding: 1rem 0;
-        }
-        
-        .cert-zoom-wrapper {
-            transform-origin: center center;
-            transition: transform 0.2s ease;
-        }
-
-        @media (max-width: 900px) {
-            .cert-zoom-wrapper {
-                transform: scale(0.8);
-            }
-        }
-        @media (max-width: 720px) {
-            .cert-zoom-wrapper {
-                transform: scale(0.65);
-            }
-        }
-        @media (max-width: 580px) {
-            .cert-zoom-wrapper {
-                transform: scale(0.5);
-            }
-        }
-        @media (max-width: 450px) {
-            .cert-zoom-wrapper {
-                transform: scale(0.4);
-            }
-        }
-
-        /* Memaksa warna latar belakang & gradien tercetak penuh pada format PDF/Cetak */
         @media print {
             body {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 background-color: #ffffff !important;
             }
-            .no-print {
-                display: none !important;
-            }
-            #print-receipt-area, #wali-khs-card, #print-certificate-area {
+            .no-print { display: none !important; }
+            #print-receipt-area, #wali-khs-card {
                 border: none !important;
                 box-shadow: none !important;
                 width: 100% !important;
@@ -113,1026 +71,1059 @@
                 padding: 0 !important;
                 margin: 0 !important;
             }
-            @page {
-                size: auto;
-                margin: 10mm;
-            }
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased text-[14px] md:text-[15px]">
 
-    <!-- GATE LOGIN (INITIAL SCREEN) -->
-    <div id="gate-screen" class="fixed inset-0 z-50 min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-slate-950 p-4 overflow-y-auto">
-        <!-- Efek Ornamen Radial Cahaya -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.1),transparent)] pointer-events-none"></div>
-        
-        <!-- Kartu Navigasi Utama -->
-        <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/60 shadow-2xl flex flex-col gap-5 relative z-10 my-auto">
-            
-            <!-- Branding Header Minimalis -->
-<div class="text-center space-y-2">
-    <!-- Bagian Logo (Menggantikan SVG bawaan) -->
-    <div class="mx-auto w-20 h-20 rounded-full flex items-center justify-center p-1 bg-white border border-emerald-100 shadow-md">
-        <img src="logo.png.jfif" alt="Logo Pesantren Hamalatul Quran" class="w-full h-full object-contain rounded-full">
-    </div>
-    
-    <div>
-        <h2 class="text-[10px] font-black tracking-widest text-emerald-800 uppercase leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h2>
-        <h1 class="text-sm font-black text-slate-900 uppercase tracking-tight mt-1">E-TAHFIDZ PPHQ PUTRI 4 AL-KArima</h1>
-        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Laporan Real-Time & Perkembangan Santriwati</p>
-    </div>
-</div>
-
-<!-- Running Announcement Marquee -->
-<div class="bg-slate-900 text-amber-400 text-[12px] py-2 px-3 rounded-xl shadow-inner border-b border-green-500/10">
-    <marquee behavior="scroll" direction="left" scrollamount="3" onmouseover="this.stop();" onmouseout="this.start();">
-        <span class="font-bold">Selamat datang di portal E-Tahfidz PPHQ PUTRI 4. Silakan klik tombol Wali Santri dan ketikkan nama putri bapak/ibu di aplikasi ini. No HP: 085706399238</span>
-    </marquee>
-</div>
-
-<!-- Pemilih Peran / Navigasi -->
-<div class="bg-slate-100/80 backdrop-blur-sm p-1.5 rounded-2xl grid grid-cols-3 gap-1 border-2 border-emerald-800 shadow-sm">
-    <button id="role-btn-wali" type="button" onclick="setGateRole('wali')" class="py-2.5 rounded-xl text-xs font-black tracking-wide transition-all duration-300 bg-white text-emerald-800 shadow-sm border border-emerald-100">
-        Wali Santri
-    </button>
-    <button id="role-btn-ustazah" type="button" onclick="setGateRole('ustazah')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 tracking-wide transition-all duration-300 hover:text-emerald-800 hover:bg-emerald-50/30">
-        Ustazah
-    </button>
-    <button id="role-btn-admin" type="button" onclick="setGateRole('admin')" class="py-2.5 rounded-xl text-xs font-bold text-slate-500 tracking-wide transition-all duration-300 hover:text-emerald-800 hover:bg-emerald-50/30">
-        Admin
-    </button>
-</div>
-
-<!-- Form Auth Interaktif -->
-<!-- mt-1.5 memangkas jarak kosong tengah secara maksimal sehingga form naik ke atas -->
-<form id="gate-auth-form" onsubmit="handleGateLogin(event)" class="space-y-2.5 mt-1.5">
-    <input type="hidden" id="selected-gate-role" value="wali">
-
-    <!-- INPUT WALI SANTRI: Pencarian Nama Santri -->
-    <div id="gate-input-wrapper-wali" class="transition-all duration-300 space-y-0.5">
-        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 select-none">
-            Nama Lengkap Putri Anda
-        </label>
-        <div class="relative group">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-emerald-700 transition-colors">
-                <i class="fa-solid fa-magnifying-glass text-xs font-black"></i>
-            </span>
-            <input type="text" id="gate-wali-student-name" oninput="handleWaliSearch()" placeholder="Ketik nama depan, misal: Aisyah" class="w-full bg-white border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs pl-11 pr-4 py-3.5 focus:ring-4 focus:ring-emerald-800/10 outline-none font-bold transition-all duration-300 placeholder:text-slate-400">
-        </div>
-        
-        <!-- Dropdown rekomendasi hasil pencarian nama -->
-        <div id="gate-wali-matches-box" class="hidden mt-1.5 bg-white border-2 border-emerald-800 rounded-xl p-2 max-h-40 overflow-y-auto shadow-xl space-y-0.5">
-            <p class="text-[9px] font-black uppercase text-emerald-700 px-2 tracking-widest py-1">Hasil Pencarian:</p>
-            <div id="gate-wali-matches-list" class="space-y-0.5"></div>
-        </div>
-    </div>
-
-    <!-- INPUT PILIHAN USTAZAH -->
-    <div id="gate-input-wrapper-ustazah" class="hidden transition-all duration-300 space-y-0.5">
-        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 select-none">
-            Pilih Pembina Halaqah
-        </label>
-        <div class="relative group">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-emerald-700 transition-colors">
-                <i class="fa-solid fa-circle-user text-xs"></i>
-            </span>
-            <select id="gate-ustazah-select" class="w-full bg-white border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs pl-11 pr-10 py-3.5 focus:ring-4 focus:ring-emerald-800/10 outline-none font-bold transition-all duration-300 cursor-pointer appearance-none">
-                <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
-                <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
-                <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
-                <option value="Nafis">Ustazah Nafis (Halaqah Al-Waqi'ah)</option>
-            </select>
-            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 pointer-events-none">
-                <i class="fa-solid fa-chevron-down text-[10px] font-black"></i>
-            </span>
-        </div>
-    </div>
-
-    <!-- INPUT PIN OTORITAS -->
-    <div id="gate-input-wrapper-pin" class="hidden transition-all duration-300 space-y-0.5">
-        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 select-none">
-            Sandi Otoritas (PIN)
-        </label>
-        <div class="relative group">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-emerald-700 transition-colors">
-                <i class="fa-solid fa-lock text-xs"></i>
-            </span>
-            <input type="password" id="gate-pin" placeholder="••••" class="w-full bg-white border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs pl-11 pr-4 py-3.5 focus:ring-4 focus:ring-emerald-800/10 outline-none font-black tracking-widest transition-all duration-300 placeholder:text-slate-300">
-        </div>
-    </div>
-
-    <!-- Tombol Submit -->
-    <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 active:scale-[0.98] text-white font-extrabold text-xs py-3.5 rounded-xl shadow-lg shadow-emerald-800/10 hover:shadow-emerald-800/20 transition-all duration-300 flex items-center justify-center gap-2 tracking-wide mt-1.5">
-        <i class="fa-solid fa-right-to-bracket text-sm opacity-90"></i> Masuk Ruangan
-    </button>
-</form>
-
-            <!-- Status Pengunjung Real-Time -->
-            <div class="bg-slate-50 border border-slate-100 p-3 rounded-xl flex items-center justify-between text-[10px] text-slate-500 font-semibold">
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Total Pengunjung: <strong class="text-slate-700" id="gate-visitor-count">156</strong></span>
-                <span class="bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded-md font-bold" id="gate-online-count">6 Online</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN WORKSPACE HEADER -->
-    <header class="bg-gradient-to-r from-emerald-950 to-slate-900 text-white shadow-lg sticky top-0 z-40 hidden no-print" id="main-app-header">
-        <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
-            <div class="flex items-center gap-3">
-                <button onclick="handleLogout()" class="bg-white/10 hover:bg-white/20 text-emerald-300 border border-white/10 text-[10px] font-black px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-arrow-left"></i> Keluar Portal
-                </button>
-                
-                <div class="hidden sm:flex items-center gap-3 border-l border-white/10 pl-3 cursor-pointer select-none" ondblclick="openSupabaseConfigModal()" title="Konfigurasi Database">
-                    <div class="bg-white/10 border border-white/20 p-2 rounded-2xl text-emerald-300 shadow-inner backdrop-blur-md">
-                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-sm font-black tracking-tight leading-none bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent">E-Tahfidz Al Karima</h1>
-                        <p class="text-[9px] text-emerald-300/90 font-extrabold uppercase tracking-widest mt-1" id="active-user-badge">Panel Pengguna</p>
-                    </div>
+    <!-- MASTER NAVIGATION BAR (Responsive: Top on desktop, Bottom fixed on mobile) -->
+    <nav class="bg-emerald-950 text-white shadow-lg sticky top-0 z-50 no-print border-b border-emerald-900">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+            <!-- Logo area (Ketuk 5x di sini untuk membuka pengaturan database rahasia) -->
+            <div class="flex items-center gap-3 cursor-pointer select-none" onclick="handleLogoClick()">
+                <div class="w-10 h-10 rounded-full bg-white p-0.5 flex items-center justify-center shadow-md">
+                    <img src="https://placehold.co/100x100/ffffff/047857?text=HQ" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/100?text=HQ'">
+                </div>
+                <div>
+                    <h1 class="text-xs sm:text-sm font-black tracking-wider uppercase leading-none">E-Tahfidz Al Karima</h1>
+                    <p class="text-[8px] sm:text-[9px] text-amber-400 font-bold uppercase tracking-widest mt-1">HQ Putri 4 & Papan Informasi</p>
                 </div>
             </div>
-            
-            <div class="flex items-center gap-2 ml-auto sm:ml-0">
-                <!-- Elemen status disembunyikan seluruhnya agar tampilan bersih -->
-                <div id="header-sync-badge" class="hidden flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300/90 tracking-wider">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400" id="sync-dot"></span>
-                    <span id="sync-time-label">TERHUBUNG CLOUD</span>
-                </div>
 
-                <div id="header-visitor-badge" class="flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-bold text-emerald-300 tracking-wider hidden">
-                    <i class="fa-solid fa-user text-amber-400"></i>
-                    <span>PENGUNJUNG: <strong class="text-white" id="header-visitor-count">1</strong></span>
-                </div>
-                
-                <button id="btn-db-config" onclick="openSupabaseConfigModal()" class="hidden bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 text-[10px] font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-database text-emerald-400"></i> Database
+            <!-- Desktop Menu Options -->
+            <div class="hidden md:flex items-center gap-1">
+                <button onclick="switchMasterSection('walisantri')" id="nav-btn-walisantri" class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all bg-emerald-800 text-amber-400">
+                    <i class="fa-solid fa-graduation-cap"></i> Walisantri
                 </button>
-                <button onclick="exportDashboardToPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-500/30 text-[10px] font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-file-pdf text-amber-400"></i> Unduh PDF
+                <button onclick="switchMasterSection('ustazah')" id="nav-btn-ustazah" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all text-slate-300 hover:text-white hover:bg-emerald-900">
+                    <i class="fa-solid fa-person-chalkboard"></i> Ustazah
+                </button>
+                <button onclick="switchMasterSection('admin')" id="nav-btn-admin" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all text-slate-300 hover:text-white hover:bg-emerald-900">
+                    <i class="fa-solid fa-user-shield"></i> Admin
+                </button>
+                <button onclick="switchMasterSection('papaninfo')" id="nav-btn-papaninfo" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all text-slate-300 hover:text-white hover:bg-emerald-900">
+                    <i class="fa-solid fa-circle-info"></i> Papan Info
                 </button>
             </div>
-        </div>
-    </header>
 
-    <div class="sticky top-[58px] sm:top-[68px] z-40 no-print bg-slate-900 text-amber-400 text-[11px] lg:text-xs py-2 px-3 shadow-inner border-b border-green-500/20">
-        <marquee behavior="scroll" direction="left" scrollamount="3" onmouseover="this.stop();" onmouseout="this.start();">
-            <span class="font-semibold">E-Tahfidz PPHQ PUTRI 4: Mari pantau bersama rekam jejak perjuangan suci Ananda dalam menjaga kalamullah. Selamat menikmati laporan hasil studi (KHS) tahfidz Ananda. Terima kasih banyak telah mempercayai kami. No HP: 085706399238</span>
+            <!-- Bagian Kanan yang disederhanakan tanpa tombol DB Cloud fisik -->
+            <div class="block text-emerald-300 text-[11px] font-bold select-none opacity-80">
+                <i class="fa-solid fa-cloud"></i> Terkoneksi
+            </div>
+        </div>
+    </nav>
+
+    <!-- GENERAL BROADCAST BANNER -->
+    <div class="bg-slate-900 text-amber-400 text-[11px] sm:text-xs py-2 px-3 shadow-inner border-b border-green-500/10 no-print">
+        <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
+            <span id="global-marquee-display" class="font-bold">✨ Portal E-Tahfidz & Papan Informasi Real-Time PPHQ PUTRI 4 AL-KARIMA Pare, Kediri. Hubungi Sekretariat No HP: 085706399238 atau Ustazah Pembina Halaqah masing-masing.</span>
         </marquee>
     </div>
 
-    <!-- APP MAIN CONTENT WORKSPACE -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 pb-20 space-y-6 hidden" id="main-app-container">
-        
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 pb-24 space-y-6">
+
         <!-- IN-APP TOAST/NOTIF CONTAINER -->
-        <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full no-print"></div>
+        <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm w-full no-print"></div>
 
         <!-- ========================================================== -->
-        <!-- VIEW 1: INTERFACE ADMINISTRATOR (PPSB) -->
+        <!-- SECTION 1: WALISANTRI PORTAL (Requires Student Selection) -->
         <!-- ========================================================== -->
-        <div id="view-admin" class="hidden space-y-6">
+        <div id="section-walisantri" class="fade-in space-y-6">
             
-            <!-- REAL-TIME STATISTICS ROW -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 no-print" id="admin-stats-row">
-                <!-- Card 1: Total Santriwati -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
-                    <span class="p-3 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-users text-sm"></i></span>
-                    <div class="min-w-0">
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Total Santri</p>
-                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-total-students">0</p>
-                    </div>
+            <!-- WALISANTRI GATE (Not logged/selected state) -->
+            <div id="walisantri-gate" class="max-w-md mx-auto bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/60 shadow-xl space-y-5">
+                <div class="text-center space-y-2">
+                    <span class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-800 flex items-center justify-center text-xl mx-auto border border-emerald-100 shadow-sm">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </span>
+                    <h2 class="text-sm font-black text-slate-900 uppercase tracking-tight">KHS Digital Wali Santriwati</h2>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Silakan cari nama lengkap putri Anda untuk memantau KHS</p>
                 </div>
-                <!-- Card 2: Santriwati Aktif -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
-                    <span class="p-3 bg-blue-50 text-blue-700 rounded-xl shrink-0"><i class="fa-solid fa-user-check text-sm"></i></span>
-                    <div class="min-w-0">
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Santri Aktif</p>
-                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-active-students-count">0</p>
-                    </div>
-                </div>
-                <!-- Card 3: Santri Tidak Aktif -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
-                    <span class="p-3 bg-rose-50 text-rose-700 rounded-xl shrink-0"><i class="fa-solid fa-user-xmark text-sm"></i></span>
-                    <div class="min-w-0">
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Santri Non-Aktif</p>
-                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-inactive-students">0</p>
-                    </div>
-                </div>
-                <!-- Card 4: Halaqah Aktif -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
-                    <span class="p-3 bg-amber-50 text-amber-700 rounded-xl shrink-0"><i class="fa-solid fa-chalkboard-user text-sm"></i></span>
-                    <div class="min-w-0">
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Ustazah Aktif</p>
-                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-active-teachers">0</p>
-                    </div>
-                </div>
-                <!-- Card 5: Lunas SPP Aktif -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3 col-span-2 sm:col-span-1">
-                    <span class="p-3 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-wallet text-sm"></i></span>
-                    <div class="min-w-0">
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Lunas SPP Aktif</p>
-                        <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-paid-students">0</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Tab Navigasi Internal Admin -->
-            <div class="border-b border-slate-200 no-print">
-                <nav class="-mb-px flex flex-row space-x-6" aria-label="Tabs">
-                    <button id="admin-tab-register" onclick="switchAdminTab('register')" class="border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2">
-                        <i class="fa-solid fa-user-plus"></i> Registrasi Baru
-                    </button>
-                    <button id="admin-tab-directory" onclick="switchAdminTab('directory')" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-address-book"></i> Direktori & Sertifikat
-                    </button>
-                </nav>
-            </div>
-
-            <!-- TAB 1 CONTENT: FORM REGISTRASI DENGAN KEUANGAN & LOGISTIK -->
-            <div id="admin-content-register" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Sisi Kiri: Form Detail Informasi Pendaftaran -->
-                <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
-                    <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-                        <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-file-signature text-xs"></i></span>
-                        <div>
-                            <h3 class="font-extrabold text-sm text-slate-900">Formulir Pendaftaran & Rencana Keuangan</h3>
-                            <p class="text-[10px] text-slate-400">Pastikan seluruh data penunjang awal & logistik santri dicentang valid sebelum diterbitkan.</p>
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="block text-[10px] font-extrabold text-emerald-855 uppercase tracking-widest pl-1">Nama Lengkap Putri Anda</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i class="fa-solid fa-magnifying-glass text-xs"></i></span>
+                            <input type="text" id="wali-search-input" oninput="handleWaliSearch()" placeholder="Ketik nama depan, misal: Aisyah" class="w-full bg-slate-50 border-2 border-emerald-855 text-slate-800 rounded-2xl text-xs pl-11 pr-4 py-3.5 focus:ring-4 focus:ring-emerald-800/10 focus:bg-white outline-none font-bold transition-all placeholder:text-slate-400">
                         </div>
                     </div>
+                    
+                    <!-- Search Results Box -->
+                    <div id="wali-matches-box" class="hidden bg-white border-2 border-emerald-855 rounded-xl p-2 max-h-40 overflow-y-auto shadow-xl space-y-0.5">
+                        <p class="text-[9px] font-black uppercase text-emerald-750 px-2 tracking-widest py-1">Hasil Pencarian:</p>
+                        <div id="wali-matches-list" class="space-y-0.5"></div>
+                    </div>
 
-                    <form class="space-y-4" onsubmit="handleAdminAddStudent(event)">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="md:col-span-2">
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Lengkap Santriwati</label>
-                                <input type="text" id="admin-add-name" required placeholder="Contoh: Aisyah Humaira Khansa" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                    <!-- Selected Student Preview & Direct Room Entry Button -->
+                    <div id="wali-gate-selected-preview" class="hidden bg-emerald-50/50 border border-emerald-250 rounded-2xl p-4 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div id="wali-gate-avatar" class="w-10 h-12 bg-white rounded-lg border overflow-hidden flex items-center justify-center text-slate-400 shrink-0">
+                                <i class="fa-solid fa-user text-lg"></i>
                             </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Foto Santriwati (Optimasi JPG)</label>
-                                <input type="file" id="admin-add-photo-file" accept="image/*" onchange="previewAndCompressPhoto(this, 'admin-add-photo-preview')" class="hidden">
-                                <div onclick="document.getElementById('admin-add-photo-file').click()" class="cursor-pointer bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-2.5 flex items-center justify-center gap-2 text-[11px] font-bold text-slate-600 hover:border-emerald-500 hover:bg-emerald-50/20 transition-all">
-                                    <div id="admin-add-photo-preview" class="w-8 h-8 rounded-lg bg-slate-200 overflow-hidden flex items-center justify-center shrink-0 border border-slate-300">
-                                        <i class="fa-solid fa-camera text-xs text-slate-400"></i>
-                                    </div>
-                                    <span class="truncate text-[10px]">Pilih Foto JPG</span>
-                                </div>
-                                <span id="admin-photo-jpg-indicator" class="text-[8px] font-semibold text-emerald-600 mt-1 block hidden"><i class="fa-solid fa-circle-check"></i> Terkompresi ke JPG</span>
+                            <div class="min-w-0 flex-1">
+                                <p id="wali-gate-selected-name" class="font-extrabold text-xs text-slate-900 truncate">-</p>
+                                <p id="wali-gate-selected-details" class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider truncate">-</p>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-1 gap-4">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tempat, Tanggal Lahir</label>
-                                <input type="text" id="admin-add-pobdob" required placeholder="Contoh: Kediri, 12 April 2007" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">No. WhatsApp Wali (Aktif)</label>
-                                <input type="tel" id="admin-add-phone" required placeholder="Contoh: 0812345678" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold tracking-wider text-slate-800">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Riwayat Menghafal</label>
-                                <select id="admin-add-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
-                                    <option value="Belum Pernah">Belum Pernah Menghafal</option>
-                                    <option value="Sudah Pernah">Sudah Memiliki Hafalan</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Rencana Keuangan Administrasi Masuk -->
-                        <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100 space-y-3">
-                            <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-calculator mr-1"></i> Rencana Keuangan Administrasi Masuk</span>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <label class="bg-white border border-emerald-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fee-reg" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="block text-[10px] font-extrabold text-slate-700">Infaq Daftar</span>
-                                        <span class="text-[9px] font-bold text-emerald-800">Rp 250.000</span>
-                                    </div>
-                                </label>
-                                <label class="bg-white border border-emerald-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fee-spp1" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="block text-[10px] font-extrabold text-slate-700">Syahriyah SPP Bln-1</span>
-                                        <span class="text-[9px] font-bold text-emerald-800">Rp 900.000</span>
-                                    </div>
-                                </label>
-                                <div class="bg-white border border-emerald-200 rounded-xl p-2">
-                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang Manual (Rp)</label>
-                                    <input type="number" id="admin-add-fee-rereg" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-[11px] p-2 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-950">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- INTEGRASI LOGISTIK LANGSUNG DI DALAM FORMULIR -->
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                            <div class="flex items-center gap-2 pb-1 border-b border-slate-150">
-                                <span class="text-emerald-700"><i class="fa-solid fa-boxes-packing text-xs"></i></span>
-                                <span class="block text-[10px] font-black text-slate-700 uppercase tracking-wider">Serah Terima Fisik &amp; Logistik Awal</span>
-                            </div>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-buku" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="font-bold text-slate-800 block text-[10px] leading-none">Buku</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-meja" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="font-bold text-slate-800 block text-[10px] leading-none">Meja</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-kerudung" checked class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="font-bold text-slate-800 block text-[10px] leading-none">Hijab</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="admin-add-fac-loker" class="w-4.5 h-4.5 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="font-bold text-slate-800 block text-[10px] leading-none">Loker</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Alamat Domisili Lengkap Wali</label>
-                            <textarea id="admin-add-address" required rows="2" placeholder="Tuliskan nama jalan, RT/RW, kelurahan, kecamatan, kabupaten." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-medium"></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Kamar Asrama & Halaqah</label>
-                                <select id="admin-add-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900 cursor-pointer">
-                                    <option value="Ayu">Ustazah Ayu - Ruang Ayu (Halaqah Al-Mulk)</option>
-                                    <option value="Ayuniz">Ustazah Ayu - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
-                                    <option value="Rima">Ustazah Rima - Ruang Rima (Halaqah Ya-Sin)</option>
-                                    <option value="Nafis">Ustazah Nafis - Ruang Nafis (Halaqah Al-Waqi'ah)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Program Kelas</label>
-                                <select id="admin-add-program" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
-                                    <option value="Tahfidz Reguler">Reguler</option>
-                                    <option value="Takhassus 30 Juz">Takhassus</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Celengan</label>
-                                <input type="text" id="admin-add-celengan" value="5 Juz" placeholder="cth: 5 Juz" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tanggal Kedatangan</label>
-                                <input type="date" id="admin-add-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Syahriyah SPP Awal</label>
-                                <select id="admin-add-paystatus" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
-                                    <option value="Lunas">Selesai Dibayar (Lunas)</option>
-                                    <option value="Belum Lunas" selected>Pending Pembayaran (Belum)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Motivasi Menghafal</label>
-                            <input type="text" id="admin-add-motivation" placeholder="Contoh: Mengabdi pada Al-Qur'an dan membahagiakan orang tua" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-600">
-                        </div>
-
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-4 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-floppy-disk"></i> Simpan Pendaftaran &amp; Terbitkan Kuitansi
+                        <button onclick="enterWaliKHSRoom()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold text-xs py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-door-open"></i> Masuk Ruangan KHS
                         </button>
-                    </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WALISANTRI CONTENT -->
+            <div id="walisantri-content" class="hidden space-y-6">
+                <!-- Session header options -->
+                <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-100 p-4 rounded-3xl border border-slate-200/50 gap-3 no-print">
+                    <div class="flex items-center gap-2">
+                        <span class="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg"><i class="fa-solid fa-shield-halved text-xs"></i></span>
+                        <span class="text-xs font-bold text-slate-600">Sesi KHS Privat Terkunci Keamanan</span>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button onclick="refreshWaliData()" class="flex-1 sm:flex-initial bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black px-4 py-2 rounded-xl transition border border-emerald-200 flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-rotate text-xs"></i> Segarkan Data
+                        </button>
+                        <button onclick="clearWaliSession()" class="flex-1 sm:flex-initial bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200 flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-arrow-left text-emerald-700"></i> Keluar Dari Sesi
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Sisi Kanan: Pengaturan Sistem PIN Otoritas -->
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                        <div class="flex items-center gap-2.5 pb-2.5 border-b border-slate-100">
-                            <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-2xl"><i class="fa-solid fa-key text-xs"></i></span>
-                            <div>
-                                <h3 class="font-black text-xs text-slate-900 uppercase">🛡️ Sandi PIN Otoritas</h3>
-                                <p class="text-[9px] text-slate-400 font-semibold">Ubah PIN untuk Admin &amp; Ustazah secara real-time</p>
+                <!-- PREMIUM PORTRAIT KHS RAPORT CARD -->
+                <div id="wali-khs-card" class="bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-xl space-y-6 relative max-w-4xl mx-auto">
+                    <!-- Header -->
+                    <div class="border-b-4 border-double border-emerald-800 pb-4 text-center">
+                        <h3 class="font-extrabold text-[10px] tracking-widest text-slate-500 uppercase leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h3>
+                        <h2 class="font-black text-sm text-slate-900 uppercase tracking-tight mt-1.5">PP HAMALATUL QUR'AN PUTRI 4 AL-KARIMA</h2>
+                        <p class="text-[9px] font-bold text-emerald-800 uppercase tracking-wider mt-1">Laporan Hasil Perkembangan Tahfidz & Administrasi Santriwati</p>
+                        <p class="text-[8px] font-medium text-slate-400 mt-1 font-mono">Jl. Mawar No. 4, Kampung Inggris, Pare, Kediri | WA: 085706399238</p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="text-[10px] font-black uppercase text-emerald-800 tracking-widest">KARTU HASIL STUDI (KHS) DIGITAL</div>
+                    </div>
+
+                    <!-- Biodata -->
+                    <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-50/50 p-5 rounded-3xl border border-slate-150">
+                        <div class="w-32 h-40 bg-white rounded-2xl overflow-hidden border border-slate-200 flex items-center justify-center shrink-0 shadow-sm p-1.5">
+                            <div id="wali-khs-photo" class="w-full h-full rounded-xl bg-slate-100 overflow-hidden flex items-center justify-center text-slate-300">
+                                <i class="fa-solid fa-user text-4xl"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 space-y-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100 w-full">
+                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <h4 id="wali-khs-name" class="text-lg sm:text-xl font-bold tracking-tight text-slate-800">-</h4>
+                                    <span id="wali-khs-active-badge" class="px-2 py-0.5 rounded text-[9px] font-black uppercase">Aktif</span>
+                                </div>
+                                <div class="flex flex-col items-end gap-1">
+                                    <span id="wali-khs-presence-badge" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-emerald-200/60 shadow-sm">
+                                        <i class="fa-solid fa-circle-check text-[10px]"></i> Sudah Di Asrama
+                                    </span>
+                                    <span id="wali-khs-last-updated" class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Update: -</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-xs sm:text-sm">
+                                <div class="space-y-1">
+                                    <p class="text-slate-500 font-medium"><i class="fa-solid fa-cake-candles text-emerald-700 w-4"></i> TTL: <strong id="wali-khs-pobdob" class="text-slate-800 font-bold">-</strong></p>
+                                    <p class="text-slate-500 font-medium"><i class="fa-solid fa-phone text-emerald-700 w-4"></i> HP Wali: <strong id="wali-khs-parent" class="text-slate-800 font-bold">-</strong></p>
+                                    <p class="text-slate-500 font-medium"><i class="fa-solid fa-location-dot text-emerald-700 w-4"></i> Alamat: <strong id="wali-khs-address" class="text-slate-800 font-semibold text-xs">-</strong></p>
+                                </div>
+                                <div class="space-y-1">
+                                    <p class="text-slate-500 font-medium"><i class="fa-solid fa-graduation-cap text-emerald-700 w-4"></i> Program: <strong id="wali-khs-program" class="text-slate-800 font-bold">-</strong></p>
+                                    <p class="text-slate-500 font-medium"><i class="fa-solid fa-user-tie text-emerald-700 w-4"></i> Ustazah: <strong id="wali-khs-ustazah" class="text-slate-800 font-bold">-</strong></p>
+                                    <p class="text-slate-500 font-medium"><i class="fa-solid fa-bullseye text-emerald-700 w-4"></i> Target Celengan: <strong id="wali-khs-celengan" class="text-emerald-800 font-extrabold">-</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual 30-Juz Track map -->
+                    <div class="space-y-3">
+                        <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-1"></i> Peta Jalur Perjalanan Visual Menuju 30 Juz Al-Qur'an</span>
+                        <div id="peta-tahfidz-container" class="grid grid-cols-5 sm:grid-cols-10 gap-2 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Setoran Details and SPP Status -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
+                            <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-book-open text-emerald-750 mr-1"></i> Perkembangan Hafalan Terkini</span>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Setoran Awal</span>
+                                    <span id="wali-khs-setoran-awal" class="font-extrabold text-slate-800 mt-1 block">-</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Setoran Akhir</span>
+                                    <span id="wali-khs-setoran-akhir" class="font-extrabold text-emerald-800 mt-1 block">-</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Target Pekanan</span>
+                                    <span id="wali-khs-target-mingguan" class="font-extrabold text-slate-800 mt-1 block">-</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Status Capaian</span>
+                                    <span id="wali-khs-status-capaian" class="font-extrabold mt-1 block">-</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Nilai Fasohah</span>
+                                    <span id="wali-khs-fasohah" class="font-extrabold text-emerald-700 mt-1 block text-sm">-</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200">
+                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Nilai Kelancaran</span>
+                                    <span id="wali-khs-kelancaran" class="font-extrabold text-emerald-700 mt-1 block text-sm">-</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+                                <div class="bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100">
+                                    <span class="text-[9px] text-emerald-800 font-black block uppercase"><i class="fa-solid fa-circle-check"></i> Perkembangan Positif (+)</span>
+                                    <p id="wali-khs-perkembangan-positif" class="text-slate-700 font-semibold mt-1 leading-relaxed">-</p>
+                                </div>
+                                <div class="bg-rose-50/30 p-3.5 rounded-2xl border border-rose-100">
+                                    <span class="text-[9px] text-rose-800 font-black block uppercase"><i class="fa-solid fa-circle-exclamation"></i> Catatan Evaluasi (-)</span>
+                                    <p id="wali-khs-catatan-negatif" class="text-slate-700 font-semibold mt-1 leading-relaxed">-</p>
+                                </div>
                             </div>
                         </div>
 
-                        <form id="admin-pin-settings-form" onsubmit="handleUpdatePins(event)" class="space-y-3.5">
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Otoritas Admin</label>
-                                <input type="text" id="pin-cfg-admin" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-mono font-extrabold tracking-widest focus:ring-2 focus:ring-emerald-500">
+                        <!-- Financial Column -->
+                        <div class="bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
+                            <span class="block text-[10px] font-black text-slate-900 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar text-emerald-700 mr-1"></i> Keuangan & Administrasi</span>
+                            
+                            <div class="space-y-3 text-xs">
+                                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex justify-between items-center">
+                                    <div>
+                                        <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah SPP</span>
+                                        <span id="wali-khs-spp-status-label" class="font-bold text-slate-700">SPP Bulan Berjalan</span>
+                                    </div>
+                                    <span id="wali-khs-syahriyah-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
+                                </div>
+
+                                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex justify-between items-center">
+                                    <div>
+                                        <span class="text-[9px] text-slate-400 font-bold block uppercase">Daftar Ulang</span>
+                                        <span class="font-bold text-slate-700">Fasilitas & Sarana</span>
+                                    </div>
+                                    <span id="wali-khs-daftarulang-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
+                                </div>
+
+                                <div class="bg-emerald-50/40 p-3.5 rounded-2xl border border-emerald-100 space-y-1">
+                                    <span class="text-[9px] text-emerald-800 font-black block uppercase"><i class="fa-solid fa-circle-info"></i> Catatan Lain-lain:</span>
+                                    <p id="wali-khs-catatan-lain" class="text-slate-600 leading-normal font-semibold text-[10px]">-</p>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Ayu (Al-Mulk)</label>
-                                <input type="text" id="pin-cfg-ayu" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-mono font-extrabold tracking-widest focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                    </div>
+
+                    <!-- Monthly SPP checklist tracker -->
+                    <div class="bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-2 flex-wrap gap-2">
+                            <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-wider">
+                                <i class="fa-solid fa-calendar-days text-emerald-700 mr-1"></i> Histori Pembayaran Syahriyah SPP (12 Bulan)
+                            </span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-black font-mono" id="wali-spp-summary">0 dari 12 Bulan Lunas</span>
+                        </div>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2" id="wali-spp-months-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Timeline progression list -->
+                    <div class="space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b-2 border-emerald-800 pb-2">
+                            <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider">
+                                <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Real-time)
+                            </span>
+                            <div class="flex items-center gap-2 text-xs font-bold no-print ml-auto sm:ml-0">
+                                <button type="button" onclick="changeHistoryPage(-1)" id="btn-prev-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <span id="history-page-info" class="text-slate-600 font-mono">Halaman 1 dari 1</span>
+                                <button type="button" onclick="changeHistoryPage(1)" id="btn-next-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
                             </div>
+                        </div>
+                        
+                        <div id="wali-timeline-container" class="grid grid-cols-1 gap-4 w-full">
+                            <!-- Dynamic logs timeline card list -->
+                        </div>
+                    </div>
+
+                    <!-- Formal Signatures -->
+                    <div class="grid grid-cols-2 gap-4 pt-8 border-t border-slate-150 text-center text-xs mt-6">
+                        <div class="space-y-12">
+                            <span class="text-slate-400 font-bold block leading-none">Pendaftar / Wali Santriwati,</span>
+                            <span id="wali-khs-parent-signature" class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-8 inline-block font-sans">Wali Santriwati</span>
+                        </div>
+                        <div class="space-y-12">
+                            <span class="text-slate-400 font-bold block leading-none">PPSB HQ Putri 4,</span>
+                            <span class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-8 inline-block font-sans">Ustazah Administrasi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Toolbar below KHS Card -->
+                <div class="max-w-4xl mx-auto grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 no-print">
+                    <button onclick="printKHS()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
+                        <i class="fa-solid fa-print text-emerald-700"></i> Cetak KHS
+                    </button>
+                    <button onclick="saveKHSPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-file-pdf"></i> Simpan PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- SECTION 2: USTAZAH WORKSPACE (With PIN login gate) -->
+        <!-- ========================================================== -->
+        <div id="section-ustazah" class="hidden fade-in space-y-6">
+            
+            <!-- USTAZAH GATE (Not logged/selected state) -->
+            <div id="ustazah-gate" class="max-w-md mx-auto bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/60 shadow-xl space-y-5">
+                <div class="text-center space-y-2">
+                    <span class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-800 flex items-center justify-center text-xl mx-auto border border-emerald-100 shadow-sm">
+                        <i class="fa-solid fa-person-chalkboard"></i>
+                    </span>
+                    <h2 class="text-sm font-black text-slate-900 uppercase tracking-tight">Portal Pembina Halaqah (Ustazah)</h2>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Silakan pilih nama pembina halaqah dan masukkan PIN Anda</p>
+                </div>
+
+                <form onsubmit="handleUstazahGateLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 mb-1">Pilih Pembina Halaqah</label>
+                        <select id="ustazah-gate-select" class="w-full bg-slate-50 border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs px-4 py-3 focus:bg-white outline-none font-bold">
+                            <option value="Ayu">Ustazah Ayu (Halaqah Al-Mulk)</option>
+                            <option value="Ayuniz">Ustazah Ayuniz (Halaqah Ar-Rahman)</option>
+                            <option value="Rima">Ustazah Rima (Halaqah Ya-Sin)</option>
+                            <option value="Nafis">Ustazah Nafis (Halaqah Al-Waqi'ah)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 mb-1">Sandi Otoritas (PIN)</label>
+                        <input type="password" id="ustazah-gate-pin" placeholder="••••" class="w-full bg-slate-50 border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs px-4 py-3.5 focus:bg-white outline-none font-black tracking-widest">
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold text-xs py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket text-sm"></i> Masuk Halaqah
+                    </button>
+                </form>
+            </div>
+
+            <!-- USTAZAH MAIN WORKSPACE -->
+            <div id="ustazah-content" class="hidden space-y-6">
+                <!-- Session identifier -->
+                <div class="flex items-center justify-between bg-slate-100 p-4 rounded-3xl border border-slate-200/50">
+                    <span id="ustazah-badge-display" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Ustazah Active Session</span>
+                    <button onclick="clearUstazahSession()" class="bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200">
+                        <i class="fa-solid fa-arrow-left text-rose-600"></i> Keluar Halaqah
+                    </button>
+                </div>
+
+                <!-- Calon Anggota Baru (PENDING APPROVAL) -->
+                <div id="ustazah-pending-section" class="hidden bg-amber-50/50 border border-amber-200 p-5 rounded-3xl space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 bg-amber-100 text-amber-800 rounded-xl animate-pulse"><i class="fa-solid fa-user-clock text-xs"></i></span>
+                        <div>
+                            <h4 class="font-black text-xs text-slate-900 uppercase">Calon Anggota Halaqah Baru (Menunggu Otorisasi)</h4>
+                            <p class="text-[10px] text-slate-500">Santriwati baru yang didaftarkan Admin membutuhkan konfirmasi Anda untuk masuk halaqah aktif.</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto rounded-2xl border border-amber-150 bg-white">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-amber-50 text-amber-900/60 border-b border-amber-150 font-black text-[9px] uppercase">
+                                    <th class="p-3">Nama Santriwati</th>
+                                    <th class="p-3">Pondok Asal & POB</th>
+                                    <th class="p-3">Program & Target</th>
+                                    <th class="p-3 text-center">Otorisasi Masuk</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ustazah-pending-list" class="divide-y divide-amber-100">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Sisi Kiri: Form Input Setoran Harian (Ustazah) -->
+                    <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5 h-fit">
+                        <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                            <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-pen-to-square text-xs"></i></span>
                             <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Ayuniz (Ar-Rahman)</label>
-                                <input type="text" id="pin-cfg-ayuniz" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-mono font-extrabold tracking-widest focus:ring-2 focus:ring-emerald-500">
+                                <h3 id="ustazah-directory-title" class="font-extrabold text-sm text-slate-900">Form Input Data Santri</h3>
+                                <p class="text-[10px] text-slate-400">Pencatatan setoran harian, target mingguan, & Laporan harian.</p>
                             </div>
+                        </div>
+
+                        <form class="space-y-4" onsubmit="handleUstazahSetoranSubmit(event)">
+                            <input type="hidden" id="ustazah-student-id">
                             <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Rima (Ya-Sin)</label>
-                                <input type="text" id="pin-cfg-rima" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-mono font-extrabold tracking-widest focus:ring-2 focus:ring-emerald-500">
-                            </div>
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Nafis (Al-Waqi'ah)</label>
-                                <input type="text" id="pin-cfg-nafis" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-mono font-extrabold tracking-widest focus:ring-2 focus:ring-emerald-500">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Santri:</label>
+                                <select id="ustazah-student-select" onchange="populateUstazahForm(this.value)" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-800 cursor-pointer">
+                                    <!-- Populated dynamically -->
+                                </select>
                             </div>
 
-                            <button type="submit" class="w-full mt-2 bg-slate-800 hover:bg-slate-950 text-white font-extrabold text-[11px] py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
-                                <i class="fa-solid fa-lock"></i> Perbarui Semua PIN
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Setoran Awal:</label>
+                                    <input type="text" id="ustazah-setoran-awal" placeholder="Contoh: Juz 1 Hal 1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Setoran Akhir:</label>
+                                    <input type="text" id="ustazah-setoran-akhir" placeholder="Contoh: Juz 1 Hal 5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Mingguan:</label>
+                                    <input type="text" id="ustazah-target-mingguan" placeholder="Contoh: 5 Halaman" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Capaian:</label>
+                                    <select id="ustazah-status-capaian" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Tercapai">Tercapai</option>
+                                        <option value="Belum Tercapai">Belum Tercapai</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nilai Fasohah:</label>
+                                    <select id="ustazah-fasohah" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Istimewa (A+)">Istimewa (A+)</option>
+                                        <option value="Sangat Baik (A)">Sangat Baik (A)</option>
+                                        <option value="Baik (B)">Baik (B)</option>
+                                        <option value="Cukup (C)">Cukup (C)</option>
+                                        <option value="Belum Dinilai" selected>Belum Dinilai</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nilai Kelancaran:</label>
+                                    <select id="ustazah-kelancaran" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Lancar Sekali (A+)">Lancar Sekali (A+)</option>
+                                        <option value="Lancar (A)">Lancar (A)</option>
+                                        <option value="Sedang (B)">Sedang (B)</option>
+                                        <option value="Kurang (C)">Kurang (C)</option>
+                                        <option value="Belum Dinilai" selected>Belum Dinilai</option>
+                                    </select>
+                                </div>
+                            </div>             
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Total Juz Hafalan Saat Ini:</label>
+                                <input type="number" step="0.1" id="ustazah-total-juz" placeholder="Contoh: 3.5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900">
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Perkembangan Positif (+):</label>
+                                <textarea id="ustazah-perkembangan-positif" rows="2" placeholder="Kelebihan/kemajuan pekan ini" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Catatan Negatif (-):</label>
+                                <textarea id="ustazah-catatan-negatif" rows="2" placeholder="Evaluasi/kendala pekan ini" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
+                            </div>
+
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-3">
+                                <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Status Administrasi</span>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Syahriyah SPP:</label>
+                                        <select id="ustazah-syahriyah" class="w-full bg-white border border-slate-200 rounded-xl text-xs p-2 outline-none font-bold text-slate-700 cursor-pointer">
+                                            <option value="Lunas">Lunas</option>
+                                            <option value="Belum Lunas">Belum Lunas</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang:</label>
+                                        <select id="ustazah-daftar-ulang" class="w-full bg-white border border-slate-200 rounded-xl text-xs p-2 outline-none font-bold text-slate-700 cursor-pointer">
+                                            <option value="Lunas">Lunas</option>
+                                            <option value="Belum Lunas">Belum Lunas</option>
+                                            <option value="Cicil">Cicil</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Catatan Lain-lain:</label>
+                                <textarea id="ustazah-catatan-lain" rows="2" placeholder="Keterangan tambahan (sakit, izin, dll)" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-floppy-disk"></i> Simpan Data & Update KHS
                             </button>
                         </form>
                     </div>
-                </div>
-            </div>
 
-            <!-- TAB 2 CONTENT: ARSIP INDUK DIREKTORI SANTRIWATI -->
-            <div id="admin-content-directory" class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 hidden">
-                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="font-black text-sm text-slate-900 flex items-center gap-1.5"><i class="fa-solid fa-folder-open text-emerald-700"></i> Arsip Induk Santriwati</h3>
-                        <p class="text-[10px] text-slate-400">Cari, tinjau status halaqah, cetak kuitansi, terbitkan sertifikat penghargaan, atau ubah data santri.</p>
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full lg:w-auto">
-                        <div class="relative w-full sm:w-auto flex flex-wrap gap-2">
-                            <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
-                            <button onclick="document.getElementById('csv-file-input').click()" class="flex-1 sm:flex-initial bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
-                                <i class="fa-solid fa-file-import"></i> Impor CSV Manual
-                            </button>
-                            <button onclick="clearAllSantriData()" class="flex-1 sm:flex-initial bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm" title="Reset Semua Data Jadi Nol">
-                                <i class="fa-solid fa-trash-can"></i> Kosongkan
-                            </button>
+                    <!-- Sisi Kanan: Daftar Rekapitulasi Santriwati Aktif Mengaji -->
+                    <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col min-h-[500px] lg:max-h-[850px]">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                            <h3 class="font-extrabold text-xs text-slate-900 uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-people-group text-emerald-700"></i> Daftar Rekapitulasi Santriwati Aktif Mengaji
+                            </h3>
                         </div>
-
-                        <div class="relative w-full sm:w-44">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
-                            </span>
-                            <input type="text" id="admin-search-student" oninput="renderAdminStudentsDirectory()" placeholder="Cari nama/ID..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-emerald-500 font-bold">
+                        <div id="ustazah-active-list" class="flex-1 overflow-y-auto space-y-3.5 pr-1.5">
+                            <!-- Populated dynamically with cards -->
                         </div>
-
-                        <!-- FILTER USTAZAH -->
-                        <select id="admin-filter-ustazah" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-bold text-slate-600 cursor-pointer">
-                            <option value="all">Semua Halaqah</option>
-                            <option value="Ayu">Halaqah Ayu</option>
-                            <option value="Ayuniz">Halaqah Ayuniz</option>
-                            <option value="Rima">Halaqah Rima</option>
-                            <option value="Nafis">Halaqah Nafis</option>
-                        </select>
-
-                        <!-- FILTER KEAKTIFAN -->
-                        <select id="admin-filter-status" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs px-3 py-2.5 outline-none font-black cursor-pointer">
-                            <option value="all">Semua Status</option>
-                            <option value="active">Hanya Aktif</option>
-                            <option value="inactive">Hanya Tidak Aktif</option>
-                        </select>
                     </div>
-                </div>
-
-                <div class="overflow-x-auto rounded-2xl border border-slate-100">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-400 border-b border-slate-150 font-black tracking-wider uppercase text-[9px]">
-                                <th class="p-3">Santriwati &amp; No. WhatsApp</th>
-                                <th class="p-3">Program Studi</th>
-                                <th class="p-3 text-center">Ustazah Pengampu</th>
-                                <th class="p-3 text-center">Status Halaqah</th>
-                                <th class="p-3 text-center">Status Keaktifan</th>
-                                <th class="p-3 text-center">Syahriyah (SPP)</th>
-                                <th class="p-3 text-center">Tindakan Otoritas</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-students-directory-list" class="divide-y divide-slate-100 font-medium text-slate-600">
-                            <!-- Diisi secara dinamis -->
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
 
         <!-- ========================================================== -->
-        <!-- VIEW 2: INTERFACE USTAZAH (HALAQAH) -->
+        <!-- SECTION 3: ADMIN WORKSPACE -->
         <!-- ========================================================== -->
-        <div id="view-ustazah" class="hidden space-y-6">
+        <div id="section-admin" class="hidden fade-in space-y-6">
             
-            <!-- Calon Anggota Baru (PENDING APPROVAL) -->
-            <div id="ustazah-pending-section" class="hidden bg-amber-50/50 border border-amber-200 p-5 rounded-3xl space-y-4">
-                <div class="flex items-center gap-2">
-                    <span class="p-2 bg-amber-100 text-amber-800 rounded-xl animate-pulse"><i class="fa-solid fa-user-clock text-xs"></i></span>
+            <!-- ADMIN GATE -->
+            <div id="admin-gate" class="max-w-md mx-auto bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/60 shadow-xl space-y-5">
+                <div class="text-center space-y-2">
+                    <span class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-800 flex items-center justify-center text-xl mx-auto border border-emerald-100 shadow-sm">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </span>
+                    <h2 class="text-sm font-black text-slate-900 uppercase tracking-tight">Portal Administrator PPSB</h2>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Silakan masukkan PIN Administrator Anda untuk mengelola sistem</p>
+                </div>
+
+                <form onsubmit="handleAdminGateLogin(event)" class="space-y-4">
                     <div>
-                        <h4 class="font-black text-xs text-slate-900 uppercase">Calon Anggota Halaqah Baru (Menunggu Otorisasi)</h4>
-                        <p class="text-[10px] text-slate-500">Santriwati baru yang didaftarkan Admin membutuhkan konfirmasi Anda untuk masuk halaqah aktif.</p>
+                        <label class="block text-[10px] font-extrabold text-emerald-800 uppercase tracking-widest pl-1 mb-1">Sandi Otoritas (PIN)</label>
+                        <input type="password" id="admin-gate-pin" placeholder="••••" class="w-full bg-slate-50 border-2 border-emerald-800 text-slate-800 rounded-2xl text-xs px-4 py-3.5 focus:bg-white outline-none font-black tracking-widest">
                     </div>
-                </div>
-                <div class="overflow-x-auto rounded-2xl border border-amber-150 bg-white">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-amber-50 text-amber-900/60 border-b border-amber-150 font-black text-[9px] uppercase">
-                                <th class="p-3">Nama Santriwati</th>
-                                <th class="p-3">Pondok Asal &amp; POB</th>
-                                <th class="p-3">Program &amp; Target</th>
-                                <th class="p-3 text-center">Otorisasi Masuk</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ustazah-pending-list" class="divide-y divide-amber-100">
-                            <!-- Diisi secara dinamis -->
-                        </tbody>
-                    </table>
-                </div>
+
+                    <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold text-xs py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-shield-halved"></i> Autentikasi Admin
+                    </button>
+                </form>
             </div>
 
-            <!-- Workspace Halaqah Utama -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Sisi Kiri: Form Input Setoran Harian (Ustazah) -->
-                <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5 h-fit">
-                    <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-                        <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-pen-to-square text-xs"></i></span>
-                        <div>
-                            <h3 id="ustazah-directory-title" class="font-extrabold text-sm text-slate-900">Form Input Data Santri (Ustadzah)</h3>
-                            <p class="text-[10px] text-slate-400">Pencatatan setoran harian, target mingguan, &amp; Laporan perkembangan santri.</p>
+            <!-- ADMIN WORKSPACE CONTENT -->
+            <div id="admin-content" class="hidden space-y-6">
+                <!-- Session header options -->
+                <div class="flex items-center justify-between bg-slate-100 p-4 rounded-3xl border border-slate-200/50">
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Admin Otoritas Level</span>
+                    <button onclick="clearAdminSession()" class="bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200">
+                        <i class="fa-solid fa-arrow-left text-rose-600"></i> Keluar Sesi Admin
+                    </button>
+                </div>
+
+                <!-- REAL-TIME STATISTICS ROW -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5" id="admin-stats-row">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                        <span class="p-3 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-users text-sm"></i></span>
+                        <div class="min-w-0">
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Total Santri</p>
+                            <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-total-students">0</p>
                         </div>
                     </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                        <span class="p-3 bg-blue-50 text-blue-700 rounded-xl shrink-0"><i class="fa-solid fa-user-check text-sm"></i></span>
+                        <div class="min-w-0">
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Santri Kami</p>
+                            <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-active-students-count">0</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                        <span class="p-3 bg-rose-50 text-rose-700 rounded-xl shrink-0"><i class="fa-solid fa-user-xmark text-sm"></i></span>
+                        <div class="min-w-0">
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Santri Inaktif</p>
+                            <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-inactive-students">0</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
+                        <span class="p-3 bg-amber-50 text-amber-700 rounded-xl shrink-0"><i class="fa-solid fa-chalkboard-user text-sm"></i></span>
+                        <div class="min-w-0">
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Ustazah Aktif</p>
+                            <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-active-teachers">0</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3 col-span-2 sm:col-span-1">
+                        <span class="p-3 bg-emerald-50 text-emerald-700 rounded-xl shrink-0"><i class="fa-solid fa-wallet text-sm"></i></span>
+                        <div class="min-w-0">
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">Lunas SPP</p>
+                            <p class="text-base font-black text-slate-900 leading-none mt-1" id="stat-paid-students">0</p>
+                        </div>
+                    </div>
+                </div>
 
-                    <form class="space-y-4" onsubmit="handleUstazahSetoranSubmit(event)">
-                        <input type="hidden" id="ustazah-student-id">
+                <!-- Tab internal Admin -->
+                <div class="border-b border-slate-200">
+                    <nav class="-mb-px flex flex-row space-x-6">
+                        <button id="admin-tab-register" onclick="switchAdminTab('register')" class="border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> Registrasi Baru
+                        </button>
+                        <button id="admin-tab-directory" onclick="switchAdminTab('directory')" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-address-book"></i> Arsip Induk KHS
+                        </button>
+                        <button id="admin-tab-papaninfo-settings" onclick="switchAdminTab('papaninfo-settings')" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-chalkboard"></i> Kelola Papan Info
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- REGISTRASI TAB -->
+                <div id="admin-content-register" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+                        <form class="space-y-4" onsubmit="handleAdminAddStudent(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Lengkap Santriwati</label>
+                                    <input type="text" id="admin-add-name" required placeholder="Contoh: Aisyah Humaira Khansa" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Foto Santriwati</label>
+                                    <input type="file" id="admin-add-photo-file" accept="image/*" onchange="previewAndCompressPhoto(this, 'admin-add-photo-preview')" class="hidden">
+                                    <div onclick="document.getElementById('admin-add-photo-file').click()" class="cursor-pointer bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-2.5 flex items-center justify-center gap-2 text-[11px] font-bold text-slate-600 hover:border-emerald-500 hover:bg-emerald-50/20 transition-all">
+                                        <div id="admin-add-photo-preview" class="w-8 h-8 rounded-lg bg-slate-200 overflow-hidden flex items-center justify-center shrink-0 border border-slate-300">
+                                            <i class="fa-solid fa-camera text-xs text-slate-400"></i>
+                                        </div>
+                                        <span class="truncate text-[10px]">Pilih Foto JPG</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tempat, Tanggal Lahir</label>
+                                    <input type="text" id="admin-add-pobdob" required placeholder="Contoh: Kediri, 12 April 2007" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">No. WhatsApp Wali</label>
+                                    <input type="tel" id="admin-add-phone" required placeholder="Contoh: 0812345678" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-800">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Riwayat Menghafal</label>
+                                    <select id="admin-add-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Belum Pernah">Belum Pernah Menghafal</option>
+                                        <option value="Sudah Pernah">Sudah Memiliki Hafalan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Financial details -->
+                            <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100 space-y-3">
+                                <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-calculator mr-1"></i> Rencana Keuangan Administrasi Masuk</span>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <label class="bg-white border border-emerald-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                        <input type="checkbox" id="admin-add-fee-reg" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                        <div>
+                                            <span class="block text-[10px] font-extrabold text-slate-700">Infaq Daftar</span>
+                                            <span class="text-[9px] font-bold text-emerald-800">Rp 250.000</span>
+                                        </div>
+                                    </label>
+                                    <label class="bg-white border border-emerald-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                        <input type="checkbox" id="admin-add-fee-spp1" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                        <div>
+                                            <span class="block text-[10px] font-extrabold text-slate-700">SPP Bulan-1</span>
+                                            <span class="text-[9px] font-bold text-emerald-800">Rp 900.000</span>
+                                        </div>
+                                    </label>
+                                    <div class="bg-white border border-emerald-200 rounded-xl p-2">
+                                        <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang (Rp)</label>
+                                        <input type="number" id="admin-add-fee-rereg" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-[11px] p-2 outline-none font-bold">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Serah terima logistik -->
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="block text-[10px] font-black text-slate-700 uppercase tracking-wider"><i class="fa-solid fa-boxes-packing mr-1"></i> Serah Terima Fisik & Logistik Awal</span>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                        <input type="checkbox" id="admin-add-fac-buku" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                        <span class="font-bold text-slate-800 block text-[10px]">Buku</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                        <input type="checkbox" id="admin-add-fac-meja" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                        <span class="font-bold text-slate-800 block text-[10px]">Meja</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                        <input type="checkbox" id="admin-add-fac-kerudung" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                        <span class="font-bold text-slate-800 block text-[10px]">Hijab</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                        <input type="checkbox" id="admin-add-fac-loker" class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                        <span class="font-bold text-slate-800 block text-[10px]">Loker</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Alamat Domisili Lengkap Wali</label>
+                                <textarea id="admin-add-address" required rows="2" placeholder="Alamat detail..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-medium"></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Kamar & Halaqah</label>
+                                    <select id="admin-add-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900 cursor-pointer">
+                                        <option value="Ayu">Ustazah Ayu - Ruang Ayu (Al-Mulk)</option>
+                                        <option value="Ayuniz">Ustazah Ayuniz - Ruang Ayuniz (Ar-Rahman)</option>
+                                        <option value="Rima">Ustazah Rima - Ruang Rima (Ya-Sin)</option>
+                                        <option value="Nafis">Ustazah Nafis - Ruang Nafis (Al-Waqi'ah)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Program Kelas</label>
+                                    <select id="admin-add-program" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Tahfidz Reguler">Reguler</option>
+                                        <option value="Takhassus 30 Juz">Takhassus</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Celengan</label>
+                                    <input type="text" id="admin-add-celengan" value="5 Juz" placeholder="cth: 5 Juz" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tanggal Kedatangan</label>
+                                    <input type="date" id="admin-add-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Syahriyah SPP Awal</label>
+                                    <select id="admin-add-paystatus" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Lunas">Selesai Dibayar (Lunas)</option>
+                                        <option value="Belum Lunas" selected>Pending Pembayaran (Belum)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Motivasi Menghafal</label>
+                                <input type="text" id="admin-add-motivation" placeholder="Motivasi..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-600">
+                            </div>
+
+                            <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-floppy-disk"></i> Simpan Pendaftaran & Terbitkan Kuitansi
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Sisi Kanan: PIN Otoritas Configurations -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex items-center gap-2.5 pb-2.5 border-b border-slate-100">
+                                <span class="p-2.5 bg-emerald-50 text-emerald-700 rounded-2xl"><i class="fa-solid fa-key text-xs"></i></span>
+                                <div>
+                                    <h3 class="font-black text-xs text-slate-900 uppercase">🛡️ Sandi PIN Otoritas</h3>
+                                    <p class="text-[9px] text-slate-400 font-semibold">Ubah PIN untuk Admin & Ustazah secara real-time</p>
+                                </div>
+                            </div>
+
+                            <form id="admin-pin-settings-form" onsubmit="handleUpdatePins(event)" class="space-y-3">
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Otoritas Admin</label>
+                                    <input type="text" id="pin-cfg-admin" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2 outline-none font-mono font-extrabold tracking-widest">
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Ayu (Al-Mulk)</label>
+                                    <input type="text" id="pin-cfg-ayu" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2 outline-none font-mono font-extrabold tracking-widest">
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Ayuniz (Ar-Rahman)</label>
+                                    <input type="text" id="pin-cfg-ayuniz" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2 outline-none font-mono font-extrabold tracking-widest">
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Rima (Ya-Sin)</label>
+                                    <input type="text" id="pin-cfg-rima" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2 outline-none font-mono font-extrabold tracking-widest">
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">PIN Ustazah Nafis (Al-Waqi'ah)</label>
+                                    <input type="text" id="pin-cfg-nafis" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2 outline-none font-mono font-extrabold tracking-widest">
+                                </div>
+
+                                <button type="submit" class="w-full mt-2 bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-[11px] py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-lock"></i> Perbarui Semua PIN
+                                </button>
+                                
+                                <!-- Akses Admin Tambahan ke DB Cloud -->
+                                <button type="button" onclick="openSupabaseConfigModal()" class="w-full mt-3 bg-emerald-900 hover:bg-emerald-800 text-amber-400 font-extrabold text-[11px] py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-database"></i> Pengaturan DB Cloud
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ARSIP INDUK DIREKTORI TAB -->
+                <div id="admin-content-directory" class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 hidden">
+                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Santri:</label>
-                            <select id="ustazah-student-select" onchange="populateUstazahForm(this.value)" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-800 cursor-pointer">
-                                <!-- Diisi secara dinamis -->
+                            <h3 class="font-black text-sm text-slate-900 flex items-center gap-1.5"><i class="fa-solid fa-folder-open text-emerald-700"></i> Arsip Induk Santriwati</h3>
+                            <p class="text-[10px] text-slate-400">Kelola direktori, edit data, cetak kuitansi, atau import CSV.</p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full lg:w-auto">
+                            <div class="relative w-full sm:w-auto flex flex-wrap gap-2">
+                                <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVImport(event)" class="hidden">
+                                <button onclick="document.getElementById('csv-file-input').click()" class="flex-1 sm:flex-initial bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-file-import"></i> Impor CSV Manual
+                                </button>
+                                <button onclick="clearAllSantriData()" class="flex-1 sm:flex-initial bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-black px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-trash-can"></i> Kosongkan
+                                </button>
+                            </div>
+
+                            <div class="relative w-full sm:w-44">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-magnifying-glass text-[11px]"></i></span>
+                                <input type="text" id="admin-search-student" oninput="renderAdminStudentsDirectory()" placeholder="Cari nama/ID..." class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-emerald-500 font-bold">
+                            </div>
+
+                            <select id="admin-filter-ustazah" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-xl text-xs px-3 py-2.5 outline-none font-bold text-slate-600 cursor-pointer">
+                                <option value="all">Semua Halaqah</option>
+                                <option value="Ayu">Halaqah Ayu</option>
+                                <option value="Ayuniz">Halaqah Ayuniz</option>
+                                <option value="Rima">Halaqah Rima</option>
+                                <option value="Nafis">Halaqah Nafis</option>
+                            </select>
+
+                            <select id="admin-filter-status" onchange="renderAdminStudentsDirectory()" class="w-full sm:w-auto bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs px-3 py-2.5 outline-none font-black cursor-pointer">
+                                <option value="all">Semua Status</option>
+                                <option value="active">Hanya Aktif</option>
+                                <option value="inactive">Hanya Tidak Aktif</option>
                             </select>
                         </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Setoran Awal:</label>
-                                <input type="text" id="ustazah-setoran-awal" placeholder="Contoh: Juz 1 Hal 1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Setoran Akhir:</label>
-                                <input type="text" id="ustazah-setoran-akhir" placeholder="Contoh: Juz 1 Hal 5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Mingguan:</label>
-                                <input type="text" id="ustazah-target-mingguan" placeholder="Contoh: 5 Halaman" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-semibold text-slate-700">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Capaian:</label>
-                                <select id="ustazah-status-capaian" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-slate-700 cursor-pointer">
-                                    <option value="Tercapai">Tercapai</option>
-                                    <option value="Belum Tercapai">Belum Tercapai</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nilai Fasohah:</label>
-                                <select id="ustazah-fasohah" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
-                                    <option value="Istimewa (A+)">Istimewa (A+)</option>
-                                    <option value="Sangat Baik (A)">Sangat Baik (A)</option>
-                                    <option value="Baik (B)">Baik (B)</option>
-                                    <option value="Cukup (C)">Cukup (C)</option>
-                                    <option value="Belum Dinilai" selected>Belum Dinilai</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nilai Kelancaran:</label>
-                                <select id="ustazah-kelancaran" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
-                                    <option value="Lancar Sekali (A+)">Lancar Sekali (A+)</option>
-                                    <option value="Lancar (A)">Lancar (A)</option>
-                                    <option value="Sedang (B)">Sedang (B)</option>
-                                    <option value="Kurang (C)">Kurang (C)</option>
-                                    <option value="Belum Dinilai" selected>Belum Dinilai</option>
-                                </select>
-                            </div>
-                        </div>             
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Total Juz Hafalan Saat Ini (Format Angka, Contoh: 3.5):</label>
-                            <input type="number" step="0.1" id="ustazah-total-juz" placeholder="Contoh: 3.5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3.5 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none font-bold text-emerald-900">
-                        </div>
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Perkembangan Positif (+):</label>
-                            <textarea id="ustazah-perkembangan-positif" rows="2" placeholder="Kelebihan/kemajuan pekan ini" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
-                        </div>
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Catatan Negatif (-):</label>
-                            <textarea id="ustazah-catatan-negatif" rows="2" placeholder="Evaluasi/kendala pekan ini" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
-                        </div>
-
-                        <!-- Administrasi Sub-Group -->
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-3">
-                            <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Status Administrasi</span>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Syahriyah Bulan Ini:</label>
-                                    <select id="ustazah-syahriyah" class="w-full bg-white border border-slate-200 rounded-xl text-xs p-2 outline-none font-bold text-slate-700 cursor-pointer">
-                                        <option value="Lunas">Lunas</option>
-                                        <option value="Belum Lunas">Belum Lunas</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang:</label>
-                                    <select id="ustazah-daftar-ulang" class="w-full bg-white border border-slate-200 rounded-xl text-xs p-2 outline-none font-bold text-slate-700 cursor-pointer">
-                                        <option value="Lunas">Lunas</option>
-                                        <option value="Belum Lunas">Belum Lunas</option>
-                                        <option value="Cicil">Cicil</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Catatan Lain-lain:</label>
-                            <textarea id="ustazah-catatan-lain" rows="2" placeholder="Keterangan tambahan (sakit, izin, dll)" class="w-full bg-slate-50 border border-slate-200 rounded-xl text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none resize-none font-semibold text-slate-600"></textarea>
-                        </div>
-
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs p-4 rounded-2xl shadow-xl shadow-emerald-700/20 transition-all flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-floppy-disk"></i> Simpan Data &amp; Update KHS
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Sisi Kanan: Daftar Rekapitulasi Santriwati Aktif Mengaji -->
-                <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col min-h-[500px] lg:max-h-[850px]">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                        <h3 class="font-extrabold text-xs text-slate-900 uppercase flex items-center gap-1.5">
-                            <i class="fa-solid fa-people-group text-emerald-700"></i> Daftar Rekapitulasi Santriwati Aktif Mengaji
-                        </h3>
                     </div>
-                    <div id="ustazah-active-list" class="flex-1 overflow-y-auto space-y-3.5 pr-1.5">
-                        <!-- Kartu Dinamis Berisi Detail Laporan & KHS -->
+
+                    <div class="overflow-x-auto rounded-2xl border border-slate-100">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-400 border-b border-slate-150 font-black tracking-wider uppercase text-[9px]">
+                                    <th class="p-3">Santriwati & No. WhatsApp</th>
+                                    <th class="p-3">Program Studi</th>
+                                    <th class="p-3 text-center">Ustazah Pengampu</th>
+                                    <th class="p-3 text-center">Status Halaqah</th>
+                                    <th class="p-3 text-center">Status Keaktifan</th>
+                                    <th class="p-3 text-center">Syahriyah (SPP)</th>
+                                    <th class="p-3 text-center">Tindakan Otoritas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-students-directory-list" class="divide-y divide-slate-100 font-medium text-slate-600">
+                                <!-- Diisi secara dinamis -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
+                <!-- PAPAN INFO DIGITAL MANAGEMENT TAB -->
+                <div id="admin-content-papaninfo-settings" class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6 hidden">
+                    <div class="flex items-center gap-2 pb-4 border-b border-slate-100">
+                        <span class="p-2 bg-emerald-100 text-emerald-800 rounded-xl"><i class="fa-solid fa-chalkboard text-sm"></i></span>
+                        <div>
+                            <h3 class="font-black text-sm text-slate-900 uppercase">Kelola Konten Papan Informasi</h3>
+                            <p class="text-[10px] text-slate-400 font-semibold">Ubah berita, tata tertib, program, running text, dan maklumat secara real-time.</p>
+                        </div>
+                    </div>
+
+                    <!-- Grid Layout for Settings -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        
+                        <!-- Left: Running Text & Yellow Banner Announcement -->
+                        <div class="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-150">
+                            <h4 class="text-xs font-black text-emerald-950 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullhorn text-emerald-700"></i> Pengumuman Utama & Banner</h4>
+                            
+                            <form onsubmit="handleUpdatePapanBanners(event)" class="space-y-3.5 text-xs">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Teks Berjalan (Running Text / Warta Footer)</label>
+                                    <textarea id="adm-papan-marquee-text" rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 outline-none font-medium text-slate-700 resize-none" placeholder="Masukkan berita berjalan..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Maklumat Penting (Kuning / Sidebar)</label>
+                                    <textarea id="adm-papan-maklumat-text" rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 outline-none font-medium text-slate-700 resize-none" placeholder="Teks maklumat berwarna kuning..."></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold py-2.5 rounded-xl transition shadow-xs flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-save"></i> Perbarui Teks & Maklumat
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right: Manage News List -->
+                        <div class="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-150">
+                            <h4 class="text-xs font-black text-emerald-950 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-newspaper text-emerald-700"></i> Tambah Berita Terbaru</h4>
+                            <form onsubmit="handleAddPapanNews(event)" class="grid grid-cols-1 gap-2.5 text-xs">
+                                <input type="text" id="adm-news-title" required class="w-full bg-white border border-slate-200 rounded-xl p-2.5 outline-none font-bold" placeholder="Judul Berita (cth: Libur Hari Raya)">
+                                <textarea id="adm-news-body" required rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 outline-none font-medium resize-none" placeholder="Isi detail berita..."></textarea>
+                                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-2.5 rounded-xl transition flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-plus"></i> Tambah Berita
+                                </button>
+                            </form>
+                            
+                            <!-- News List in Admin -->
+                            <div class="space-y-2 text-xs max-h-48 overflow-y-auto" id="adm-papan-news-list">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        
+                        <!-- Prestasi Box -->
+                        <div class="space-y-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-150">
+                            <h4 class="text-xs font-black text-emerald-950 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-trophy text-emerald-700"></i> Prestasi Santriwati</h4>
+                            <form onsubmit="handleAddPapanAchievement(event)" class="flex gap-1.5 text-xs">
+                                <input type="text" id="adm-ach-text" required class="flex-grow bg-white border border-slate-200 rounded-xl p-2 outline-none font-semibold" placeholder="Nama & Prestasi...">
+                                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl"><i class="fa-solid fa-plus"></i></button>
+                            </form>
+                            <div class="space-y-2 max-h-48 overflow-y-auto" id="adm-papan-ach-list"></div>
+                        </div>
+
+                        <!-- Program Pekan Ini Box -->
+                        <div class="space-y-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-150">
+                            <h4 class="text-xs font-black text-emerald-950 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-calendar-check text-emerald-700"></i> Program Pekan Ini</h4>
+                            <form onsubmit="handleAddPapanProgram(event)" class="flex gap-1.5 text-xs">
+                                <input type="text" id="adm-prog-text" required class="flex-grow bg-white border border-slate-200 rounded-xl p-2 outline-none font-semibold" placeholder="Nama program/agenda...">
+                                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl"><i class="fa-solid fa-plus"></i></button>
+                            </form>
+                            <div class="space-y-2 max-h-48 overflow-y-auto" id="adm-papan-prog-list"></div>
+                        </div>
+
+                        <!-- Tata Tertib Box -->
+                        <div class="space-y-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-150">
+                            <h4 class="text-xs font-black text-emerald-950 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-gavel text-emerald-700"></i> Tata Tertib</h4>
+                            <form onsubmit="handleAddPapanRule(event)" class="flex gap-1.5 text-xs">
+                                <input type="text" id="adm-rule-text" required class="flex-grow bg-white border border-slate-200 rounded-xl p-2 outline-none font-semibold" placeholder="Aturan / Tata tertib...">
+                                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl"><i class="fa-solid fa-plus"></i></button>
+                            </form>
+                            <div class="space-y-2 max-h-48 overflow-y-auto" id="adm-papan-rule-list"></div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
 
         <!-- ========================================================== -->
-        <!-- VIEW 3: INTERFACE WALI SANTRI (KHS DIGITAL) -->
+        <!-- SECTION 4: PAPAN INFORMASI DIGITAL (Public Display) -->
         <!-- ========================================================== -->
-        <div id="view-wali" class="hidden space-y-6">
-            
-            <!-- Navigasi khusus tombol kembali bagi Admin/Ustazah -->
-            <div id="parent-back-btn-container" class="flex flex-col sm:flex-row justify-between items-center bg-slate-100 p-4 rounded-3xl border border-slate-200/50 gap-3 no-print">
-                <div class="flex items-center gap-2">
-                    <span class="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg"><i class="fa-solid fa-shield-halved text-xs"></i></span>
-                    <span class="text-xs font-bold text-slate-600">Sesi KHS Privat Terkunci Keamanan</span>
+        <div id="section-papaninfo" class="hidden fade-in space-y-6">
+            <div class="bg-emerald-900 text-white p-6 rounded-3xl shadow-lg border-b-4 border-amber-400 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4 text-center md:text-left">
+                    <span class="text-3xl">🕌</span>
+                    <div>
+                        <h2 class="text-xl font-black tracking-wide">PAPAN INFORMASI DIGITAL PPHQ PUTRI 4 AL AKRIMA</h2>
+                        <p class="text-xs text-emerald-200 font-medium">Membentuk Generasi Qur'ani, Berakhlak Mulia, dan Berprestasi</p>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <button onclick="refreshWaliData()" class="flex-1 sm:flex-initial bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-black px-4 py-2 rounded-xl transition border border-emerald-200 flex items-center justify-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-rotate text-xs"></i> Segarkan Data
-                    </button>
-                    <button onclick="goBackToDashboard()" class="flex-1 sm:flex-initial bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200 flex items-center justify-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-arrow-left text-emerald-700"></i> Kembali Ke Panel Utama
-                    </button>
+                <div class="text-center md:text-right">
+                    <div id="papan-clock" class="text-2xl font-black text-amber-400">00:00:00</div>
+                    <div id="papan-date" class="text-xs text-slate-200 mt-1 font-bold">Hari, 00 Bulan 202X</div>
                 </div>
             </div>
 
-            <!-- PREMIUM PORTRAIT KHS RAPORT CARD -->
-            <div id="wali-khs-card" class="bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-xl space-y-6 relative max-w-4xl mx-auto" style="-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;">
-                
-                <!-- KHS HEADER -->
-                <div class="border-b-4 border-double border-emerald-800 pb-4 text-center">
-                    <h3 class="font-extrabold text-[10px] tracking-widest text-slate-500 uppercase leading-none">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h3>
-                    <h2 class="font-black text-sm text-slate-900 uppercase tracking-tight mt-1.5">PP HAMALATUL QUR'AN PUTRI 4 AL-KARIMA</h2>
-                    <p class="text-[9px] font-bold text-emerald-800 uppercase tracking-wider mt-1">Laporan Hasil Perkembangan Tahfidz &amp; Administrasi Santriwati</p>
-                    <p class="text-[8px] font-medium text-slate-400 mt-1 font-mono">Jl. Mawar No. 4, Kampung Inggris, Pare, Kediri | WA: 085706399238</p>
-                </div>
-
-                <div class="text-center space-y-1">
-                    <div class="text-[10px] font-black uppercase text-emerald-800 tracking-widest">KARTU HASIL STUDI (KHS) DIGITAL</div>
-                </div>
-
-                <!-- BIODATA UTAMA KHS -->
-                <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-50/50 p-5 rounded-3xl border border-slate-150">
-                    <div class="w-32 h-40 bg-white rounded-2xl overflow-hidden border border-slate-200 flex items-center justify-center shrink-0 shadow-sm relative p-1.5">
-                        <div id="wali-khs-photo" class="w-full h-full rounded-xl bg-slate-100 overflow-hidden flex items-center justify-center text-slate-300">
-                            <i class="fa-solid fa-user text-4xl"></i>
+            <!-- News and boards lists -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left grid: News & Programs -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="border-b-2 border-emerald-850 pb-2 flex justify-between items-center">
+                            <span class="font-bold text-sm text-emerald-800 flex items-center gap-1.5"><i class="fa-solid fa-newspaper"></i> 📰 Berita & Informasi Terkini</span>
+                            <span class="bg-amber-400 text-black px-2 py-0.5 rounded text-[10px] font-black animate-pulse">Live Update</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="papan-berita-grid">
+                            <!-- News cards are populated here dynamically -->
                         </div>
                     </div>
-                    
-                    <div class="flex-1 space-y-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100 w-full relative">
-                        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                            <div class="flex items-center gap-2">
-                                <h4 id="wali-khs-name" class="text-lg sm:text-xl font-bold tracking-tight text-slate-800">-</h4>
-                                <span id="wali-khs-active-badge" class="px-2 py-0.5 rounded text-[9px] font-black uppercase">Aktif</span>
-                            </div>
-                            <div class="flex flex-col items-end gap-1">
-                                <span id="wali-khs-presence-badge" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-emerald-200/60 shadow-sm">
-                                    <i class="fa-solid fa-circle-check text-[10px]"></i> Sudah Di Asrama
-                                </span>
-                                <span id="wali-khs-last-updated" class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                                    Update: -
-                                </span>
-                            </div>
-                        </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-xs sm:text-sm">
-                            <div class="space-y-1">
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-cake-candles text-emerald-700 w-4"></i> TTL: <strong id="wali-khs-pobdob" class="text-slate-800 font-bold">-</strong></p>
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-phone text-emerald-700 w-4"></i> HP Wali: <strong id="wali-khs-parent" class="text-slate-800 font-bold">-</strong></p>
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-location-dot text-emerald-700 w-4"></i> Alamat: <strong id="wali-khs-address" class="text-slate-800 font-semibold text-xs">-</strong></p>
+                    <!-- Achievements and Weekly projects -->
+                    <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="border-b-2 border-emerald-850 pb-2">
+                            <span class="font-bold text-sm text-emerald-800"><i class="fa-solid fa-award"></i> ✨ Prestasi & Program Unggulan</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-black text-xs text-emerald-800 uppercase tracking-wider mb-2.5">🏆 Prestasi Santriwati</h4>
+                                <ul class="space-y-2 text-xs" id="papan-prestasi-list">
+                                    <!-- Populated dynamically -->
+                                </ul>
                             </div>
-                            <div class="space-y-1">
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-graduation-cap text-emerald-700 w-4"></i> Program: <strong id="wali-khs-program" class="text-slate-800 font-bold">-</strong></p>
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-user-tie text-emerald-700 w-4"></i> Ustazah: <strong id="wali-khs-ustazah" class="text-slate-800 font-bold">-</strong></p>
-                                <p class="text-slate-500 font-medium"><i class="fa-solid fa-bullseye text-emerald-700 w-4"></i> Celengan Awal: <strong id="wali-khs-celengan" class="text-emerald-800 font-extrabold">-</strong></p>
+                            <div>
+                                <h4 class="font-black text-xs text-emerald-800 uppercase tracking-wider mb-2.5">🚀 Program Pekan Ini</h4>
+                                <ul class="space-y-2 text-xs" id="papan-program-list">
+                                    <!-- Populated dynamically -->
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- PETA JALUR PERJALANAN HAFAKAN 30 JUZ -->
-                <div class="space-y-3">
-                    <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-1"></i> Peta Jalur Perjalanan Visual Menuju 30 Juz Al-Qur'an</span>
-                    <div id="peta-tahfidz-container" class="grid grid-cols-5 sm:grid-cols-10 gap-2 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
-                        <!-- Visual Peta Hafalan diisi secara otomatis -->
-                    </div>
-                </div>
-
-                <!-- BLOK DETAIL SETORAN & SPP -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    
-                    <!-- COLUMN 1 & 2: REKAP SETORAN -->
-                    <div class="lg:col-span-2 bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
-                        <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-book-open text-emerald-750 mr-1"></i> Perkembangan Hafalan Terkini</span>
+                <!-- Right list: Rules and warnings -->
+                <div class="space-y-6">
+                    <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="border-b-2 border-emerald-855 pb-2">
+                            <span class="font-bold text-sm text-emerald-800"><i class="fa-solid fa-scroll"></i> 📜 Tata Tertib & Maklumat</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-600" id="papan-rules-list">
+                            <!-- Rules listed dynamically -->
+                        </ul>
                         
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
-                                <span class="text-[9px] text-slate-400 font-bold block uppercase">Setoran Awal</span>
-                                <span id="wali-khs-setoran-awal" class="font-extrabold text-slate-800 mt-1 block">-</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
-                                <span class="text-[9px] text-slate-400 font-bold block uppercase">Setoran Akhir</span>
-                                <span id="wali-khs-setoran-akhir" class="font-extrabold text-emerald-800 mt-1 block">-</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
-                                <span class="text-[9px] text-slate-400 font-bold block uppercase">Target Pekanan</span>
-                                <span id="wali-khs-target-mingguan" class="font-extrabold text-slate-800 mt-1 block">-</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
-                                <span class="text-[9px] text-slate-400 font-bold block uppercase">Status Capaian</span>
-                                <span id="wali-khs-status-capaian" class="font-extrabold mt-1 block">-</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
-                                <span class="text-[9px] text-slate-400 font-bold block uppercase">Nilai Fasohah</span>
-                                <span id="wali-khs-fasohah" class="font-extrabold text-emerald-700 mt-1 block text-sm">-</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-2xl border border-slate-200">
-                                <span class="text-[9px] text-slate-400 font-bold block uppercase">Nilai Kelancaran</span>
-                                <span id="wali-khs-kelancaran" class="font-extrabold text-emerald-700 mt-1 block text-sm">-</span>
-                            </div>
+                        <div class="bg-amber-50 p-4 rounded-2xl border-l-4 border-amber-400 text-[11px] leading-relaxed text-slate-700">
+                            <strong class="text-amber-800 block mb-1">Maklumat Penting:</strong>
+                            <p id="papan-maklumat-text">Memuat maklumat kuning...</p>
                         </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
-                            <div class="bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100">
-                                <span class="text-[9px] text-emerald-800 font-black block uppercase"><i class="fa-solid fa-circle-check"></i> Perkembangan Positif (+)</span>
-                                <p id="wali-khs-perkembangan-positif" class="text-slate-700 font-semibold mt-1 leading-relaxed">-</p>
-                            </div>
-                            <div class="bg-rose-50/30 p-3.5 rounded-2xl border border-rose-100">
-                                <span class="text-[9px] text-rose-800 font-black block uppercase"><i class="fa-solid fa-circle-exclamation"></i> Catatan Evaluasi (-)</span>
-                                <p id="wali-khs-catatan-negatif" class="text-slate-700 font-semibold mt-1 leading-relaxed">-</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- COLUMN 3: DETAIL ADMINISTRASI -->
-                    <div class="bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
-                        <span class="block text-[10px] font-black text-slate-900 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar text-emerald-700 mr-1"></i> Keuangan &amp; Administrasi</span>
-                        
-                        <div class="space-y-3 text-xs">
-                            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex justify-between items-center">
-                                <div>
-                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Syahriyah SPP</span>
-                                    <span id="wali-khs-spp-status-label" class="font-bold text-slate-700">SPP Bulan Berjalan</span>
-                                </div>
-                                <span id="wali-khs-syahriyah-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
-                            </div>
-
-                            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex justify-between items-center">
-                                <div>
-                                    <span class="text-[9px] text-slate-400 font-bold block uppercase">Daftar Ulang</span>
-                                    <span class="font-bold text-slate-700">Fasilitas &amp; Sarana</span>
-                                </div>
-                                <span id="wali-khs-daftarulang-badge" class="px-2.5 py-1 rounded-full font-black text-[10px]">-</span>
-                            </div>
-
-                            <div class="bg-emerald-50/40 p-3.5 rounded-2xl border border-emerald-100 space-y-1">
-                                <span class="text-[9px] text-emerald-800 font-black block uppercase"><i class="fa-solid fa-circle-info"></i> Catatan Lain-lain:</span>
-                                <p id="wali-khs-catatan-lain" class="text-slate-600 leading-normal font-semibold text-[10px]">-</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- HISTORI CEKLIS PEMBAYARAN 12 BULAN -->
-                <div class="bg-slate-50 p-5 rounded-3xl border border-slate-150 space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-200 pb-2 flex-wrap gap-2">
-                        <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-wider">
-                            <i class="fa-solid fa-calendar-days text-emerald-700 mr-1"></i> Histori Pembayaran Syahriyah SPP (12 Bulan)
-                        </span>
-                        <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-black font-mono" id="wali-spp-summary">0 dari 12 Bulan Lunas</span>
-                    </div>
-                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2" id="wali-spp-months-grid">
-                        <!-- Diisi secara dinamis -->
-                    </div>
-                </div>
-
-                <!-- REKAM JEJAK HISTORI PERKEMBANGAN -->
-<div class="space-y-4">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b-2 border-emerald-800 pb-2">
-        <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider">
-            <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Real-time)
-        </span>
-        <div class="flex items-center gap-2 text-xs font-bold no-print ml-auto sm:ml-0">
-            <button type="button" onclick="changeHistoryPage(-1)" id="btn-prev-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <span id="history-page-info" class="text-slate-600 font-mono">Halaman 1 dari 1</span>
-            <button type="button" onclick="changeHistoryPage(1)" id="btn-next-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-    
-    <!-- Menggunakan w-full dan grid-cols-1 agar konten berjejer ke bawah dalam 1 baris utuh -->
-    <div id="wali-timeline-container" class="grid grid-cols-1 gap-4 w-full">
-        <!-- Terisi otomatis secara dinamis & rapi tanpa scrollbar -->
-    </div>
-</div>
-
-                <!-- SIGNATURE SECTION FOR FORMAL REPORT -->
-                <div class="grid grid-cols-2 gap-4 pt-8 border-t border-slate-100 text-center text-xs mt-6">
-                    <div class="space-y-12">
-                        <span class="text-slate-400 font-bold block leading-none">Pendaftar / Wali Santriwati,</span>
-                        <span id="wali-khs-parent-signature" class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-8 inline-block leading-none font-semibold font-sans">Wali Santriwati</span>
-                    </div>
-                    <div class="space-y-12">
-                        <span class="text-slate-400 font-bold block leading-none">PPSB HQ Putri 4,</span>
-                        <span class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-8 inline-block leading-none font-semibold font-sans">Ustazah Administrasi</span>
                     </div>
                 </div>
             </div>
 
-            <!-- ACTION BUTTONS BELOW KHS CARD -->
-            <div class="max-w-4xl mx-auto grid grid-cols-3 gap-3 pt-3 border-t border-slate-100 no-print">
-                <button onclick="printKHS()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-print text-emerald-700"></i> Cetak KHS
-                </button>
-                <button onclick="saveKHSPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-file-pdf"></i> Simpan PDF
-                </button>
-                <button onclick="triggerDirectCertificateFromWali()" class="bg-amber-600 hover:bg-amber-700 text-white text-[10px] sm:text-xs font-black py-3.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-certificate text-white"></i> Sertifikat
-                </button>
+            <!-- Board info marquee running footer -->
+            <div class="bg-emerald-950 text-white py-3 px-4 rounded-2xl overflow-hidden shadow-inner no-print border border-emerald-900">
+                <div class="flex gap-4 items-center">
+                    <span class="bg-amber-400 text-black px-2.5 py-0.5 rounded text-[10px] font-black uppercase shrink-0">Warta Berjalan</span>
+                    <marquee class="text-xs font-bold text-amber-300" id="papan-marquee-text">Memuat informasi berjalan...</marquee>
+                </div>
             </div>
         </div>
 
     </main>
 
-    <!-- PREMIUM TAHFIDZ CERTIFICATE MODAL -->
-    <div id="certificate-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-5xl w-full p-6 shadow-2xl flex flex-col max-h-[95vh] border border-slate-100">
-            
-            <div class="flex items-center justify-between pb-3 border-b border-slate-150 shrink-0">
-                <div class="flex items-center gap-2">
-                    <span class="p-2 bg-amber-50 text-amber-600 rounded-xl"><i class="fa-solid fa-award text-sm"></i></span>
-                    <h3 class="font-black text-sm text-slate-900 uppercase">SERTIFIKAT PENGHARGAAN TAHFIDZ</h3>
-                </div>
-                <button onclick="closeCertificateModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
-            </div>
-
-            <!-- Panel Kustomisasi untuk Admin / Ustazah -->
-            <div id="certificate-editor-panel" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs flex flex-wrap gap-4 items-center justify-between mt-3">
-                <div class="flex items-center gap-2">
-                    <span class="font-black text-slate-700"><i class="fa-solid fa-sliders text-emerald-700 mr-1"></i> Atur Kustomisasi Sertifikat:</span>
-                </div>
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="flex items-center gap-1.5">
-                        <label class="font-bold text-slate-500">Juz Hafalan:</label>
-                        <input type="text" id="cert-editor-juz" oninput="updateLiveCertificateText()" value="30 (Juz 'Amma)" class="bg-white border border-slate-200 px-2.5 py-1 rounded-lg font-bold text-slate-800 outline-none w-44">
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <label class="font-bold text-slate-500">Predikat Kelulusan:</label>
-                        <select id="cert-editor-predikat" onchange="updateLiveCertificateText()" class="bg-white border border-slate-200 px-2.5 py-1 rounded-lg font-bold text-slate-800 outline-none cursor-pointer">
-                            <option value="MUMTAZ (ISTIMEWA)">Mumtaz (Istimewa)</option>
-                            <option value="JAYYID JIDDAN (SANGAT BAIK)">Jayyid Jiddan (Sangat Baik)</option>
-                            <option value="JAYYID (BAIK)">Jayyid (Baik)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Area Render Bingkai Sertifikat Landscape (Dukungan Scaling) -->
-            <div class="overflow-y-auto flex-1 my-4 scrollbar-thin cert-scroll-container">
-                <div class="cert-zoom-wrapper">
-                    <div id="print-certificate-area" class="p-8 bg-white text-slate-800 leading-relaxed relative shadow-inner overflow-hidden flex flex-col justify-between" 
-                         style="width: 842px; height: 595px; min-width: 842px; min-height: 595px; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 80%); border: 20px solid #064e3b;">
-                        
-                        <!-- DOUBLE FRAME BORDER -->
-                        <div class="border-4 border-double border-amber-500 w-full h-full p-6 flex flex-col justify-between items-center text-center relative">
-                            
-                            <!-- Watermark Masjid -->
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.02] overflow-hidden">
-                                <i class="fa-solid fa-mosque text-[280px] text-emerald-900"></i>
-                            </div>
-
-                            <!-- Header Sertifikat -->
-                            <div class="space-y-1.5 z-10">
-                                <h1 class="arabic-text text-3xl font-bold text-emerald-800 tracking-wide font-serif">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
-                                <h3 class="text-[9px] font-black tracking-widest text-slate-400 uppercase leading-none mt-2">YAYASAN INSAN BUDI MULIA DARUSSOLIKHIN</h3>
-                                <h2 class="font-extrabold text-sm text-emerald-950 uppercase tracking-tight">PESANTREN HAMALATUL QUR'AN PUTRI 4 AL-KARIMA</h2>
-                                <p class="text-[8px] text-slate-400 font-semibold font-mono leading-none">Pare, Kediri • Telp/WA: 085706399238 • Email: hqputri4@alkarima.id</p>
-                            </div>
-
-                            <div class="my-1.5 z-10">
-                                <h4 class="font-black text-2xl tracking-[0.2em] text-amber-600 uppercase leading-none font-sans">SERTIFIKAT PENGHARGAAN</h4>
-                                <p class="text-[9px] text-slate-400 font-mono tracking-widest uppercase mt-1">Nomor Seri Kelulusan: <span id="cert-display-reg-num" class="font-bold text-slate-600">REG-ALK-0000</span></p>
-                            </div>
-
-                            <div class="space-y-3 max-w-xl z-10">
-                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Diberikan Kepada Santriwati Terbaik:</p>
-                                <h5 id="cert-display-name" class="text-2xl font-black text-slate-900 border-b-2 border-double border-amber-500/80 pb-1 px-8 inline-block tracking-wide">AISYAH HUMAIRA KHANSA</h5>
-                                
-                                <p class="text-xs text-slate-600 leading-relaxed font-semibold">
-                                    Atas keberhasilan, kedisiplinan, dan ketekunan yang luar biasa dalam menghafal, menjaga, serta menuntaskan setoran hafalan Kitab Suci Al-Qur'anul Karim tingkat asrama, sehingga dinyatakan lulus ujian:
-                                </p>
-                                
-                                <h6 id="cert-display-juz" class="text-sm font-black text-emerald-900 bg-emerald-50 px-5 py-1.5 rounded-full border border-emerald-200 shadow-sm inline-block uppercase tracking-wider font-sans">
-                                    JUZ 30 (JUZ 'AMMA)
-                                </h6>
-                                
-                                <p class="text-[11px] text-slate-500 font-bold">
-                                    Dengan predikat kelulusan: <span id="cert-display-predicate" class="text-amber-600 font-extrabold uppercase font-sans">MUMTAZ (ISTIMEWA)</span>
-                                </p>
-                            </div>
-
-                            <!-- Tanda Tangan & Cap Emas -->
-                            <div class="grid grid-cols-3 gap-4 w-full pt-4 border-t border-slate-100 text-center text-[10px] z-10 relative">
-                                <div class="space-y-8 flex flex-col justify-between">
-                                    <span class="text-slate-400 font-bold block leading-none">Pembina Halaqah,</span>
-                                    <div>
-                                        <span id="cert-display-ustazah" class="font-black text-slate-800 border-b border-slate-300 pb-1 px-4 inline-block font-sans">Ustazah Ayu</span>
-                                        <p class="text-[8px] text-slate-400 mt-0.5 font-bold uppercase">Ustadzah Pengampu</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center justify-center relative -top-3">
-                                    <div class="w-16 h-16 rounded-full bg-amber-500 border-4 border-double border-white shadow-md flex flex-col items-center justify-center text-white relative rotate-[5deg]">
-                                        <i class="fa-solid fa-award text-2xl animate-pulse"></i>
-                                        <span class="text-[7px] tracking-tighter leading-none font-bold font-mono mt-0.5">YBMD LAURELS</span>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-8 flex flex-col justify-between">
-                                    <span class="text-slate-400 font-bold block leading-none">PPSB HQ Putri 4,</span>
-                                    <div>
-                                        <span class="font-black text-slate-800 border-b border-slate-300 pb-1 px-4 inline-block font-sans">Ustazah Administrasi</span>
-                                        <p class="text-[8px] text-slate-400 mt-0.5 font-bold uppercase">Kesekretariat Utama</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-3 pt-3 border-t border-slate-150 shrink-0">
-                <button type="button" onclick="printCertificate()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-print"></i> Cetak
-                </button>
-                <button type="button" onclick="saveCertificatePDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-file-pdf"></i> Unduh PDF
-                </button>
-                <button type="button" onclick="closeCertificateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                    <i class="fa-solid fa-times"></i> Tutup
-                </button>
-            </div>
+    <!-- MOBILE SYSTEM PERSISTENT TAB BAR -->
+    <div class="md:hidden fixed bottom-0 inset-x-0 bg-emerald-950 border-t border-emerald-900 shadow-2xl z-50 no-print">
+        <div class="grid grid-cols-4 h-16 text-[9px] uppercase font-black text-center text-slate-400">
+            <button onclick="switchMasterSection('walisantri')" id="mobile-nav-walisantri" class="flex flex-col items-center justify-center gap-1 text-amber-400">
+                <i class="fa-solid fa-graduation-cap text-base"></i>
+                <span>Walisantri</span>
+            </button>
+            <button onclick="switchMasterSection('ustazah')" id="mobile-nav-ustazah" class="flex flex-col items-center justify-center gap-1">
+                <i class="fa-solid fa-person-chalkboard text-base"></i>
+                <span>Ustazah</span>
+            </button>
+            <button onclick="switchMasterSection('admin')" id="mobile-nav-admin" class="flex flex-col items-center justify-center gap-1">
+                <i class="fa-solid fa-user-shield text-base"></i>
+                <span>Admin</span>
+            </button>
+            <button onclick="switchMasterSection('papaninfo')" id="mobile-nav-papaninfo" class="flex flex-col items-center justify-center gap-1">
+                <i class="fa-solid fa-circle-info text-base"></i>
+                <span>Papan Info</span>
+            </button>
         </div>
     </div>
 
-    <!-- BUKTI PENDAFTARAN (RECEIPT) MODAL -->
-    <div id="receipt-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
+    <!-- BUKTI PENDAFTARAN MODAL -->
+    <div id="receipt-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-3xl w-full p-5 shadow-2xl flex flex-col max-h-[95vh] border border-slate-100">
-            
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
                 <div class="flex items-center gap-2">
                     <span class="p-2 bg-emerald-50 text-emerald-700 rounded-xl"><i class="fa-solid fa-file-invoice text-xs"></i></span>
@@ -1141,12 +1132,9 @@
                 <button onclick="closeReceiptModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
             </div>
 
-            <!-- Scrollable Container Area -->
-            <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-4 scrollbar-thin">
-                <div id="print-receipt-area" class="p-8 bg-white text-slate-900 leading-relaxed relative border-4 border-double border-emerald-900/60 shadow-xs" 
-                     style="width: 100%; max-width: 680px; min-height: 870px; margin: 0 auto; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.02) 0%, transparent 80%);">
-                    
-                    <!-- Watermark -->
+            <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-4">
+                <div id="print-receipt-area" class="p-8 bg-white text-slate-900 relative border-4 border-double border-emerald-900/60" 
+                     style="width: 100%; max-width: 680px; min-height: 800px; margin: 0 auto; background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.02) 0%, transparent 80%);">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.03] overflow-hidden">
                         <span class="text-emerald-900 text-6xl font-black tracking-widest uppercase rotate-[-25deg]">AL KARIMA KEDIRI</span>
                     </div>
@@ -1154,8 +1142,7 @@
                     <div class="border-b-4 border-double border-emerald-850 pb-4 text-center">
                         <h4 class="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">YAYASAN AL KARIMA KEDIRI</h4>
                         <h2 class="text-sm font-black text-slate-900 uppercase tracking-tight mt-1">PESANTREN HAMALATUL QUR'AN PUTRI 4</h2>
-                        <p class="text-[9px] text-emerald-800 font-bold uppercase mt-0.5 tracking-wider">Kuitansi Pembayaran &amp; Bukti Pendaftaran Santriwati Baru</p>
-                        <p class="text-[8px] text-slate-400 font-semibold font-mono mt-0.5">Pare, Kediri • Telp/WA: 0838-2970-4141 • Email: hqputri4@alkarima.id</p>
+                        <p class="text-[9px] text-emerald-800 font-bold uppercase mt-0.5 tracking-wider">Kuitansi Pembayaran & Bukti Pendaftaran Santriwati Baru</p>
                     </div>
 
                     <div class="flex justify-between items-center text-xs mt-4">
@@ -1170,7 +1157,7 @@
                     </div>
 
                     <div class="mt-4 bg-slate-50 border border-slate-200/60 p-4 rounded-2xl space-y-3">
-                        <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block border-b border-slate-200 pb-1.5"><i class="fa-solid fa-address-card mr-1"></i> Data Identitas Santriwati Baru</span>
+                        <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block border-b border-slate-200 pb-1.5">Identitas Santriwati Baru</span>
                         <div class="grid grid-cols-2 gap-3 text-xs leading-tight">
                             <div>
                                 <p class="text-slate-400 font-semibold">Nama Lengkap:</p>
@@ -1185,35 +1172,28 @@
                                 <p id="rec-phone" class="font-bold text-slate-700">-</p>
                             </div>
                             <div>
-                                <p class="text-slate-400 font-semibold">Target Hafalan:</p>
+                                <p class="text-slate-400 font-semibold">Target Celengan:</p>
                                 <p id="rec-celengan" class="font-extrabold text-emerald-800">-</p>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 font-semibold">Program:</p>
-                                <p id="rec-program" class="font-bold text-slate-700">-</p>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 font-semibold">Halaqah / Ustazah:</p>
-                                <p id="rec-ustazah" class="font-bold text-slate-700">-</p>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Financial list details -->
                     <div class="mt-4 space-y-2">
-                        <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block"><i class="fa-solid fa-receipt mr-1"></i> Rincian Transaksi Keuangan Masuk</span>
+                        <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block">Rincian Keuangan</span>
                         <div class="border border-slate-200 rounded-2xl overflow-hidden text-xs">
                             <table class="w-full text-left">
                                 <tbody class="divide-y divide-slate-100 text-slate-600 font-semibold">
                                     <tr>
-                                        <td class="p-2.5">Infaq Pendaftaran Santri Baru (PPSB)</td>
+                                        <td class="p-2.5">Infaq Pendaftaran (PPSB)</td>
                                         <td id="rec-fee-reg" class="p-2.5 text-right text-slate-900">-</td>
                                     </tr>
                                     <tr>
-                                        <td class="p-2.5">Syahriyah (SPP) 1 Bulan Pertama berjalan</td>
+                                        <td class="p-2.5">Syahriyah (SPP) Bulan Pertama berjalan</td>
                                         <td id="rec-fee-spp1" class="p-2.5 text-right text-slate-900">-</td>
                                     </tr>
                                     <tr>
-                                        <td class="p-2.5">Biaya Daftar Ulang &amp; Logistik Terintegrasi</td>
+                                        <td class="p-2.5">Biaya Daftar Ulang & Logistik</td>
                                         <td id="rec-fee-rereg" class="p-2.5 text-right text-slate-900">-</td>
                                     </tr>
                                     <tr class="bg-emerald-50/50 text-slate-900 border-t border-slate-200 font-black">
@@ -1226,99 +1206,68 @@
                     </div>
 
                     <div class="mt-4 bg-slate-50/70 border border-slate-200 rounded-2xl p-4 space-y-2">
-                        <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block"><i class="fa-solid fa-cubes mr-1"></i> Bukti Serah Terima Fasilitas Fisik &amp; Sarana</span>
+                        <span class="text-[9px] font-black text-emerald-855 uppercase tracking-widest block">Bukti Serah Terima Logistik</span>
                         <div id="rec-logistics" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] font-bold text-slate-700">
-                            <!-- Diisi secara dinamis -->
+                            <!-- Populated dynamically -->
                         </div>
                     </div>
 
-                    <div class="mt-5 border-t border-dashed border-slate-200 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-slate-400 leading-relaxed">
-                        <div class="space-y-1 text-center sm:text-left">
-                            <p class="font-extrabold uppercase tracking-widest text-emerald-800 flex items-center gap-1 justify-center sm:justify-start">
-                                <i class="fa-solid fa-circle-check"></i> Bukti Registrasi Valid
-                            </p>
-                            <p class="font-medium max-w-sm">Dokumen ini diterbitkan secara otomatis oleh sistem administrasi E-Tahfidz Al Karima HQ Putri 4 dan sah tanpa tanda tangan basah fisik.</p>
-                            <p class="font-mono">Secure Auth Code: <strong class="text-slate-800" id="secure-receipt-code">654321</strong></p>
+                    <div class="mt-5 border-t border-dashed border-slate-200 pt-4 flex items-center justify-between gap-4 text-[10px]">
+                        <div>
+                            <p class="font-extrabold uppercase tracking-widest text-emerald-800">Bukti Registrasi Valid</p>
+                            <p class="text-slate-400">Dokumen diterbitkan otomatis dan sah tanpa tanda tangan fisik.</p>
+                            <p class="font-mono mt-1">Auth Code: <strong class="text-slate-800" id="secure-receipt-code">654321</strong></p>
                         </div>
-                        <div class="border-2 border-slate-900/10 p-1.5 rounded-xl bg-white shadow-xs">
-                            <div class="w-14 h-14 bg-slate-100 flex flex-col items-center justify-center border border-slate-200 rounded-lg text-slate-500">
-                                <i class="fa-solid fa-qrcode text-3xl"></i>
-                                <span class="text-[7px] tracking-tighter leading-none mt-0.5 uppercase font-mono font-sans">PHQ4 VERIFY</span>
-                            </div>
+                        <div class="border-2 border-slate-900/10 p-1.5 rounded-xl bg-white">
+                            <i class="fa-solid fa-qrcode text-3xl text-slate-400"></i>
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100 text-center text-xs mt-6">
-                        <div class="space-y-10">
-                            <span class="text-slate-400 font-bold block leading-none">Wali Santriwati Pendaftar,</span>
-                            <span id="rec-parent-sign" class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-6 inline-block leading-none font-semibold">Wali Santriwati</span>
-                        </div>
-                        <div class="space-y-10">
-                            <span class="text-slate-400 font-bold block leading-none">Otoritas Sekretariat PPSB,</span>
-                            <span class="font-extrabold text-slate-800 border-b border-slate-300 pb-1 px-6 inline-block leading-none font-semibold font-sans">Ustazah Administrasi</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-2 text-center border-t border-slate-100">
-                        <span class="text-[9px] text-slate-400">Status Syahriyah (SPP) Bulan Pertama berjalan: <strong id="rec-spp" class="text-emerald-800 font-black">-</strong></span>
-                    </div>
-
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-150 shrink-0">
-                <button type="button" onclick="printReceipt()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1">
-                    <i class="fa-solid fa-print"></i> Cetak Dokumen
-                </button>
-                <button type="button" onclick="saveReceiptPDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black py-3 rounded-2xl transition-all flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-file-pdf"></i> Unduh PDF Resmi
-                </button>
+                <button type="button" onclick="printReceipt()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black py-3 rounded-2xl transition-all">Cetak</button>
+                <button type="button" onclick="saveReceiptPDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black py-3 rounded-2xl transition-all">Unduh PDF</button>
             </div>
         </div>
     </div>
 
     <!-- EDIT STUDENT MODAL -->
-    <div id="edit-student-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
+    <div id="edit-student-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-4xl w-full p-6 shadow-2xl flex flex-col max-h-[95vh] border border-slate-100">
             <div class="flex items-center justify-between pb-3.5 border-b border-slate-150 shrink-0">
                 <div class="flex items-center gap-2.5">
                     <span class="p-2.5 bg-blue-50 text-blue-700 rounded-2xl"><i class="fa-solid fa-user-pen text-base"></i></span>
                     <div>
-                        <h3 class="font-black text-sm text-slate-900 uppercase">Edit Seluruh Data &amp; Logistik Santri</h3>
-                        <p class="text-[10px] text-slate-400 font-semibold">Otoritas perubahan penuh atas biodata, sarana asrama, status keaktifan &amp; KHS.</p>
+                        <h3 class="font-black text-sm text-slate-900 uppercase">Edit Seluruh Data & Logistik Santri</h3>
+                        <p class="text-[10px] text-slate-400 font-semibold">Otoritas perubahan penuh atas biodata, sarana asrama, & KHS.</p>
                     </div>
                 </div>
                 <button onclick="closeEditStudentModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
             </div>
 
-            <!-- Form Edit -->
-            <form id="admin-edit-student-form" onsubmit="handleSaveEditStudent(event)" class="overflow-y-auto flex-1 pr-1.5 space-y-5 my-4 scrollbar-thin">
+            <form id="admin-edit-student-form" onsubmit="handleSaveEditStudent(event)" class="overflow-y-auto flex-1 pr-1.5 space-y-5 my-4">
                 <input type="hidden" id="edit-student-id">
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
-                    
-                    <!-- Kiri: Biodata Primer & Logistik Fisik -->
                     <div class="space-y-4">
-                        <span class="block text-[10px] font-black text-blue-900 uppercase tracking-widest pb-1 border-b border-blue-100"><i class="fa-solid fa-address-card mr-1"></i> Biodata Primer &amp; Logistik Fisik</span>
+                        <span class="block text-[10px] font-black text-blue-900 uppercase tracking-widest pb-1 border-b border-blue-100">Biodata Primer</span>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div class="sm:col-span-2">
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nama Lengkap Santriwati</label>
-                                <input type="text" id="edit-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-900 focus:ring-2 focus:ring-blue-500">
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nama Lengkap</label>
+                                <input type="text" id="edit-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-900">
                             </div>
                             <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Foto JPG Santri</label>
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Foto JPG</label>
                                 <input type="file" id="edit-photo-file" accept="image/*" onchange="previewAndCompressPhoto(this, 'edit-photo-preview')" class="hidden">
-                                <div class="flex items-center gap-1.5">
-                                    <div onclick="document.getElementById('edit-photo-file').click()" class="flex-1 cursor-pointer bg-slate-50 border-slate-200 rounded-xl p-2 flex items-center gap-1.5 text-[10px] font-bold text-slate-600 hover:bg-slate-100 transition-all">
-                                        <div id="edit-photo-preview" class="w-6 h-6 rounded bg-slate-200 overflow-hidden flex items-center justify-center shrink-0 border border-slate-300">
-                                            <i class="fa-solid fa-camera text-[9px] text-slate-400"></i>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <div onclick="document.getElementById('edit-photo-file').click()" class="flex-1 cursor-pointer bg-slate-50 border rounded-xl p-2 flex items-center gap-1.5 text-[10px]">
+                                        <div id="edit-photo-preview" class="w-6 h-6 rounded bg-slate-200 overflow-hidden flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-camera text-[9px]"></i>
                                         </div>
-                                        <span class="truncate text-[9px]">Ganti JPG</span>
+                                        <span class="truncate">Ganti</span>
                                     </div>
-                                    <button type="button" onclick="resetEditPhoto()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-2.5 py-2 rounded-xl text-[10px] font-black transition-all" title="Hapus Foto">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1326,83 +1275,73 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Tempat, Tanggal Lahir</label>
-                                <input type="text" id="edit-pobdob" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-semibold text-slate-700 focus:ring-2 focus:ring-blue-500">
+                                <input type="text" id="edit-pobdob" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Riwayat Menghafal</label>
+                                <select id="edit-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                    <option value="Belum Pernah">Belum Pernah</option>
+                                    <option value="Sudah Pernah">Sudah Pernah</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">No. WhatsApp Wali</label>
-                                <input type="tel" id="edit-phone" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold tracking-wide text-slate-800 focus:ring-2 focus:ring-blue-500">
+                                <input type="tel" id="edit-phone" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold">
                             </div>
                             <div>
                                 <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Tanggal Kedatangan</label>
-                                <input type="date" id="edit-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold focus:ring-2 focus:ring-blue-500">
+                                <input type="date" id="edit-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Alamat Domisili Lengkap Wali</label>
-                            <textarea id="edit-address" rows="2" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none resize-none font-medium text-slate-700 focus:ring-2 focus:ring-blue-500"></textarea>
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Alamat Domisili Lengkap</label>
+                            <textarea id="edit-address" rows="2" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none resize-none"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Motivasi Menghafal</label>
+                            <input type="text" id="edit-motivation" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-semibold text-slate-600">
                         </div>
 
-                        <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100/80 space-y-3">
-                            <span class="block text-[9px] font-black text-blue-900 uppercase tracking-wider"><i class="fa-solid fa-boxes-packing mr-1"></i> Inventaris Logistik Fisik (Serah Terima)</span>
-                            <div class="grid grid-cols-2 gap-2 text-[11px] font-bold">
-                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="edit-fac-buku" class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="text-[10px] block text-slate-800 leading-none">Buku Pegangan</span>
-                                    </div>
+                        <!-- Logistics -->
+                        <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 space-y-3">
+                            <span class="block text-[9px] font-black text-blue-900 uppercase tracking-wider">Inventaris Logistik</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="edit-fac-buku" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Buku Pegangan</span>
                                 </label>
-                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="edit-fac-meja" class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="text-[10px] block text-slate-800 leading-none">Meja Ngaji</span>
-                                    </div>
+                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="edit-fac-meja" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Meja Ngaji</span>
                                 </label>
-                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="edit-fac-kerudung" class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="text-[10px] block text-slate-800 leading-none">Hijab Almamater</span>
-                                    </div>
+                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="edit-fac-kerudung" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Hijab Almamater</span>
                                 </label>
-                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer select-none">
-                                    <input type="checkbox" id="edit-fac-loker" class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded">
-                                    <div>
-                                        <span class="text-[10px] block text-slate-800 leading-none">Loker Lemari</span>
-                                    </div>
+                                <label class="flex items-center gap-2 p-2 bg-white border border-blue-200/50 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="edit-fac-loker" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Loker Lemari</span>
                                 </label>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Riwayat Menghafal</label>
-                                <select id="edit-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-700">
-                                    <option value="Belum Pernah">Belum Pernah Menghafal</option>
-                                    <option value="Sudah Pernah">Sudah Memiliki Hafalan</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Motivasi Menghafal</label>
-                                <input type="text" id="edit-motivation" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-semibold text-slate-600">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Kanan: Akademik, Penempatan, & Rencana Keuangan Bulanan -->
                     <div class="space-y-4">
-                        <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-widest pb-1 border-b border-emerald-100"><i class="fa-solid fa-graduation-cap mr-1"></i> Akademik, Penempatan, &amp; Keuangan</span>
+                        <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-widest pb-1 border-b border-emerald-100">Akademik & Keuangan</span>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Kamar Asrama &amp; Halaqah</label>
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Kamar & Halaqah</label>
                                 <select id="edit-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-emerald-950">
-                                    <option value="Ayu">Ustazah Ayu - Ruang Ayu (Halaqah Al-Mulk)</option>
-                                    <option value="Ayuniz">Ustazah Ayu - Ruang Ayuniz (Halaqah Ar-Rahman)</option>
-                                    <option value="Rima">Ustazah Rima - Ruang Rima (Halaqah Ya-Sin)</option>
-                                    <option value="Nafis">Ustazah Nafis - Ruang Nafis (Halaqah Al-Waqi'ah)</option>
+                                    <option value="Ayu">Ustazah Ayu - Ruang Ayu (Al-Mulk)</option>
+                                    <option value="Ayuniz">Ustazah Ayuniz - Ruang Ayuniz (Ar-Rahman)</option>
+                                    <option value="Rima">Ustazah Rima - Ruang Rima (Ya-Sin)</option>
+                                    <option value="Nafis">Ustazah Nafis - Ruang Nafis (Al-Waqi'ah)</option>
                                 </select>
                             </div>
                             <div class="grid grid-cols-3 gap-1.5">
@@ -1424,105 +1363,66 @@
                             </div>
                         </div>
 
-                        <div class="bg-emerald-50/40 p-4 rounded-2xl border border-emerald-100 space-y-3">
-                            <span class="block text-[9px] font-black text-emerald-900 uppercase tracking-wider"><i class="fa-solid fa-book-open mr-1"></i> Data Setoran Hafalan &amp; Catatan Perkembangan</span>
-                            
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Setoran Awal</label>
-                                    <input type="text" id="edit-setoran-awal" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-semibold">
-                                </div>
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Setoran Akhir</label>
-                                    <input type="text" id="edit-setoran-akhir" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-semibold">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Target Mingguan</label>
-                                    <input type="text" id="edit-target-mingguan" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-semibold">
-                                </div>
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Status Capaian</label>
-                                    <select id="edit-status-capaian" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold">
-                                        <option value="Tercapai">Tercapai</option>
-                                        <option value="Belum Tercapai">Belum Tercapai</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Kelebihan Adab/Hafalan (+)</label>
-                                    <textarea id="edit-positive" rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none resize-none font-medium"></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-0.5">Catatan Evaluasi (-)</label>
-                                    <textarea id="edit-negative" rows="2" class="w-full bg-white border border-slate-200 rounded-xl p-2 resize-none font-medium outline-none"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                            <span class="block text-[9px] font-black text-slate-800 uppercase tracking-wider"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Pengaturan Status &amp; Keuangan Administrasi</span>
-                            
-                            <!-- CEKLIS BULANAN SPP -->
-                            <div class="bg-white p-3 rounded-2xl border border-slate-150 space-y-2">
-                                <span class="block text-[8px] font-black text-emerald-900 uppercase tracking-wider"><i class="fa-solid fa-calendar-days"></i> Ceklis Bulanan Syahriyah SPP (Lunas)</span>
-                                <div class="grid grid-cols-4 gap-1.5" id="edit-spp-months-container">
-                                    <!-- Populated dynamically with checkboxes -->
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Status Daftar Ulang</label>
-                                    <select id="edit-daftarulang" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold text-slate-700">
-                                        <option value="Lunas">Selesai (Lunas)</option>
-                                        <option value="Belum Lunas">Pending (Belum)</option>
-                                        <option value="Cicil">Mencicil (Cicil)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Status Halaqah</label>
-                                    <select id="edit-inhalaqah" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold text-slate-700">
-                                        <option value="true">Masuk Halaqah</option>
-                                        <option value="false">Pending (Menunggu)</option>
-                                    </select>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-1">Status Keaktifan Santri</label>
-                                    <select id="edit-isactive" class="w-full bg-emerald-50 border border-emerald-200 rounded-xl p-2 outline-none font-black text-emerald-950">
-                                        <option value="true">Aktif Mengaji</option>
-                                        <option value="false">Tidak Aktif</option>
-                                    </select>
-                                </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Setoran Awal</label>
+                                <input type="text" id="edit-setoran-awal" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 outline-none font-semibold">
                             </div>
                             <div>
-                                <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Keterangan Lain-lain (Sakit/Izin/Buku Keluar)</label>
-                                <textarea id="edit-catatan-lain" rows="1" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none resize-none font-medium text-slate-600"></textarea>
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Setoran Akhir</label>
+                                <input type="text" id="edit-setoran-akhir" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 outline-none font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Target Mingguan</label>
+                                <input type="text" id="edit-target-mingguan" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 outline-none font-semibold">
                             </div>
                         </div>
 
+                        <!-- SPP checklist config -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                            <span class="block text-[9px] font-black text-slate-800 uppercase tracking-wider">Syahriyah SPP bulanan (Lunas)</span>
+                            <div class="grid grid-cols-4 gap-1.5" id="edit-spp-months-container">
+                                <!-- Checkboxes populated dynamically -->
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang</label>
+                                    <select id="edit-daftarulang" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold">
+                                        <option value="Lunas">Lunas</option>
+                                        <option value="Belum Lunas">Belum</option>
+                                        <option value="Cicil">Cicil</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Halaqah</label>
+                                    <select id="edit-inhalaqah" class="w-full bg-white border border-slate-200 rounded-xl p-2 outline-none font-bold">
+                                        <option value="true">Masuk</option>
+                                        <option value="false">Pending</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[8px] font-bold text-emerald-800 uppercase mb-1">Status Keaktifan</label>
+                                    <select id="edit-isactive" class="w-full bg-emerald-50 border-emerald-200 rounded-xl p-2 outline-none font-black text-emerald-950">
+                                        <option value="true">Aktif</option>
+                                        <option value="false">Inaktif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 pt-3.5 border-t border-slate-150 shrink-0">
-                    <button type="button" onclick="closeEditStudentModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl transition-all">
-                        Batalkan
-                    </button>
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-black py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-md">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Simpan
-                    </button>
+                    <button type="button" onclick="closeEditStudentModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl">Batalkan</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-black py-3 rounded-xl shadow-md">Simpan Perubahan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- SUPABASE CONFIG MODAL -->
-    <div id="supabase-config-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
+    <div id="supabase-config-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
                 <div class="flex items-center gap-2">
@@ -1532,97 +1432,21 @@
                 <button onclick="closeSupabaseConfigModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
             </div>
             
-            <div class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-3 text-xs leading-relaxed">
-                <p class="text-slate-500 font-semibold">
-                    Sambungkan sistem asrama Anda ke proyek cloud database secara instan untuk sinkronisasi multi-perangkat real-time.
-                </p>
-
+            <div class="overflow-y-auto flex-1 space-y-4 my-3 text-xs">
+                <p class="text-slate-500 font-semibold">Hubungkan sistem asrama dan papan info ke proyek cloud database Supabase untuk sinkronisasi multi-perangkat real-time.</p>
                 <form id="supabase-config-form" onsubmit="handleSaveSupabaseConfig(event)" class="space-y-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Database URL Proyek</label>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Database URL Proyek</label>
                         <input type="url" id="cfg-supabase-url" placeholder="https://your-project.supabase.co" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Database Anon Public API Key</label>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Database Anon Public API Key</label>
                         <textarea id="cfg-supabase-key" rows="2" placeholder="eyJhbGciOiJIUzI1NiIs..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none font-mono text-[10px] resize-none"></textarea>
                     </div>
 
-                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-black text-[9px] uppercase tracking-wider text-slate-600"><i class="fa-solid fa-code mr-1"></i> Jalankan SQL Schema di Database Editor:</span>
-                            <button type="button" onclick="copySupabaseSchema()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[9px] px-2 py-1 rounded font-black border border-emerald-200 transition">
-                                <i class="fa-solid fa-copy"></i> Salin SQL
-                            </button>
-                        </div>
-                        <pre class="bg-slate-950 text-emerald-400 p-2.5 rounded-lg text-[9px] font-mono overflow-x-auto max-h-32">
--- BERSIHKAN TABEL LAMA JIKA SUDAH ADA
-DROP TABLE IF EXISTS "tahfidz_logs";
-DROP TABLE IF EXISTS "santri_students";
-
--- BUAT TABEL DENGAN FORMAT STANDAR SNAKE_CASE
-CREATE TABLE "santri_students" (
-  "id" text PRIMARY KEY,
-  "name" text,
-  "pob_dob" text,
-  "address" text,
-  "parent_phone" text,
-  "memorized_before" text,
-  "celengan_target" text,
-  "motivation" text,
-  "arrival_date" text,
-  "room" text,
-  "program" text,
-  "payment_status" text,
-  "spp_months" jsonb,
-  "fac_buku" boolean,
-  "fac_meja" boolean,
-  "fac_kerudung" boolean,
-  "fac_loker" boolean,
-  "in_halaqah" boolean,
-  "is_active" boolean DEFAULT true,
-  "total_juz" float8,
-  "setoran_awal" text,
-  "setoran_akhir" text,
-  "target_mingguan" text,
-  "status_capaian" text,
-  "fasohah" text,
-  "kelancaran" text,
-  "perkembangan_positif" text,
-  "catatan_negatif" text,
-  "daftar_ulang_status" text,
-  "catatan_lain" text,
-  "photo" text,
-  "updated_at" text
-);
-
-CREATE TABLE "tahfidz_logs" (
-  "id" text PRIMARY KEY,
-  "student_id" text,
-  "date" text,
-  "setoran_awal" text,
-  "setoran_akhir" text,
-  "total_juz" float8,
-  "fasohah" text,
-  "kelancaran" text,
-  "pos" text,
-  "neg" text,
-  "catatan" text,
-  "target" text,
-  "status" text
-);
-
--- MATIKAN SEC SECURITY RLS SUPABASE
-ALTER TABLE "santri_students" DISABLE ROW LEVEL SECURITY;
-ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
-                    </div>
-
                     <div class="grid grid-cols-2 gap-2 pt-2">
-                        <button type="button" onclick="closeSupabaseConfigModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all">
-                            Batalkan
-                        </button>
-                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-855 text-white font-black py-3 rounded-xl transition-all shadow-md">
-                            Simpan &amp; Hubungkan
-                        </button>
+                        <button type="button" onclick="closeSupabaseConfigModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl">Batalkan</button>
+                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-xl shadow-md">Simpan & Hubungkan</button>
                     </div>
                 </form>
             </div>
@@ -1630,52 +1454,45 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
     </div>
 
     <!-- BEAUTIFUL CONFIRMATION MODAL -->
-    <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center border border-slate-100">
-            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl mx-auto">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
+            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl mx-auto"><i class="fa-solid fa-triangle-exclamation"></i></div>
             <div class="space-y-1">
                 <h3 id="confirm-title" class="text-sm font-bold text-slate-900">Konfirmasi Tindakan</h3>
-                <p id="confirm-message" class="text-xs text-slate-500 leading-relaxed">Apakah Anda yakin ingin melanjutkan tindakan ini? Data yang terhapus tidak dapat dikembalikan.</p>
+                <p id="confirm-message" class="text-xs text-slate-500 leading-relaxed">-</p>
             </div>
             <div class="grid grid-cols-2 gap-2 pt-2">
-                <button id="confirm-btn-cancel" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition-all">
-                    Batal
-                </button>
-                <button id="confirm-btn-ok" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2.5 rounded-xl transition-all">
-                    Ya, Lanjutkan
-                </button>
+                <button id="confirm-btn-cancel" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 rounded-xl">Batal</button>
+                <button id="confirm-btn-ok" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2.5 rounded-xl">Ya, Lanjutkan</button>
             </div>
         </div>
     </div>
 
-    <footer class="bg-emerald-950 border-t border-emerald-900 text-slate-500 text-xs py-6 text-center mt-auto no-print">
+    <!-- FOOTER -->
+    <footer class="bg-emerald-950 border-t border-emerald-900 text-slate-400 text-xs py-6 text-center mt-auto no-print">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-semibold">
             <p>&copy; 2026 E-Tahfidz Al Karima HQ Putri 4. All rights reserved.</p>
-            <p class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Portal Manajemen Tahfidz Terpadu</p>
+            <p class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Portal Papan Pengumuman & KHS Real-time</p>
         </div>
     </footer>
 
-    <!-- ========================================================================= -->
-    <!-- CORE JAVASCRIPT & SUPABASE CONNECTION LOGIC -->
-    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT PROGRAM LOGIC -->
     <script>
         const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
-        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; 
+        const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc&vsn=2.0.0"; 
 
         let supabaseClient = null;
         let studentsList = [];
         let tahfidzLogs = [];
-        let currentRole = null;
+        let currentMasterSection = 'walisantri';
         let currentWaliStudent = null;
-        let adminActiveTab = 'register';
+        let currentUstazahRole = null;
+        let currentAdminRole = null;
+        
         let confirmCallback = null;
         let isCloudMode = false;
-
         let tempAddPhotoBase64 = "";
         let tempEditPhotoBase64 = "";
-        let certificateTargetStudent = null; 
 
         let currentHistoryPage = 1;
         const historyItemsPerPage = 4;
@@ -1691,178 +1508,58 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             'Nafis': 'nafis4'
         };
 
-        const roleLabels = {
-            'admin': 'Panel Penerimaan Santriwati Baru (Admin)',
-            'ustazah_Ayu': 'Halaqah Al-Mulk (Ustazah Ayu)',
-            'ustazah_Ayuniz': 'Halaqah Ar-Rahman (Ustazah Ayuniz)',
-            'ustazah_Rima': 'Halaqah Ya-Sin (Ustazah Rima)',
-            'ustazah_Nafis': 'Halaqah Al-Waqi\'ah (Ustazah Nafis)',
-            'wali': 'KHS Digital Wali Santri'
+        // Local Storage Fallback Variables
+        let papanNews = JSON.parse(localStorage.getItem('karima_papan_news')) || [
+            { id: 1, judul: "Pembukaan Semester Ganjil 2026/2027", isi: "Mari mulai semester ini dengan penuh semangat menjaga hafalan kalamullah." },
+            { id: 2, judul: "Ujian Terbuka Sanad Juz 'Amma", isi: "Akan diselenggarakan ujian publik bagi para penghafal kategori juz 'Amma pekan depan." }
+        ];
+        let papanAchievements = JSON.parse(localStorage.getItem('karima_papan_achievements')) || [
+            { id: 1, pencapaian: "Aisyah Humaira Khansa - Khatam Tasmi' 5 Juz Sekali Duduk" },
+            { id: 2, pencapaian: "Naila Husna - Lulus Sertifikasi Mumtaz Juz 30" }
+        ];
+        let papanPrograms = JSON.parse(localStorage.getItem('karima_papan_programs')) || [
+            { id: 1, nama_program: "Kajian Rutin Adab Penghafal Al-Qur'an (Kamis Malam)" },
+            { id: 2, nama_program: "Ziarah Wali & Rihlah Qur'ani Tahunan" }
+        ];
+        let papanRules = JSON.parse(localStorage.getItem('karima_papan_rules')) || [
+            { id: 1, aturan: "Santri wajib menyetorkan hafalan minimal 4 halaman perpekan." },
+            { id: 2, aturan: "Dilarang membawa perangkat elektronik tanpa izin khusus kesekretarietan." },
+            { id: 3, aturan: "Menjaga kebersihan asrama dan adab berbicara Islami." }
+        ];
+        let papanConfig = JSON.parse(localStorage.getItem('karima_papan_config')) || {
+            running_text: "Selamat datang di Papan Informasi PPHQ PUTRI 4. Silakan hubungi admin di 085706399238 jika ada pertanyaan.",
+            maklumat_kuning: "Batas akhir setoran laporan mingguan untuk ustadzah adalah setiap hari Sabtu pukul 17.00 WIB."
         };
 
-        function getHalaqahName(roomKey) {
-            const mapping = {
-                "Ayu": "Halaqah Al-Mulk (Ruang Ayu)",
-                "Ayuniz": "Halaqah Ar-Rahman (Ruang Ayuniz)",
-                "Rima": "Halaqah Ya-Sin (Ruang Rima)",
-                "Nafis": "Halaqah Al-Waqi'ah (Ruang Nafis)"
-            };
-            return mapping[roomKey] || "Halaqah Umum";
-        }
-
-        function getFormattedMonthWeek(dateString) {
-            if (!dateString) return "-";
-            if (dateString === "Inisialisasi") return "Inisialisasi";
-            const d = new Date(dateString);
-            if (isNaN(d.getTime())) return dateString;
-            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            const monthName = months[d.getMonth()];
-            const day = d.getDate();
-            const weekNum = Math.ceil(day / 7);
-            return `${monthName} Pekan ke-${weekNum}`;
-        }
-
-        window.handleLogout = function() {
-            currentRole = null;
-            currentWaliStudent = null;
+        // Fungsi Logo Click (Rahasia untuk membuka DB Config)
+        let logoClickCount = 0;
+        let logoClickTimeout = null;
+        window.handleLogoClick = function() {
+            logoClickCount++;
+            clearTimeout(logoClickTimeout);
             
-            document.getElementById('gate-wali-student-name').value = '';
-            document.getElementById('gate-pin').value = '';
-            
-            document.getElementById('gate-screen').classList.remove('hidden');
-            document.getElementById('main-app-header').classList.add('hidden');
-            document.getElementById('main-app-container').classList.add('hidden');
-            
-            document.getElementById('view-admin').classList.add('hidden');
-            document.getElementById('view-ustazah').classList.add('hidden');
-            document.getElementById('view-wali').classList.add('hidden');
-            
-            showToast("Anda telah keluar dari sesi portal keamanan secara sukses.", "info");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        // =========================================================================
-        // TRANS_LAYER: CAMELCASE (JS) TO SNAKE_CASE (DB/SUPABASE)
-        // =========================================================================
-        function mapStudentToDb(s) {
-            return {
-                id: s.id,
-                name: s.name,
-                pob_dob: s.pobDob,
-                address: s.address,
-                parent_phone: s.parentPhone,
-                memorized_before: s.memorizedBefore,
-                celengan_target: s.celenganTarget,
-                motivation: s.motivation,
-                arrival_date: s.arrivalDate,
-                room: s.room,
-                program: s.program,
-                payment_status: s.paymentStatus,
-                spp_months: s.sppMonths,
-                fac_buku: !!s.facBuku,
-                fac_meja: !!s.facMeja,
-                fac_kerudung: !!s.facKerudung,
-                fac_loker: !!s.facLoker,
-                in_halaqah: !!s.inHalaqah,
-                is_active: s.isActive !== undefined ? !!s.isActive : true,
-                total_juz: parseFloat(s.totalJuz) || 0,
-                setoran_awal: s.setoranAwal,
-                setoran_akhir: s.setoranAkhir,
-                target_mingguan: s.targetMingguan,
-                status_capaian: s.statusCapaian,
-                fasohah: s.fasohah,
-                kelancaran: s.kelancaran,
-                perkembangan_positif: s.perkembanganPositif,
-                catatan_negatif: s.catatanNegatif,
-                daftar_ulang_status: s.daftarUlangStatus,
-                catatan_lain: s.catatanLain,
-                photo: s.photo || "",
-                updated_at: s.updatedAt || ""
-            };
-        }
-
-        function mapStudentFromDb(db) {
-            let parsedSpp = {};
-            try {
-                parsedSpp = (typeof db.spp_months === 'string') ? JSON.parse(db.spp_months) : (db.spp_months || {});
-            } catch (e) {
-                console.error("Gagal parse spp_months:", e);
+            if (logoClickCount >= 5) {
+                openSupabaseConfigModal();
+                logoClickCount = 0;
+                showToast("🔐 Mode Pengembang: Membuka Konfigurasi DB Cloud!", "success");
             }
-            return {
-                id: db.id,
-                name: db.name,
-                pobDob: db.pob_dob,
-                address: db.address,
-                parentPhone: db.parent_phone,
-                memorizedBefore: db.memorized_before,
-                celenganTarget: db.celengan_target,
-                motivation: db.motivation,
-                arrivalDate: db.arrival_date,
-                room: db.room,
-                program: db.program,
-                paymentStatus: db.payment_status,
-                sppMonths: parsedSpp,
-                facBuku: !!db.fac_buku,
-                facMeja: !!db.fac_meja,
-                facKerudung: !!db.fac_kerudung,
-                facLoker: !!db.fac_loker,
-                inHalaqah: !!db.in_halaqah,
-                isActive: db.is_active !== undefined ? !!db.is_active : true,
-                totalJuz: parseFloat(db.total_juz) || 0,
-                setoranAwal: db.setoran_awal,
-                setoranAkhir: db.setoran_akhir,
-                targetMingguan: db.target_mingguan,
-                statusCapaian: db.status_capaian,
-                fasohah: db.fasohah || "Belum Dinilai",
-                kelancaran: db.kelancaran || "Belum Dinilai",
-                perkembanganPositif: db.perkembangan_positif,
-                catatanNegatif: db.catatan_negatif,
-                daftarUlangStatus: db.daftar_ulang_status || "Belum Lunas",
-                catatanLain: db.catatan_lain,
-                photo: db.photo || "",
-                updatedAt: db.updated_at || ""
-            };
+            
+            logoClickTimeout = setTimeout(() => {
+                logoClickCount = 0;
+            }, 3000); // Reset hitungan jika dalam 3 detik tidak diketuk lagi
+        };
+
+        function savePapanData() {
+            localStorage.setItem('karima_papan_news', JSON.stringify(papanNews));
+            localStorage.setItem('karima_papan_achievements', JSON.stringify(papanAchievements));
+            localStorage.setItem('karima_papan_programs', JSON.stringify(papanPrograms));
+            localStorage.setItem('karima_papan_rules', JSON.stringify(papanRules));
+            localStorage.setItem('karima_papan_config', JSON.stringify(papanConfig));
         }
 
-        function mapLogToDb(l) {
-            return {
-                id: l.id,
-                student_id: l.student_id,
-                date: l.date,
-                setoran_awal: l.setoran_awal || l.setoranAwal,
-                setoran_akhir: l.setoran_akhir || l.setoranAkhir,
-                total_juz: parseFloat(l.total_juz || l.totalJuz) || 0,
-                fasohah: l.fasohah || "",
-                kelancaran: l.kelancaran || "",
-                pos: l.pos || "",
-                neg: l.neg || "",
-                catatan: l.catatan || "",
-                target: l.target || "",
-                status: l.status || ""
-            };
-        }
-
-        function mapLogFromDb(db) {
-            return {
-                id: db.id,
-                student_id: db.student_id,
-                date: db.date,
-                setoran_awal: db.setoran_awal,
-                setoran_akhir: db.setoran_akhir,
-                total_juz: parseFloat(db.total_juz) || 0,
-                fasohah: db.fasohah || "Belum Dinilai",
-                kelancaran: db.kelancaran || "Belum Dinilai",
-                pos: db.pos,
-                neg: db.neg,
-                catatan: db.catatan || "Nihil",
-                target: db.target || "4 Halaman",
-                status: db.status || "Belum Tercapai"
-            };
-        }
-
-        // =========================================================================
-        // CORE DB MANAGER (LOCAL FALLBACK + SUPABASE CLOUD)
-        // =========================================================================
+        // ==========================================
+        // DATABASE SINKRONISASI
+        // ==========================================
         function loadLocalData() {
             const st = localStorage.getItem('karima_students');
             const lg = localStorage.getItem('karima_logs');
@@ -1870,49 +1567,36 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             tahfidzLogs = lg ? JSON.parse(lg) : [];
         }
 
+        // Save local copy
         function saveLocalData() {
             localStorage.setItem('karima_students', JSON.stringify(studentsList));
             localStorage.setItem('karima_logs', JSON.stringify(tahfidzLogs));
         }
 
         async function initCloudSync() {
-            const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL || "";
-            const key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY || "";
+            const url = localStorage.getItem('karima_supabase_url') || DEFAULT_SUPABASE_URL;
+            const key = localStorage.getItem('karima_supabase_key') || DEFAULT_SUPABASE_KEY;
 
             loadLocalData();
-
-            const syncBadge = document.getElementById('header-sync-badge');
-            const syncTimeLabel = document.getElementById('sync-time-label');
-            const syncDot = document.getElementById('sync-dot');
 
             if (url && key && typeof supabase !== 'undefined') {
                 try {
                     supabaseClient = supabase.createClient(url, key, { auth: { persistSession: false } });
                     isCloudMode = true;
-                    
-                    if (syncDot) {
-                        syncDot.classList.remove('bg-amber-400');
-                        syncDot.classList.add('bg-emerald-400');
-                    }
-                    if (syncTimeLabel) syncTimeLabel.innerText = "SINKRONISASI CLOUD";
-
                     await fetchCloudData();
+                    await fetchPapanCloudData();
+                    
+                    // Menggunakan polling HTTP REST API yang aman di Canvas sebagai pengganti Realtime WebSocket
                     setupBackgroundPolling();
                 } catch (err) {
-                    console.error("Gagal koneksi ke database: ", err);
+                    console.error("Gagal koneksi ke database awan:", err);
                     isCloudMode = false;
-                    showToast("Database Awan bermasalah. Menggunakan memori internal.", "error");
-                    setupActiveWorkspace();
+                    showToast("Gagal terhubung dengan Supabase. Menggunakan penyimpanan lokal.", "error");
                 }
             } else {
                 isCloudMode = false;
-                if (syncDot) {
-                    syncDot.classList.remove('bg-emerald-400');
-                    syncDot.classList.add('bg-amber-400');
-                }
-                if (syncTimeLabel) syncTimeLabel.innerText = "MODUS LOKAL";
-                setupActiveWorkspace();
             }
+            refreshViews();
         }
 
         async function fetchCloudData() {
@@ -1923,19 +1607,16 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
                 if (err1 || err2) {
                     isCloudMode = false;
-                    setupActiveWorkspace();
                     return;
                 }
 
                 if (st && st.length === 0 && studentsList.length > 0) {
-                    // Back up local data to newly configured cloud
                     for (let s of studentsList) {
                         await supabaseClient.from('santri_students').insert([mapStudentToDb(s)]);
                     }
                     for (let l of tahfidzLogs) {
                         await supabaseClient.from('tahfidz_logs').insert([mapLogToDb(l)]);
                     }
-                    showToast("Data lokal berhasil dimigrasikan ke Cloud Supabase!", "success");
                 } else {
                     studentsList = st ? st.map(mapStudentFromDb) : [];
                     tahfidzLogs = lg ? lg.map(mapLogFromDb) : [];
@@ -1943,156 +1624,209 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
 
                 studentsList.sort((a, b) => a.name.localeCompare(b.name));
                 tahfidzLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
-
                 saveLocalData();
-                setupActiveWorkspace();
             } catch (err) {
                 console.error("Gagal sinkronisasi data awan:", err);
             }
         }
 
+        // FETCH PAPAN INFO DARI CLOUD DATABASE
+        async function fetchPapanCloudData() {
+            if (!supabaseClient) return;
+            try {
+                let { data: cfg } = await supabaseClient.from('papan_config').select('*');
+                let { data: news } = await supabaseClient.from('papan_news').select('*');
+                let { data: ach } = await supabaseClient.from('papan_achievements').select('*');
+                let { data: prog } = await supabaseClient.from('papan_programs').select('*');
+                let { data: rules } = await supabaseClient.from('papan_rules').select('*');
+
+                if (cfg && cfg.length > 0) {
+                    papanConfig = { running_text: cfg[0].running_text, maklumat_kuning: cfg[0].maklumat_kuning };
+                } else if (papanConfig) {
+                    await supabaseClient.from('papan_config').upsert([{ id: 1, running_text: papanConfig.running_text, maklumat_kuning: papanConfig.maklumat_kuning }]);
+                }
+
+                if (news && news.length > 0) {
+                    papanNews = news.map(n => ({ id: n.id, judul: n.judul, isi: n.isi }));
+                } else {
+                    for (let n of papanNews) {
+                        await supabaseClient.from('papan_news').upsert([{ id: n.id, judul: n.judul, isi: n.isi }]);
+                    }
+                }
+
+                if (ach && ach.length > 0) {
+                    papanAchievements = ach.map(a => ({ id: a.id, pencapaian: a.pencapaian }));
+                } else {
+                    for (let a of papanAchievements) {
+                        await supabaseClient.from('papan_achievements').upsert([{ id: a.id, pencapaian: a.pencapaian }]);
+                    }
+                }
+
+                if (prog && prog.length > 0) {
+                    papanPrograms = prog.map(p => ({ id: p.id, nama_program: p.agenda }));
+                } else {
+                    for (let p of papanPrograms) {
+                        await supabaseClient.from('papan_programs').upsert([{ id: p.id, agenda: p.nama_program }]);
+                    }
+                }
+
+                if (rules && rules.length > 0) {
+                    papanRules = rules.map(r => ({ id: r.id, aturan: r.aturan }));
+                } else {
+                    for (let r of papanRules) {
+                        await supabaseClient.from('papan_rules').upsert([{ id: r.id, aturan: r.aturan }]);
+                    }
+                }
+
+                savePapanData();
+                renderPapanInformasi();
+                if (currentMasterSection === 'admin' && currentAdminRole) {
+                    renderAdminPapanSettingsLists();
+                }
+            } catch (err) {
+                console.error("Gagal sinkronisasi data papan info dari cloud:", err);
+            }
+        }
+
+        // SINKRONISASI MANUAL SECARA REST HTTP DARI CLOUD DATABASE
+        async function syncPapanTable(table) {
+            if (!supabaseClient) return;
+            try {
+                let { data } = await supabaseClient.from(table).select('*');
+                if (!data) return;
+
+                if (table === 'papan_news') {
+                    papanNews = data.map(n => ({ id: n.id, judul: n.judul, isi: n.isi }));
+                } else if (table === 'papan_achievements') {
+                    papanAchievements = data.map(a => ({ id: a.id, pencapaian: a.pencapaian }));
+                } else if (table === 'papan_programs') {
+                    papanPrograms = data.map(p => ({ id: p.id, nama_program: p.agenda }));
+                } else if (table === 'papan_rules') {
+                    papanRules = data.map(r => ({ id: r.id, aturan: r.aturan }));
+                }
+
+                savePapanData();
+                renderPapanInformasi();
+                if (currentMasterSection === 'admin' && currentAdminRole) {
+                    renderAdminPapanSettingsLists();
+                }
+            } catch (err) {
+                console.error("Gagal sinkronisasi parsial tabel: " + table, err);
+            }
+        }
+
         function setupBackgroundPolling() {
+            // Polling interval 5 detik untuk pembaruan cepat yang aman di Canvas
             setInterval(async () => {
                 if (isCloudMode && supabaseClient && document.visibilityState === 'visible') {
                     try {
+                        // Sinkronisasi data primer santri dan log
                         let { data: st } = await supabaseClient.from('santri_students').select('*');
                         let { data: lg } = await supabaseClient.from('tahfidz_logs').select('*');
-
-                        if (st) {
-                            studentsList = st.map(mapStudentFromDb);
-                            studentsList.sort((a, b) => a.name.localeCompare(b.name));
-                        }
-                        if (lg) {
-                            tahfidzLogs = lg.map(mapLogFromDb);
-                            tahfidzLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        }
+                        if (st) studentsList = st.map(mapStudentFromDb);
+                        if (lg) tahfidzLogs = lg.map(mapLogFromDb);
                         saveLocalData();
-                        updateActiveViews();
+
+                        // Sinkronisasi data papan informasi display
+                        await fetchPapanCloudData();
+
+                        refreshViews();
                     } catch (e) {
-                        console.log("Background polling failed silently.");
+                        console.log("Gagal melakukan background sync polling.");
                     }
                 }
-            }, 8000);
+            }, 5000);
         }
 
-        function updateActiveViews() {
-            if (!currentRole) return;
-            if (currentRole === 'admin') {
-                recalculateAdminStats();
-                renderAdminStudentsDirectory();
-            } else if (currentRole.startsWith('ustazah_')) {
-                renderUstazahInterface();
-            } else if (currentRole === 'wali' && currentWaliStudent) {
-                const updated = studentsList.find(s => s.id === currentWaliStudent.id);
-                if (updated) {
-                    currentWaliStudent = updated;
-                    renderWaliKHS(currentWaliStudent.id);
+        // ==========================================
+        // VIEW SWITCHER & AUTH ENTRIES
+        // ==========================================
+        window.switchMasterSection = function(section) {
+            if (currentMasterSection !== section) {
+                if (currentMasterSection === 'ustazah' && currentUstazahRole) {
+                    currentUstazahRole = null;
+                    showToast("Sesi Ustazah otomatis dikunci demi keamanan.", "info");
+                } else if (currentMasterSection === 'admin' && currentAdminRole) {
+                    currentAdminRole = null;
+                    showToast("Sesi Administrator otomatis dikunci demi keamanan.", "info");
+                } else if (currentMasterSection === 'walisantri' && currentWaliStudent) {
+                    currentWaliStudent = null;
+                    window.selectedWaliCandidate = null;
+                    const searchInput = document.getElementById('wali-search-input');
+                    if (searchInput) searchInput.value = '';
+                    const preview = document.getElementById('wali-gate-selected-preview');
+                    if (preview) preview.classList.add('hidden');
+                    showToast("Sesi KHS Wali Santri otomatis ditutup demi keamanan.", "info");
                 }
             }
-        }
 
-        // =========================================================================
-        // CLOUD CRUDS HANDLERS
-        // =========================================================================
-        async function dbInsert(table, payload) {
-            if (isCloudMode && supabaseClient) {
-                const dbPayload = table === 'santri_students' ? mapStudentToDb(payload) : mapLogToDb(payload);
-                const { error } = await supabaseClient.from(table).insert([dbPayload]);
-                if (error) console.error("Cloud insert error:", error.message);
-            }
-        }
-
-        async function dbUpdate(table, recordId, payload) {
-            if (isCloudMode && supabaseClient) {
-                let dbPayload = payload;
-                if (table === 'santri_students') {
-                    dbPayload = {};
-                    const mappings = {
-                        name: 'name', pobDob: 'pob_dob', address: 'address', parentPhone: 'parent_phone',
-                        memorizedBefore: 'memorized_before', celenganTarget: 'celengan_target',
-                        motivation: 'motivation', arrivalDate: 'arrival_date', room: 'room',
-                        program: 'program', paymentStatus: 'payment_status', sppMonths: 'spp_months',
-                        facBuku: 'fac_buku', facMeja: 'fac_meja', facKerudung: 'fac_kerudung',
-                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', isActive: 'is_active',
-                        totalJuz: 'total_juz', setoranAwal: 'setoran_awal', setoranAkhir: 'setoran_akhir',
-                        targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
-                        fasohah: 'fasohah', kelancaran: 'kelancaran', perkembanganPositif: 'perkembangan_positif',
-                        catatanNegatif: 'catatan_negatif', daftarUlangStatus: 'daftar_ulang_status',
-                        catatanLain: 'catatan_lain', photo: 'photo', updatedAt: 'updated_at'
-                    };
-                    for (let key in payload) {
-                        if (mappings[key]) dbPayload[mappings[key]] = payload[key];
-                    }
-                } else if (table === 'tahfidz_logs') {
-                    dbPayload = mapLogToDb(payload);
-                }
-                const { error } = await supabaseClient.from(table).update(dbPayload).eq('id', recordId);
-                if (error) console.error("Cloud update error:", error.message);
-            }
-        }
-
-        async function dbDelete(table, recordId) {
-            if (isCloudMode && supabaseClient) {
-                const { error } = await supabaseClient.from(table).delete().eq('id', recordId);
-                if (error) console.error("Cloud delete error:", error.message);
-            }
-        }
-
-        // =========================================================================
-        // VISITOR & ROLE MANAGEMENT
-        // =========================================================================
-        function initVisitorCounter() {
-            let visitors = localStorage.getItem('karima_visitor_count') || "156";
-            visitors = (parseInt(visitors) + 1).toString();
-            localStorage.setItem('karima_visitor_count', visitors);
-
-            const gateCount = document.getElementById('gate-visitor-count');
-            const headerCount = document.getElementById('header-visitor-count');
-            const gateOnline = document.getElementById('gate-online-count');
-
-            if (gateCount) gateCount.textContent = parseInt(visitors).toLocaleString('id-ID');
-            if (headerCount) headerCount.textContent = parseInt(visitors).toLocaleString('id-ID');
+            currentMasterSection = section;
             
-            const simulatedOnline = Math.floor(Math.random() * 5) + 6;
-            if (gateOnline) gateOnline.textContent = `${simulatedOnline} Online`;
-        }
+            document.getElementById('section-walisantri').classList.add('hidden');
+            document.getElementById('section-ustazah').classList.add('hidden');
+            document.getElementById('section-admin').classList.add('hidden');
+            document.getElementById('section-papaninfo').classList.add('hidden');
 
-        window.setGateRole = function(role) {
-            document.getElementById('selected-gate-role').value = role;
-            const btnWali = document.getElementById('role-btn-wali');
-            const btnUstazah = document.getElementById('role-btn-ustazah');
-            const btnAdmin = document.getElementById('role-btn-admin');
-            const wrapWali = document.getElementById('gate-input-wrapper-wali');
-            const wrapUstazah = document.getElementById('gate-input-wrapper-ustazah');
-            const wrapPin = document.getElementById('gate-input-wrapper-pin');
-
-            [btnWali, btnUstazah, btnAdmin].forEach(btn => {
-                btn.className = "py-2.5 rounded-xl text-xs font-bold text-slate-500 transition-all hover:bg-slate-200/50";
+            const menus = ['walisantri', 'ustazah', 'admin', 'papaninfo'];
+            menus.forEach(m => {
+                const btn = document.getElementById(`nav-btn-${m}`);
+                const mobBtn = document.getElementById(`mobile-nav-${m}`);
+                if (btn) btn.className = "px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all text-slate-300 hover:text-white hover:bg-emerald-900";
+                if (mobBtn) mobBtn.className = "flex flex-col items-center justify-center gap-1 text-slate-400";
             });
 
-            if (role === 'wali') {
-                btnWali.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm";
-                wrapWali.classList.remove('hidden');
-                wrapUstazah.classList.add('hidden');
-                wrapPin.classList.add('hidden');
-            } else if (role === 'ustazah') {
-                btnUstazah.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm";
-                wrapWali.classList.add('hidden');
-                wrapUstazah.classList.remove('hidden');
-                wrapPin.classList.remove('hidden');
-            } else {
-                btnAdmin.className = "py-2.5 rounded-xl text-xs font-black transition-all bg-white text-emerald-900 shadow-sm";
-                wrapWali.classList.add('hidden');
-                wrapUstazah.classList.add('hidden');
-                wrapPin.classList.remove('hidden');
-            }
+            const activeBtn = document.getElementById(`nav-btn-${section}`);
+            const activeMobBtn = document.getElementById(`mobile-nav-${section}`);
+            if (activeBtn) activeBtn.className = "px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all bg-emerald-800 text-amber-400";
+            if (activeMobBtn) activeMobBtn.className = "flex flex-col items-center justify-center gap-1 text-amber-400";
+
+            document.getElementById(`section-${section}`).classList.remove('hidden');
+            refreshViews();
         };
 
+        function refreshViews() {
+            if (currentMasterSection === 'walisantri') {
+                if (currentWaliStudent) {
+                    document.getElementById('walisantri-gate').classList.add('hidden');
+                    document.getElementById('walisantri-content').classList.remove('hidden');
+                    renderWaliKHS(currentWaliStudent.id);
+                } else {
+                    document.getElementById('walisantri-gate').classList.remove('hidden');
+                    document.getElementById('walisantri-content').classList.add('hidden');
+                }
+            } else if (currentMasterSection === 'ustazah') {
+                if (currentUstazahRole) {
+                    document.getElementById('ustazah-gate').classList.add('hidden');
+                    document.getElementById('ustazah-content').classList.remove('hidden');
+                    renderUstazahInterface();
+                } else {
+                    document.getElementById('ustazah-gate').classList.remove('hidden');
+                    document.getElementById('ustazah-content').classList.add('hidden');
+                }
+            } else if (currentMasterSection === 'admin') {
+                if (currentAdminRole) {
+                    document.getElementById('admin-gate').classList.add('hidden');
+                    document.getElementById('admin-content').classList.remove('hidden');
+                    recalculateAdminStats();
+                    renderAdminStudentsDirectory();
+                } else {
+                    document.getElementById('admin-gate').classList.remove('hidden');
+                    document.getElementById('admin-content').classList.add('hidden');
+                }
+            } else if (currentMasterSection === 'papaninfo') {
+                renderPapanInformasi();
+            }
+        }
+
+        // ==========================================
+        // ACTION GATE LOGINS
+        // ==========================================
         window.handleWaliSearch = function() {
-            const query = document.getElementById('gate-wali-student-name').value.toLowerCase().trim();
-            const box = document.getElementById('gate-wali-matches-box');
-            const list = document.getElementById('gate-wali-matches-list');
-            
+            const query = document.getElementById('wali-search-input').value.toLowerCase().trim();
+            const box = document.getElementById('wali-matches-box');
+            const list = document.getElementById('wali-matches-list');
+            const preview = document.getElementById('wali-gate-selected-preview');
+
             if (!query) {
                 box.classList.add('hidden');
                 return;
@@ -2104,24 +1838,1202 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             if (matches.length > 0) {
                 box.classList.remove('hidden');
                 matches.forEach(s => {
-                    const d = document.createElement('div');
-                    d.className = "p-2 hover:bg-emerald-50 rounded-xl cursor-pointer font-bold text-xs text-slate-700 transition flex justify-between items-center";
-                    d.innerHTML = `<span>${s.name} ${s.isActive ? '' : '<span class="text-[8px] bg-red-100 text-red-700 px-1 rounded">Inaktif</span>'}</span> <span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded-md text-slate-500">${s.room}</span>`;
-                    d.onclick = () => {
-                        document.getElementById('gate-wali-student-name').value = s.name;
+                    const div = document.createElement('div');
+                    div.className = "p-2.5 hover:bg-emerald-50 rounded-xl cursor-pointer font-bold text-xs text-slate-700 transition flex justify-between items-center";
+                    div.innerHTML = `<span>${s.name} ${s.isActive ? '' : '<span class="text-[8px] bg-red-100 text-red-700 px-1 rounded ml-1">Inaktif</span>'}</span><span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded-md text-slate-500">${s.room}</span>`;
+                    div.onclick = () => {
+                        window.selectedWaliCandidate = s;
+                        document.getElementById('wali-search-input').value = s.name;
                         box.classList.add('hidden');
+                        
+                        preview.classList.remove('hidden');
+                        document.getElementById('wali-gate-selected-name').innerText = s.name;
+                        document.getElementById('wali-gate-selected-details').innerText = `${s.program} • Ustazah ${s.room}`;
+                        const gateAvatar = document.getElementById('wali-gate-avatar');
+                        if (s.photo && s.photo.trim() !== "") {
+                            gateAvatar.innerHTML = `<img src="${s.photo}" class="w-full h-full object-cover rounded-lg shadow-inner">`;
+                        } else {
+                            gateAvatar.innerHTML = `<i class="fa-solid fa-user text-lg text-slate-400"></i>`;
+                        }
                     };
-                    list.appendChild(d);
+                    list.appendChild(div);
                 });
             } else {
                 box.classList.remove('hidden');
-                list.innerHTML = `<p class="text-[10px] text-slate-400 font-bold p-2 text-center">Tidak ditemukan santriwati.</p>`;
+                list.innerHTML = `<p class="text-[10px] text-slate-400 font-bold p-2 text-center">Nama tidak ditemukan.</p>`;
+                preview.classList.add('hidden');
             }
         };
 
-        // =========================================================================
-        // JPG OPTIMIZED COMPRESSION MODULE FOR PHOTOS
-        // =========================================================================
+        window.enterWaliKHSRoom = function() {
+            if (window.selectedWaliCandidate) {
+                currentWaliStudent = window.selectedWaliCandidate;
+                refreshViews();
+                showToast(`Sesi KHS Ananda ${currentWaliStudent.name} dibuka!`, "success");
+                triggerConfettiFeedback('success');
+            } else {
+                showToast("Silakan cari dan pilih santriwati terlebih dahulu.", "error");
+            }
+        };
+
+        window.handleUstazahGateLogin = function(e) {
+            e.preventDefault();
+            const selectedUst = document.getElementById('ustazah-gate-select').value;
+            const pin = document.getElementById('ustazah-gate-pin').value;
+
+            if (systemPins[selectedUst] === pin) {
+                currentUstazahRole = selectedUst;
+                document.getElementById('ustazah-gate-pin').value = '';
+                refreshViews();
+                showToast(`Sesi Halaqah Ustazah ${selectedUst} Aktif!`, "success");
+                triggerConfettiFeedback('success');
+            } else {
+                showToast("PIN Otoritas Ustazah Salah!", "error");
+            }
+        };
+
+        window.handleAdminGateLogin = function(e) {
+            e.preventDefault();
+            const pin = document.getElementById('admin-gate-pin').value;
+
+            if (systemPins['admin'] === pin) {
+                currentAdminRole = 'admin';
+                document.getElementById('admin-gate-pin').value = '';
+                
+                document.getElementById('pin-cfg-admin').value = systemPins['admin'];
+                document.getElementById('pin-cfg-ayu').value = systemPins['Ayu'];
+                document.getElementById('pin-cfg-ayuniz').value = systemPins['Ayuniz'];
+                document.getElementById('pin-cfg-rima').value = systemPins['Rima'];
+                document.getElementById('pin-cfg-nafis').value = systemPins['Nafis'];
+
+                document.getElementById('adm-papan-marquee-text').value = papanConfig.running_text;
+                document.getElementById('adm-papan-maklumat-text').value = papanConfig.maklumat_kuning;
+
+                refreshViews();
+                showToast("Otoritas Administrator PPSB Diterima!", "success");
+                triggerConfettiFeedback('success');
+            } else {
+                showToast("PIN Administrator Salah!", "error");
+            }
+        };
+
+        window.clearWaliSession = function() {
+            currentWaliStudent = null;
+            window.selectedWaliCandidate = null;
+            document.getElementById('wali-search-input').value = '';
+            const preview = document.getElementById('wali-gate-selected-preview');
+            if (preview) preview.classList.add('hidden');
+            refreshViews();
+        };
+
+        window.clearUstazahSession = function() {
+            currentUstazahRole = null;
+            refreshViews();
+        };
+
+        window.clearAdminSession = function() {
+            currentAdminRole = null;
+            refreshViews();
+        };
+
+        // ==========================================
+        // WALISANTRI RAPORT RENDERING
+        // ==========================================
+        window.renderWaliKHS = function(studentId) {
+            const s = studentsList.find(st => st.id === studentId);
+            if (!s) return;
+
+            document.getElementById('wali-khs-name').innerText = s.name;
+            document.getElementById('wali-khs-pobdob').innerText = s.pobDob;
+            document.getElementById('wali-khs-parent').innerText = s.parentPhone;
+            document.getElementById('wali-khs-address').innerText = s.address;
+            document.getElementById('wali-khs-program').innerText = s.program;
+            document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room}`;
+            document.getElementById('wali-khs-celengan').innerText = s.celenganTarget || "5 Juz";
+            document.getElementById('wali-khs-parent-signature').innerText = `Wali, ${s.name}`;
+            document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal;
+            document.getElementById('wali-khs-setoran-akhir').innerText = s.setoranAkhir;
+            document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan;
+
+            document.getElementById('wali-khs-last-updated').innerText = `Update: ${s.updatedAt || 'Baru'}`;
+
+            const activeBadge = document.getElementById('wali-khs-active-badge');
+            if (s.isActive) {
+                activeBadge.innerText = "Aktif Mengaji";
+                activeBadge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300";
+            } else {
+                activeBadge.innerText = "Inaktif (Arsip)";
+                activeBadge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-slate-100 text-slate-500 border border-slate-300";
+            }
+
+            const photoBox = document.getElementById('wali-khs-photo');
+            if (s.photo && s.photo.trim() !== "") {
+                photoBox.innerHTML = `<img src="${s.photo}" class="w-full h-full object-cover rounded-xl shadow-inner">`;
+            } else {
+                photoBox.innerHTML = `<i class="fa-solid fa-user text-4xl text-slate-300"></i>`;
+            }
+            
+            const fillCapaian = document.getElementById('wali-khs-status-capaian');
+            fillCapaian.innerText = s.statusCapaian;
+            fillCapaian.className = s.statusCapaian === 'Tercapai' ? "font-extrabold text-emerald-700 mt-1 block" : "font-extrabold text-amber-600 mt-1 block";
+            
+            document.getElementById('wali-khs-fasohah').innerText = s.fasohah;
+            document.getElementById('wali-khs-kelancaran').innerText = s.kelancaran;
+            document.getElementById('wali-khs-perkembangan-positif').innerText = s.perkembanganPositif;
+            document.getElementById('wali-khs-catatan-negatif').innerText = s.catatanNegatif;
+            document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || "Nihil";
+
+            const sppBadge = document.getElementById('wali-khs-syahriyah-badge');
+            sppBadge.innerText = s.paymentStatus === 'Lunas' ? 'LUNAS SELESAI' : 'PENDING (BELUM LUNAS)';
+            sppBadge.className = s.paymentStatus === 'Lunas' 
+                ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-emerald-100 text-emerald-800" 
+                : "px-2.5 py-1 rounded-full font-black text-[9px] bg-rose-100 text-rose-800";
+
+            const duBadge = document.getElementById('wali-khs-daftarulang-badge');
+            const duStatus = s.daftarUlangStatus || 'Belum Lunas';
+            duBadge.innerText = duStatus === 'Lunas' ? 'LUNAS FISIK' : (duStatus === 'Cicil' ? 'MENCICIL' : 'PENDING');
+            duBadge.className = duStatus === 'Lunas' 
+                ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-emerald-100 text-emerald-800" 
+                : (duStatus === 'Cicil' ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-amber-100 text-amber-800" : "px-2.5 py-1 rounded-full font-black text-[9px] bg-rose-100 text-rose-800");
+
+            const currentFullMonth = new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+            document.getElementById('wali-khs-spp-status-label').innerText = `Syahriyah ${currentFullMonth}`;
+
+            const sppGrid = document.getElementById('wali-spp-months-grid');
+            sppGrid.innerHTML = '';
+            const studentSpp = s.sppMonths || {};
+            let lunasMonthsCount = 0;
+
+            monthsShortList.forEach(m => {
+                const isPaid = studentSpp[m] === "Lunas";
+                if (isPaid) lunasMonthsCount++;
+
+                const monthPill = document.createElement('div');
+                monthPill.className = `p-2 rounded-xl text-center border text-[10px] font-black transition-all ${isPaid ? 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white border-emerald-500' : 'bg-slate-100 text-slate-400 border-slate-200'}`;
+                monthPill.innerHTML = `
+                    <div class="uppercase text-[9px] opacity-75">${m}</div>
+                    <div class="mt-0.5 text-[8px] font-medium">${isPaid ? 'Lunas' : 'Belum'}</div>
+                `;
+                sppGrid.appendChild(monthPill);
+            });
+            document.getElementById('wali-spp-summary').innerText = `${lunasMonthsCount} dari 12 Bulan Lunas`;
+
+            const visualMapContainer = document.getElementById('peta-tahfidz-container');
+            visualMapContainer.innerHTML = '';
+            const roundedActiveJuz = Math.floor(s.totalJuz || 0);
+
+            for (let i = 1; i <= 30; i++) {
+                const circle = document.createElement('div');
+                circle.className = "flex flex-col items-center justify-center p-1 rounded-xl text-[9px] font-black border transition-all duration-300";
+                
+                if (i <= roundedActiveJuz) {
+                    circle.className += " bg-gradient-to-br from-emerald-700 to-emerald-900 text-white border-emerald-600 shadow-xs ring-2 ring-emerald-100";
+                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-square-check text-[7px] text-emerald-300 mt-0.5"></i>`;
+                } else if (i === roundedActiveJuz + 1 && (s.totalJuz % 1) > 0) {
+                    circle.className += " bg-emerald-55 text-emerald-800 border-emerald-400 border-dashed animate-pulse";
+                    circle.innerHTML = `<span>${i}</span><span class="text-[6px] tracking-tighter text-emerald-600 font-medium">Proses</span>`;
+                } else {
+                    circle.className += " bg-white text-slate-300 border-slate-150";
+                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-circle text-[5px] text-slate-200 mt-1"></i>`;
+                }
+                visualMapContainer.appendChild(circle);
+            }
+
+            activeStudentHistoryData = tahfidzLogs.filter(l => l.student_id === studentId);
+            currentHistoryPage = 1; 
+            renderHistoryPagination();
+        };
+
+        function renderHistoryPagination() {
+            const container = document.getElementById('wali-timeline-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const totalItems = activeStudentHistoryData.length;
+            const totalPages = Math.max(1, Math.ceil(totalItems / historyItemsPerPage));
+
+            if (currentHistoryPage > totalPages) currentHistoryPage = totalPages;
+            if (currentHistoryPage < 1) currentHistoryPage = 1;
+
+            const pageInfo = document.getElementById('history-page-info');
+            if (pageInfo) pageInfo.innerText = `Halaman ${currentHistoryPage} dari ${totalPages}`;
+
+            const btnPrev = document.getElementById('btn-prev-history');
+            const btnNext = document.getElementById('btn-next-history');
+            if (btnPrev) btnPrev.disabled = (currentHistoryPage === 1);
+            if (btnNext) btnNext.disabled = (currentHistoryPage === totalPages);
+
+            if (totalItems === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-slate-50 text-slate-400 text-center py-8 border border-dashed border-slate-200 rounded-2xl font-medium">
+                        <i class="fa-solid fa-folder-open block text-2xl mb-2 text-slate-300"></i> Belum ada rekam jejak terdaftar.
+                    </div>`;
+                return;
+            }
+
+            const startIdx = (currentHistoryPage - 1) * historyItemsPerPage;
+            const endIdx = Math.min(startIdx + historyItemsPerPage, totalItems);
+            const pageItems = activeStudentHistoryData.slice(startIdx, endIdx);
+
+            pageItems.forEach(l => {
+                const logFormattedDate = getFormattedMonthWeek(l.date);
+                const block = document.createElement('div');
+                block.className = "bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-xs";
+                block.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-2 mb-2">
+                        <span class="text-[10px] font-black text-slate-500 uppercase"><i class="fa-solid fa-calendar-day text-emerald-700 mr-1"></i> ${logFormattedDate}</span>
+                        <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[10px] px-2 py-0.5 rounded-md">Total: ${l.total_juz || 0} Juz</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 font-semibold mb-2 bg-white p-2 rounded-lg border border-slate-100 flex justify-between">
+                        <span>📖 ${l.setoran_awal || '-'} s/d ${l.setoran_akhir || '-'}</span>
+                        <span>Target: <strong>${l.target || '-'}</strong></span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-100 text-xs">
+                        <p class="text-emerald-800 font-semibold"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> ${l.pos || 'Mengikuti bimbingan dengan baik.'}</p>
+                        <p class="text-rose-800 font-semibold mt-1.5"><i class="fa-solid fa-circle-exclamation text-rose-500 mr-1"></i> ${l.neg || 'Nihil'}</p>
+                    </div>
+                `;
+                container.appendChild(block);
+            });
+        }
+
+        window.changeHistoryPage = function(dir) {
+            currentHistoryPage += dir;
+            renderHistoryPagination();
+        };
+
+        window.refreshWaliData = function() {
+            showToast("Sinkronisasi otomatis dengan Cloud aktif!", "success");
+            fetchCloudData();
+        };
+
+        function getFormattedMonthWeek(dateString) {
+            if (!dateString) return "-";
+            const d = new Date(dateString);
+            if (isNaN(d.getTime())) return dateString;
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const monthName = months[d.getMonth()];
+            const day = d.getDate();
+            const weekNum = Math.ceil(day / 7);
+            return `${monthName} Pekan ke-${weekNum}`;
+        }
+
+        // ==========================================
+        // USTAZAH PORTAL OPERATIONS
+        // ==========================================
+        function renderUstazahInterface() {
+            const activeUstazah = currentUstazahRole;
+            document.getElementById('ustazah-badge-display').innerText = `Ustazah: ${activeUstazah} (Halaqah Active)`;
+            
+            const pendingSection = document.getElementById('ustazah-pending-section');
+            const pendingList = document.getElementById('ustazah-pending-list');
+            const pendingStudents = studentsList.filter(s => s.room === activeUstazah && !s.inHalaqah && s.isActive);
+
+            if (pendingStudents.length > 0) {
+                pendingSection.classList.remove('hidden');
+                pendingList.innerHTML = '';
+                pendingStudents.forEach(s => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-amber-100 text-slate-700 font-medium";
+                    tr.innerHTML = `
+                        <td class="p-3"><strong>${s.name}</strong></td>
+                        <td class="p-3 text-[11px]">${s.pobDob}</td>
+                        <td class="p-3 font-bold text-emerald-900">${s.program}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="approveStudentIntoHalaqah('${s.id}')" class="bg-emerald-700 text-white hover:bg-emerald-800 font-black text-[10px] px-3 py-1.5 rounded-xl shadow-xs transition mx-auto">
+                                <i class="fa-solid fa-user-plus"></i> Terima Santri
+                            </button>
+                        </td>
+                    `;
+                    pendingList.appendChild(tr);
+                });
+            } else {
+                pendingSection.classList.add('hidden');
+            }
+
+            const selectBox = document.getElementById('ustazah-student-select');
+            const prevSelectedValue = selectBox.value;
+            const activeStudents = studentsList.filter(s => s.room === activeUstazah && s.inHalaqah && s.isActive);
+            selectBox.innerHTML = '';
+            
+            if (activeStudents.length === 0) {
+                selectBox.innerHTML = `<option value="">Tidak ada santri aktif di halaqah ini</option>`;
+            } else {
+                activeStudents.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.innerText = `${s.name} (${s.totalJuz} Juz)`;
+                    selectBox.appendChild(opt);
+                });
+            }
+
+            if (prevSelectedValue && activeStudents.some(s => s.id === prevSelectedValue)) {
+                selectBox.value = prevSelectedValue;
+            } else if (activeStudents.length > 0) {
+                selectBox.value = activeStudents[0].id;
+                populateUstazahForm(activeStudents[0].id);
+            }
+
+            const cardsContainer = document.getElementById('ustazah-active-list');
+            cardsContainer.innerHTML = '';
+
+            if (activeStudents.length === 0) {
+                cardsContainer.innerHTML = `
+                    <div class="text-center p-12 bg-slate-50 border border-dashed border-slate-200 rounded-3xl text-slate-400 font-bold">
+                        Belum ada anggota halaqah aktif.
+                    </div>`;
+                return;
+            }
+
+            activeStudents.forEach(s => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+                card.innerHTML = `
+                    <div class="space-y-1 flex-1 text-xs">
+                        <p class="font-black text-slate-900">${s.name}</p>
+                        <p class="text-[10px] text-slate-500">Awal: ${s.setoranAwal || '-'} | Akhir: ${s.setoranAkhir || '-'} | Total: <strong class="text-emerald-800">${s.totalJuz || 0} Juz</strong></p>
+                    </div>
+                    <div class="flex items-center gap-1.5 self-end sm:self-center">
+                        <button onclick="salinLaporanWA('${s.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition flex items-center gap-1 shadow-2xs">
+                            <i class="fa-brands fa-whatsapp text-xs"></i> Laporan
+                        </button>
+                        <button onclick="previewKHSFromUstazah('${s.id}')" class="bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-eye text-xs"></i> Lihat KHS
+                        </button>
+                    </div>
+                `;
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        window.previewKHSFromUstazah = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+            currentWaliStudent = student;
+            switchMasterSection('walisantri');
+            showToast(`Melihat KHS milik ${student.name}`, 'info');
+        };
+
+        window.populateUstazahForm = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+
+            document.getElementById('ustazah-student-id').value = student.id;
+            document.getElementById('ustazah-setoran-awal').value = student.setoranAwal || "";
+            document.getElementById('ustazah-setoran-akhir').value = student.setoranAkhir || "";
+            document.getElementById('ustazah-target-mingguan').value = student.targetMingguan || "4 Halaman";
+            document.getElementById('ustazah-status-capaian').value = student.statusCapaian || "Belum Tercapai";
+            document.getElementById('ustazah-total-juz').value = student.totalJuz || 0.0;
+            document.getElementById('ustazah-fasohah').value = student.fasohah || "Belum Dinilai";
+            document.getElementById('ustazah-kelancaran').value = student.kelancaran || "Belum Dinilai";
+            document.getElementById('ustazah-perkembangan-positif').value = student.perkembanganPositif || "";
+            document.getElementById('ustazah-catatan-negatif').value = student.catatanNegatif || "";
+            document.getElementById('ustazah-syahriyah').value = student.paymentStatus || "Belum Lunas";
+            document.getElementById('ustazah-daftar-ulang').value = student.daftarUlangStatus || "Belum Lunas";
+            document.getElementById('ustazah-catatan-lain').value = student.catatanLain || "";
+        };
+
+        window.approveStudentIntoHalaqah = async function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+
+            student.inHalaqah = true;
+            saveLocalData();
+            await dbUpdate('santri_students', studentId, { inHalaqah: true });
+            showToast(`Otorisasi Berhasil! ${student.name} masuk halaqah aktif Anda.`, 'success');
+            triggerConfettiFeedback('success');
+            renderUstazahInterface();
+        };
+
+        window.handleUstazahSetoranSubmit = async function(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('ustazah-student-id').value;
+            if (!studentId) return;
+
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+
+            const setAwal = document.getElementById('ustazah-setoran-awal').value.trim();
+            const setAkhir = document.getElementById('ustazah-setoran-akhir').value.trim();
+            const targetMinggu = document.getElementById('ustazah-target-mingguan').value.trim();
+            const statusCapai = document.getElementById('ustazah-status-capaian').value;
+            const totalJuzInput = parseFloat(document.getElementById('ustazah-total-juz').value) || 0.0;
+            const nilaiFasohah = document.getElementById('ustazah-fasohah').value;
+            const nilaiKelancaran = document.getElementById('ustazah-kelancaran').value;
+            const pos = document.getElementById('ustazah-perkembangan-positif').value.trim();
+            const neg = document.getElementById('ustazah-catatan-negatif').value.trim();
+            const syahriyah = document.getElementById('ustazah-syahriyah').value;
+            const duStatus = document.getElementById('ustazah-daftar-ulang').value;
+            const catatanLain = document.getElementById('ustazah-catatan-lain').value.trim();
+
+            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            student.setoranAwal = setAwal;
+            student.setoranAkhir = setAkhir;
+            student.targetMingguan = targetMinggu;
+            student.statusCapaian = statusCapai;
+            student.totalJuz = totalJuzInput;
+            student.fasohah = nilaiFasohah;
+            student.kelancaran = nilaiKelancaran;
+            student.perkembanganPositif = pos || "Menunjukkan kemajuan hafalan.";
+            student.catatanNegatif = neg || "Nihil";
+            student.paymentStatus = syahriyah;
+            student.daftarUlangStatus = duStatus;
+            student.catatanLain = catatanLain || "Sehat wal afiat.";
+            student.updatedAt = dateStr;
+
+            const currentMonthShort = monthsShortList[new Date().getMonth()];
+            if (!student.sppMonths) student.sppMonths = {};
+            student.sppMonths[currentMonthShort] = syahriyah;
+
+            const newLog = {
+                id: "log_" + Date.now(),
+                student_id: studentId,
+                date: new Date().toISOString().split('T')[0],
+                setoran_awal: setAwal,
+                setoran_akhir: setAkhir,
+                total_juz: totalJuzInput,
+                fasohah: nilaiFasohah,
+                kelancaran: nilaiKelancaran,
+                pos: pos || "Kemajuan setoran bertambah.",
+                neg: neg || "Nihil",
+                catatan: catatanLain || "Lancar.",
+                target: targetMinggu,
+                status: statusCapai
+            };
+
+            tahfidzLogs.unshift(newLog);
+            saveLocalData();
+
+            await dbUpdate('santri_students', studentId, student);
+            await dbInsert('tahfidz_logs', newLog);
+            
+            showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan!`, 'success');
+            triggerConfettiFeedback('success');
+            renderUstazahInterface();
+        };
+
+        window.salinLaporanWA = function(studentId) {
+            const s = studentsList.find(student => student.id === studentId);
+            if (!s) return;
+
+            const hariIni = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const statusSyahriyah = s.paymentStatus === 'Lunas' ? '*✅ Lunas*' : '*⚠️ Belum Lunas*';
+            const statusCapaianWA = s.statusCapaian === 'Tercapai' ? '✅ *Tercapai* 📝' : '❌ *Belum Tercapai* 📝';
+
+            const teksWA = `*LAPORAN PERKEMBANGAN MINGGUAN SANTRI PPHQ PUTRI 4 AL KARIMA*
+
+Assalamu’alaikum warahmatullahi wabarakatuh 🌿✨
+
+Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}*, berikut laporan pekanan perkembangan tahfizh:
+
+1️⃣ 📖 *PERKEMBANGAN TAHFIZH*
+- Awal Setoran: ${s.setoranAwal || '-'}
+- Akhir Setoran: ${s.setoranAkhir || '-'}
+- Target Mingguan: ${s.targetMingguan || '-'}
+- *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
+- Status Capaian: ${statusCapaianWA}
+- Nilai Fasohah: *${s.fasohah || 'Belum Dinilai'}*
+- Nilai Kelancaran: *${s.kelancaran || 'Belum Dinilai'}*
+
+2️⃣ 🌸 *PERKEMBANGAN PSIKOLOGI & ADAB*
+✅ *Positif:* ${s.perkembanganPositif || 'Sangat baik.'}
+⚠️ *Evaluasi:* ${s.catatanNegatif || 'Nihil'}
+
+3️⃣ 💰 *STATUS ADMINISTRASI*
+- Syahriyah: ${statusSyahriyah}
+
+📅 *${hariIni}*
+💌 *Pembimbing Halaqah Ustazah ${s.room}*`;
+
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = teksWA;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+
+            showToast(`Laporan WA ${s.name} berhasil disalin!`, 'success');
+            triggerConfettiFeedback('success');
+        };
+
+        // ==========================================
+        // ADMIN DASHBOARD ACTIONS
+        // ==========================================
+        function recalculateAdminStats() {
+            const total = studentsList.length;
+            const activeStudents = studentsList.filter(s => s.isActive === true);
+            const activeCount = activeStudents.length;
+            const inactiveCount = studentsList.filter(s => s.isActive === false).length;
+            const activeRooms = new Set(activeStudents.filter(s => s.inHalaqah).map(s => s.room));
+            const activeTeachersCount = activeRooms.size;
+            const paidCount = activeStudents.filter(s => s.paymentStatus === 'Lunas').length;
+
+            document.getElementById('stat-total-students').innerText = total;
+            document.getElementById('stat-active-students-count').innerText = activeCount;
+            document.getElementById('stat-inactive-students').innerText = inactiveCount;
+            document.getElementById('stat-active-teachers').innerText = activeTeachersCount;
+            document.getElementById('stat-paid-students').innerText = paidCount;
+        }
+
+        window.switchAdminTab = function(tab) {
+            const tabReg = document.getElementById('admin-tab-register');
+            const tabDir = document.getElementById('admin-tab-directory');
+            const tabPapan = document.getElementById('admin-tab-papaninfo-settings');
+            
+            const contentReg = document.getElementById('admin-content-register');
+            const contentDir = document.getElementById('admin-content-directory');
+            const contentPapan = document.getElementById('admin-content-papaninfo-settings');
+
+            const activeClass = "border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2";
+            const inactiveClass = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2";
+
+            tabReg.className = inactiveClass;
+            tabDir.className = inactiveClass;
+            tabPapan.className = inactiveClass;
+            contentReg.classList.add('hidden');
+            contentDir.classList.add('hidden');
+            contentPapan.classList.add('hidden');
+
+            if (tab === 'register') {
+                tabReg.className = activeClass;
+                contentReg.classList.remove('hidden');
+            } else if (tab === 'directory') {
+                tabDir.className = activeClass;
+                contentDir.classList.remove('hidden');
+                renderAdminStudentsDirectory();
+            } else if (tab === 'papaninfo-settings') {
+                tabPapan.className = activeClass;
+                contentPapan.classList.remove('hidden');
+                renderAdminPapanSettingsLists();
+            }
+        };
+
+        window.handleAdminAddStudent = async function(e) {
+            e.preventDefault();
+            const newId = "s_" + Date.now();
+            const name = document.getElementById('admin-add-name').value.trim();
+            const room = document.getElementById('admin-add-room').value;
+            const initPaymentStatus = document.getElementById('admin-add-paystatus').value;
+            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            const initialSppMonths = {
+                "Jan": "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+            };
+            if (initPaymentStatus === 'Lunas') {
+                initialSppMonths["Jan"] = "Lunas";
+            }
+
+            const newStudent = {
+                id: newId, name: name,
+                pobDob: document.getElementById('admin-add-pobdob').value.trim(),
+                address: document.getElementById('admin-add-address').value.trim(),
+                parentPhone: document.getElementById('admin-add-phone').value.trim(),
+                memorizedBefore: document.getElementById('admin-add-memorized').value,
+                celenganTarget: document.getElementById('admin-add-celengan').value.trim(),
+                motivation: document.getElementById('admin-add-motivation').value.trim() || "Mengabdi pada Al-Qur'an",
+                arrivalDate: document.getElementById('admin-add-arrival-date').value,
+                room: room, program: document.getElementById('admin-add-program').value,
+                paymentStatus: initPaymentStatus, sppMonths: initialSppMonths,
+                facBuku: document.getElementById('admin-add-fac-buku').checked,
+                facMeja: document.getElementById('admin-add-fac-meja').checked,
+                facKerudung: document.getElementById('admin-add-fac-kerudung').checked,
+                facLoker: document.getElementById('admin-add-fac-loker').checked,
+                inHalaqah: false, isActive: true, totalJuz: 0.0,
+                setoranAwal: 'Belum Setoran', setoranAkhir: '-', targetMingguan: '4 Halaman', statusCapaian: 'Belum Tercapai',
+                fasohah: 'Belum Dinilai', kelancaran: 'Belum Dinilai', perkembanganPositif: 'Adaptasi asrama', catatanNegatif: 'Nihil',
+                daftarUlangStatus: 'Belum Lunas', catatanLain: 'Pendaftaran awal.', photo: tempAddPhotoBase64, updatedAt: dateStr
+            };
+
+            const feeReg = document.getElementById('admin-add-fee-reg').checked ? 250000 : 0;
+            const feeSpp = document.getElementById('admin-add-fee-spp1').checked ? 900000 : 0;
+            const feeRereg = parseInt(document.getElementById('admin-add-fee-rereg').value) || 0;
+
+            const initialLog = {
+                id: "log_" + Date.now(), student_id: newId, date: new Date().toISOString().split('T')[0],
+                setoran_awal: "Pendaftaran", setoran_akhir: "Santri Baru", total_juz: 0.0,
+                fasohah: 'Belum Dinilai', kelancaran: 'Belum Dinilai', pos: "Terdaftar Resmi", neg: "Nihil",
+                catatan: "Inisialisasi", target: "Inisialisasi", status: "Berjalan"
+            };
+
+            studentsList.push(newStudent);
+            tahfidzLogs.unshift(initialLog);
+            saveLocalData();
+
+            await dbInsert('santri_students', newStudent);
+            await dbInsert('tahfidz_logs', initialLog);
+
+            showToast(`Santriwati ${name} Berhasil Didaftarkan!`, 'success');
+            triggerConfettiFeedback('register');
+            openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
+            
+            tempAddPhotoBase64 = "";
+            document.getElementById('admin-add-photo-preview').innerHTML = `<i class="fa-solid fa-camera text-xs text-slate-400"></i>`;
+            e.target.reset();
+            recalculateAdminStats();
+        };
+
+        window.handleUpdatePins = function(e) {
+            e.preventDefault();
+            systemPins['admin'] = document.getElementById('pin-cfg-admin').value;
+            systemPins['Ayu'] = document.getElementById('pin-cfg-ayu').value;
+            systemPins['Ayuniz'] = document.getElementById('pin-cfg-ayuniz').value;
+            systemPins['Rima'] = document.getElementById('pin-cfg-rima').value;
+            systemPins['Nafis'] = document.getElementById('pin-cfg-nafis').value;
+
+            localStorage.setItem('karima_system_pins', JSON.stringify(systemPins));
+            showToast("PIN Otoritas Diperbarui!", "success");
+            triggerConfettiFeedback('success');
+        };
+
+        window.renderAdminStudentsDirectory = function() {
+            const listContainer = document.getElementById('admin-students-directory-list');
+            const searchQ = document.getElementById('admin-search-student').value.toLowerCase().trim();
+            const filterU = document.getElementById('admin-filter-ustazah').value;
+            const filterS = document.getElementById('admin-filter-status').value;
+
+            listContainer.innerHTML = '';
+            let filtered = studentsList;
+            
+            if (filterU !== 'all') filtered = filtered.filter(s => s.room === filterU);
+            if (filterS === 'active') filtered = filtered.filter(s => s.isActive === true);
+            else if (filterS === 'inactive') filtered = filtered.filter(s => s.isActive === false);
+
+            if (searchQ) {
+                filtered = filtered.filter(s => s.name.toLowerCase().includes(searchQ) || s.id.toLowerCase().includes(searchQ));
+            }
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 font-bold">Tidak ada data.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 border-b text-xs";
+                
+                const halaqahBadge = s.inHalaqah 
+                    ? `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[9px] font-black">Halaqah Hack</span>`
+                    : `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-[9px] font-black animate-pulse">Menunggu</span>`;
+
+                const keaktifanBadge = s.isActive
+                    ? `<span class="bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] font-black">Aktif</span>`
+                    : `<span class="bg-slate-400 text-white px-2 py-0.5 rounded-full text-[9px] font-black">Inaktif</span>`;
+
+                const sppBadge = s.paymentStatus === 'Lunas' 
+                    ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold">Lunas</span>`
+                    : `<span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded text-[10px] font-bold">Belum</span>`;
+
+                const avatarImg = s.photo && s.photo.trim() !== "" 
+                    ? `<img src="${s.photo}" class="w-8 h-10 object-cover rounded-lg border">`
+                    : `<div class="w-8 h-10 bg-slate-100 rounded-lg flex items-center justify-center border text-slate-400"><i class="fa-solid fa-user text-xs"></i></div>`;
+
+                tr.innerHTML = `
+                    <td class="p-3 flex items-center gap-3">
+                        ${avatarImg}
+                        <div>
+                            <p class="font-extrabold text-slate-900 text-xs">${s.name}</p>
+                            <p class="text-[10px] text-slate-400 font-mono">${s.id}</p>
+                        </div>
+                    </td>
+                    <td class="p-3 font-bold">${s.program}</td>
+                    <td class="p-3 text-center font-extrabold text-slate-800">Ustz. ${s.room}</td>
+                    <td class="p-3 text-center">${halaqahBadge}</td>
+                    <td class="p-3 text-center">${keaktifanBadge}</td>
+                    <td class="p-3 text-center">${sppBadge}</td>
+                    <td class="p-3 text-center space-x-1 whitespace-nowrap">
+                        <button onclick="openEditStudentModal('${s.id}')" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1 rounded-lg text-[10px] font-black">Edit</button>
+                        <button onclick="triggerDirectReceiptPrint('${s.id}')" class="bg-slate-50 text-slate-600 hover:bg-slate-100 px-2.5 py-1 rounded-lg text-[10px] font-black">Kuitansi</button>
+                        <button onclick="deleteStudentData('${s.id}')" class="bg-rose-50 text-rose-700 hover:bg-rose-100 px-2.5 py-1 rounded-lg text-[10px] font-black">Hapus</button>
+                    </td>
+                `;
+                listContainer.appendChild(tr);
+            });
+        };
+
+        window.deleteStudentData = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+
+            openConfirmModal(
+                "Hapus Permanen Santriwati",
+                `Apakah Anda yakin ingin menghapus seluruh berkas & riwayat KHS untuk ${student.name}?`,
+                async () => {
+                    studentsList = studentsList.filter(s => s.id !== studentId);
+                    tahfidzLogs = tahfidzLogs.filter(l => l.student_id !== studentId);
+                    saveLocalData();
+
+                    await dbDelete('santri_students', studentId);
+                    showToast(`Data ${student.name} berhasil dihapus.`, "success");
+                    
+                    recalculateAdminStats();
+                    renderAdminStudentsDirectory();
+                }
+            );
+        };
+
+        window.triggerDirectReceiptPrint = function(studentId) {
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) return;
+            openReceiptModal(student, 250000, 900000, 0); 
+        };
+
+        // ==========================================
+        // EDIT STUDENT MODAL LOGIC
+        // ==========================================
+        window.openEditStudentModal = function(studentId) {
+            const s = studentsList.find(st => st.id === studentId);
+            if (!s) return;
+
+            document.getElementById('edit-student-modal').classList.remove('hidden');
+            document.getElementById('edit-student-id').value = s.id;
+            document.getElementById('edit-name').value = s.name;
+            document.getElementById('edit-pobdob').value = s.pobDob;
+            document.getElementById('edit-phone').value = s.parentPhone;
+            document.getElementById('edit-arrival-date').value = s.arrivalDate || "";
+            document.getElementById('edit-address').value = s.address;
+            document.getElementById('edit-motivation').value = s.motivation || "";
+            document.getElementById('edit-celengan').value = s.celenganTarget || "5 Juz";
+            document.getElementById('edit-total-juz').value = s.totalJuz || 0.0;
+            document.getElementById('edit-setoran-awal').value = s.setoranAwal || "";
+            document.getElementById('edit-setoran-akhir').value = s.setoranAkhir || "";
+            document.getElementById('edit-target-mingguan').value = s.targetMingguan || "";
+
+            tempEditPhotoBase64 = s.photo || "";
+            const previewContainer = document.getElementById('edit-photo-preview');
+            if (s.photo && s.photo.trim() !== "") {
+                previewContainer.innerHTML = `<img src="${s.photo}" class="w-full h-full object-cover rounded-lg">`;
+            } else {
+                previewContainer.innerHTML = `<i class="fa-solid fa-camera text-[9px] text-slate-400"></i>`;
+            }
+
+            document.getElementById('edit-memorized').value = s.memorizedBefore || "Belum Pernah";
+            document.getElementById('edit-room').value = s.room || "Ayu";
+            document.getElementById('edit-program').value = s.program || "Tahfidz Reguler";
+            document.getElementById('edit-daftarulang').value = s.daftarUlangStatus || "Belum Lunas";
+            document.getElementById('edit-inhalaqah').value = s.inHalaqah ? "true" : "false";
+            document.getElementById('edit-isactive').value = s.isActive ? "true" : "false";
+
+            document.getElementById('edit-fac-buku').checked = !!s.facBuku;
+            document.getElementById('edit-fac-meja').checked = !!s.facMeja;
+            document.getElementById('edit-fac-kerudung').checked = !!s.facKerudung;
+            document.getElementById('edit-fac-loker').checked = !!s.facLoker;
+
+            const container = document.getElementById('edit-spp-months-container');
+            container.innerHTML = '';
+            const studentSpp = s.sppMonths || {};
+
+            monthsShortList.forEach(m => {
+                const isPaid = studentSpp[m] === "Lunas";
+                const chkId = `edit-spp-month-${m}`;
+                const label = document.createElement('label');
+                label.className = `flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all ${isPaid ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-500'}`;
+                label.innerHTML = `
+                    <input type="checkbox" id="${chkId}" ${isPaid ? 'checked':''} onchange="toggleEditSppClass('${m}')" class="w-3.5 h-3.5 rounded text-emerald-600 border-slate-300">
+                    <span>${m}</span>
+                `;
+                container.appendChild(label);
+            });
+        };
+
+        window.toggleEditSppClass = function(m) {
+            const chk = document.getElementById(`edit-spp-month-${m}`);
+            const lbl = chk.closest('label');
+            if (chk.checked) {
+                lbl.className = 'flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all bg-emerald-50 border-emerald-300 text-emerald-900';
+            } else {
+                lbl.className = 'flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-500';
+            }
+        };
+
+        window.closeEditStudentModal = function() {
+            document.getElementById('edit-student-modal').classList.add('hidden');
+        };
+
+        window.handleSaveEditStudent = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-student-id').value;
+            const s = studentsList.find(st => st.id === id);
+            if (!s) return;
+
+            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            s.name = document.getElementById('edit-name').value.trim();
+            s.pobDob = document.getElementById('edit-pobdob').value.trim();
+            s.parentPhone = document.getElementById('edit-phone').value.trim();
+            s.arrivalDate = document.getElementById('edit-arrival-date').value;
+            s.address = document.getElementById('edit-address').value.trim();
+            s.motivation = document.getElementById('edit-motivation').value.trim();
+            s.celenganTarget = document.getElementById('edit-celengan').value.trim();
+            s.totalJuz = parseFloat(document.getElementById('edit-total-juz').value) || 0.0;
+            s.setoranAwal = document.getElementById('edit-setoran-awal').value.trim();
+            s.setoranAkhir = document.getElementById('edit-setoran-akhir').value.trim();
+            s.targetMingguan = document.getElementById('edit-target-mingguan').value.trim();
+
+            s.room = document.getElementById('edit-room').value;
+            s.program = document.getElementById('edit-program').value;
+            s.daftarUlangStatus = document.getElementById('edit-daftarulang').value;
+            s.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
+            s.isActive = document.getElementById('edit-isactive').value === "true";
+
+            s.facBuku = document.getElementById('edit-fac-buku').checked;
+            s.facMeja = document.getElementById('edit-fac-meja').checked;
+            s.facKerudung = document.getElementById('edit-fac-kerudung').checked;
+            s.facLoker = document.getElementById('edit-fac-loker').checked;
+            s.photo = tempEditPhotoBase64; 
+            s.updatedAt = dateStr;
+
+            const updatedSppMonths = {};
+            monthsShortList.forEach(m => {
+                const isChecked = document.getElementById(`edit-spp-month-${m}`).checked;
+                updatedSppMonths[m] = isChecked ? "Lunas" : "Belum Lunas";
+            });
+            s.sppMonths = updatedSppMonths;
+
+            const currentMonthShort = monthsShortList[new Date().getMonth()];
+            s.paymentStatus = updatedSppMonths[currentMonthShort] || "Belum Lunas";
+
+            saveLocalData();
+            await dbUpdate('santri_students', id, s);
+
+            showToast("Berkas Induk Berhasil Diperbarui!", 'success');
+            triggerConfettiFeedback('success');
+            closeEditStudentModal();
+            recalculateAdminStats();
+            renderAdminStudentsDirectory();
+        };
+
+        // ==========================================
+        // PAPAN INFORMASI DIGITAL RENDERER
+        // ==========================================
+        function renderPapanInformasi() {
+            updatePapanClock();
+            
+            const newsGrid = document.getElementById('papan-berita-grid');
+            if (newsGrid) {
+                newsGrid.innerHTML = '';
+                papanNews.forEach(n => {
+                    const card = document.createElement('div');
+                    card.className = "border-l-4 border-amber-400 p-3 bg-slate-50 rounded-r-2xl space-y-1.5 text-xs shadow-sm hover:shadow-md transition-all duration-300";
+                    card.innerHTML = `<h4 class="font-extrabold text-emerald-950">${n.judul}</h4><p class="text-slate-600 font-medium leading-relaxed">${n.isi}</p>`;
+                    newsGrid.appendChild(card);
+                });
+            }
+
+            const achList = document.getElementById('papan-prestasi-list');
+            if (achList) {
+                achList.innerHTML = '';
+                papanAchievements.forEach(a => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-center gap-2 p-2 bg-emerald-50/50 rounded-xl border border-emerald-100/60 text-slate-700 font-bold shadow-2xs";
+                    li.innerHTML = `<span class="text-amber-500">🏆</span> <span class="truncate">${a.pencapaian}</span>`;
+                    achList.appendChild(li);
+                });
+            }
+
+            const progList = document.getElementById('papan-program-list');
+            if (progList) {
+                progList.innerHTML = '';
+                papanPrograms.forEach(p => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-center gap-2 p-2 bg-blue-50/50 rounded-xl border border-blue-100/60 text-slate-700 font-bold shadow-2xs";
+                    li.innerHTML = `<span class="text-blue-500">🔹</span> <span class="truncate">${p.nama_program}</span>`;
+                    progList.appendChild(li);
+                });
+            }
+
+            const rulesList = document.getElementById('papan-rules-list');
+            if (rulesList) {
+                rulesList.innerHTML = '';
+                papanRules.forEach((r, idx) => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-start gap-2.5 pb-2.5 border-b border-slate-100 last:border-b-0";
+                    li.innerHTML = `<span class="font-black text-emerald-700 font-mono shrink-0">${idx + 1}.</span><span class="font-semibold text-slate-600 leading-normal">${r.aturan}</span>`;
+                    rulesList.appendChild(li);
+                });
+            }
+
+            const pt = document.getElementById('papan-marquee-text');
+            if (pt) pt.innerText = papanConfig.running_text;
+            const pm = document.getElementById('papan-maklumat-text');
+            if (pm) pm.innerText = papanConfig.maklumat_kuning;
+            const gm = document.getElementById('global-marquee-display');
+            if (gm) gm.innerText = papanConfig.running_text;
+        }
+
+        function updatePapanClock() {
+            const now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            const clk = document.getElementById('papan-clock');
+            if (clk) clk.textContent = `${hours}:${minutes}:${seconds}`;
+            
+            const days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const dt = document.getElementById('papan-date');
+            if (dt) dt.textContent = `${days[now.getDay()]} , ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+        }
+
+        // ==========================================
+        // PAPAN INFO MANAGEMENT ACTIONS (SINKRON CLOUD)
+        // ==========================================
+        window.renderAdminPapanSettingsLists = function() {
+            const nList = document.getElementById('adm-papan-news-list');
+            if (nList) {
+                nList.innerHTML = '';
+                papanNews.forEach(n => {
+                    const div = document.createElement('div');
+                    div.className = "flex justify-between items-center p-2.5 bg-white border border-slate-200 rounded-xl shadow-2xs";
+                    div.innerHTML = `
+                        <div class="min-w-0 pr-2">
+                            <p class="font-black truncate text-xs text-slate-800">${n.judul}</p>
+                            <p class="text-[10px] text-slate-500 truncate">${n.isi}</p>
+                        </div>
+                        <button onclick="handleDeletePapanNews(${n.id})" class="text-rose-600 hover:text-rose-800 text-[10px] font-black shrink-0"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    `;
+                    nList.appendChild(div);
+                });
+            }
+
+            const aList = document.getElementById('adm-papan-ach-list');
+            if (aList) {
+                aList.innerHTML = '';
+                papanAchievements.forEach(a => {
+                    const div = document.createElement('div');
+                    div.className = "flex justify-between items-center p-2 bg-white border border-slate-200 rounded-xl text-[11px] font-semibold";
+                    div.innerHTML = `
+                        <span class="truncate pr-2 text-slate-700">${a.pencapaian}</span>
+                        <button onclick="handleDeletePapanAchievement(${a.id})" class="text-rose-600 hover:text-rose-800 shrink-0 text-[10px]"><i class="fa-solid fa-circle-minus"></i></button>
+                    `;
+                    aList.appendChild(div);
+                });
+            }
+
+            const pList = document.getElementById('adm-papan-prog-list');
+            if (pList) {
+                pList.innerHTML = '';
+                papanPrograms.forEach(p => {
+                    const div = document.createElement('div');
+                    div.className = "flex justify-between items-center p-2 bg-white border border-slate-200 rounded-xl text-[11px] font-semibold";
+                    div.innerHTML = `
+                        <span class="truncate pr-2 text-slate-700">${p.nama_program}</span>
+                        <button onclick="handleDeletePapanProgram(${p.id})" class="text-rose-600 hover:text-rose-800 shrink-0 text-[10px]"><i class="fa-solid fa-circle-minus"></i></button>
+                    `;
+                    pList.appendChild(div);
+                });
+            }
+
+            const rList = document.getElementById('adm-papan-rule-list');
+            if (rList) {
+                rList.innerHTML = '';
+                papanRules.forEach((r, idx) => {
+                    const div = document.createElement('div');
+                    div.className = "flex justify-between items-center p-2 bg-white border border-slate-200 rounded-xl text-[11px] font-semibold";
+                    div.innerHTML = `
+                        <span class="truncate pr-2 text-slate-700">${idx + 1}. ${r.aturan}</span>
+                        <button onclick="handleDeletePapanRule(${r.id})" class="text-rose-600 hover:text-rose-800 shrink-0 text-[10px]"><i class="fa-solid fa-circle-minus"></i></button>
+                    `;
+                    rList.appendChild(div);
+                });
+            }
+        };
+
+        window.handleUpdatePapanBanners = async function(e) {
+            e.preventDefault();
+            const running = document.getElementById('adm-papan-marquee-text').value.trim();
+            const maklumat = document.getElementById('adm-papan-maklumat-text').value.trim();
+
+            papanConfig.running_text = running;
+            papanConfig.maklumat_kuning = maklumat;
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_config').upsert({ id: 1, running_text: running, maklumat_kuning: maklumat });
+                } catch (err) {
+                    showToast("Gagal update cloud, data tersimpan lokal.", "error");
+                }
+            }
+
+            showToast("Running Text & Maklumat Papan Info Diperbarui!", "success");
+            triggerConfettiFeedback('success');
+            renderPapanInformasi();
+        };
+
+        window.handleAddPapanNews = async function(e) {
+            e.preventDefault();
+            const judul = document.getElementById('adm-news-title').value.trim();
+            const isi = document.getElementById('adm-news-body').value.trim();
+            const newId = Date.now();
+
+            const newNews = { id: newId, judul: judul, isi: isi };
+            papanNews.push(newNews);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_news').insert([{ id: newId, judul: judul, isi: isi }]);
+                } catch (err) {
+                    showToast("Gagal simpan ke database cloud.", "error");
+                }
+            }
+
+            showToast("Berita Baru Berhasil Ditambahkan!", "success");
+            document.getElementById('adm-news-title').value = '';
+            document.getElementById('adm-news-body').value = '';
+
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        window.handleDeletePapanNews = function(id) {
+            openConfirmModal("Hapus Berita", "Apakah Anda yakin ingin menghapus berita ini dari Papan Info?", async () => {
+                papanNews = papanNews.filter(n => n.id !== id);
+                savePapanData();
+
+                if (isCloudMode && supabaseClient) {
+                    try {
+                        await supabaseClient.from('papan_news').delete().eq('id', id);
+                    } catch (err) {
+                        showToast("Gagal menghapus data dari cloud.", "error");
+                    }
+                }
+
+                showToast("Berita Berhasil Dihapus", "info");
+                renderAdminPapanSettingsLists();
+                renderPapanInformasi();
+            });
+        };
+
+        window.handleAddPapanAchievement = async function(e) {
+            e.preventDefault();
+            const textInput = document.getElementById('adm-ach-text');
+            const text = textInput.value.trim();
+            const newId = Date.now();
+
+            const newAch = { id: newId, pencapaian: text };
+            papanAchievements.push(newAch);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_achievements').insert([{ id: newId, pencapaian: text }]);
+                } catch (err) {
+                    showToast("Gagal menyimpan ke cloud.", "error");
+                }
+            }
+
+            showToast("Prestasi Baru Ditambahkan!", "success");
+            textInput.value = '';
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        window.handleDeletePapanAchievement = async function(id) {
+            papanAchievements = papanAchievements.filter(a => a.id !== id);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_achievements').delete().eq('id', id);
+                } catch (err) {
+                    showToast("Gagal menghapus dari cloud.", "error");
+                }
+            }
+
+            showToast("Prestasi Dihapus", "info");
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        window.handleAddPapanProgram = async function(e) {
+            e.preventDefault();
+            const textInput = document.getElementById('adm-prog-text');
+            const text = textInput.value.trim();
+            const newId = Date.now();
+
+            const newProg = { id: newId, nama_program: text };
+            papanPrograms.push(newProg);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_programs').insert([{ id: newId, agenda: text }]);
+                } catch (err) {
+                    showToast("Gagal menyimpan program ke cloud.", "error");
+                }
+            }
+
+            showToast("Program Pekan Ini Ditambahkan!", "success");
+            textInput.value = '';
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        window.handleDeletePapanProgram = async function(id) {
+            papanPrograms = papanPrograms.filter(p => p.id !== id);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_programs').delete().eq('id', id);
+                } catch (err) {
+                    showToast("Gagal menghapus program dari cloud.", "error");
+                }
+            }
+
+            showToast("Program Dihapus", "info");
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        window.handleAddPapanRule = async function(e) {
+            e.preventDefault();
+            const textInput = document.getElementById('adm-rule-text');
+            const text = textInput.value.trim();
+            const newId = Date.now();
+
+            const newRule = { id: newId, aturan: text };
+            papanRules.push(newRule);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_rules').insert([{ id: newId, aturan: text }]);
+                } catch (err) {
+                    showToast("Gagal menyimpan aturan ke cloud.", "error");
+                }
+            }
+
+            showToast("Tata Tertib Baru Ditambahkan!", "success");
+            textInput.value = '';
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        window.handleDeletePapanRule = async function(id) {
+            papanRules = papanRules.filter(r => r.id !== id);
+            savePapanData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('papan_rules').delete().eq('id', id);
+                } catch (err) {
+                    showToast("Gagal menghapus aturan dari cloud.", "error");
+                }
+            }
+
+            showToast("Tata Tertib Dihapus", "info");
+            renderAdminPapanSettingsLists();
+            renderPapanInformasi();
+        };
+
+        // ==========================================
+        // PDF GENERATION & IMAGE COMPRESSION
+        // ==========================================
         window.previewAndCompressPhoto = function(inputEl, previewId) {
             const file = inputEl.files[0];
             if (!file) return;
@@ -2151,19 +3063,16 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
                     canvas.width = width;
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
-                    
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, width, height);
                     ctx.drawImage(img, 0, 0, width, height);
 
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
-                    
                     const previewContainer = document.getElementById(previewId);
                     previewContainer.innerHTML = `<img src="${compressedBase64}" class="w-full h-full object-cover rounded-lg">`;
                     
                     if (previewId === 'admin-add-photo-preview') {
                         tempAddPhotoBase64 = compressedBase64;
-                        document.getElementById('admin-photo-jpg-indicator').classList.remove('hidden');
                     } else if (previewId === 'edit-photo-preview') {
                         tempEditPhotoBase64 = compressedBase64;
                     }
@@ -2174,1180 +3083,66 @@ ALTER TABLE "tahfidz_logs" DISABLE ROW LEVEL SECURITY;</pre>
             reader.readAsDataURL(file);
         };
 
-        window.handleGateLogin = function(e) {
-            e.preventDefault();
-            const role = document.getElementById('selected-gate-role').value;
-            
-            if (role === 'wali') {
-                const searchVal = document.getElementById('gate-wali-student-name').value.trim();
-                let matched = studentsList.find(s => s.name.toLowerCase() === searchVal.toLowerCase());
-                
-                // Flexible Fallback matching: Pencarian parsial cerdas jika tidak ada kecocokan mutlak
-                if (!matched && searchVal) {
-                    const partialMatches = studentsList.filter(s => s.name.toLowerCase().includes(searchVal.toLowerCase()));
-                    if (partialMatches.length === 1) {
-                        matched = partialMatches[0];
-                    } else if (partialMatches.length > 1) {
-                        showToast("Ditemukan beberapa santriwati. Mohon pilih dari daftar pencarian.", "error");
-                        return;
-                    }
-                }
-
-                if (matched) {
-                    currentRole = 'wali';
-                    currentWaliStudent = matched;
-                    document.getElementById('gate-screen').classList.add('hidden');
-                    document.getElementById('main-app-header').classList.remove('hidden');
-                    document.getElementById('main-app-container').classList.remove('hidden');
-                    document.getElementById('view-wali').classList.remove('hidden');
-                    document.getElementById('parent-back-btn-container').classList.add('hidden');
-                    document.getElementById('active-user-badge').innerText = `Wali dari ${matched.name}`;
-                    renderWaliKHS(matched.id);
-                    showToast(`Selamat datang Wali dari Ananda ${matched.name}!`, 'success');
-                    triggerConfettiFeedback('success');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    showToast("Nama santriwati tidak cocok. Harap ketik & pilih nama dari pencarian.", "error");
-                }
-            } else if (role === 'ustazah') {
-                const ustName = document.getElementById('gate-ustazah-select').value;
-                const pin = document.getElementById('gate-pin').value;
-                if (systemPins[ustName] === pin) {
-                    currentRole = `ustazah_${ustName}`;
-                    document.getElementById('gate-screen').classList.add('hidden');
-                    document.getElementById('main-app-header').classList.remove('hidden');
-                    document.getElementById('main-app-container').classList.remove('hidden');
-                    document.getElementById('view-ustazah').classList.remove('hidden');
-                    document.getElementById('view-admin').classList.add('hidden');
-                    document.getElementById('view-wali').classList.add('hidden');
-                    document.getElementById('active-user-badge').innerText = `Ustazah ${ustName} (Halaqah)`;
-                    renderUstazahInterface();
-                    showToast(`Sesi Halaqah Ustazah ${ustName} Aktif!`, 'success');
-                    triggerConfettiFeedback('success');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    showToast("PIN Otoritas Pembimbing Salah!", "error");
-                }
-            } else if (role === 'admin') {
-                const pin = document.getElementById('gate-pin').value;
-                if (systemPins['admin'] === pin) {
-                    currentRole = 'admin';
-                    document.getElementById('gate-screen').classList.add('hidden');
-                    document.getElementById('main-app-header').classList.remove('hidden');
-                    document.getElementById('main-app-container').classList.remove('hidden');
-                    document.getElementById('view-admin').classList.remove('hidden');
-                    document.getElementById('view-ustazah').classList.add('hidden');
-                    document.getElementById('view-wali').classList.add('hidden');
-                    document.getElementById('active-user-badge').innerText = "Administrator PPSB";
-                    
-                    switchAdminTab('register');
-                    recalculateAdminStats();
-                    
-                    document.getElementById('pin-cfg-admin').value = systemPins['admin'];
-                    document.getElementById('pin-cfg-ayu').value = systemPins['Ayu'];
-                    document.getElementById('pin-cfg-ayuniz').value = systemPins['Ayuniz'];
-                    document.getElementById('pin-cfg-rima').value = systemPins['Rima'];
-                    document.getElementById('pin-cfg-nafis').value = systemPins['Nafis'];
-
-                    showToast("Otoritas Administrator PPSB Diterima!", 'success');
-                    triggerConfettiFeedback('success');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    showToast("PIN Otoritas Admin Salah!", "error");
-                }
-            }
-        };
-
-        window.setupActiveWorkspace = function() {
-            if (!currentRole) {
-                document.getElementById('gate-screen').classList.remove('hidden');
-                document.getElementById('main-app-header').classList.add('hidden');
-                document.getElementById('main-app-container').classList.add('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.saveKHSPDF = function() {
+            if (typeof html2pdf === 'undefined') {
+                showToast("Pustaka PDF (html2pdf) sedang dimuat. Harap tunggu beberapa detik.", "error");
                 return;
             }
-            
-            if (currentRole === 'admin') {
-                document.getElementById('view-admin').classList.remove('hidden');
-                document.getElementById('view-ustazah').classList.add('hidden');
-                document.getElementById('view-wali').classList.add('hidden');
-                recalculateAdminStats();
-                renderAdminStudentsDirectory();
-            } else if (currentRole.startsWith('ustazah_')) {
-                document.getElementById('view-ustazah').classList.remove('hidden');
-                document.getElementById('view-admin').classList.add('hidden');
-                document.getElementById('view-wali').classList.add('hidden');
-                renderUstazahInterface();
-            } else if (currentRole === 'wali') {
-                document.getElementById('view-wali').classList.remove('hidden');
-                document.getElementById('view-admin').classList.add('hidden');
-                document.getElementById('view-ustazah').classList.add('hidden');
-                if (currentWaliStudent) renderWaliKHS(currentWaliStudent.id);
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.switchAdminTab = function(tab) {
-            adminActiveTab = tab;
-            const tabReg = document.getElementById('admin-tab-register');
-            const tabDir = document.getElementById('admin-tab-directory');
-            const contentReg = document.getElementById('admin-content-register');
-            const contentDir = document.getElementById('admin-content-directory');
-
-            if (tab === 'register') {
-                tabReg.className = "border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2";
-                tabDir.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2";
-                contentReg.classList.remove('hidden');
-                contentDir.classList.add('hidden');
-            } else {
-                tabDir.className = "border-emerald-600 text-emerald-800 border-b-2 py-3 px-1 text-xs sm:text-sm font-black flex items-center gap-2";
-                tabReg.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 border-b-2 py-3 px-1 text-xs sm:text-sm font-bold flex items-center gap-2";
-                contentDir.classList.remove('hidden');
-                contentReg.classList.add('hidden');
-                renderAdminStudentsDirectory();
-            }
-        };
-
-        function recalculateAdminStats() {
-            const total = studentsList.length;
-            const activeStudents = studentsList.filter(s => s.isActive === true);
-            const activeCount = activeStudents.length;
-            const inactiveCount = studentsList.filter(s => s.isActive === false).length;
-            
-            const activeRooms = new Set(activeStudents.filter(s => s.inHalaqah).map(s => s.room));
-            const activeTeachersCount = activeRooms.size;
-
-            const paidCount = activeStudents.filter(s => s.paymentStatus === 'Lunas').length;
-
-            document.getElementById('stat-total-students').innerText = total;
-            document.getElementById('stat-active-students-count').innerText = activeCount;
-            document.getElementById('stat-inactive-students').innerText = inactiveCount;
-            document.getElementById('stat-active-teachers').innerText = activeTeachersCount;
-            document.getElementById('stat-paid-students').innerText = paidCount;
-        }
-
-        window.handleAdminAddStudent = async function(e) {
-            e.preventDefault();
-            const newId = "s_" + Date.now();
-            const name = document.getElementById('admin-add-name').value.trim();
-            const room = document.getElementById('admin-add-room').value;
-            const initPaymentStatus = document.getElementById('admin-add-paystatus').value;
-            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-
-            const initialSppMonths = {
-                "Jan": "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
-                "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
-                "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
-            };
-            
-            if (initPaymentStatus === 'Lunas') {
-                initialSppMonths["Jan"] = "Lunas";
-            }
-
-            const newStudent = {
-                id: newId,
-                name: name,
-                pobDob: document.getElementById('admin-add-pobdob').value.trim(),
-                address: document.getElementById('admin-add-address').value.trim(),
-                parentPhone: document.getElementById('admin-add-phone').value.trim(),
-                memorizedBefore: document.getElementById('admin-add-memorized').value,
-                celenganTarget: document.getElementById('admin-add-celengan').value.trim(),
-                motivation: document.getElementById('admin-add-motivation').value.trim() || "Mengabdi pada Al-Qur'an",
-                arrivalDate: document.getElementById('admin-add-arrival-date').value,
-                room: room,
-                program: document.getElementById('admin-add-program').value,
-                paymentStatus: initPaymentStatus,
-                sppMonths: initialSppMonths,
-                facBuku: document.getElementById('admin-add-fac-buku').checked,
-                facMeja: document.getElementById('admin-add-fac-meja').checked,
-                facKerudung: document.getElementById('admin-add-fac-kerudung').checked,
-                facLoker: document.getElementById('admin-add-fac-loker').checked,
-                inHalaqah: false,
-                isActive: true,
-                totalJuz: 0.0,
-                setoranAwal: 'Belum Setoran',
-                setoranAkhir: '-',
-                targetMingguan: '4 Halaman',
-                statusCapaian: 'Belum Tercapai',
-                fasohah: 'Belum Dinilai',
-                kelancaran: 'Belum Dinilai',
-                perkembanganPositif: 'Proses adaptasi awal asrama',
-                catatanNegatif: 'Nihil',
-                daftarUlangStatus: 'Belum Lunas',
-                catatanLain: 'Baru mendaftar di kesekretariat.',
-                photo: tempAddPhotoBase64,
-                updatedAt: dateStr
-            };
-
-            const feeReg = document.getElementById('admin-add-fee-reg').checked ? 250000 : 0;
-            const feeSpp = document.getElementById('admin-add-fee-spp1').checked ? 900000 : 0;
-            const feeRereg = parseInt(document.getElementById('admin-add-fee-rereg').value) || 0;
-
-            const initialLog = {
-                id: "log_" + Date.now(),
-                student_id: newId,
-                date: new Date().toISOString().split('T')[0],
-                setoran_awal: "Pendaftaran",
-                setoran_akhir: "Santri Baru",
-                total_juz: 0.0,
-                fasohah: 'Belum Dinilai',
-                kelancaran: 'Belum Dinilai',
-                pos: "Terdaftar Resmi",
-                neg: "Nihil",
-                catatan: "Inisialisasi Santri Baru",
-                target: "Inisialisasi",
-                status: "Berjalan"
-            };
-
-            studentsList.push(newStudent);
-            tahfidzLogs.unshift(initialLog);
-            saveLocalData();
-
-            await dbInsert('santri_students', newStudent);
-            await dbInsert('tahfidz_logs', initialLog);
-
-            showToast(`Santriwati ${name} Berhasil Didaftarkan!`, 'success');
-            triggerConfettiFeedback('register');
-            openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
-            
-            tempAddPhotoBase64 = "";
-            document.getElementById('admin-add-photo-preview').innerHTML = `<i class="fa-solid fa-camera text-xs text-slate-400"></i>`;
-            document.getElementById('admin-photo-jpg-indicator').classList.add('hidden');
-            
-            e.target.reset();
-            recalculateAdminStats();
-        };
-
-        window.handleUpdatePins = function(e) {
-            e.preventDefault();
-            systemPins['admin'] = document.getElementById('pin-cfg-admin').value;
-            systemPins['Ayu'] = document.getElementById('pin-cfg-ayu').value;
-            systemPins['Ayuniz'] = document.getElementById('pin-cfg-ayuniz').value;
-            systemPins['Rima'] = document.getElementById('pin-cfg-rima').value;
-            systemPins['Nafis'] = document.getElementById('pin-cfg-nafis').value;
-
-            localStorage.setItem('karima_system_pins', JSON.stringify(systemPins));
-            showToast("Seluruh Kredensial PIN Otoritas Diperbarui!", "success");
-            triggerConfettiFeedback('success');
-        };
-
-        window.renderAdminStudentsDirectory = function() {
-            const listContainer = document.getElementById('admin-students-directory-list');
-            const searchQ = document.getElementById('admin-search-student').value.toLowerCase().trim();
-            const filterU = document.getElementById('admin-filter-ustazah').value;
-            const filterS = document.getElementById('admin-filter-status').value;
-
-            listContainer.innerHTML = '';
-
-            let filtered = studentsList;
-            
-            if (filterU !== 'all') {
-                filtered = filtered.filter(s => s.room === filterU);
-            }
-            
-            if (filterS === 'active') {
-                filtered = filtered.filter(s => s.isActive === true);
-            } else if (filterS === 'inactive') {
-                filtered = filtered.filter(s => s.isActive === false);
-            }
-
-            if (searchQ) {
-                filtered = filtered.filter(s => s.name.toLowerCase().includes(searchQ) || s.id.toLowerCase().includes(searchQ));
-            }
-
-            if (filtered.length === 0) {
-                listContainer.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 font-bold">Tidak ada data santriwati yang sesuai filter.</td></tr>`;
-                return;
-            }
-
-            filtered.forEach(s => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition border-b border-slate-150 text-xs";
-                
-                const halaqahBadge = s.inHalaqah 
-                    ? `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[9px] font-black"><i class="fa-solid fa-circle-check"></i> Aktif Halaqah</span>`
-                    : `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-[9px] font-black animate-pulse"><i class="fa-solid fa-clock"></i> Pending (Ustz)</span>`;
-
-                const keaktifanBadge = s.isActive
-                    ? `<span class="bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] font-black"><i class="fa-solid fa-circle-play"></i> Aktif</span>`
-                    : `<span class="bg-slate-400 text-white px-2 py-0.5 rounded-full text-[9px] font-black"><i class="fa-solid fa-circle-pause"></i> Tidak Aktif</span>`;
-
-                const studentSpp = s.sppMonths || {};
-                let paidMonthsCount = 0;
-                monthsShortList.forEach(m => {
-                    if (studentSpp[m] === "Lunas") paidMonthsCount++;
-                });
-
-                const payBadge = paidMonthsCount > 0
-                    ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-200 font-extrabold text-[10px]">${paidMonthsCount}/12 Bulan Lunas</span>`
-                    : `<span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded border border-rose-200 font-extrabold text-[10px]">Belum Lunas</span>`;
-
-                const avatarImg = s.photo && s.photo.trim() !== "" 
-                    ? `<img src="${s.photo}" class="w-8 h-10 object-cover rounded-lg border border-slate-200 shadow-xs shrink-0">`
-                    : `<div class="w-8 h-10 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200 shrink-0 text-slate-400"><i class="fa-solid fa-user text-xs"></i></div>`;
-
-                tr.innerHTML = `
-                    <td class="p-3 flex items-center gap-3">
-                        ${avatarImg}
-                        <div>
-                            <p class="font-extrabold text-slate-900 text-xs">${s.name}</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5 font-mono">${s.id} | WA: ${s.parentPhone}</p>
-                        </div>
-                    </td>
-                    <td class="p-3 font-bold text-slate-700 text-[11px]">${s.program} <br/><span class="text-[9px] text-slate-400">Target: ${s.celenganTarget}</span></td>
-                    <td class="p-3 text-center font-extrabold text-slate-800 text-[11px]">Ustz. ${s.room}</td>
-                    <td class="p-3 text-center">${halaqahBadge}</td>
-                    <td class="p-3 text-center">${keaktifanBadge}</td>
-                    <td class="p-3 text-center">${payBadge}</td>
-                    <td class="p-3 text-center space-x-1 whitespace-nowrap">
-                        <button onclick="openEditStudentModal('${s.id}')" class="bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-user-pen"></i> Edit</button>
-                        <button onclick="triggerDirectReceiptPrint('${s.id}')" class="bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-receipt"></i> Kuitansi</button>
-                        <button onclick="triggerOpenCertificate('${s.id}')" class="bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-certificate"></i> Serti</button>
-                        <button onclick="deleteStudentData('${s.id}')" class="bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 px-2 py-1 rounded-lg text-[10px] font-black transition"><i class="fa-solid fa-trash-can"></i> Hapus</button>
-                    </td>
-                `;
-                listContainer.appendChild(tr);
-            });
-        };
-
-        window.deleteStudentData = function(studentId) {
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
-
-            openConfirmModal(
-                "Hapus Permanen Santriwati",
-                `Apakah Anda yakin ingin menghapus seluruh berkas & riwayat KHS untuk ${student.name}? Tindakan ini tidak bisa dibatalkan.`,
-                async () => {
-                    studentsList = studentsList.filter(s => s.id !== studentId);
-                    tahfidzLogs = tahfidzLogs.filter(l => l.student_id !== studentId);
-                    saveLocalData();
-
-                    await dbDelete('santri_students', studentId);
-                    showToast(`Data ${student.name} berhasil dihapus permanen.`, "success");
-                    
-                    recalculateAdminStats();
-                    renderAdminStudentsDirectory();
-                }
-            );
-        };
-
-        window.triggerDirectReceiptPrint = function(studentId) {
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
-            openReceiptModal(student, 250000, 900000, 0); 
-        };
-
-        // =========================================================================
-        // CSV PARSING & IMPORTS
-        // =========================================================================
-        function parseCSVTextRobust(text) {
-            const lines = [];
-            let row = [""];
-            lines.push(row);
-            let inQuotes = false;
-
-            for (let i = 0; i < text.length; i++) {
-                let c = text[i];
-                let next = text[i+1];
-                if (c === '"') {
-                    if (inQuotes && next === '"') {
-                        row[row.length - 1] += '"';
-                        i++;
-                    } else {
-                        inQuotes = !inQuotes;
-                    }
-                } else if (c === ',' && !inQuotes) {
-                    row.push('');
-                } else if ((c === '\r' || c === '\n') && !inQuotes) {
-                    if (c === '\r' && next === '\n') {
-                        i++;
-                    }
-                    row = [''];
-                    lines.push(row);
-                } else {
-                    row[row.length - 1] += c;
-                }
-            }
-            return lines.filter(r => r.length > 1 || (r.length === 1 && r[0] !== ''));
-        }
-
-        function mapCSVColumns(headers, firstDataRow) {
-            let nameIdx = 0;
-            let phoneIdx = 1;
-            let pobDobIdx = 2;
-            let addressIdx = 3;
-            let roomIdx = 4;
-            let programIdx = 5;
-            let targetIdx = 6;
-
-            if (headers && headers.length > 0) {
-                const normalized = headers.map(h => h.toLowerCase().trim());
-                
-                const foundNameIdx = normalized.findIndex(h => h === "nama" || h.includes("nama lengkap") || h === "name" || h.includes("santri") || h.includes("siswa"));
-                const foundPhoneIdx = normalized.findIndex(h => h.includes("phone") || h.includes("hp") || h.includes("wa") || h.includes("whatsapp") || h.includes("telepon") || h.includes("telp") || h.includes("parent"));
-                const foundPobDobIdx = normalized.findIndex(h => h.includes("ttl") || h.includes("lahir") || h.includes("tempat") || h.includes("tanggal") || h.includes("pob") || h.includes("dob"));
-                const foundAddressIdx = normalized.findIndex(h => h.includes("alamat") || h === "address" || h.includes("domisili") || h.includes("tinggal"));
-                const foundRoomIdx = normalized.findIndex(h => h.includes("kamar") || h.includes("room") || h.includes("ustazah") || h.includes("halaqah") || h.includes("ruang") || h === "pembimbing");
-                const foundProgramIdx = normalized.findIndex(h => h.includes("program") || h.includes("kelas") || h.includes("studi"));
-                const foundTargetIdx = normalized.findIndex(h => h.includes("target") || h.includes("celengan") || h.includes("juz"));
-
-                if (foundNameIdx !== -1) nameIdx = foundNameIdx;
-                if (foundPhoneIdx !== -1) phoneIdx = foundPhoneIdx;
-                if (foundPobDobIdx !== -1) pobDobIdx = foundPobDobIdx;
-                if (foundAddressIdx !== -1) addressIdx = foundAddressIdx;
-                if (foundRoomIdx !== -1) roomIdx = foundRoomIdx;
-                if (foundProgramIdx !== -1) programIdx = foundProgramIdx;
-                if (foundTargetIdx !== -1) targetIdx = foundTargetIdx;
-            }
-
-            return { nameIdx, phoneIdx, pobDobIdx, addressIdx, roomIdx, programIdx, targetIdx };
-        }
-
-        window.clearAllSantriData = function() {
-            openConfirmModal(
-                "Kosongkan Seluruh Database",
-                "Apakah Anda yakin ingin menghapus seluruh data santriwati dan rekam jejak KHS baik di memori lokal maupun di Supabase Cloud? Tindakan ini tidak dapat dibatalkan.",
-                async () => {
-                    studentsList = [];
-                    tahfidzLogs = [];
-                    saveLocalData();
-
-                    if (isCloudMode && supabaseClient) {
-                        try {
-                            const { error: err1 } = await supabaseClient.from('santri_students').delete().neq('id', '');
-                            const { error: err2 } = await supabaseClient.from('tahfidz_logs').delete().neq('id', '');
-                            if (err1 || err2) {
-                                console.error("Gagal mengosongkan cloud:", err1, err2);
-                            }
-                        } catch (e) {
-                            console.error("Gagal koneksi cloud untuk menghapus:", e);
-                        }
-                    }
-
-                    showToast("Seluruh database telah dikosongkan (0 Santri).", "success");
-                    recalculateAdminStats();
-                    renderAdminStudentsDirectory();
-                }
-            );
-        };
-
-        window.handleCSVImport = function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = async function(evt) {
-                const text = evt.target.result;
-                const lines = parseCSVTextRobust(text);
-                if (lines.length <= 1) {
-                    showToast("Berkas CSV kosong.", "error");
-                    return;
-                }
-
-                const firstRow = lines[0];
-                const hasHeader = firstRow.some(cell => {
-                    const c = cell.toLowerCase().trim();
-                    return c.includes("nama") || c.includes("name") || c.includes("santri");
-                });
-
-                const headers = hasHeader ? firstRow : null;
-                const startIndex = hasHeader ? 1 : 0;
-                const mappings = mapCSVColumns(headers, lines[startIndex]);
-                let importCount = 0;
-
-                for (let i = startIndex; i < lines.length; i++) {
-                    const columns = lines[i];
-                    if (columns.length <= mappings.nameIdx || !columns[mappings.nameIdx].trim()) continue;
-
-                    let name = columns[mappings.nameIdx].trim();
-                    if (/^\d+[-\s.]+/.test(name)) {
-                        name = name.replace(/^\d+[-\s.]+/, "").trim();
-                    }
-
-                    const phone = columns[mappings.phoneIdx] ? columns[mappings.phoneIdx].trim() : "085706399238";
-                    const pobDob = columns[mappings.pobDob] ? columns[mappings.pobDob].trim() : "Pare, 12 April 2007";
-                    const address = columns[mappings.address] ? columns[mappings.address].trim() : "PP Hamalatul Qur'an Putri 4";
-                    
-                    let rawRoom = columns[mappings.room] ? columns[mappings.room].trim() : "Ayu";
-                    let room = "Ayu";
-                    if (rawRoom.toLowerCase().includes("ayuniz")) room = "Ayuniz";
-                    else if (rawRoom.toLowerCase().includes("rima")) room = "Rima";
-                    else if (rawRoom.toLowerCase().includes("nafis")) room = "Nafis";
-
-                    const program = columns[mappings.program] ? columns[mappings.program].trim() : "Tahfidz Reguler";
-                    const celenganTarget = columns[mappings.target] ? columns[mappings.target].trim() : "5 Juz";
-
-                    const newId = "s_" + Date.now() + "_" + i;
-                    const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-                    
-                    const initialSppMonths = {
-                        "Jan": "Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
-                        "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
-                        "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
-                    };
-
-                    const importedStudent = {
-                        id: newId, name: name, pobDob: pobDob, address: address, parentPhone: phone,
-                        memorizedBefore: "Belum Pernah", celenganTarget: celenganTarget,
-                        motivation: "Mengabdi pada Al-Qur'an", arrivalDate: "2026-01-01",
-                        room: room, program: program, paymentStatus: "Lunas", sppMonths: initialSppMonths,
-                        facBuku: true, facMeja: true, facKerudung: true, facLoker: false,
-                        inHalaqah: false, isActive: true, totalJuz: 0.0, setoranAwal: 'Belum Setoran', setoranAkhir: '-',
-                        targetMingguan: '4 Halaman', statusCapaian: 'Belum Tercapai',
-                        fasohah: 'Belum Dinilai', kelancaran: 'Belum Dinilai',
-                        perkembanganPositif: 'Hasil impor otomatis CSV', catatanNegatif: 'Nihil',
-                        daftarUlangStatus: 'Lunas', catatanLain: 'Ditambahkan via Impor CSV.',
-                        photo: "", updatedAt: dateStr
-                    };
-
-                    const initialLog = {
-                        id: "log_import_" + Date.now() + "_" + i,
-                        student_id: newId,
-                        date: new Date().toISOString().split('T')[0],
-                        setoran_awal: "Impor CSV",
-                        setoran_akhir: "Santri Baru",
-                        total_juz: 0.0,
-                        fasohah: 'Belum Dinilai',
-                        kelancaran: 'Belum Dinilai',
-                        pos: "Terdaftar dari berkas CSV",
-                        neg: "Nihil",
-                        catatan: "Impor CSV System",
-                        target: "Inisialisasi",
-                        status: "Selesai"
-                    };
-
-                    studentsList.push(importedStudent);
-                    tahfidzLogs.unshift(initialLog);
-
-                    await dbInsert('santri_students', importedStudent);
-                    await dbInsert('tahfidz_logs', initialLog);
-                    importCount++;
-                }
-
-                saveLocalData();
-                showToast(`Alhamdulillah! Sukses mengimpor ${importCount} santri dari CSV!`, 'success');
-                triggerConfettiFeedback('register');
-                recalculateAdminStats();
-                renderAdminStudentsDirectory();
-            };
-            reader.readAsText(file);
-        };
-
-        // =========================================================================
-        // USTAZAH CONTROL PANEL HANDLERS
-        // =========================================================================
-        function renderUstazahInterface() {
-            const activeUstazah = currentRole.replace('ustazah_', '');
-            document.getElementById('ustazah-directory-title').innerText = `Form Input Halaqah - Ustazah ${activeUstazah}`;
-            
-            const pendingSection = document.getElementById('ustazah-pending-section');
-            const pendingList = document.getElementById('ustazah-pending-list');
-            const pendingStudents = studentsList.filter(s => s.room === activeUstazah && !s.inHalaqah && s.isActive);
-
-            if (pendingStudents.length > 0) {
-                pendingSection.classList.remove('hidden');
-                pendingList.innerHTML = '';
-                pendingStudents.forEach(s => {
-                    const tr = document.createElement('tr');
-                    tr.className = "border-b border-amber-100 text-slate-700 font-medium";
-                    tr.innerHTML = `
-                        <td class="p-3"><strong>${s.name}</strong><br/><span class="text-[9px] text-slate-400">${s.id}</span></td>
-                        <td class="p-3 text-[11px]">${s.pobDob}<br/><span class="text-[9px] text-slate-400">${s.address}</span></td>
-                        <td class="p-3 font-bold text-[11px] text-emerald-900">${s.program} (${s.celenganTarget})</td>
-                        <td class="p-3 text-center">
-                            <button onclick="approveStudentIntoHalaqah('${s.id}')" class="bg-emerald-700 text-white hover:bg-emerald-800 font-black text-[10px] px-3 py-1.5 rounded-xl shadow-xs transition flex items-center gap-1 mx-auto">
-                                <i class="fa-solid fa-user-plus"></i> Terima Santri
-                            </button>
-                        </td>
-                    `;
-                    pendingList.appendChild(tr);
-                });
-            } else {
-                pendingSection.classList.add('hidden');
-            }
-
-            const selectBox = document.getElementById('ustazah-student-select');
-            const prevSelectedValue = selectBox.value;
-
-            const activeStudents = studentsList.filter(s => s.room === activeUstazah && s.inHalaqah && s.isActive);
-            selectBox.innerHTML = '';
-            
-            if (activeStudents.length === 0) {
-                selectBox.innerHTML = `<option value="">Tidak ada santri aktif di halaqah ini</option>`;
-            } else {
-                activeStudents.forEach(s => {
-                    const opt = document.createElement('option');
-                    opt.value = s.id;
-                    opt.innerText = `${s.name} (${s.totalJuz} Juz)`;
-                    selectBox.appendChild(opt);
-                });
-            }
-
-            if (prevSelectedValue && activeStudents.some(s => s.id === prevSelectedValue)) {
-                selectBox.value = prevSelectedValue;
-            } else if (activeStudents.length > 0) {
-                selectBox.value = activeStudents[0].id;
-                populateUstazahForm(activeStudents[0].id);
-            }
-
-            const cardsContainer = document.getElementById('ustazah-active-list');
-            cardsContainer.innerHTML = '';
-
-            if (activeStudents.length === 0) {
-                cardsContainer.innerHTML = `
-                    <div class="text-center p-12 bg-slate-50 border border-dashed border-slate-200 rounded-3xl text-slate-400 font-bold">
-                        <i class="fa-solid fa-people-slash text-3xl block mb-2 text-slate-300"></i> Belum ada anggota halaqah yang diaktifkan.
-                    </div>`;
-                return;
-            }
-
-            activeStudents.forEach(s => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-50 hover:bg-emerald-50/40 p-4 rounded-2xl border border-slate-200/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4";
-                const statusColor = s.statusCapaian === 'Tercapai' ? 'text-emerald-700 bg-emerald-100' : 'text-amber-700 bg-amber-100';
-                
-                card.innerHTML = `
-                    <div class="space-y-1.5 flex-1 text-xs">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-xs font-black text-slate-900">${s.name}</span>
-                            <span class="text-[9px] px-2 py-0.5 rounded-full font-black ${statusColor}">${s.statusCapaian || 'Belum Tercapai'}</span>
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-slate-500 font-semibold">
-                            <div>Awal: <strong>${s.setoranAwal || '-'}</strong></div>
-                            <div>Akhir: <strong>${s.setoranAkhir || '-'}</strong></div>
-                            <div>Target: <strong>${s.targetMingguan || '-'}</strong></div>
-                            <div>Total: <strong class="text-emerald-800">${s.totalJuz || 0} Juz</strong></div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center gap-2 self-end sm:self-center flex-wrap">
-                        <button onclick="salinLaporanWA('${s.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
-                            <i class="fa-brands fa-whatsapp text-xs"></i> Laporan
-                        </button>
-                        <button onclick="triggerOpenCertificate('${s.id}')" class="bg-amber-600 hover:bg-amber-700 text-white text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
-                            <i class="fa-solid fa-certificate text-xs"></i> Serti
-                        </button>
-                        <button onclick="triggerUstazahViewKHS('${s.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
-                            <i class="fa-solid fa-eye"></i> KHS
-                        </button>
-                    </div>
-                `;
-                cardsContainer.appendChild(card);
-            });
-        }
-
-        window.populateUstazahForm = function(studentId) {
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
-
-            document.getElementById('ustazah-student-id').value = student.id;
-            document.getElementById('ustazah-setoran-awal').value = student.setoranAwal || "";
-            document.getElementById('ustazah-setoran-akhir').value = student.setoranAkhir || "";
-            document.getElementById('ustazah-target-mingguan').value = student.targetMingguan || "4 Halaman";
-            document.getElementById('ustazah-status-capaian').value = student.statusCapaian || "Belum Tercapai";
-            document.getElementById('ustazah-total-juz').value = student.totalJuz || 0.0;
-            
-            document.getElementById('ustazah-fasohah').value = student.fasohah || "Belum Dinilai";
-            document.getElementById('ustazah-kelancaran').value = student.kelancaran || "Belum Dinilai";
-
-            document.getElementById('ustazah-perkembangan-positif').value = student.perkembanganPositif || "Proses adaptasi awal asrama";
-            document.getElementById('ustazah-catatan-negatif').value = student.catatanNegatif || "Nihil";
-            document.getElementById('ustazah-syahriyah').value = student.paymentStatus || "Belum Lunas";
-            document.getElementById('ustazah-daftar-ulang').value = student.daftarUlangStatus || "Belum Lunas";
-            document.getElementById('ustazah-catatan-lain').value = student.catatanLain || "Baru mendaftar di kesekretariat.";
-        };
-
-        window.approveStudentIntoHalaqah = async function(studentId) {
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
-
-            student.inHalaqah = true;
-            saveLocalData();
-            await dbUpdate('santri_students', studentId, { inHalaqah: true });
-
-            showToast(`Otorisasi Berhasil! ${student.name} masuk halaqah aktif Anda.`, 'success');
-            triggerConfettiFeedback('success');
-            renderUstazahInterface();
-        };
-
-        window.salinLaporanWA = function(studentId) {
-            const s = studentsList.find(student => student.id === studentId);
-            if (!s) {
-                showToast("Data santri tidak ditemukan.", "error");
-                return;
-            }
-
-            const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const hariIni = new Date().toLocaleDateString('id-ID', opsiTanggal);
-
-            let namaUstazah = "Ayu"; 
-            if (typeof currentRole === 'string' && currentRole.startsWith('ustazah_')) {
-                namaUstazah = currentRole.replace('ustazah_', '');
-            } else if (s.room) {
-                namaUstazah = s.room; 
-            }
-
-            const statusSyahriyah = s.paymentStatus === 'Lunas' ? '*✅ Lunas*' : '*⚠️ Belum Lunas*';
-            const statusDaftarUlang = (s.daftarUlangStatus || 'Belum Lunas') === 'Lunas' ? '*✅ Lunas*' : '*⚠️ Belum Lunas*';
-            const statusCapaianWA = s.statusCapaian === 'Tercapai' ? '✅ *Tercapai* 📝' : '❌ *Belum Tercapai* 📝';
-
-            const teksWA = `*LAPORAN PERKEMBANGAN MINGGUAN SANTRI PPHQ PUTRI 4 AL KARIMA*
-
-Assalamu’alaikum warahmatullahi wabarakatuh 🌿✨
-
-Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}* tercinta, semoga kita semua senantiasa dalam lindungan Allah SWT. 🌸
-
-Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran Putri 4*:
-
-1️⃣ 📖 *PERKEMBANGAN TAHFIZH*
-- Awal Setoran: ${s.setoranAwal || '-'}
-- Akhir Setoran: ${s.setoranAkhir || '-'}
-- Target Mingguan: ${s.targetMingguan || '-'}
-- *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
-- Status Capaian: ${statusCapaianWA}
-- Nilai Fasohah: *${s.fasohah || 'Belum Dinilai'}*
-- Nilai Kelancaran: *${s.kelancaran || 'Belum Dinilai'}*
-
-2️⃣ 🌸 *PERKEMBANGAN PSIKOLOGI ANANDA*
-✅ *Perkembangan Positif:*
-${s.perkembanganPositif || 'Ceria, murah senyum, dan setorannya selalu lancar'}
-
-⚠️ *Perkembangan Negatif:*
-${s.catatanNegatif || 'Nihil'}
-
-3️⃣ 💰 *STATUS ADMINISTRASI*
-- Syahriyah (Bulan Berjalan): ${statusSyahriyah}
-- Daftar Ulang: ${statusDaftarUlang}
-_Jazaakumullahu khairan atas dukungannya._ 🤝
-
-4️⃣ 📝 *CATATAN LAIN-LAIN*
-${s.catatanLain || 'Sehat wal afiat.'}
-
-Demikian yang bisa kami report dari perkembangan ananda, kami selalu terbuka untuk berdiskusi demi kebaikan ananda, atas kerjasamanya kami ucapkan terimakasih. 🙏✨
-
-📅 *${hariIni}*
-
-💌 *Salam Hangat,*
-Pembimbing Ananda
-*Ustazah ${namaUstazah}*
-
-Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
-
-Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium, Anda dapat mengunjungi:
-1. Klik link portal: https://pphq4kampunginggris-pare.github.io/laporan-hasil-blajar-santrihq-4/
-2. Pilih peran "Wali Santri"
-3. Ketikkan nama Ananda (cukup 1 kata depan)
-4. Laporan KHS lengkap, Peta 30 Juz, dan Rekam Jejak Pekanan siap dipantau secara langsung!`;
-
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = teksWA;
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextarea);
-
-            showToast(`Laporan ${s.name} berhasil disalin! Siap di-paste ke WhatsApp.`, 'success');
-            triggerConfettiFeedback('success');
-        };
-
-        window.triggerUstazahViewKHS = function(studentId) {
-            const targetStudent = studentsList.find(s => s.id === studentId);
-            if (!targetStudent) return;
-            
-            document.getElementById('view-ustazah').classList.add('hidden');
-            document.getElementById('view-wali').classList.remove('hidden');
-            document.getElementById('parent-back-btn-container').classList.remove('hidden'); 
-            renderWaliKHS(studentId);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.goBackToDashboard = function() {
-            document.getElementById('view-wali').classList.add('hidden');
-            setupActiveWorkspace();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.handleUstazahSetoranSubmit = async function(e) {
-            e.preventDefault();
-            const studentId = document.getElementById('ustazah-student-select').value;
-            if (!studentId) {
-                showToast("Silakan pilih santriwati terlebih dahulu.", "error");
-                return;
-            }
-
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
-
-            const setAwal = document.getElementById('ustazah-setoran-awal').value.trim();
-            const setAkhir = document.getElementById('ustazah-setoran-akhir').value.trim();
-            const targetMinggu = document.getElementById('ustazah-target-mingguan').value.trim();
-            const statusCapai = document.getElementById('ustazah-status-capaian').value;
-            const totalJuzInput = parseFloat(document.getElementById('ustazah-total-juz').value) || 0.0;
-            const nilaiFasohah = document.getElementById('ustazah-fasohah').value;
-            const nilaiKelancaran = document.getElementById('ustazah-kelancaran').value;
-            const pos = document.getElementById('ustazah-perkembangan-positif').value.trim() || "Menunjukkan kemajuan hafalan.";
-            const neg = document.getElementById('ustazah-catatan-negatif').value.trim() || "Nihil";
-            const syahriyah = document.getElementById('ustazah-syahriyah').value;
-            const daftarUlang = document.getElementById('ustazah-daftar-ulang').value;
-            const catatanLain = document.getElementById('ustazah-catatan-lain').value.trim() || "Sehat wal afiat.";
-
-            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-
-            student.setoranAwal = setAwal;
-            student.setoranAkhir = setAkhir;
-            student.targetMingguan = targetMinggu;
-            student.statusCapaian = statusCapai;
-            student.totalJuz = totalJuzInput;
-            student.fasohah = nilaiFasohah;
-            student.kelancaran = nilaiKelancaran;
-            student.perkembanganPositif = pos;
-            student.catatanNegatif = neg;
-            student.paymentStatus = syahriyah;
-            student.daftarUlangStatus = daftarUlang;
-            student.catatanLain = catatanLain;
-            student.updatedAt = dateStr;
-
-            const currentMonthShort = monthsShortList[new Date().getMonth()];
-            if (!student.sppMonths) student.sppMonths = {};
-            student.sppMonths[currentMonthShort] = syahriyah;
-
-            const newLog = {
-                id: "log_" + Date.now(),
-                student_id: studentId,
-                date: new Date().toISOString().split('T')[0],
-                setoran_awal: setAwal,
-                setoran_akhir: setAkhir,
-                total_juz: totalJuzInput,
-                fasohah: nilaiFasohah,      
-                kelancaran: nilaiKelancaran,
-                pos: pos,
-                neg: neg,
-                catatan: catatanLain,
-                target: targetMinggu,
-                status: statusCapai
-            };
-
-            tahfidzLogs.unshift(newLog);
-            saveLocalData();
-
-            await dbUpdate('santri_students', studentId, student);
-            await dbInsert('tahfidz_logs', newLog);
-            
-            showToast(`Laporan Pekan Berjalan untuk ${student.name} Berhasil Disimpan!`, 'success');
-            triggerConfettiFeedback('success');
-            renderUstazahInterface();
-        };
-
-        // =========================================================================
-        // WALI SANTRI RAPORT RENDERING
-        // =========================================================================
-        window.renderWaliKHS = function(studentId) {
-            const s = studentsList.find(st => st.id === studentId);
-            if (!s) return;
-
-            document.getElementById('wali-khs-name').innerText = s.name;
-            document.getElementById('wali-khs-pobdob').innerText = s.pobDob;
-            document.getElementById('wali-khs-parent').innerText = s.parentPhone;
-            document.getElementById('wali-khs-address').innerText = s.address;
-            document.getElementById('wali-khs-program').innerText = s.program;
-            document.getElementById('wali-khs-ustazah').innerText = `Ustazah ${s.room}`;
-            document.getElementById('wali-khs-celengan').innerText = s.celenganTarget || "5 Juz";
-            document.getElementById('wali-khs-parent-signature').innerText = `Wali, ${s.name}`;
-            document.getElementById('wali-khs-setoran-awal').innerText = s.setoranAwal;
-            document.getElementById('wali-khs-setoran-akhir').innerText = s.setoranAkhir;
-            document.getElementById('wali-khs-target-mingguan').innerText = s.targetMingguan;
-
-            const lastUpdatedLabel = document.getElementById('wali-khs-last-updated');
-            if (lastUpdatedLabel) {
-                lastUpdatedLabel.innerText = `Update: ${s.updatedAt || 'Inisialisasi'}`;
-            }
-
-            const activeBadge = document.getElementById('wali-khs-active-badge');
-            if (s.isActive) {
-                activeBadge.innerText = "Aktif Mengaji";
-                activeBadge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300";
-            } else {
-                activeBadge.innerText = "Tidak Aktif (Arsip)";
-                activeBadge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-slate-100 text-slate-500 border border-slate-300";
-            }
-
-            const photoBox = document.getElementById('wali-khs-photo');
-            if (s.photo && s.photo.trim() !== "") {
-                photoBox.innerHTML = `<img src="${s.photo}" class="w-full h-full object-cover rounded-xl shadow-inner">`;
-            } else {
-                photoBox.innerHTML = `<i class="fa-solid fa-user text-4xl text-slate-300"></i>`;
-            }
-            
-            const fillCapaian = document.getElementById('wali-khs-status-capaian');
-            fillCapaian.innerText = s.statusCapaian;
-            fillCapaian.className = s.statusCapaian === 'Tercapai' ? "font-extrabold text-emerald-700 mt-1 block" : "font-extrabold text-amber-600 mt-1 block";
-            
-            document.getElementById('wali-khs-fasohah').innerText = s.fasohah;
-            document.getElementById('wali-khs-kelancaran').innerText = s.kelancaran;
-            document.getElementById('wali-khs-perkembangan-positif').innerText = s.perkembanganPositif;
-            document.getElementById('wali-khs-catatan-negatif').innerText = s.catatanNegatif;
-            document.getElementById('wali-khs-catatan-lain').innerText = s.catatanLain || "Nihil";
-
-            const sppBadge = document.getElementById('wali-khs-syahriyah-badge');
-            sppBadge.innerText = s.paymentStatus === 'Lunas' ? 'LUNAS SELESAI' : 'MENUNGGU (PENDING)';
-            sppBadge.className = s.paymentStatus === 'Lunas' 
-                ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-emerald-100 text-emerald-800" 
-                : "px-2.5 py-1 rounded-full font-black text-[9px] bg-rose-100 text-rose-800";
-
-            const duBadge = document.getElementById('wali-khs-daftarulang-badge');
-            const duStatus = s.daftarUlangStatus || 'Belum Lunas';
-            duBadge.innerText = duStatus === 'Lunas' ? 'LUNAS FISIK' : (duStatus === 'Cicil' ? 'MENCICIL' : 'PENDING');
-            duBadge.className = duStatus === 'Lunas' 
-                ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-emerald-100 text-emerald-800" 
-                : (duStatus === 'Cicil' ? "px-2.5 py-1 rounded-full font-black text-[9px] bg-amber-100 text-amber-800" : "px-2.5 py-1 rounded-full font-black text-[9px] bg-rose-100 text-rose-800");
-
-            const currentFullMonth = new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' });
-            document.getElementById('wali-khs-spp-status-label').innerText = `Syahriyah ${currentFullMonth}`;
-
-            const sppGrid = document.getElementById('wali-spp-months-grid');
-            sppGrid.innerHTML = '';
-            const studentSpp = s.sppMonths || {};
-            let lunasMonthsCount = 0;
-
-            monthsShortList.forEach(m => {
-                const isPaid = studentSpp[m] === "Lunas";
-                if (isPaid) lunasMonthsCount++;
-
-                const monthPill = document.createElement('div');
-                monthPill.className = `p-2 rounded-xl text-center border text-[10px] font-black transition-all ${isPaid ? 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white border-emerald-500 shadow-2xs' : 'bg-slate-100 text-slate-400 border-slate-200'}`;
-                monthPill.innerHTML = `
-                    <div class="uppercase text-[9px] opacity-75">${m}</div>
-                    <div class="mt-0.5 text-[8px] font-medium">${isPaid ? 'Lunas' : 'Belum'}</div>
-                `;
-                sppGrid.appendChild(monthPill);
-            });
-            document.getElementById('wali-spp-summary').innerText = `${lunasMonthsCount} dari 12 Bulan Lunas`;
-
-            const visualMapContainer = document.getElementById('peta-tahfidz-container');
-            visualMapContainer.innerHTML = '';
-            
-            const roundedActiveJuz = Math.floor(s.totalJuz || 0);
-
-            for (let i = 1; i <= 30; i++) {
-                const circle = document.createElement('div');
-                circle.className = "flex flex-col items-center justify-center p-1 rounded-xl text-[9px] font-black border transition-all duration-300";
-                
-                if (i <= roundedActiveJuz) {
-                    circle.className += " bg-gradient-to-br from-emerald-700 to-emerald-900 text-white border-emerald-600 shadow-xs ring-2 ring-emerald-100";
-                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-square-check text-[7px] text-emerald-300 mt-0.5"></i>`;
-                } else if (i === roundedActiveJuz + 1 && (s.totalJuz % 1) > 0) {
-                    circle.className += " bg-emerald-50 text-emerald-800 border-emerald-400 border-dashed animate-pulse";
-                    circle.innerHTML = `<span>${i}</span><span class="text-[6px] tracking-tighter text-emerald-600 font-medium">Proses</span>`;
-                } else {
-                    circle.className += " bg-white text-slate-300 border-slate-150";
-                    circle.innerHTML = `<span>${i}</span><i class="fa-solid fa-circle text-[5px] text-slate-200 mt-1"></i>`;
-                }
-                visualMapContainer.appendChild(circle);
-            }
-
-            activeStudentHistoryData = tahfidzLogs.filter(l => l.student_id === studentId);
-            currentHistoryPage = 1; 
-            renderHistoryPagination();
-        };
-
-        function renderHistoryPagination() {
-            const container = document.getElementById('wali-timeline-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            const totalItems = activeStudentHistoryData.length;
-            const totalPages = Math.max(1, Math.ceil(totalItems / historyItemsPerPage));
-
-            if (currentHistoryPage > totalPages) currentHistoryPage = totalPages;
-            if (currentHistoryPage < 1) currentHistoryPage = 1;
-
-            const pageInfo = document.getElementById('history-page-info');
-            if (pageInfo) {
-                pageInfo.innerText = `Halaman ${currentHistoryPage} dari ${totalPages}`;
-            }
-
-            const btnPrev = document.getElementById('btn-prev-history');
-            const btnNext = document.getElementById('btn-next-history');
-            if (btnPrev) btnPrev.disabled = (currentHistoryPage === 1);
-            if (btnNext) btnNext.disabled = (currentHistoryPage === totalPages);
-
-            if (totalItems === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full bg-slate-50 text-slate-400 text-center py-8 border border-dashed border-slate-200 rounded-2xl font-medium">
-                        <i class="fa-solid fa-folder-open block text-2xl mb-2 text-slate-300"></i>
-                        Belum ada rekam jejak pekanan terdaftar.
-                    </div>`;
-                return;
-            }
-
-            const startIdx = (currentHistoryPage - 1) * historyItemsPerPage;
-            const endIdx = Math.min(startIdx + historyItemsPerPage, totalItems);
-            const pageItems = activeStudentHistoryData.slice(startIdx, endIdx);
-
-            pageItems.forEach(l => {
-                const logFormattedDate = getFormattedMonthWeek(l.date);
-                
-                const positifText = l.pos && l.pos.trim() !== "-" && l.pos.trim() !== ""
-                    ? `<p class="text-emerald-800 font-semibold text-xs leading-relaxed"><i class="fa-solid fa-circle-check text-[10px] text-emerald-600 mr-1.5"></i>${l.pos}</p>` 
-                    : '<p class="text-slate-400 italic text-xs"><i class="fa-solid fa-circle-minus text-[10px] text-slate-300 mr-1.5"></i>Belum ada catatan perkembangan positif pekan ini.</p>';
-
-                const negatifText = l.neg && l.neg.trim() !== "-" && l.neg.trim() !== ""
-                    ? `<p class="text-rose-800 font-semibold text-xs leading-relaxed border-t border-slate-100 pt-2 mt-2"><i class="fa-solid fa-circle-exclamation text-[10px] text-rose-500 mr-1.5"></i>${l.neg}</p>` 
-                    : '<p class="text-slate-400 italic text-xs border-t border-slate-100 pt-2 mt-2"><i class="fa-solid fa-circle-minus text-[10px] text-slate-300 mr-1.5"></i>Tidak ada catatan evaluasi negatif pekan ini.</p>';
-
-                const catatanLainText = l.catatan && l.catatan.trim() !== "-" && l.catatan.trim() !== ""
-                    ? `<div class="mt-2 text-[10px] bg-amber-50 text-amber-900/80 p-2 rounded-xl border border-amber-100/70 font-semibold">
-                         <i class="fa-solid fa-circle-info mr-1 text-amber-600"></i> Catatan Lain: ${l.catatan}
-                       </div>`
-                    : '';
-
-                const fasohahVal = l.fasohah || 'Belum Dinilai';
-                const kelancaranVal = l.kelancaran || 'Belum Dinilai';
-
-                const block = document.createElement('div');
-                block.className = "bg-slate-50/50 p-4 rounded-2xl border border-slate-200/80 flex flex-col justify-between shadow-xs hover:border-emerald-500/30 transition-all duration-200";
-                
-                block.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2.5">
-                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider font-mono">
-                            <i class="fa-solid fa-calendar-day text-emerald-700 mr-1"></i> ${logFormattedDate}
-                        </span>
-                        <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[10px] px-2 py-0.5 rounded-md font-sans">
-                            Akumulasi: ${l.total_juz || 0} Juz
-                        </span>
-                    </div>
-                    
-                    <div class="text-[11px] text-slate-600 font-semibold mb-2 bg-white p-2 rounded-lg border border-slate-100 flex justify-between">
-                        <span><i class="fa-solid fa-book-open text-slate-400 mr-1"></i> ${l.setoran_awal || '-'} s/d ${l.setoran_akhir || '-'}</span>
-                        <span class="text-slate-400">Target: <strong class="text-slate-700">${l.target || '-'}</strong></span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 mb-2 text-[10px] font-bold">
-                        <div class="bg-emerald-50/30 p-1.5 rounded border border-emerald-100 text-emerald-800 text-center">Fasohah: ${fasohahVal}</div>
-                        <div class="bg-blue-50/30 p-1.5 rounded border border-blue-100 text-blue-800 text-center">Kelancaran: ${kelancaranVal}</div>
-                    </div>
-
-                    <div class="bg-white p-3 rounded-xl border border-slate-100 space-y-1">
-                        ${positifText}
-                        ${negatifText}
-                        ${catatanLainText}
-                    </div>
-                `;
-                container.appendChild(block);
-            });
-        }
-
-        window.changeHistoryPage = function(dir) {
-            currentHistoryPage += dir;
-            renderHistoryPagination();
-        };
-
-        window.refreshWaliData = function() {
-            showToast("Sinkronisasi otomatis dengan Supabase Cloud aktif!", "success");
-            fetchCloudData();
-        };
-
-        // =========================================================================
-        // CERTIFICATE MODULE HANDLERS
-        // =========================================================================
-        window.triggerOpenCertificate = function(studentId) {
-            const student = studentsList.find(s => s.id === studentId);
-            if (!student) return;
-
-            certificateTargetStudent = student;
-            document.getElementById('certificate-modal').classList.remove('hidden');
-            
-            const editorPanel = document.getElementById('certificate-editor-panel');
-            if (currentRole === 'admin' || (currentRole && currentRole.startsWith('ustazah_'))) {
-                editorPanel.classList.remove('hidden');
-            } else {
-                editorPanel.classList.add('hidden');
-            }
-
-            document.getElementById('cert-editor-juz').value = `${student.totalJuz || '0'} Juz`;
-            document.getElementById('cert-editor-predikat').value = "MUMTAZ (ISTIMEWA)";
-
-            updateLiveCertificateText();
-        };
-
-        window.triggerDirectCertificateFromWali = function() {
-            if (currentWaliStudent) {
-                triggerOpenCertificate(currentWaliStudent.id);
-            } else {
-                showToast("Sesi Wali Santri tidak aktif.", "error");
-            }
-        };
-
-        window.updateLiveCertificateText = function() {
-            if (!certificateTargetStudent) return;
-
-            const customJuzVal = document.getElementById('cert-editor-juz').value;
-            const customPredikatVal = document.getElementById('cert-editor-predikat').value;
-
-            document.getElementById('cert-display-reg-num').innerText = "ALK-CERT-" + certificateTargetStudent.id.replace('s_', '').toUpperCase();
-            document.getElementById('cert-display-name').innerText = certificateTargetStudent.name.toUpperCase();
-            document.getElementById('cert-display-juz').innerText = `SELESAI ${customJuzVal}`;
-            document.getElementById('cert-display-predicate').innerText = customPredikatVal;
-            document.getElementById('cert-display-ustazah').innerText = `Ustazah ${certificateTargetStudent.room}`;
-        };
-
-        window.closeCertificateModal = function() {
-            document.getElementById('certificate-modal').classList.add('hidden');
-            certificateTargetStudent = null;
-        };
-
-        window.printCertificate = function() {
-            window.print();
-        };
-
-        window.saveCertificatePDF = function() {
-            const element = document.getElementById('print-certificate-area');
-            const studentName = certificateTargetStudent ? certificateTargetStudent.name : 'Santri';
+            const element = document.getElementById('wali-khs-card');
+            const studentName = document.getElementById('wali-khs-name').innerText;
             const opt = {
                 margin: 0,
-                filename: `Sertifikat_Tahfidz_${studentName.replace(/\s+/g, '_')}.pdf`,
+                filename: `KHS_${studentName.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
             html2pdf().set(opt).from(element).save();
         };
 
-        // =========================================================================
-        // RECEIPT & EDIT DIALOGS
-        // =========================================================================
+        window.saveReceiptPDF = function() {
+            if (typeof html2pdf === 'undefined') {
+                showToast("Pustaka PDF (html2pdf) sedang dimuat. Harap tunggu beberapa detik.", "error");
+                return;
+            }
+            const element = document.getElementById('print-receipt-area');
+            const studentName = document.getElementById('rec-name').innerText;
+            const opt = {
+                margin: 0,
+                filename: `Kuitansi_${studentName.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        };
+
+        // ==========================================
+        // UI HELPERS & MODALS
+        // ==========================================
         window.openReceiptModal = function(studentObj, feeReg, feeSpp, feeRereg) {
             document.getElementById('receipt-modal').classList.remove('hidden');
-            
             document.getElementById('receipt-reg-number').innerText = "REG-" + studentObj.id.replace('s_', '').toUpperCase();
             document.getElementById('receipt-print-date').innerText = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            
             document.getElementById('rec-name').innerText = studentObj.name;
             document.getElementById('rec-pobdob').innerText = studentObj.pobDob;
             document.getElementById('rec-phone').innerText = studentObj.parentPhone;
             document.getElementById('rec-celengan').innerText = studentObj.celenganTarget || "5 Juz";
-            document.getElementById('rec-program').innerText = studentObj.program;
-            document.getElementById('rec-ustazah').innerText = getHalaqahName(studentObj.room);
-            document.getElementById('rec-parent-sign').innerText = `Wali, ${studentObj.name}`;
-            document.getElementById('rec-spp').innerText = studentObj.paymentStatus === 'Lunas' ? 'LUNAS (SELESAI)' : 'PENDING (BELUM LUNAS)';
-
+            
             document.getElementById('rec-fee-reg').innerText = "Rp " + feeReg.toLocaleString('id-ID');
             document.getElementById('rec-fee-spp1').innerText = "Rp " + feeSpp.toLocaleString('id-ID');
             document.getElementById('rec-fee-rereg').innerText = "Rp " + feeRereg.toLocaleString('id-ID');
-            
             const total = feeReg + feeSpp + feeRereg;
             document.getElementById('rec-fee-total').innerText = "Rp " + total.toLocaleString('id-ID');
-
             document.getElementById('secure-receipt-code').innerText = "AUTH-" + Math.floor(100000 + Math.random() * 900000);
 
             const logBox = document.getElementById('rec-logistics');
             logBox.innerHTML = '';
-            
             const items = [
                 { val: studentObj.facBuku, label: "Buku Pegangan" },
-                { val: studentObj.facMeja, label: "Meja Ngaji Lipat" },
+                { val: studentObj.facMeja, label: "Meja Ngaji" },
                 { val: studentObj.facKerudung, label: "Hijab Almamater" },
-                { val: studentObj.facLoker, label: "Kunci Loker Lemari" }
+                { val: studentObj.facLoker, label: "Kunci Loker" }
             ];
 
             items.forEach(it => {
@@ -3364,231 +3159,24 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             document.getElementById('receipt-modal').classList.add('hidden');
         };
 
-        window.openEditStudentModal = function(studentId) {
-            const s = studentsList.find(st => st.id === studentId);
-            if (!s) return;
-
-            document.getElementById('edit-student-modal').classList.remove('hidden');
-            
-            document.getElementById('edit-student-id').value = s.id;
-            document.getElementById('edit-name').value = s.name;
-            document.getElementById('edit-pobdob').value = s.pobDob;
-            document.getElementById('edit-phone').value = s.parentPhone;
-            document.getElementById('edit-arrival-date').value = s.arrivalDate || "";
-            document.getElementById('edit-address').value = s.address;
-            document.getElementById('edit-motivation').value = s.motivation || "";
-            document.getElementById('edit-celengan').value = s.celenganTarget || "5 Juz";
-            document.getElementById('edit-total-juz').value = s.totalJuz || 0.0;
-            document.getElementById('edit-setoran-awal').value = s.setoranAwal || "";
-            document.getElementById('edit-setoran-akhir').value = s.setoranAkhir || "";
-            document.getElementById('edit-target-mingguan').value = s.targetMingguan || "";
-            document.getElementById('edit-positive').value = s.perkembanganPositif || "";
-            document.getElementById('edit-negative').value = s.catatanNegatif || "";
-            document.getElementById('edit-catatan-lain').value = s.catatanLain || "";
-
-            tempEditPhotoBase64 = s.photo || "";
-            const previewContainer = document.getElementById('edit-photo-preview');
-            if (s.photo && s.photo.trim() !== "") {
-                previewContainer.innerHTML = `<img src="${s.photo}" class="w-full h-full object-cover rounded-lg">`;
-            } else {
-                previewContainer.innerHTML = `<i class="fa-solid fa-camera text-[9px] text-slate-400"></i>`;
-            }
-
-            document.getElementById('edit-memorized').value = s.memorizedBefore || "Belum Pernah";
-            document.getElementById('edit-room').value = s.room || "Ayu";
-            document.getElementById('edit-program').value = s.program || "Tahfidz Reguler";
-            document.getElementById('edit-daftarulang').value = s.daftarUlangStatus || "Belum Lunas";
-            document.getElementById('edit-inhalaqah').value = s.inHalaqah ? "true" : "false";
-            document.getElementById('edit-isactive').value = s.isActive ? "true" : "false";
-
-            document.getElementById('edit-fac-buku').checked = !!s.facBuku;
-            document.getElementById('edit-fac-meja').checked = !!s.facMeja;
-            document.getElementById('edit-fac-kerudung').checked = !!s.facKerudung;
-            document.getElementById('edit-fac-loker').checked = !!s.facLoker;
-
-            const container = document.getElementById('edit-spp-months-container');
-            container.innerHTML = '';
-            
-            const studentSpp = s.sppMonths || {};
-
-            monthsShortList.forEach(m => {
-                const isPaid = studentSpp[m] === "Lunas";
-                const chkId = `edit-spp-month-${m}`;
-                const label = document.createElement('label');
-                label.className = `flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all ${isPaid ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-500'}`;
-                label.innerHTML = `
-                    <input type="checkbox" id="${chkId}" ${isPaid ? 'checked':''} onchange="toggleEditSppClass('${m}')" class="w-3.5 h-3.5 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
-                    <span>${m}</span>
-                `;
-                container.appendChild(label);
-            });
-        };
-
-        window.toggleEditSppClass = function(m) {
-            const chk = document.getElementById(`edit-spp-month-${m}`);
-            const lbl = chk.closest('label');
-            if (chk.checked) {
-                lbl.className = 'flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all bg-emerald-50 border-emerald-300 text-emerald-900';
-            } else {
-                lbl.className = 'flex items-center gap-1.5 p-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-500';
-            }
-        };
-
-        window.resetEditPhoto = function() {
-            tempEditPhotoBase64 = "";
-            document.getElementById('edit-photo-preview').innerHTML = `<i class="fa-solid fa-camera text-[9px] text-slate-400"></i>`;
-            showToast("Pratinjau foto dikosongkan.", "info");
-        };
-
-        window.closeEditStudentModal = function() {
-            document.getElementById('edit-student-modal').classList.add('hidden');
-        };
-
-        window.handleSaveEditStudent = async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('edit-student-id').value;
-            const s = studentsList.find(st => st.id === id);
-            if (!s) return;
-
-            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-
-            s.name = document.getElementById('edit-name').value.trim();
-            s.pobDob = document.getElementById('edit-pobdob').value.trim();
-            s.parentPhone = document.getElementById('edit-phone').value.trim();
-            s.arrivalDate = document.getElementById('edit-arrival-date').value;
-            s.address = document.getElementById('edit-address').value.trim();
-            s.motivation = document.getElementById('edit-motivation').value.trim();
-            s.celenganTarget = document.getElementById('edit-celengan').value.trim();
-            s.totalJuz = parseFloat(document.getElementById('edit-total-juz').value) || 0.0;
-            s.setoranAwal = document.getElementById('edit-setoran-awal').value.trim();
-            s.setoranAkhir = document.getElementById('edit-setoran-akhir').value.trim();
-            s.targetMingguan = document.getElementById('edit-target-mingguan').value.trim();
-            s.perkembanganPositif = document.getElementById('edit-positive').value.trim();
-            s.catatanNegatif = document.getElementById('edit-negative').value.trim();
-            s.catatanLain = document.getElementById('edit-catatan-lain').value.trim();
-
-            s.memorizedBefore = document.getElementById('edit-memorized').value;
-            s.room = document.getElementById('edit-room').value;
-            s.program = document.getElementById('edit-program').value;
-            s.daftarUlangStatus = document.getElementById('edit-daftarulang').value;
-            s.inHalaqah = document.getElementById('edit-inhalaqah').value === "true";
-            s.isActive = document.getElementById('edit-isactive').value === "true";
-
-            s.facBuku = document.getElementById('edit-fac-buku').checked;
-            s.facMeja = document.getElementById('edit-fac-meja').checked;
-            s.facKerudung = document.getElementById('edit-fac-kerudung').checked;
-            s.facLoker = document.getElementById('edit-fac-loker').checked;
-            s.photo = tempEditPhotoBase64; 
-            s.updatedAt = dateStr;
-
-            const updatedSppMonths = {};
-            monthsShortList.forEach(m => {
-                const isChecked = document.getElementById(`edit-spp-month-${m}`).checked;
-                updatedSppMonths[m] = isChecked ? "Lunas" : "Belum Lunas";
-            });
-            s.sppMonths = updatedSppMonths;
-
-            const currentMonthShort = monthsShortList[new Date().getMonth()];
-            s.paymentStatus = updatedSppMonths[currentMonthShort] || "Belum Lunas";
-
-            saveLocalData();
-            await dbUpdate('santri_students', id, s);
-
-            showToast(`Berkas Induk ${s.name} Berhasil Diperbarui & Dicadangkan!`, 'success');
-            triggerConfettiFeedback('success');
-            closeEditStudentModal();
-            recalculateAdminStats();
-            renderAdminStudentsDirectory();
-        };
-
-        window.printReceipt = function() { window.print(); };
-        window.printKHS = function() { window.print(); };
-
-        window.saveReceiptPDF = function() {
-            if (typeof html2pdf === 'undefined') {
-                showToast("Pustaka PDF sedang memuat. Silakan tunggu beberapa detik atau periksa koneksi internet Anda.", "error");
-                return;
-            }
-            const element = document.getElementById('print-receipt-area');
-            const studentName = document.getElementById('rec-name').innerText;
-            const opt = {
-                margin: 0,
-                filename: `Kuitansi_${studentName.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        };
-
-        window.saveKHSPDF = function() {
-            if (typeof html2pdf === 'undefined') {
-                showToast("Pustaka PDF sedang memuat. Silakan tunggu beberapa detik atau periksa koneksi internet Anda.", "error");
-                return;
-            }
-            const element = document.getElementById('wali-khs-card');
-            const studentName = document.getElementById('wali-khs-name').innerText;
-            const opt = {
-                margin: 0,
-                filename: `Raport_KHS_${studentName.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        };
-
-        window.exportDashboardToPDF = function() {
-            window.print();
-        };
-
-        // =========================================================================
-        // SUPABASE CONFIGURATION HANDLERS
-        // =========================================================================
-        window.saveCertificatePDF = function() {
-            if (typeof html2pdf === 'undefined') {
-                showToast("Pustaka PDF sedang memuat. Silakan tunggu beberapa detik atau periksa koneksi internet Anda.", "error");
-                return;
-            }
-            const element = document.getElementById('print-certificate-area');
-            const studentName = certificateTargetStudent ? certificateTargetStudent.name : 'Santri';
-            const opt = {
-                margin: 0,
-                filename: `Sertifikat_Tahfidz_${studentName.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
-            };
-            html2pdf().set(opt).from(element).save();
+        window.openSupabaseConfigModal = function() {
+            document.getElementById('supabase-config-modal').classList.remove('hidden');
+            document.getElementById('cfg-supabase-url').value = localStorage.getItem('karima_supabase_url') || '';
+            document.getElementById('cfg-supabase-key').value = localStorage.getItem('karima_supabase_key') || '';
         };
 
         window.closeSupabaseConfigModal = function() {
             document.getElementById('supabase-config-modal').classList.add('hidden');
         };
 
-        window.copySupabaseSchema = function() {
-            const schemaText = document.querySelector('#supabase-config-modal pre').innerText;
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = schemaText;
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextarea);
-            showToast("Skema SQL berhasil disalin! Tempelkan pada editor kueri Supabase Anda.", "success");
-        };
-
         window.handleSaveSupabaseConfig = function(e) {
             e.preventDefault();
             const url = document.getElementById('cfg-supabase-url').value.trim();
             const key = document.getElementById('cfg-supabase-key').value.trim();
-
             localStorage.setItem('karima_supabase_url', url);
             localStorage.setItem('karima_supabase_key', key);
-
-            showToast("Koneksi Supabase disimpan. Menghubungkan ulang...", "success");
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
+            showToast("Database terhubung! Menyinkronkan ulang...", "success");
+            setTimeout(() => { location.reload(); }, 1000);
         };
 
         window.openConfirmModal = function(title, msg, callback) {
@@ -3609,50 +3197,13 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             confirmCallback = null;
         };
 
-        // =========================================================================
-        // DECORATIONS & ALERTS
-        // =========================================================================
-        function triggerConfettiFeedback(actionType = 'success') {
-            if (typeof confetti === 'undefined') return;
-
-            if (actionType === 'register') {
-                const duration = 2.5 * 1000;
-                const animationEnd = Date.now() + duration;
-                const defaults = { startVelocity: 28, spread: 360, ticks: 60, zIndex: 100, colors: ['#047857', '#eab308', '#1e293b'] };
-
-                function randomInRange(min, max) {
-                    return Math.random() * (max - min) + min;
-                }
-
-                const interval = setInterval(function() {
-                    const timeLeft = animationEnd - Date.now();
-
-                    if (timeLeft <= 0) {
-                        return clearInterval(interval);
-                    }
-
-                    const particleCount = 50 * (timeLeft / duration);
-                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-                }, 250);
-            } else {
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#047857', '#eab308', '#ffffff']
-                });
-            }
-        }
-
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             if (!container) return;
 
             const toast = document.createElement('div');
-            let bg = 'bg-slate-900';
+            let bg = 'bg-slate-900 border border-slate-700';
             let icon = '<i class="fa-solid fa-circle-info text-blue-400"></i>';
-            
             if (type === 'success') {
                 bg = 'bg-emerald-950 border border-emerald-500/30';
                 icon = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
@@ -3663,21 +3214,186 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
 
             toast.className = `${bg} text-white text-xs font-bold p-4 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0`;
             toast.innerHTML = `${icon} <span class="flex-1">${message}</span>`;
-            
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
+            setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-x-4');
                 setTimeout(() => { toast.remove(); }, 300);
             }, 4000);
         }
 
+        function triggerConfettiFeedback(actionType = 'success') {
+            if (typeof confetti !== 'function') return; // Guard against slowly loaded CDN instances
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#047857', '#eab308', '#ffffff'] });
+        }
+
+        window.printReceipt = function() { window.print(); };
+        window.printKHS = function() { window.print(); };
+
+        // ==========================================
+        // DATA MODEL TRANSLATORS
+        // ==========================================
+        function mapStudentToDb(s) {
+            return {
+                id: s.id, name: s.name, pob_dob: s.pobDob, address: s.address, parent_phone: s.parentPhone,
+                memorized_before: s.memorizedBefore, celengan_target: s.celenganTarget, motivation: s.motivation,
+                arrival_date: s.arrivalDate, room: s.room, program: s.program, payment_status: s.paymentStatus,
+                spp_months: s.sppMonths, fac_buku: !!s.facBuku, fac_meja: !!s.facMeja, fac_kerudung: !!s.facKerudung,
+                fac_loker: !!s.facLoker, in_halaqah: !!s.inHalaqah, is_active: s.isActive !== undefined ? !!s.isActive : true,
+                total_juz: parseFloat(s.totalJuz) || 0, setoran_awal: s.setoranAwal, setoran_akhir: s.setoranAkhir,
+                target_mingguan: s.targetMingguan, status_capaian: s.statusCapaian, fasohah: s.fasohah, kelancaran: s.kelancaran,
+                perkembangan_positif: s.perkembanganPositif, catatan_negatif: s.catatanNegatif, daftar_ulang_status: s.daftarUlangStatus,
+                catatan_lain: s.catatanLain, photo: s.photo || "", updated_at: s.updatedAt || ""
+            };
+        }
+
+        function mapStudentFromDb(db) {
+            let parsedSpp = {};
+            try {
+                parsedSpp = (typeof db.spp_months === 'string') ? JSON.parse(db.spp_months) : (db.spp_months || {});
+            } catch (e) {
+                console.error(e);
+            }
+            return {
+                id: db.id, name: db.name, pobDob: db.pob_dob, address: db.address, parentPhone: db.parent_phone,
+                memorizedBefore: db.memorized_before, celenganTarget: db.celengan_target, motivation: db.motivation,
+                arrivalDate: db.arrival_date, room: db.room, program: db.program, paymentStatus: db.payment_status,
+                sppMonths: parsedSpp, facBuku: !!db.fac_buku, facMeja: !!db.fac_meja, facKerudung: !!db.fac_kerudung,
+                facLoker: !!db.fac_loker, inHalaqah: !!db.in_halaqah, isActive: db.is_active !== undefined ? !!db.is_active : true,
+                totalJuz: parseFloat(db.total_juz) || 0, setoranAwal: db.setoran_awal, setoranAkhir: db.setoran_akhir,
+                targetMingguan: db.target_mingguan, statusCapaian: db.status_capaian, fasohah: db.fasohah || "Belum Dinilai",
+                kelancaran: db.kelancaran || "Belum Dinilai", perkembanganPositif: db.perkembangan_positif, catatanNegatif: db.catatan_negatif,
+                daftarUlangStatus: db.daftar_ulang_status || "Belum Lunas", catatanLain: db.catatan_lain, photo: db.photo || "", updatedAt: db.updated_at || ""
+            };
+        }
+
+        function mapLogToDb(l) {
+            return {
+                id: l.id, student_id: l.student_id, date: l.date,
+                setoran_awal: l.setoran_awal || l.setoranAwal, setoran_akhir: l.setoran_akhir || l.setoranAkhir,
+                total_juz: parseFloat(l.total_juz || l.totalJuz) || 0, fasohah: l.fasohah || "", kelancaran: l.kelancaran || "",
+                pos: l.pos || "", neg: l.neg || "", catatan: l.catatan || "", target: l.target || "", status: l.status || ""
+            };
+        }
+
+        function mapLogFromDb(db) {
+            return {
+                id: db.id, student_id: db.student_id, date: db.date, setoran_awal: db.setoran_awal, setoran_akhir: db.setoran_akhir,
+                total_juz: parseFloat(db.total_juz) || 0, fasohah: db.fasohah || "Belum Dinilai", kelancaran: db.kelancaran || "Belum Dinilai",
+                pos: db.pos, neg: db.neg, catatan: db.catatan || "Nihil", target: db.target || "4 Halaman", status: db.status || "Belum"
+            };
+        }
+
+        async function dbInsert(table, payload) {
+            if (isCloudMode && supabaseClient) {
+                const dbPayload = table === 'santri_students' ? mapStudentToDb(payload) : mapLogToDb(payload);
+                await supabaseClient.from(table).insert([dbPayload]);
+            }
+        }
+
+        async function dbUpdate(table, recordId, payload) {
+            if (isCloudMode && supabaseClient) {
+                let dbPayload = payload;
+                if (table === 'santri_students') {
+                    dbPayload = {};
+                    const mappings = {
+                        name: 'name', pobDob: 'pob_dob', address: 'address', parentPhone: 'parent_phone',
+                        memorizedBefore: 'memorized_before', celenganTarget: 'celengan_target',
+                        motivation: 'motivation', arrivalDate: 'arrival_date', room: 'room',
+                        program: 'program', paymentStatus: 'payment_status', sppMonths: 'spp_months',
+                        facBuku: 'fac_buku', facMeja: 'fac_meja', facKerudung: 'fac_kerudung',
+                        facLoker: 'fac_loker', inHalaqah: 'in_halaqah', isActive: 'is_active',
+                        totalJuz: 'total_juz', setoranAwal: 'setoran_awal', setoranAkhir: 'setoran_akhir',
+                        targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
+                        fasohah: 'fasohah', kelancaran: 'kelancaran', perkembanganPositif: 'perkembangan_positif',
+                        catatanNegatif: 'catatan_negatif', daftarUlangStatus: 'daftar_ulang_status',
+                        catatanLain: 'catatan_lain', photo: 'photo', updatedAt: 'updated_at'
+                    };
+                    for (let key in payload) {
+                        if (mappings[key]) dbPayload[mappings[key]] = payload[key];
+                    }
+                } else if (table === 'tahfidz_logs') {
+                    dbPayload = mapLogToDb(payload);
+                }
+                await supabaseClient.from(table).update(dbPayload).eq('id', recordId);
+            }
+        }
+
+        async function dbDelete(table, recordId) {
+            if (isCloudMode && supabaseClient) {
+                await supabaseClient.from(table).delete().eq('id', recordId);
+            }
+        }
+
+        window.handleCSVImport = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(evt) {
+                const text = evt.target.result;
+                const lines = text.split('\n');
+                if (lines.length <= 1) return;
+
+                let importCount = 0;
+                for (let i = 1; i < lines.length; i++) {
+                    const columns = lines[i].split(',');
+                    if (columns.length < 2 || !columns[0].trim()) continue;
+
+                    const name = columns[0].trim();
+                    const phone = columns[1] ? columns[1].trim() : "085706399238";
+                    const newId = "s_csv_" + Date.now() + "_" + i;
+                    const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+                    const imported = {
+                        id: newId, name: name, pobDob: "Kediri, 2007", address: "Pare, Kediri", parentPhone: phone,
+                        memorizedBefore: "Belum", celenganTarget: "5 Juz", motivation: "Mengabdi", arrivalDate: "2026-01-01",
+                        room: "Ayu", program: "Tahfidz Reguler", paymentStatus: "Lunas",
+                        sppMonths: { "Jan": "Lunas" }, facBuku: true, facMeja: true, facKerudung: true, facLoker: false,
+                        inHalaqah: false, isActive: true, totalJuz: 0.0, setoranAwal: 'Belum', setoranAkhir: '-',
+                        targetMingguan: '4 Halaman', statusCapaian: 'Belum', fasohah: 'Belum', kelancaran: 'Belum',
+                        perkembanganPositif: 'Hasil impor CSV', catatanNegatif: 'Nihil', daftarUlangStatus: 'Lunas',
+                        catatanLain: 'Impor.', photo: "", updatedAt: dateStr
+                    };
+
+                    studentsList.push(imported);
+                    await dbInsert('santri_students', imported);
+                    importCount++;
+                }
+
+                saveLocalData();
+                showToast(`Sukses mengimpor ${importCount} santri!`, 'success');
+                triggerConfettiFeedback('register');
+                recalculateAdminStats();
+                renderAdminStudentsDirectory();
+            };
+            reader.readAsText(file);
+        };
+
+        window.clearAllSantriData = function() {
+            openConfirmModal(
+                "Kosongkan Seluruh Database",
+                "Apakah Anda yakin ingin menghapus seluruh data santriwati dan rekam KHS?",
+                async () => {
+                    studentsList = [];
+                    tahfidzLogs = [];
+                    saveLocalData();
+
+                    if (isCloudMode && supabaseClient) {
+                        await supabaseClient.from('santri_students').delete().neq('id', '');
+                        await supabaseClient.from('tahfidz_logs').delete().neq('id', '');
+                    }
+                    showToast("Database asrama berhasil dikosongkan.", "success");
+                    recalculateAdminStats();
+                    renderAdminStudentsDirectory();
+                }
+            );
+        };
+
+        // DOM Initializations
         document.addEventListener('DOMContentLoaded', () => {
-            initVisitorCounter();
             initCloudSync();
+            setInterval(updatePapanClock, 1000);
         });
     </script>
 </body>
