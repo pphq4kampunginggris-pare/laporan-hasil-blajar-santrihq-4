@@ -2272,7 +2272,8 @@
 
 Assalamu’alaikum warahmatullahi wabarakatuh 🌿✨
 
-Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}*, berikut laporan pekanan perkembangan tahfizh:
+Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}* tercinta, semoga kita semua senantiasa dalam lindungan Allah SWT. 🌸 
+Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran Putri 4*::
 
 1️⃣ 📖 *PERKEMBANGAN TAHFIZH*
 - Awal Setoran: ${s.setoranAwal || '-'}
@@ -2290,9 +2291,25 @@ Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}*, berikut l
 
 3️⃣ 💰 *STATUS ADMINISTRASI*
 - Syahriyah: ${statusSyahriyah}
+_Jazaakumullahu khairan atas dukungannya._
+
+📝 *CATATAN LAIN-LAIN*
+    -
 
 📅 *${hariIni}*
-💌 *Pembimbing Halaqah Ustazah ${s.room}*`;
+💌 salam hangat 
+*Pembimbing Ananda 
+ Ustazah ${s.room}*
+
+ Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
+
+Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium, termasuk, prestasi, tatatertib pesantren, dll.
+ Anda dapat mengunjungi:
+1. Klik link portal: https://pphq4kampunginggris-pare.github.io/laporan-hasil-blajar-santrihq-4/
+2. Pilih peran "Wali Santri"
+3. Ketikkan nama Ananda (cukup 1 kata depan),lalu klik nama santri yang muncul
+4. Laporan KHS lengkap, Peta 30 Juz, dan Rekam Jejak Pekanan siap dipantau secara langsung!`;
+
 
             const tempTextarea = document.createElement('textarea');
             tempTextarea.value = teksWA;
