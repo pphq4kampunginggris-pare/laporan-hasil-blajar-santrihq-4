@@ -85,7 +85,7 @@
             <!-- Logo area (Bersih tanpa detektor ketukan tombol rahasia) -->
             <div class="flex items-center gap-3 select-none">
                 <div class="w-10 h-10 rounded-full bg-white p-0.5 flex items-center justify-center shadow-md">
-                    <img src="https://placehold.co/100x100/ffffff/047857?text=HQ" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/100?text=HQ'">
+                    <img src="logo.png.jfif" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/100?text=HQ'">
                 </div>
                 <div>
                     <h1 class="text-xs sm:text-sm font-black tracking-wider uppercase leading-none">E-Tahfidz PPHQ PUTRI 4 Al Karima</h1>
@@ -112,7 +112,6 @@
             <!-- Bagian Kanan menampilkan status sinkronisasi Multi-Device Cloud secara profesional -->
             <div class="block select-none">
                 <span class="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full border border-emerald-500/20 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Cloud Aktif
                 </span>
             </div>
         </div>
