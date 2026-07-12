@@ -7,6 +7,7 @@
     
     <link rel="icon" type="image/x-icon" href="logohq.ico">
 
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
@@ -87,7 +88,7 @@
                     <img src="https://placehold.co/100x100/ffffff/047857?text=HQ" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/100?text=HQ'">
                 </div>
                 <div>
-                    <h1 class="text-xs sm:text-sm font-black tracking-wider uppercase leading-none">E-Tahfidz Al Karima</h1>
+                    <h1 class="text-xs sm:text-sm font-black tracking-wider uppercase leading-none">E-Tahfidz PPHQ PUTRI 4 Al Karima</h1>
                     <p class="text-[8px] sm:text-[9px] text-amber-400 font-bold uppercase tracking-widest mt-1">HQ Putri 4 & Papan Informasi</p>
                 </div>
             </div>
@@ -1090,8 +1091,7 @@
             <!-- Board info marquee running footer -->
             <div class="bg-emerald-950 text-white py-3 px-4 rounded-2xl overflow-hidden shadow-inner no-print border border-emerald-900">
                 <div class="flex gap-4 items-center">
-                    <span class="bg-amber-400 text-black px-2.5 py-0.5 rounded text-[10px] font-black uppercase shrink-0">Warta Berjalan</span>
-                    <marquee class="text-xs font-bold text-amber-300" id="papan-marquee-text">Memuat informasi berjalan...</marquee>
+                    <span class="bg-amber-400 text-black px-2.5 py-0.5 rounded text-[10px] font-black uppercase shrink-0">Hubungi Sekretariat No HP: 085706399238 atau Ustazah jika ada pertanyaan.</span>
                 </div>
             </div>
         </div>
@@ -2279,6 +2279,7 @@ Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}*, berikut l
 - Awal Setoran: ${s.setoranAwal || '-'}
 - Akhir Setoran: ${s.setoranAkhir || '-'}
 - Target Mingguan: ${s.targetMingguan || '-'}
+- perolehan mingguan : 
 - *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
 - Status Capaian: ${statusCapaianWA}
 - Nilai Fasohah: *${s.fasohah || 'Belum Dinilai'}*
