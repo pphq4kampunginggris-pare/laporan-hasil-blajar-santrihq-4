@@ -7,7 +7,6 @@
     
     <link rel="icon" type="image/x-icon" href="logohq.ico">
 
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
@@ -104,6 +103,10 @@
                 <button onclick="switchMasterSection('admin')" id="nav-btn-admin" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all text-slate-300 hover:text-white hover:bg-emerald-900">
                     <i class="fa-solid fa-user-shield"></i> Admin
                 </button>
+                <!-- Quick Register Action Button Desktop -->
+                <button onclick="openQuickRegisterModal()" class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all bg-amber-400 text-emerald-950 hover:bg-amber-500 shadow-md">
+                    <i class="fa-solid fa-circle-plus"></i> Santri Baru
+                </button>
                 <button onclick="switchMasterSection('papaninfo')" id="nav-btn-papaninfo" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all text-slate-300 hover:text-white hover:bg-emerald-900">
                     <i class="fa-solid fa-circle-info"></i> Papan Info
                 </button>
@@ -117,12 +120,6 @@
         </div>
     </nav>
 
-    <!-- GENERAL BROADCAST BANNER -->
-    <div class="bg-slate-900 text-amber-400 text-[11px] sm:text-xs py-2 px-3 shadow-inner border-b border-green-500/10 no-print">
-        <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
-            <span id="global-marquee-display" class="font-bold">✨ Portal E-Tahfidz & Papan Informasi Real-Time PPHQ PUTRI 4 AL-KARIMA Pare, Kediri. Hubungi Sekretariat No HP: 085706399238 atau Ustazah Pembina Halaqah masing-masing.</span>
-        </marquee>
-    </div>
 
     <!-- MAIN APP CONTAINER -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 pb-24 space-y-6">
@@ -1086,20 +1083,14 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Board info marquee running footer -->
-            <div class="bg-emerald-950 text-white py-3 px-4 rounded-2xl overflow-hidden shadow-inner no-print border border-emerald-900">
-                <div class="flex gap-4 items-center">
-                    <span class="bg-amber-400 text-black px-2.5 py-0.5 rounded text-[10px] font-black uppercase shrink-0">Hubungi Sekretariat No HP: 085706399238 atau Ustazah jika ada pertanyaan.</span>
-                </div>
-            </div>
+            
         </div>
 
     </main>
 
-    <!-- MOBILE SYSTEM PERSISTENT TAB BAR -->
+    <!-- MOBILE SYSTEM PERSISTENT TAB BAR (Updated with elevated circular "+" register button) -->
     <div class="md:hidden fixed bottom-0 inset-x-0 bg-emerald-950 border-t border-emerald-900 shadow-2xl z-50 no-print">
-        <div class="grid grid-cols-4 h-16 text-[9px] uppercase font-black text-center text-slate-400">
+        <div class="grid grid-cols-5 h-16 text-[9px] uppercase font-black text-center text-slate-400 items-center">
             <button onclick="switchMasterSection('walisantri')" id="mobile-nav-walisantri" class="flex flex-col items-center justify-center gap-1 text-amber-400">
                 <i class="fa-solid fa-graduation-cap text-base"></i>
                 <span>Walisantri</span>
@@ -1108,6 +1099,12 @@
                 <i class="fa-solid fa-person-chalkboard text-base"></i>
                 <span>Ustazah</span>
             </button>
+            <!-- Circular Quick Action "+" Register Button -->
+            <div class="flex items-center justify-center">
+                <button onclick="openQuickRegisterModal()" class="flex items-center justify-center bg-gradient-to-br from-amber-400 to-amber-500 text-emerald-950 w-12 h-12 rounded-full shadow-lg border-4 border-emerald-950 transition-all transform active:scale-90 -mt-6">
+                    <i class="fa-solid fa-plus text-xl font-black"></i>
+                </button>
+            </div>
             <button onclick="switchMasterSection('admin')" id="mobile-nav-admin" class="flex flex-col items-center justify-center gap-1">
                 <i class="fa-solid fa-user-shield text-base"></i>
                 <span>Admin</span>
@@ -1116,6 +1113,185 @@
                 <i class="fa-solid fa-circle-info text-base"></i>
                 <span>Papan Info</span>
             </button>
+        </div>
+    </div>
+
+    <!-- STANDALONE QUICK REGISTER MODAL -->
+    <div id="quick-register-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-3xl max-w-4xl w-full p-6 shadow-2xl flex flex-col max-h-[95vh] border border-slate-150">
+            <div class="flex items-center justify-between pb-3.5 border-b border-slate-150 shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <span class="p-2.5 bg-amber-50 text-amber-800 rounded-2xl"><i class="fa-solid fa-user-plus text-base"></i></span>
+                    <div>
+                        <h3 class="font-black text-sm text-slate-900 uppercase">Formulir Pendaftaran Santriwati Baru</h3>
+                        <p class="text-[10px] text-slate-400 font-semibold">Silakan isi formulir di bawah ini untuk pendaftaran instan.</p>
+                    </div>
+                </div>
+                <button onclick="closeQuickRegisterModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
+            </div>
+
+            <form id="quick-add-student-form" onsubmit="handleQuickStudentSubmit(event)" class="overflow-y-auto flex-1 pr-1.5 space-y-5 my-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
+                    <!-- Left Column -->
+                    <div class="space-y-4">
+                        <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-widest pb-1 border-b border-emerald-100">Biodata Santriwati</span>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="sm:col-span-2">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Lengkap Santriwati</label>
+                                <input type="text" id="quick-add-name" required placeholder="Contoh: Aisyah Humaira Khansa" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto JPG</label>
+                                <input type="file" id="quick-add-photo-file" accept="image/*" onchange="previewAndCompressPhoto(this, 'quick-add-photo-preview')" class="hidden">
+                                <div onclick="document.getElementById('quick-add-photo-file').click()" class="cursor-pointer bg-slate-50 border border-dashed rounded-xl p-2 flex items-center justify-center gap-1.5 text-[10px] text-slate-600 hover:border-emerald-500 hover:bg-emerald-50/20 transition-all mt-1">
+                                    <div id="quick-add-photo-preview" class="w-6 h-6 rounded bg-slate-200 overflow-hidden flex items-center justify-center shrink-0 border border-slate-300">
+                                        <i class="fa-solid fa-camera text-[9px] text-slate-400"></i>
+                                    </div>
+                                    <span class="truncate">Foto</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tempat, Tanggal Lahir</label>
+                                <input type="text" id="quick-add-pobdob" required placeholder="Contoh: Kediri, 12 April 2007" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Riwayat Menghafal</label>
+                                <select id="quick-add-memorized" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                    <option value="Belum Pernah">Belum Pernah Menghafal</option>
+                                    <option value="Sudah Pernah">Sudah Memiliki Hafalan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">No. WhatsApp Wali</label>
+                                <input type="tel" id="quick-add-phone" required placeholder="Contoh: 0812345678" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold focus:ring-2 focus:ring-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tanggal Kedatangan</label>
+                                <input type="date" id="quick-add-arrival-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold focus:ring-2 focus:ring-emerald-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Alamat Domisili Lengkap Wali</label>
+                            <textarea id="quick-add-address" rows="2" required placeholder="Alamat detail..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none resize-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Motivasi Menghafal</label>
+                            <input type="text" id="quick-add-motivation" placeholder="Motivasi..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-semibold text-slate-600 focus:ring-2 focus:ring-emerald-500">
+                        </div>
+
+                        <!-- Logistics -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                            <span class="block text-[10px] font-black text-slate-700 uppercase tracking-wider"><i class="fa-solid fa-boxes-packing mr-1"></i> Serah Terima Fisik & Logistik Awal</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center gap-2 p-2 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="quick-add-fac-buku" checked class="w-4 h-4 text-emerald-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Buku Pegangan</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="quick-add-fac-meja" checked class="w-4 h-4 text-emerald-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Meja Ngaji</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="quick-add-fac-kerudung" checked class="w-4 h-4 text-emerald-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Hijab Almamater</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-white border border-slate-150 rounded-xl cursor-pointer">
+                                    <input type="checkbox" id="quick-add-fac-loker" class="w-4 h-4 text-emerald-600 rounded">
+                                    <span class="text-[10px] block text-slate-800">Loker Lemari</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="space-y-4">
+                        <span class="block text-[10px] font-black text-emerald-900 uppercase tracking-widest pb-1 border-b border-emerald-100">Rencana Akademik & Keuangan</span>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Kamar & Halaqah</label>
+                                <select id="quick-add-room" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-emerald-950 cursor-pointer">
+                                    <option value="Ayu">Ustazah Ayu - Ruang Ayu (Al-Mulk)</option>
+                                    <option value="Ayuniz">Ustazah Ayuniz - Ruang Ayuniz (Ar-Rahman)</option>
+                                    <option value="Rima">Ustazah Rima - Ruang Rima (Ya-Sin)</option>
+                                    <option value="Nafis">Ustazah Nafis - Ruang Nafis (Al-Waqi'ah)</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Program</label>
+                                    <select id="quick-add-program" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Tahfidz Reguler">Reguler</option>
+                                        <option value="Takhassus 30 Juz">Takhassus</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Target Celengan</label>
+                                    <input type="text" id="quick-add-celengan" value="5 Juz" placeholder="cth: 5 Juz" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-center">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SPP & Payments setup -->
+                        <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100 space-y-3">
+                            <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-calculator mr-1"></i> Rencana Keuangan Administrasi Masuk</span>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <label class="bg-white border border-emerald-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                    <input type="checkbox" id="quick-add-fee-reg" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                    <div>
+                                        <span class="block text-[10px] font-extrabold text-slate-700">Infaq Daftar</span>
+                                        <span class="text-[9px] font-bold text-emerald-800">Rp 250.000</span>
+                                    </div>
+                                </label>
+                                <label class="bg-white border border-emerald-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                    <input type="checkbox" id="quick-add-fee-spp1" checked class="w-4.5 h-4.5 text-emerald-600 rounded">
+                                    <div>
+                                        <span class="block text-[10px] font-extrabold text-slate-700">SPP Bulan-1</span>
+                                        <span class="text-[9px] font-bold text-emerald-800">Rp 900.000</span>
+                                    </div>
+                                </label>
+                                <div class="bg-white border border-emerald-200 rounded-xl p-2">
+                                    <label class="block text-[8px] font-bold text-slate-500 uppercase mb-1">Daftar Ulang (Rp)</label>
+                                    <input type="number" id="quick-add-fee-rereg" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-[11px] p-2 outline-none font-bold">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Status Syahriyah SPP Awal</label>
+                                    <select id="quick-add-paystatus" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Lunas">Selesai Dibayar (Lunas)</option>
+                                        <option value="Belum Lunas" selected>Pending Pembayaran (Belum)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Status Daftar Ulang</label>
+                                    <select id="quick-add-daftarulang-status" class="w-full bg-white border border-slate-200 rounded-xl p-2.5 outline-none font-bold text-slate-700 cursor-pointer">
+                                        <option value="Lunas">Lunas</option>
+                                        <option value="Belum Lunas" selected>Belum Lunas</option>
+                                        <option value="Cicil">Cicil</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-3.5 border-t border-slate-150 shrink-0">
+                    <button type="button" onclick="closeQuickRegisterModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl">Batalkan</button>
+                    <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black py-3 rounded-xl shadow-md transition-all">Daftarkan Santriwati Baru & Cetak Kuitansi</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1460,6 +1636,7 @@
         let isCloudMode = false;
         let tempAddPhotoBase64 = "";
         let tempEditPhotoBase64 = "";
+        let tempQuickPhotoBase64 = "";
 
         let currentHistoryPage = 1;
         const historyItemsPerPage = 4;
@@ -1527,13 +1704,11 @@
 
             if (DEFAULT_SUPABASE_URL && DEFAULT_SUPABASE_KEY && typeof supabase !== 'undefined') {
                 try {
-                    // Selalu gunakan kredensial permanen yang telah ditanam (tanpa LocalStorage bypass rahasia)
                     supabaseClient = supabase.createClient(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_KEY, { auth: { persistSession: false } });
                     isCloudMode = true;
                     await fetchCloudData();
                     await fetchPapanCloudData();
                     
-                    // Menggunakan polling HTTP REST API sebagai sinkronisasi utama yang aman di Canvas
                     setupBackgroundPolling();
                 } catch (err) {
                     console.error("Gagal koneksi ke database awan:", err);
@@ -1577,7 +1752,6 @@
             }
         }
 
-        // FETCH PAPAN INFO DARI CLOUD DATABASE
         async function fetchPapanCloudData() {
             if (!supabaseClient) return;
             try {
@@ -1635,7 +1809,6 @@
             }
         }
 
-        // SINKRONISASI MANUAL SECARA REST HTTP DARI CLOUD DATABASE
         async function syncPapanTable(table) {
             if (!supabaseClient) return;
             try {
@@ -1663,18 +1836,15 @@
         }
 
         function setupBackgroundPolling() {
-            // Polling interval 5 detik untuk pembaruan cepat yang aman di Canvas
             setInterval(async () => {
                 if (isCloudMode && supabaseClient && document.visibilityState === 'visible') {
                     try {
-                        // Sinkronisasi data primer santri dan log
                         let { data: st } = await supabaseClient.from('santri_students').select('*');
                         let { data: lg } = await supabaseClient.from('tahfidz_logs').select('*');
                         if (st) studentsList = st.map(mapStudentFromDb);
                         if (lg) tahfidzLogs = lg.map(mapLogFromDb);
                         saveLocalData();
 
-                        // Sinkronisasi data papan informasi display
                         await fetchPapanCloudData();
 
                         refreshViews();
@@ -1685,9 +1855,6 @@
             }, 5000);
         }
 
-        // ==========================================
-        // VIEW SWITCHER & AUTH ENTRIES
-        // ==========================================
         window.switchMasterSection = function(section) {
             if (currentMasterSection !== section) {
                 if (currentMasterSection === 'ustazah' && currentUstazahRole) {
@@ -1731,6 +1898,90 @@
             refreshViews();
         };
 
+        // STANDALONE QUICK REGISTER MODAL CONTROL LOGIC
+        window.openQuickRegisterModal = function() {
+            document.getElementById('quick-register-modal').classList.remove('hidden');
+            showToast("Membuka Formulir Pendaftaran Santriwati Baru!", "success");
+        };
+
+        window.closeQuickRegisterModal = function() {
+            document.getElementById('quick-register-modal').classList.add('hidden');
+        };
+
+        window.handleQuickStudentSubmit = async function(e) {
+            e.preventDefault();
+            const newId = "s_" + Date.now();
+            const name = document.getElementById('quick-add-name').value.trim();
+            const room = document.getElementById('quick-add-room').value;
+            const initPaymentStatus = document.getElementById('quick-add-paystatus').value;
+            const initDaftarUlangStatus = document.getElementById('quick-add-daftarulang-status').value;
+            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            const initialSppMonths = {
+                "Jan": "Belum Lunas", "Feb": "Belum Lunas", "Mar": "Belum Lunas", "Apr": "Belum Lunas",
+                "Mei": "Belum Lunas", "Jun": "Belum Lunas", "Jul": "Belum Lunas", "Agu": "Belum Lunas",
+                "Sep": "Belum Lunas", "Okt": "Belum Lunas", "Nov": "Belum Lunas", "Des": "Belum Lunas"
+            };
+            if (initPaymentStatus === 'Lunas') {
+                initialSppMonths["Jan"] = "Lunas";
+            }
+
+            const newStudent = {
+                id: newId, name: name,
+                pobDob: document.getElementById('quick-add-pobdob').value.trim(),
+                address: document.getElementById('quick-add-address').value.trim(),
+                parentPhone: document.getElementById('quick-add-phone').value.trim(),
+                memorizedBefore: document.getElementById('quick-add-memorized').value,
+                celenganTarget: document.getElementById('quick-add-celengan').value.trim(),
+                motivation: document.getElementById('quick-add-motivation').value.trim() || "Mengabdi pada Al-Qur'an",
+                arrivalDate: document.getElementById('quick-add-arrival-date').value,
+                room: room, program: document.getElementById('quick-add-program').value,
+                paymentStatus: initPaymentStatus, sppMonths: initialSppMonths,
+                facBuku: document.getElementById('quick-add-fac-buku').checked,
+                facMeja: document.getElementById('quick-add-fac-meja').checked,
+                facKerudung: document.getElementById('quick-add-fac-kerudung').checked,
+                facLoker: document.getElementById('quick-add-fac-loker').checked,
+                inHalaqah: false, isActive: true, totalJuz: 0.0,
+                setoranAwal: 'Belum Setoran', setoranAkhir: '-', targetMingguan: '4 Halaman', statusCapaian: 'Belum Tercapai',
+                fasohah: 'Belum Dinilai', kelancaran: 'Belum Dinilai', perkembanganPositif: 'Adaptasi asrama', catatanNegatif: 'Nihil',
+                daftarUlangStatus: initDaftarUlangStatus, catatanLain: 'Pendaftaran awal.', photo: tempQuickPhotoBase64, updatedAt: dateStr
+            };
+
+            const feeReg = document.getElementById('quick-add-fee-reg').checked ? 250000 : 0;
+            const feeSpp = document.getElementById('quick-add-fee-spp1').checked ? 900000 : 0;
+            const feeRereg = parseInt(document.getElementById('quick-add-fee-rereg').value) || 0;
+
+            const initialLog = {
+                id: "log_" + Date.now(), student_id: newId, date: new Date().toISOString().split('T')[0],
+                setoran_awal: "Pendaftaran", setoran_akhir: "Santri Baru", total_juz: 0.0,
+                fasohah: 'Belum Dinilai', kelancaran: 'Belum Dinilai', pos: "Terdaftar Resmi", neg: "Nihil",
+                catatan: "Inisialisasi", target: "Inisialisasi", status: "Berjalan"
+            };
+
+            studentsList.push(newStudent);
+            tahfidzLogs.unshift(initialLog);
+            saveLocalData();
+
+            await dbInsert('santri_students', newStudent);
+            await dbInsert('tahfidz_logs', initialLog);
+
+            showToast(`Santriwati ${name} Berhasil Didaftarkan!`, 'success');
+            triggerConfettiFeedback('register');
+            
+            // Close Registration Modal
+            closeQuickRegisterModal();
+            
+            // Pop up receipt modal
+            openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
+            
+            tempQuickPhotoBase64 = "";
+            document.getElementById('quick-add-photo-preview').innerHTML = `<i class="fa-solid fa-camera text-xs text-slate-400"></i>`;
+            e.target.reset();
+            
+            recalculateAdminStats();
+            renderAdminStudentsDirectory();
+        };
+
         function refreshViews() {
             if (currentMasterSection === 'walisantri') {
                 if (currentWaliStudent) {
@@ -1765,9 +2016,6 @@
             }
         }
 
-        // ==========================================
-        // ACTION GATE LOGINS
-        // ==========================================
         window.handleWaliSearch = function() {
             const query = document.getElementById('wali-search-input').value.toLowerCase().trim();
             const box = document.getElementById('wali-matches-box');
@@ -1883,9 +2131,6 @@
             refreshViews();
         };
 
-        // ==========================================
-        // WALISANTRI RAPORT RENDERING
-        // ==========================================
         window.renderWaliKHS = function(studentId) {
             const s = studentsList.find(st => st.id === studentId);
             if (!s) return;
@@ -2065,9 +2310,6 @@
             return `${monthName} Pekan ke-${weekNum}`;
         }
 
-        // ==========================================
-        // USTAZAH PORTAL OPERATIONS
-        // ==========================================
         function renderUstazahInterface() {
             const activeUstazah = currentUstazahRole;
             document.getElementById('ustazah-badge-display').innerText = `Ustazah: ${activeUstazah} (Halaqah Active)`;
@@ -2322,9 +2564,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             triggerConfettiFeedback('success');
         };
 
-        // ==========================================
-        // ADMIN DASHBOARD ACTIONS
-        // ==========================================
         function recalculateAdminStats() {
             const total = studentsList.length;
             const activeStudents = studentsList.filter(s => s.isActive === true);
@@ -2480,7 +2719,7 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
                 tr.className = "hover:bg-slate-50 border-b text-xs";
                 
                 const halaqahBadge = s.inHalaqah 
-                    ? `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[9px] font-black">Halaqah Hack</span>`
+                    ? `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[9px] font-black">Halaqah</span>`
                     : `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-[9px] font-black animate-pulse">Menunggu</span>`;
 
                 const keaktifanBadge = s.isActive
@@ -2545,9 +2784,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             openReceiptModal(student, 250000, 900000, 0); 
         };
 
-        // ==========================================
-        // EDIT STUDENT MODAL LOGIC
-        // ==========================================
         window.openEditStudentModal = function(studentId) {
             const s = studentsList.find(st => st.id === studentId);
             if (!s) return;
@@ -2670,9 +2906,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             renderAdminStudentsDirectory();
         };
 
-        // ==========================================
-        // PAPAN INFORMASI DIGITAL RENDERER
-        // ==========================================
         function renderPapanInformasi() {
             updatePapanClock();
             
@@ -2742,9 +2975,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             if (dt) dt.textContent = `${days[now.getDay()]} , ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
         }
 
-        // ==========================================
-        // PAPAN INFO MANAGEMENT ACTIONS (SINKRON CLOUD)
-        // ==========================================
         window.renderAdminPapanSettingsLists = function() {
             const nList = document.getElementById('adm-papan-news-list');
             if (nList) {
@@ -2996,9 +3226,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             renderPapanInformasi();
         };
 
-        // ==========================================
-        // PDF GENERATION & IMAGE COMPRESSION
-        // ==========================================
         window.previewAndCompressPhoto = function(inputEl, previewId) {
             const file = inputEl.files[0];
             if (!file) return;
@@ -3040,6 +3267,8 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
                         tempAddPhotoBase64 = compressedBase64;
                     } else if (previewId === 'edit-photo-preview') {
                         tempEditPhotoBase64 = compressedBase64;
+                    } else if (previewId === 'quick-add-photo-preview') {
+                        tempQuickPhotoBase64 = compressedBase64;
                     }
                     showToast("Foto berhasil dioptimasi ke format JPG murni!", "success");
                 };
@@ -3082,9 +3311,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             html2pdf().set(opt).from(element).save();
         };
 
-        // ==========================================
-        // UI HELPERS & MODALS
-        // ==========================================
         window.openReceiptModal = function(studentObj, feeReg, feeSpp, feeRereg) {
             document.getElementById('receipt-modal').classList.remove('hidden');
             document.getElementById('receipt-reg-number').innerText = "REG-" + studentObj.id.replace('s_', '').toUpperCase();
@@ -3168,7 +3394,7 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
         }
 
         function triggerConfettiFeedback(actionType = 'success') {
-            if (typeof confetti !== 'function') return; // Guard against slowly loaded CDN instances
+            if (typeof confetti !== 'function') return; 
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#047857', '#eab308', '#ffffff'] });
         }
 
@@ -3192,7 +3418,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             };
         }
 
-        // Parse student
         function mapStudentFromDb(db) {
             let parsedSpp = {};
             try {
