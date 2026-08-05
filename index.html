@@ -81,7 +81,7 @@
     <!-- MASTER NAVIGATION BAR (Responsive: Top on desktop, Bottom fixed on mobile) -->
     <nav class="bg-emerald-950 text-white shadow-lg sticky top-0 z-50 no-print border-b border-emerald-900">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-            <!-- Logo area (Bersih tanpa detektor ketukan tombol rahasia) -->
+            <!-- Logo area -->
             <div class="flex items-center gap-3 select-none">
                 <div class="w-10 h-10 rounded-full bg-white p-0.5 flex items-center justify-center shadow-md">
                     <img src="logo.png.jfif" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/100?text=HQ'">
@@ -248,6 +248,14 @@
                     <div class="space-y-3">
                         <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-1"></i> Peta Jalur Perjalanan Visual Menuju 30 Juz Al-Qur'an</span>
                         <div id="peta-tahfidz-container" class="grid grid-cols-5 sm:grid-cols-10 gap-2 p-4 bg-emerald-50/30 rounded-3xl border border-emerald-150">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- TASMIK EXAM ARCHIVE SECTION IN KHS -->
+                    <div class="space-y-3">
+                        <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider"><i class="fa-solid fa-award mr-1"></i> Arsip & Riwayat Ujian Tasmik Resmi</span>
+                        <div id="wali-khs-tasmik-container" class="space-y-2">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
@@ -424,12 +432,44 @@
 
             <!-- USTAZAH MAIN WORKSPACE -->
             <div id="ustazah-content" class="hidden space-y-6">
-                <!-- Session identifier -->
-                <div class="flex items-center justify-between bg-slate-100 p-4 rounded-3xl border border-slate-200/50">
+                <!-- Session identifier & Tasmik Trigger Button -->
+                <div class="flex items-center justify-between bg-slate-100 p-4 rounded-3xl border border-slate-200/50 flex-wrap gap-3">
                     <span id="ustazah-badge-display" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Ustazah Active Session</span>
-                    <button onclick="clearUstazahSession()" class="bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200">
-                        <i class="fa-solid fa-arrow-left text-rose-600"></i> Keluar Halaqah
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openTasmikModal()" class="bg-amber-500 hover:bg-amber-600 text-emerald-950 font-black text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-file-circle-plus"></i> Pengajuan Ujian Tasmik
+                        </button>
+                        <button onclick="clearUstazahSession()" class="bg-white hover:bg-slate-50 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transition border border-slate-200">
+                            <i class="fa-solid fa-arrow-left text-rose-600"></i> Keluar Halaqah
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TASMIK SUBMISSIONS LIST TABLE -->
+                <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <h3 class="font-extrabold text-xs text-slate-900 uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-clipboard-check text-amber-500"></i> Arsip & Persetujuan Ujian Tasmik Halaqah
+                        </h3>
+                        <span class="text-[10px] bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full font-black" id="tasmik-count-badge">0 Pengajuan</span>
+                    </div>
+                    <div class="overflow-x-auto rounded-2xl border border-slate-150">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 border-b border-slate-150 font-black text-[9px] uppercase">
+                                    <th class="p-3">Nama Santriwati</th>
+                                    <th class="p-3">List Tasmik</th>
+                                    <th class="p-3">Tempat, Hari, Tanggal</th>
+                                    <th class="p-3">Penyimak</th>
+                                    <th class="p-3 text-center">Status</th>
+                                    <th class="p-3 text-center">Otoritas Ustazah</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tasmik-submissions-list" class="divide-y divide-slate-100">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Calon Anggota Baru (PENDING APPROVAL) -->
@@ -1088,7 +1128,7 @@
 
     </main>
 
-    <!-- MOBILE SYSTEM PERSISTENT TAB BAR (Updated with elevated circular "+" register button) -->
+    <!-- MOBILE SYSTEM PERSISTENT TAB BAR -->
     <div class="md:hidden fixed bottom-0 inset-x-0 bg-emerald-950 border-t border-emerald-900 shadow-2xl z-50 no-print">
         <div class="grid grid-cols-5 h-16 text-[9px] uppercase font-black text-center text-slate-400 items-center">
             <button onclick="switchMasterSection('walisantri')" id="mobile-nav-walisantri" class="flex flex-col items-center justify-center gap-1 text-amber-400">
@@ -1113,6 +1153,64 @@
                 <i class="fa-solid fa-circle-info text-base"></i>
                 <span>Papan Info</span>
             </button>
+        </div>
+    </div>
+
+    <!-- TASMIK EXAM APPLICATION MODAL -->
+    <div id="tasmik-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl flex flex-col max-h-[95vh] border border-slate-150">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-150 shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <span class="p-2.5 bg-amber-50 text-amber-800 rounded-2xl"><i class="fa-solid fa-file-circle-plus text-base"></i></span>
+                    <div>
+                        <h3 class="font-black text-sm text-slate-900 uppercase">Formulir Pengajuan Ujian Tasmik</h3>
+                        <p class="text-[10px] text-slate-400 font-semibold">Ajukan permohonan ujian tasmik untuk santriwati binaan Anda.</p>
+                    </div>
+                </div>
+                <button onclick="closeTasmikModal()" class="text-slate-400 hover:text-slate-600 transition text-lg"><i class="fa-solid fa-circle-xmark"></i></button>
+            </div>
+
+            <form onsubmit="handleTasmikSubmit(event)" class="overflow-y-auto flex-1 pr-1.5 space-y-4 my-4 text-xs">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Santriwati</label>
+                    <select id="tasmik-student-select" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-bold text-slate-800 cursor-pointer">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">List Ujian Tasmik (Kategori Juz)</label>
+                    <select id="tasmik-list-juz" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-bold text-emerald-950 cursor-pointer">
+                        <option value="5 Juz">5 Juz</option>
+                        <option value="10 Juz">10 Juz</option>
+                        <option value="15 Juz">15 Juz</option>
+                        <option value="20 Juz">20 Juz</option>
+                        <option value="25 Juz">25 Juz</option>
+                        <option value="30 Juz">30 Juz (Khatam)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tempat Pelaksanaan</label>
+                        <input type="text" id="tasmik-tempat" required placeholder="Contoh: Ruang Utama HQ Putri 4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Hari & Tanggal</label>
+                        <input type="date" id="tasmik-tanggal" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-semibold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Penyimak (Penguji)</label>
+                    <input type="text" id="tasmik-penyimak" required placeholder="Contoh: Ustazah Siti Aminah, S.Ag" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-semibold">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-150 shrink-0">
+                    <button type="button" onclick="closeTasmikModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl">Batal</button>
+                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-emerald-950 font-black text-xs py-3 rounded-xl shadow-md transition-all">Ajukan & Setujui Ujian</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1620,13 +1718,14 @@
 
     <!-- JAVASCRIPT PROGRAM LOGIC -->
     <script>
-        // Kredensial Supabase ditanam secara permanen demi integrasi multi-device instan tanpa menu konfigurasi manual
         const DEFAULT_SUPABASE_URL = "https://ucneuumyslkuweyyadlr.supabase.co"; 
         const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjbmV1dW15c2xrdXdleXlhZGxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDU5ODcsImV4cCI6MjA5NzMyMTk4N30.PXfkMU6im2eV0s1z38vtw0F36f299NQZRjyf30UNnwc"; 
 
         let supabaseClient = null;
         let studentsList = [];
         let tahfidzLogs = [];
+        let tasmikSubmissions = JSON.parse(localStorage.getItem('karima_tasmik_subs')) || [];
+        
         let currentMasterSection = 'walisantri';
         let currentWaliStudent = null;
         let currentUstazahRole = null;
@@ -1652,7 +1751,6 @@
             'Nafis': 'nafis4'
         };
 
-        // Local Storage Fallback Variables
         let papanNews = JSON.parse(localStorage.getItem('karima_papan_news')) || [
             { id: 1, judul: "Pembukaan Semester Ganjil 2026/2027", isi: "Mari mulai semester ini dengan penuh semangat menjaga hafalan kalamullah." },
             { id: 2, judul: "Ujian Terbuka Sanad Juz 'Amma", isi: "Akan diselenggarakan ujian publik bagi para penghafal kategori juz 'Amma pekan depan." }
@@ -1681,22 +1779,22 @@
             localStorage.setItem('karima_papan_programs', JSON.stringify(papanPrograms));
             localStorage.setItem('karima_papan_rules', JSON.stringify(papanRules));
             localStorage.setItem('karima_papan_config', JSON.stringify(papanConfig));
+            localStorage.setItem('karima_tasmik_subs', JSON.stringify(tasmikSubmissions));
         }
 
-        // ==========================================
-        // DATABASE SINKRONISASI
-        // ==========================================
         function loadLocalData() {
             const st = localStorage.getItem('karima_students');
             const lg = localStorage.getItem('karima_logs');
+            const ts = localStorage.getItem('karima_tasmik_subs');
             studentsList = st ? JSON.parse(st) : [];
             tahfidzLogs = lg ? JSON.parse(lg) : [];
+            tasmikSubmissions = ts ? JSON.parse(ts) : [];
         }
 
-        // Save local copy
         function saveLocalData() {
             localStorage.setItem('karima_students', JSON.stringify(studentsList));
             localStorage.setItem('karima_logs', JSON.stringify(tahfidzLogs));
+            localStorage.setItem('karima_tasmik_subs', JSON.stringify(tasmikSubmissions));
         }
 
         async function initCloudSync() {
@@ -1726,6 +1824,7 @@
             try {
                 let { data: st, error: err1 } = await supabaseClient.from('santri_students').select('*');
                 let { data: lg, error: err2 } = await supabaseClient.from('tahfidz_logs').select('*');
+                let { data: ts, error: err3 } = await supabaseClient.from('tasmik_submissions').select('*');
 
                 if (err1 || err2) {
                     isCloudMode = false;
@@ -1742,6 +1841,7 @@
                 } else {
                     studentsList = st ? st.map(mapStudentFromDb) : [];
                     tahfidzLogs = lg ? lg.map(mapLogFromDb) : [];
+                    if (ts) tasmikSubmissions = ts;
                 }
 
                 studentsList.sort((a, b) => a.name.localeCompare(b.name));
@@ -1760,44 +1860,16 @@
                 let { data: ach } = await supabaseClient.from('papan_achievements').select('*');
                 let { data: prog } = await supabaseClient.from('papan_programs').select('*');
                 let { data: rules } = await supabaseClient.from('papan_rules').select('*');
+                let { data: ts } = await supabaseClient.from('tasmik_submissions').select('*');
 
                 if (cfg && cfg.length > 0) {
                     papanConfig = { running_text: cfg[0].running_text, maklumat_kuning: cfg[0].maklumat_kuning };
-                } else if (papanConfig) {
-                    await supabaseClient.from('papan_config').upsert([{ id: 1, running_text: papanConfig.running_text, maklumat_kuning: papanConfig.maklumat_kuning }]);
                 }
-
-                if (news && news.length > 0) {
-                    papanNews = news.map(n => ({ id: n.id, judul: n.judul, isi: n.isi }));
-                } else {
-                    for (let n of papanNews) {
-                        await supabaseClient.from('papan_news').upsert([{ id: n.id, judul: n.judul, isi: n.isi }]);
-                    }
-                }
-
-                if (ach && ach.length > 0) {
-                    papanAchievements = ach.map(a => ({ id: a.id, pencapaian: a.pencapaian }));
-                } else {
-                    for (let a of papanAchievements) {
-                        await supabaseClient.from('papan_achievements').upsert([{ id: a.id, pencapaian: a.pencapaian }]);
-                    }
-                }
-
-                if (prog && prog.length > 0) {
-                    papanPrograms = prog.map(p => ({ id: p.id, nama_program: p.agenda }));
-                } else {
-                    for (let p of papanPrograms) {
-                        await supabaseClient.from('papan_programs').upsert([{ id: p.id, agenda: p.nama_program }]);
-                    }
-                }
-
-                if (rules && rules.length > 0) {
-                    papanRules = rules.map(r => ({ id: r.id, aturan: r.aturan }));
-                } else {
-                    for (let r of papanRules) {
-                        await supabaseClient.from('papan_rules').upsert([{ id: r.id, aturan: r.aturan }]);
-                    }
-                }
+                if (news && news.length > 0) papanNews = news.map(n => ({ id: n.id, judul: n.judul, isi: n.isi }));
+                if (ach && ach.length > 0) papanAchievements = ach.map(a => ({ id: a.id, pencapaian: a.pencapaian }));
+                if (prog && prog.length > 0) papanPrograms = prog.map(p => ({ id: p.id, nama_program: p.agenda }));
+                if (rules && rules.length > 0) papanRules = rules.map(r => ({ id: r.id, aturan: r.aturan }));
+                if (ts && ts.length > 0) tasmikSubmissions = ts;
 
                 savePapanData();
                 renderPapanInformasi();
@@ -1809,44 +1881,19 @@
             }
         }
 
-        async function syncPapanTable(table) {
-            if (!supabaseClient) return;
-            try {
-                let { data } = await supabaseClient.from(table).select('*');
-                if (!data) return;
-
-                if (table === 'papan_news') {
-                    papanNews = data.map(n => ({ id: n.id, judul: n.judul, isi: n.isi }));
-                } else if (table === 'papan_achievements') {
-                    papanAchievements = data.map(a => ({ id: a.id, pencapaian: a.pencapaian }));
-                } else if (table === 'papan_programs') {
-                    papanPrograms = data.map(p => ({ id: p.id, nama_program: p.agenda }));
-                } else if (table === 'papan_rules') {
-                    papanRules = data.map(r => ({ id: r.id, aturan: r.aturan }));
-                }
-
-                savePapanData();
-                renderPapanInformasi();
-                if (currentMasterSection === 'admin' && currentAdminRole) {
-                    renderAdminPapanSettingsLists();
-                }
-            } catch (err) {
-                console.error("Gagal sinkronisasi parsial tabel: " + table, err);
-            }
-        }
-
         function setupBackgroundPolling() {
             setInterval(async () => {
                 if (isCloudMode && supabaseClient && document.visibilityState === 'visible') {
                     try {
                         let { data: st } = await supabaseClient.from('santri_students').select('*');
                         let { data: lg } = await supabaseClient.from('tahfidz_logs').select('*');
+                        let { data: ts } = await supabaseClient.from('tasmik_submissions').select('*');
                         if (st) studentsList = st.map(mapStudentFromDb);
                         if (lg) tahfidzLogs = lg.map(mapLogFromDb);
+                        if (ts) tasmikSubmissions = ts;
                         saveLocalData();
 
                         await fetchPapanCloudData();
-
                         refreshViews();
                     } catch (e) {
                         console.log("Gagal melakukan background sync polling.");
@@ -1898,7 +1945,6 @@
             refreshViews();
         };
 
-        // STANDALONE QUICK REGISTER MODAL CONTROL LOGIC
         window.openQuickRegisterModal = function() {
             document.getElementById('quick-register-modal').classList.remove('hidden');
             showToast("Membuka Formulir Pendaftaran Santriwati Baru!", "success");
@@ -1906,6 +1952,104 @@
 
         window.closeQuickRegisterModal = function() {
             document.getElementById('quick-register-modal').classList.add('hidden');
+        };
+
+        window.openTasmikModal = function() {
+            const selectEl = document.getElementById('tasmik-student-select');
+            selectEl.innerHTML = '';
+            const activeStudents = studentsList.filter(s => s.room === currentUstazahRole && s.isActive);
+            if (activeStudents.length === 0) {
+                selectEl.innerHTML = `<option value="">Tidak ada santri aktif di halaqah Anda</option>`;
+            } else {
+                activeStudents.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.innerText = `${s.name} (${s.totalJuz || 0} Juz)`;
+                    selectEl.appendChild(opt);
+                });
+            }
+            document.getElementById('tasmik-modal').classList.remove('hidden');
+        };
+
+        window.closeTasmikModal = function() {
+            document.getElementById('tasmik-modal').classList.add('hidden');
+        };
+
+        window.handleTasmikSubmit = async function(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('tasmik-student-select').value;
+            const student = studentsList.find(s => s.id === studentId);
+            if (!student) {
+                showToast("Pilih santriwati yang valid.", "error");
+                return;
+            }
+
+            const tasmikData = {
+                id: "tsm_" + Date.now(),
+                student_id: studentId,
+                student_name: student.name,
+                ustazah_room: currentUstazahRole,
+                list_juz: document.getElementById('tasmik-list-juz').value,
+                tempat: document.getElementById('tasmik-tempat').value.trim(),
+                tanggal: document.getElementById('tasmik-tanggal').value,
+                penyimak: document.getElementById('tasmik-penyimak').value.trim(),
+                status: 'Disetujui Ustazah',
+                created_at: new Date().toISOString()
+            };
+
+            tasmikSubmissions.unshift(tasmikData);
+            saveLocalData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('tasmik_submissions').insert([tasmikData]);
+                } catch (err) {
+                    console.error("Gagal menyimpan pengajuan tasmik ke cloud:", err);
+                }
+            }
+
+            showToast(`Pengajuan Ujian Tasmik ${student.name} berhasil disimpan & disetujui!`, "success");
+            triggerConfettiFeedback('success');
+            closeTasmikModal();
+            renderUstazahInterface();
+        };
+
+        window.approveTasmikSubmission = async function(tasmikId) {
+            const sub = tasmikSubmissions.find(t => t.id === tasmikId);
+            if (!sub) return;
+
+            sub.status = 'Disetujui Ustazah & Diarsipkan';
+            saveLocalData();
+
+            if (isCloudMode && supabaseClient) {
+                try {
+                    await supabaseClient.from('tasmik_submissions').update({ status: sub.status }).eq('id', tasmikId);
+                } catch (err) {
+                    console.error("Gagal update status tasmik di cloud:", err);
+                }
+            }
+
+            showToast(`Ujian Tasmik untuk ${sub.student_name} resmi disetujui dan diarsipkan!`, "success");
+            triggerConfettiFeedback('success');
+            renderUstazahInterface();
+        };
+
+        window.deleteTasmikSubmission = async function(tasmikId) {
+            openConfirmModal("Hapus Arsip Tasmik", "Apakah Anda yakin ingin menghapus data pengajuan ujian tasmik ini?", async () => {
+                tasmikSubmissions = tasmikSubmissions.filter(t => t.id !== tasmikId);
+                saveLocalData();
+
+                if (isCloudMode && supabaseClient) {
+                    try {
+                        await supabaseClient.from('tasmik_submissions').delete().eq('id', tasmikId);
+                    } catch (err) {
+                        console.error("Gagal hapus tasmik dari cloud:", err);
+                    }
+                }
+
+                showToast("Arsip tasmik berhasil dihapus.", "info");
+                renderUstazahInterface();
+            });
         };
 
         window.handleQuickStudentSubmit = async function(e) {
@@ -1967,17 +2111,12 @@
 
             showToast(`Santriwati ${name} Berhasil Didaftarkan!`, 'success');
             triggerConfettiFeedback('register');
-            
-            // Close Registration Modal
             closeQuickRegisterModal();
-            
-            // Pop up receipt modal
             openReceiptModal(newStudent, feeReg, feeSpp, feeRereg);
             
             tempQuickPhotoBase64 = "";
             document.getElementById('quick-add-photo-preview').innerHTML = `<i class="fa-solid fa-camera text-xs text-slate-400"></i>`;
             e.target.reset();
-            
             recalculateAdminStats();
             renderAdminStudentsDirectory();
         };
@@ -2191,6 +2330,27 @@
             const currentFullMonth = new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' });
             document.getElementById('wali-khs-spp-status-label').innerText = `Syahriyah ${currentFullMonth}`;
 
+            // Render Tasmik Submissions inside KHS Card
+            const tasmikContainer = document.getElementById('wali-khs-tasmik-container');
+            const studentTasmiks = tasmikSubmissions.filter(t => t.student_id === studentId);
+            tasmikContainer.innerHTML = '';
+            if (studentTasmiks.length === 0) {
+                tasmikContainer.innerHTML = `<div class="bg-slate-50 p-3 rounded-2xl border text-xs text-slate-400 text-center font-medium">Belum ada riwayat ujian tasmik terdaftar.</div>`;
+            } else {
+                studentTasmiks.forEach(ts => {
+                    const div = document.createElement('div');
+                    div.className = "bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100 flex justify-between items-center text-xs";
+                    div.innerHTML = `
+                        <div>
+                            <span class="font-extrabold text-emerald-950">Ujian Tasmik ${ts.list_juz}</span>
+                            <p class="text-[10px] text-slate-500">📍 ${ts.tempat} • 📅 ${ts.tanggal} • Penyimak: ${ts.penyimak}</p>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full font-black text-[10px]">${ts.status}</span>
+                    `;
+                    tasmikContainer.appendChild(div);
+                });
+            }
+
             const sppGrid = document.getElementById('wali-spp-months-grid');
             sppGrid.innerHTML = '';
             const studentSpp = s.sppMonths || {};
@@ -2314,6 +2474,33 @@
             const activeUstazah = currentUstazahRole;
             document.getElementById('ustazah-badge-display').innerText = `Ustazah: ${activeUstazah} (Halaqah Active)`;
             
+            // Render Tasmik Submissions
+            const tasmikListBody = document.getElementById('tasmik-submissions-list');
+            const ustazahTasmiks = tasmikSubmissions.filter(t => t.ustazah_room === activeUstazah);
+            document.getElementById('tasmik-count-badge').innerText = `${ustazahTasmiks.length} Pengajuan`;
+            tasmikListBody.innerHTML = '';
+
+            if (ustazahTasmiks.length === 0) {
+                tasmikListBody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 font-semibold">Belum ada pengajuan ujian tasmik.</td></tr>`;
+            } else {
+                ustazahTasmiks.forEach(ts => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-100 hover:bg-slate-50";
+                    tr.innerHTML = `
+                        <td class="p-3 font-extrabold text-slate-900">${ts.student_name}</td>
+                        <td class="p-3"><span class="bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-full font-black">${ts.list_juz}</span></td>
+                        <td class="p-3 text-[11px]">📍 ${ts.tempat}<br>📅 ${ts.tanggal}</td>
+                        <td class="p-3 font-semibold text-slate-700">${ts.penyimak}</td>
+                        <td class="p-3 text-center"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded-lg text-[10px] font-black">${ts.status}</span></td>
+                        <td class="p-3 text-center space-x-1 whitespace-nowrap">
+                            <button onclick="approveTasmikSubmission('${ts.id}')" class="bg-emerald-700 text-white hover:bg-emerald-800 px-2.5 py-1.5 rounded-xl font-black text-[10px]"><i class="fa-solid fa-check"></i> Setujui</button>
+                            <button onclick="deleteTasmikSubmission('${ts.id}')" class="bg-rose-50 text-rose-700 hover:bg-rose-100 px-2 py-1.5 rounded-xl font-black text-[10px]"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    `;
+                    tasmikListBody.appendChild(tr);
+                });
+            }
+
             const pendingSection = document.getElementById('ustazah-pending-section');
             const pendingList = document.getElementById('ustazah-pending-list');
             const pendingStudents = studentsList.filter(s => s.room === activeUstazah && !s.inHalaqah && s.isActive);
@@ -2521,7 +2708,6 @@ Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran 
 - Awal Setoran: ${s.setoranAwal || '-'}
 - Akhir Setoran: ${s.setoranAkhir || '-'}
 - Target Mingguan: ${s.targetMingguan || '-'}
-- perolehan mingguan : 
 - *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
 - Status Capaian: ${statusCapaianWA}
 - Nilai Fasohah: *${s.fasohah || 'Belum Dinilai'}*
@@ -2535,9 +2721,6 @@ Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran 
 - Syahriyah: ${statusSyahriyah}
 _Jazaakumullahu khairan atas dukungannya._
 
-📝 *CATATAN LAIN-LAIN*
-    -
-
 📅 *${hariIni}*
 💌 salam hangat 
 *Pembimbing Ananda 
@@ -2545,13 +2728,10 @@ _Jazaakumullahu khairan atas dukungannya._
 
  Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
 
-Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium, termasuk, prestasi, tatatertib pesantren, dll.
- Anda dapat mengunjungi:
+Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium, Anda dapat mengunjungi:
 1. Klik link portal: https://pphq4kampunginggris-pare.github.io/laporan-hasil-blajar-santrihq-4/
 2. Pilih peran "Wali Santri"
-3. Ketikkan nama Ananda (cukup 1 kata depan),lalu klik nama santri yang muncul
-4. Laporan KHS lengkap, Peta 30 Juz, dan Rekam Jejak Pekanan siap dipantau secara langsung!`;
-
+3. Ketikkan nama Ananda, lalu klik nama santri yang muncul.`;
 
             const tempTextarea = document.createElement('textarea');
             tempTextarea.value = teksWA;
@@ -3401,9 +3581,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
         window.printReceipt = function() { window.print(); };
         window.printKHS = function() { window.print(); };
 
-        // ==========================================
-        // DATA MODEL TRANSLATORS
-        // ==========================================
         function mapStudentToDb(s) {
             return {
                 id: s.id, name: s.name, pob_dob: s.pobDob, address: s.address, parent_phone: s.parentPhone,
@@ -3477,7 +3654,7 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
                         totalJuz: 'total_juz', setoranAwal: 'setoran_awal', setoranAkhir: 'setoran_akhir',
                         targetMingguan: 'target_mingguan', statusCapaian: 'status_capaian',
                         fasohah: 'fasohah', kelancaran: 'kelancaran', perkembanganPositif: 'perkembangan_positif',
-                        catatanNegatif: 'catatan_negatif', daftarUlangStatus: 'daftar_ulang_status',
+                        catatanNegatif: 'catatan_negatif', daftar_ulang_status: 'daftar_ulang_status',
                         catatanLain: 'catatan_lain', photo: 'photo', updatedAt: 'updated_at'
                     };
                     for (let key in payload) {
@@ -3561,7 +3738,6 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             );
         };
 
-        // DOM Initializations
         document.addEventListener('DOMContentLoaded', () => {
             initCloudSync();
             setInterval(updatePapanClock, 1000);
