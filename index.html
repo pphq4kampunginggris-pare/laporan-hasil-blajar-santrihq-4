@@ -10,7 +10,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Amiri (Islamic Style) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&family=Amiri:ital,wght=0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- html2pdf.js CDN for Direct Premium PDF Download -->
@@ -350,20 +350,11 @@
                     <div class="space-y-4">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b-2 border-emerald-800 pb-2">
                             <span class="block text-[10px] font-black text-emerald-800 uppercase tracking-wider">
-                                <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Real-time)
+                                <i class="fa-solid fa-history mr-1"></i> Rekam Jejak Perkembangan Pekanan Santri (Terbaru di Atas)
                             </span>
-                            <div class="flex items-center gap-2 text-xs font-bold no-print ml-auto sm:ml-0">
-                                <button type="button" onclick="changeHistoryPage(-1)" id="btn-prev-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </button>
-                                <span id="history-page-info" class="text-slate-600 font-mono">Halaman 1 dari 1</span>
-                                <button type="button" onclick="changeHistoryPage(1)" id="btn-next-history" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-300 transition-all disabled:opacity-40">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
                         </div>
                         
-                        <div id="wali-timeline-container" class="grid grid-cols-1 gap-4 w-full">
+                        <div id="wali-timeline-container" class="grid grid-cols-1 gap-4 w-full max-h-[500px] overflow-y-auto pr-1">
                             <!-- Dynamic logs timeline card list -->
                         </div>
                     </div>
@@ -1737,8 +1728,6 @@
         let tempEditPhotoBase64 = "";
         let tempQuickPhotoBase64 = "";
 
-        let currentHistoryPage = 1;
-        const historyItemsPerPage = 4;
         let activeStudentHistoryData = [];
 
         const monthsShortList = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
@@ -1903,23 +1892,21 @@
         }
 
         window.switchMasterSection = function(section) {
-            if (currentMasterSection !== section) {
-                if (currentMasterSection === 'ustazah' && currentUstazahRole) {
-                    currentUstazahRole = null;
-                    showToast("Sesi Ustazah otomatis dikunci demi keamanan.", "info");
-                } else if (currentMasterSection === 'admin' && currentAdminRole) {
-                    currentAdminRole = null;
-                    showToast("Sesi Administrator otomatis dikunci demi keamanan.", "info");
-                } else if (currentMasterSection === 'walisantri' && currentWaliStudent) {
-                    currentWaliStudent = null;
-                    window.selectedWaliCandidate = null;
-                    const searchInput = document.getElementById('wali-search-input');
-                    if (searchInput) searchInput.value = '';
-                    const preview = document.getElementById('wali-gate-selected-preview');
-                    if (preview) preview.classList.add('hidden');
-                    showToast("Sesi KHS Wali Santri otomatis ditutup demi keamanan.", "info");
-                }
-            }
+            // Secure privacy lock: whenever switching master tabs, lock/reset active roles & selected wali student view
+            currentWaliStudent = null;
+            window.selectedWaliCandidate = null;
+            currentUstazahRole = null;
+            currentAdminRole = null;
+
+            const searchInput = document.getElementById('wali-search-input');
+            if (searchInput) searchInput.value = '';
+            const preview = document.getElementById('wali-gate-selected-preview');
+            if (preview) preview.classList.add('hidden');
+
+            const ustazahGatePin = document.getElementById('ustazah-gate-pin');
+            if (ustazahGatePin) ustazahGatePin.value = '';
+            const adminGatePin = document.getElementById('admin-gate-pin');
+            if (adminGatePin) adminGatePin.value = '';
 
             currentMasterSection = section;
             
@@ -2392,28 +2379,15 @@
             }
 
             activeStudentHistoryData = tahfidzLogs.filter(l => l.student_id === studentId);
-            currentHistoryPage = 1; 
-            renderHistoryPagination();
+            renderHistoryScrollList();
         };
 
-        function renderHistoryPagination() {
+        function renderHistoryScrollList() {
             const container = document.getElementById('wali-timeline-container');
             if (!container) return;
             container.innerHTML = '';
 
             const totalItems = activeStudentHistoryData.length;
-            const totalPages = Math.max(1, Math.ceil(totalItems / historyItemsPerPage));
-
-            if (currentHistoryPage > totalPages) currentHistoryPage = totalPages;
-            if (currentHistoryPage < 1) currentHistoryPage = 1;
-
-            const pageInfo = document.getElementById('history-page-info');
-            if (pageInfo) pageInfo.innerText = `Halaman ${currentHistoryPage} dari ${totalPages}`;
-
-            const btnPrev = document.getElementById('btn-prev-history');
-            const btnNext = document.getElementById('btn-next-history');
-            if (btnPrev) btnPrev.disabled = (currentHistoryPage === 1);
-            if (btnNext) btnNext.disabled = (currentHistoryPage === totalPages);
 
             if (totalItems === 0) {
                 container.innerHTML = `
@@ -2423,17 +2397,14 @@
                 return;
             }
 
-            const startIdx = (currentHistoryPage - 1) * historyItemsPerPage;
-            const endIdx = Math.min(startIdx + historyItemsPerPage, totalItems);
-            const pageItems = activeStudentHistoryData.slice(startIdx, endIdx);
-
-            pageItems.forEach(l => {
+            // Render all items without pagination, newest first (chronological sort or array order assuming unshift adds new to start)
+            activeStudentHistoryData.forEach((l, index) => {
                 const logFormattedDate = getFormattedMonthWeek(l.date);
                 const block = document.createElement('div');
                 block.className = "bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-xs";
                 block.innerHTML = `
                     <div class="flex justify-between items-center border-b pb-2 mb-2">
-                        <span class="text-[10px] font-black text-slate-500 uppercase"><i class="fa-solid fa-calendar-day text-emerald-700 mr-1"></i> ${logFormattedDate}</span>
+                        <span class="text-[10px] font-black text-slate-500 uppercase"><i class="fa-solid fa-calendar-day text-emerald-700 mr-1"></i> ${logFormattedDate} ${index === 0 ? '<span class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[8px] font-black ml-1">Terbaru</span>' : ''}</span>
                         <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[10px] px-2 py-0.5 rounded-md">Total: ${l.total_juz || 0} Juz</span>
                     </div>
                     <div class="text-[11px] text-slate-600 font-semibold mb-2 bg-white p-2 rounded-lg border border-slate-100 flex justify-between">
@@ -2448,11 +2419,6 @@
                 container.appendChild(block);
             });
         }
-
-        window.changeHistoryPage = function(dir) {
-            currentHistoryPage += dir;
-            renderHistoryPagination();
-        };
 
         window.refreshWaliData = function() {
             showToast("Sinkronisasi otomatis dengan Cloud aktif!", "success");
@@ -2616,7 +2582,7 @@
             student.inHalaqah = true;
             saveLocalData();
             await dbUpdate('santri_students', studentId, { inHalaqah: true });
-            showToast(`Otorisasi Berhasil! ${student.name} masuk halaqah aktif Anda.`, 'success');
+            showToast(`Otoritas Berhasil! ${student.name} masuk halaqah aktif Anda.`, 'success');
             triggerConfettiFeedback('success');
             renderUstazahInterface();
         };
@@ -2699,17 +2665,19 @@
 
             const teksWA = `*LAPORAN PERKEMBANGAN MINGGUAN SANTRI PPHQ PUTRI 4 AL KARIMA*
 
-Assalamu’alaikum warahmatullahi wabarakatuh 🌿✨
+_Assalamu’alaikum warahmatullahi wabarakatuh_ 🌿✨
 
 Abah & Umi wali Santri dari ananda shalihah *${s.name.toUpperCase()}* tercinta, semoga kita semua senantiasa dalam lindungan Allah SWT. 🌸 
-Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran Putri 4*::
+Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran Putri 4*:
 
 1️⃣ 📖 *PERKEMBANGAN TAHFIZH*
 - Awal Setoran: ${s.setoranAwal || '-'}
 - Akhir Setoran: ${s.setoranAkhir || '-'}
 - Target Mingguan: ${s.targetMingguan || '-'}
+- Perolehan Mingguan :
 - *Perolehan Hafalan: ${s.totalJuz || 0} Juz* 📈
 - Status Capaian: ${statusCapaianWA}
+
 - Nilai Fasohah: *${s.fasohah || 'Belum Dinilai'}*
 - Nilai Kelancaran: *${s.kelancaran || 'Belum Dinilai'}*
 
@@ -2717,21 +2685,31 @@ Izin menyampaikan laporan perkembangan mingguan ananda dari *PP Hamalatul Quran 
 ✅ *Positif:* ${s.perkembanganPositif || 'Sangat baik.'}
 ⚠️ *Evaluasi:* ${s.catatanNegatif || 'Nihil'}
 
-3️⃣ 💰 *STATUS ADMINISTRASI*
+3️⃣ 💰 *STATUS ADMINISTRASI & CATATAN LAIN-LAIN*
 - Syahriyah: ${statusSyahriyah}
-_Jazaakumullahu khairan atas dukungannya._
+    _Jazaakumullahu khairan atas dukungannya._
+
+- *Catatan Lain-lain:* ${s.catatanLain || 'Nihil'}
+
+Demikian laporan yang bisa kami sampaikan, semoga dengan laporan seserhana ini bisa memberikan hasil belajar yang terbaik untuk ananda. 
+kami terbuka untuk berdiskusiuntuk kebaikan ananda,
+trimakasih atas perhatiannya.
 
 📅 *${hariIni}*
 💌 salam hangat 
-*Pembimbing Ananda 
- Ustazah ${s.room}*
+ Pembimbing Ananda 
+ *Ustazah ${s.room}*
 
- Wassalamu’alaikum warahmatullahi wabarakatuh 🌸🌈
+ _Wassalamu’alaikum warahmatullahi wabarakatuh_ 🌸🌈
+
+ _____________________           
 
 Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium, Anda dapat mengunjungi:
 1. Klik link portal: https://pphq4kampunginggris-pare.github.io/laporan-hasil-blajar-santrihq-4/
 2. Pilih peran "Wali Santri"
-3. Ketikkan nama Ananda, lalu klik nama santri yang muncul.`;
+3. Ketikkan nama Ananda, lalu klik nama santri yang muncul.
+4. klik tombol masuk ruangan KHS
+5. laporan rekam jejak akan muncul`;
 
             const tempTextarea = document.createElement('textarea');
             tempTextarea.value = teksWA;
@@ -2740,7 +2718,7 @@ Jika ingin melihat visual perkembangan raport digital KHS Ananda secara premium,
             document.execCommand('copy');
             document.body.removeChild(tempTextarea);
 
-            showToast(`Laporan WA ${s.name} berhasil disalin!`, 'success');
+            showToast(`Laporan WA ${s.name} (termasuk Catatan Lain-lain) berhasil disalin!`, 'success');
             triggerConfettiFeedback('success');
         };
 
